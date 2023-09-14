@@ -1,9 +1,21 @@
 package com.csun.game;
 
+import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 
 /** First screen of the application. Displayed after the application is created. */
 public class FirstScreen implements Screen {
+
+    private final MainGame game;
+    private final PooledEngine pooledEngine;
+
+    public FirstScreen(MainGame game) {
+        this.game = game;
+        pooledEngine = game.getEngine();
+    }
+
     @Override
     public void show() {
         // Prepare your screen here.
@@ -12,6 +24,10 @@ public class FirstScreen implements Screen {
     @Override
     public void render(float delta) {
         // Draw your screen here. "delta" is the time since last render in seconds.
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        pooledEngine.update(Gdx.graphics.getDeltaTime());
     }
 
     @Override
