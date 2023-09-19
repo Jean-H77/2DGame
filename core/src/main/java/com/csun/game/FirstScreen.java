@@ -4,10 +4,15 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 /** First screen of the application. Displayed after the application is created. */
 public class FirstScreen implements Screen {
-
+    private TiledMap map;
+    private OrthogonalTiledMapRenderer renderer;
+    // idk if we need this he talked about it private StaticTiledMapTile
     private final MainGame game;
     private final PooledEngine pooledEngine;
 
@@ -18,7 +23,11 @@ public class FirstScreen implements Screen {
 
     @Override
     public void show() {
-        // Prepare your screen here.
+        // long way TmxMapLoader loader = new TmxMapLoader();
+        //map = loader.load("tempmap.tmx");
+        map = new TmxMapLoader().load("tempmap.tmx");
+        renderer = new OrthogonalTiledMapRenderer(map);
+
     }
 
     @Override
@@ -28,6 +37,7 @@ public class FirstScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         pooledEngine.update(Gdx.graphics.getDeltaTime());
+        renderer.render();
     }
 
     @Override
@@ -53,5 +63,7 @@ public class FirstScreen implements Screen {
     @Override
     public void dispose() {
         // Destroy screen's assets here.
+        map.dispose();
+        renderer.dispose();
     }
 }
