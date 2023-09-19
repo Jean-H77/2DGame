@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -13,6 +14,8 @@ public class FirstScreen implements Screen {
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
     // idk if we need this he talked about it private StaticTiledMapTile
+
+    private OrthographicCamera camera;
     private final MainGame game;
     private final PooledEngine pooledEngine;
 
@@ -27,6 +30,7 @@ public class FirstScreen implements Screen {
         //map = loader.load("tempmap.tmx");
         map = new TmxMapLoader().load("tempmap.tmx");
         renderer = new OrthogonalTiledMapRenderer(map);
+        camera = new OrthographicCamera();
 
     }
 
@@ -37,12 +41,16 @@ public class FirstScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         pooledEngine.update(Gdx.graphics.getDeltaTime());
+        renderer.setView(camera);
         renderer.render();
     }
 
     @Override
     public void resize(int width, int height) {
         // Resize your screen here. The parameters represent the new window size.
+        camera.viewportWidth = width;
+        camera.viewportHeight = height;
+        camera.update();
     }
 
     @Override
