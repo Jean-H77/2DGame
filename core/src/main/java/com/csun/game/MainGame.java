@@ -5,8 +5,10 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.csun.game.ashley.components.MovementComponent;
+import com.csun.game.ashley.components.TextureComponent;
+import com.csun.game.ashley.components.TransformComponent;
 import com.csun.game.ashley.systems.MovementSystem;
+import com.csun.game.ashley.systems.RenderSystem;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class MainGame extends Game {
@@ -27,6 +29,7 @@ public class MainGame extends Game {
      */
     private void addSystems() {
         engine.addSystem(new MovementSystem());
+        engine.addSystem(new RenderSystem());
         Gdx.app.log("Systems", "added " + engine.getSystems().size() + " systems");
     }
 
@@ -39,7 +42,8 @@ public class MainGame extends Game {
         Entity entity = engine.createEntity();
 
         // add components
-        entity.add(new MovementComponent());
+        entity.add(new TransformComponent());
+        entity.add(new TextureComponent());
 
         // add entity to engine
         engine.addEntity(entity);

@@ -4,18 +4,20 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.csun.game.ashley.components.MovementComponent;
+import com.csun.game.ashley.components.TransformComponent;
 
 public class MovementSystem extends IteratingSystem {
 
-    private final ComponentMapper<MovementComponent> mm = ComponentMapper.getFor(MovementComponent.class);
+    private final ComponentMapper<TransformComponent> mm = ComponentMapper.getFor(TransformComponent.class);
 
     public MovementSystem() {
-        super(Family.all(MovementComponent.class).get());
+        super(Family.all(TransformComponent.class).get());
     }
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        MovementComponent movement = mm.get(entity);
+        TransformComponent transform = mm.get(entity);
+
+        
     }
 }
