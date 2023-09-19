@@ -5,6 +5,8 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.csun.game.ashley.components.TextureComponent;
 import com.csun.game.ashley.components.TransformComponent;
 import com.csun.game.ashley.systems.MovementSystem;
@@ -43,7 +45,13 @@ public class MainGame extends Game {
 
         // add components
         entity.add(new TransformComponent());
-        entity.add(new TextureComponent());
+        TextureComponent textureComponent = new TextureComponent();
+
+        //test
+        //Texture texture = new Texture(Gdx.files.internal("ghost.png"));
+        //textureComponent.textureRegion = new TextureRegion(texture, 0, 0, 200, 200);
+
+        entity.add(textureComponent);
 
         // add entity to engine
         engine.addEntity(entity);
