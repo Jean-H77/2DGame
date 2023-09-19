@@ -4,9 +4,9 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 
 public class RenderSystem extends EntitySystem {
-    private Batch batch;
+    private SpriteBatch batch;
     
-    public RenderSystem(Batch batch) {
+    public RenderSystem(SpriteBatch batch) {
         super(Family.all(TextureComponent.class, TransformComponent.class).get());
         this.batch = batch;
     }
