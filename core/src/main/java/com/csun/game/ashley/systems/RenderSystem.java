@@ -1,6 +1,8 @@
 package com.csun.game.ashley.systems;
 
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,12 +19,47 @@ public class RenderSystem extends EntitySystem {
     private Array<Entity> entities;
 
     @Override
-    public void addedToEngine(com.badlogic.ashley.core.Engine engine) {
-        entities = engine.getEntitiesFor(family);
+    public void addedToEngine(Engine engine) {
+        super.addedToEngine(engine);
+        public void addedToEngine(com.badlogic.ashley.core.Engine engine) {
+            //entities = engine.getEntitiesFor(family);
+        }
+
+
+        public void processEntities(float deltaTime) {
+            spriteBatch.begin();
+
+            for (Entity entity : entities) {
+                TextureComponent texture = entity.getComponent(TextureComponent.class);
+                TransformComponent transform = entity.getComponent(TransformComponent.class);
+
+                spriteBatch.draw(texture.textureRegion, transform.vector2.x, transform.vector2.y);
+            }
+
+            spriteBatch.end();
+
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
+            for (Entity entity : entities) {
+                TransformComponent transform = entity.getComponent(TransformComponent.class);
+
+                shapeRenderer.setColor(Color.CYAN);
+                shapeRenderer.circle(transform.vector2.x, transform.vector2.y, 20);
+            }
+
+            shapeRenderer.end();
     }
 
     @Override
     public void update(float deltaTime) {
+        super.update(deltaTime);
+    }*/* @Override
+    public void addedToEngine(com.badlogic.ashley.core.Engine engine) {
+        //entities = engine.getEntitiesFor(family);
+    }
+
+
+     public void processEntities(float deltaTime) {
         spriteBatch.begin();
 
         for (Entity entity : entities) {
@@ -44,6 +81,6 @@ public class RenderSystem extends EntitySystem {
         }
 
         shapeRenderer.end();
-    }
+    } */
 }
 
