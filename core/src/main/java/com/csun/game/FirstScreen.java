@@ -22,6 +22,7 @@ public class FirstScreen implements Screen {
 
     public FirstScreen(MainGame game) {
         this.game = game;
+
         pooledEngine = game.getEngine();
     }
 
@@ -29,9 +30,10 @@ public class FirstScreen implements Screen {
     public void show() {
         // long way TmxMapLoader loader = new TmxMapLoader();
         //map = loader.load("tempmap.tmx");
+        camera = new OrthographicCamera();
+        mapCamera = new OrthographicCamera();
         map = new TmxMapLoader().load("tempmap.tmx");
         renderer = new OrthogonalTiledMapRenderer(map);
-        camera = new OrthographicCamera();
         camera.setToOrtho(false, 512, 512);
 
     }

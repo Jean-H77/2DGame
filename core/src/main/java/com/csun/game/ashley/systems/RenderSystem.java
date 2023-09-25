@@ -4,10 +4,10 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.utils.Array;
 import com.csun.game.ashley.components.TextureComponent;
 import com.csun.game.ashley.components.TransformComponent;
 
@@ -16,56 +16,21 @@ public class RenderSystem extends EntitySystem {
     private final SpriteBatch spriteBatch = new SpriteBatch();
     private final ShapeRenderer shapeRenderer = new ShapeRenderer();
     private final Family family = Family.all(TextureComponent.class, TransformComponent.class).get();
-    private Array<Entity> entities;
+    private ImmutableArray<Entity> entities;
 
     @Override
     public void addedToEngine(Engine engine) {
-        super.addedToEngine(engine);
-        public void addedToEngine(com.badlogic.ashley.core.Engine engine) {
-            //entities = engine.getEntitiesFor(family);
-        }
-
-
-        public void processEntities(float deltaTime) {
-            spriteBatch.begin();
-
-            for (Entity entity : entities) {
-                TextureComponent texture = entity.getComponent(TextureComponent.class);
-                TransformComponent transform = entity.getComponent(TransformComponent.class);
-
-                spriteBatch.draw(texture.textureRegion, transform.vector2.x, transform.vector2.y);
-            }
-
-            spriteBatch.end();
-
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-
-            for (Entity entity : entities) {
-                TransformComponent transform = entity.getComponent(TransformComponent.class);
-
-                shapeRenderer.setColor(Color.CYAN);
-                shapeRenderer.circle(transform.vector2.x, transform.vector2.y, 20);
-            }
-
-            shapeRenderer.end();
+        entities = engine.getEntitiesFor(family);
     }
 
     @Override
     public void update(float deltaTime) {
-        super.update(deltaTime);
-    }*/* @Override
-    public void addedToEngine(com.badlogic.ashley.core.Engine engine) {
-        //entities = engine.getEntitiesFor(family);
-    }
-
-
-     public void processEntities(float deltaTime) {
         spriteBatch.begin();
 
         for (Entity entity : entities) {
             TextureComponent texture = entity.getComponent(TextureComponent.class);
             TransformComponent transform = entity.getComponent(TransformComponent.class);
-
+            if(texture.textureRegion == null) continue;
             spriteBatch.draw(texture.textureRegion, transform.vector2.x, transform.vector2.y);
         }
 
@@ -81,6 +46,7 @@ public class RenderSystem extends EntitySystem {
         }
 
         shapeRenderer.end();
-    } */
+    }
+
 }
 
