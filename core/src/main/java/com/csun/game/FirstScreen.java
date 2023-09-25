@@ -15,7 +15,8 @@ public class FirstScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
     // idk if we need this he talked about it private StaticTiledMapTile
 
-    private OrthographicCamera camera;
+    private OrthographicCamera camera; //character camera
+    private OrthographicCamera mapCamera; //map camera
     private final MainGame game;
     private final PooledEngine pooledEngine;
 
@@ -31,6 +32,7 @@ public class FirstScreen implements Screen {
         map = new TmxMapLoader().load("tempmap.tmx");
         renderer = new OrthogonalTiledMapRenderer(map);
         camera = new OrthographicCamera();
+        camera.setToOrtho(false, 512, 512);
 
     }
 
@@ -51,6 +53,10 @@ public class FirstScreen implements Screen {
         camera.viewportWidth = width;
         camera.viewportHeight = height;
         camera.update();
+
+        mapCamera.viewportWidth = width;
+        mapCamera.viewportHeight = height;
+        mapCamera.update();
     }
 
     @Override
