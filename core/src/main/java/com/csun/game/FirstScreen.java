@@ -34,7 +34,9 @@ public class FirstScreen implements Screen {
         mapCamera = new OrthographicCamera();
         map = new TmxMapLoader().load("tempmap.tmx");
         renderer = new OrthogonalTiledMapRenderer(map);
-        camera.setToOrtho(false, 512, 512);
+        float mapWidth = map.getProperties().get("width", Integer.class) * map.getProperties().get("tilewidth", Integer.class);
+        float mapHeight = map.getProperties().get("height", Integer.class) * map.getProperties().get("tileheight", Integer.class);
+        camera.setToOrtho(false, mapWidth, mapHeight);
 
     }
 
@@ -45,6 +47,8 @@ public class FirstScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         pooledEngine.update(Gdx.graphics.getDeltaTime());
+        camera.update();
+
         renderer.setView(camera);
         renderer.render();
     }
@@ -52,13 +56,7 @@ public class FirstScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         // Resize your screen here. The parameters represent the new window size.
-        camera.viewportWidth = width;
-        camera.viewportHeight = height;
-        camera.update();
 
-        mapCamera.viewportWidth = width;
-        mapCamera.viewportHeight = height;
-        mapCamera.update();
     }
 
     @Override
