@@ -5,23 +5,28 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.PlayerComponent;
 import com.csun.game.ashley.systems.AnimationSystem;
 import com.csun.game.ashley.systems.MovementSystem;
 import com.csun.game.ashley.systems.PlayerInputSystem;
 import com.csun.game.ashley.systems.RenderSystem;
+import com.csun.game.screens.TitleScreen;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class MainGame extends Game {
 
     private final PooledEngine engine = new PooledEngine();
 
+    private SpriteBatch spriteBatch;
+
     @Override
     public void create() {
+        spriteBatch = new SpriteBatch();
         addSystems();
         createPlayer();
-        setScreen(new FirstScreen(this));
+        setScreen(new TitleScreen(this));
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
     }
 
@@ -61,5 +66,9 @@ public class MainGame extends Game {
 
     public PooledEngine getEngine() {
         return engine;
+    }
+
+    public SpriteBatch getSpriteBatch() {
+        return spriteBatch;
     }
 }

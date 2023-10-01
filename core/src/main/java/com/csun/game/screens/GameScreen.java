@@ -1,4 +1,4 @@
-package com.csun.game;
+package com.csun.game.screens;
 
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
@@ -8,9 +8,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.csun.game.MainGame;
 
 /** First screen of the application. Displayed after the application is created. */
-public class FirstScreen implements Screen {
+public class GameScreen implements Screen {
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
     // idk if we need this he talked about it private StaticTiledMapTile
@@ -20,7 +21,7 @@ public class FirstScreen implements Screen {
     private final MainGame game;
     private final PooledEngine pooledEngine;
 
-    public FirstScreen(MainGame game) {
+    public GameScreen(MainGame game) {
         this.game = game;
 
         pooledEngine = game.getEngine();
