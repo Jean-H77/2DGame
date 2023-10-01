@@ -32,13 +32,13 @@ public class PlayerInputSystem extends IteratingSystem {
 
         if(Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
             mc.dir = MovementComponent.Direction.N;
-            pc.movementState = MovementState.MOVEMENT;
+            pc.movementState = MovementState.MOVING;
             Gdx.app.debug("Input","Pressed up");
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
             mc.dir = MovementComponent.Direction.S;
-            pc.movementState = MovementState.MOVEMENT;
+            pc.movementState = MovementState.MOVING;
             Gdx.app.debug("Input","Pressed down");
         }
 
