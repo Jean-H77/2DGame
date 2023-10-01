@@ -1,5 +1,5 @@
 package com.csun.game;
 
-public enum PlayerState {
+public enum MovementState {
     IDLE, MOVEMENT
 }
