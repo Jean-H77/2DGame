@@ -13,8 +13,10 @@ import com.csun.game.ashley.components.TextureComponent;
 public class RenderSystem extends EntitySystem {
 
     private final SpriteBatch spriteBatch = new SpriteBatch();
-    private final Family family = Family.all(TextureComponent.class, MovementComponent.class).get();
+
     private ImmutableArray<Entity> entities;
+
+    private final Family family = Family.all(TextureComponent.class, MovementComponent.class).get();
 
     @Override
     public void addedToEngine(Engine engine) {
@@ -28,8 +30,7 @@ public class RenderSystem extends EntitySystem {
             TextureComponent texture = entity.getComponent(TextureComponent.class);
             MovementComponent movement = entity.getComponent(MovementComponent.class);
             if(texture.textureRegion == null) continue;
-            spriteBatch.draw(texture.textureRegion, Gdx.input.getX(), Gdx.input.getY());
-            Gdx.app.debug("Render", "Drawing: " + texture.textureRegion.toString());
+            spriteBatch.draw(texture.textureRegion, movement.pos.x, movement.pos.y);
         }
         spriteBatch.end();
     }
