@@ -6,7 +6,6 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.csun.game.MovementState;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.PlayerComponent;
 
@@ -27,7 +26,7 @@ public class PlayerInputSystem extends IteratingSystem {
         }
 
         mc.velocity = 0.0f;
-        mc.state = MovementState.IDLE;
+        mc.state = MovementComponent.MovementState.IDLE;
 
         if(!Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
             return;
@@ -66,7 +65,7 @@ public class PlayerInputSystem extends IteratingSystem {
 
     private void addMovement(MovementComponent m,  MovementComponent.Direction dir) {
         m.velocity = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) ? 2 : 1;
-        m.state = MovementState.MOVING;
+        m.state = MovementComponent.MovementState.MOVING;
         m.dir = dir;
     }
 }

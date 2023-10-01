@@ -6,10 +6,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import com.csun.game.MovementState;
 import com.csun.game.ashley.components.MovementComponent;
-
-import static com.csun.game.ashley.components.MovementComponent.Direction.*;
 
 
 public class MovementSystem extends IteratingSystem {
@@ -23,7 +20,7 @@ public class MovementSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         MovementComponent movement = mm.get(entity);
-        if(!movement.state.equals(MovementState.MOVING)) return;
+        if(!movement.state.equals(MovementComponent.MovementState.MOVING)) return;
 
         float velocity = movement.velocity * deltaTime;
         float moveX = 0f;

@@ -2,7 +2,6 @@ package com.csun.game.ashley.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Vector2;
-import com.csun.game.MovementState;
 
 public class MovementComponent implements Component {
     public Vector2 pos = Vector2.Zero;
@@ -12,5 +11,9 @@ public class MovementComponent implements Component {
 
     public enum Direction {
         N,S,E, SW, SE, NW, W, NE
+    }
+
+    public enum MovementState {
+        IDLE, MOVING
     }
 }
