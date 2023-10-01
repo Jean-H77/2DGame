@@ -5,11 +5,10 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.csun.game.ashley.components.TextureComponent;
-import com.csun.game.ashley.components.TransformComponent;
+import com.csun.game.ashley.components.MovementComponent;
+import com.csun.game.ashley.components.PlayerComponent;
 import com.csun.game.ashley.systems.MovementSystem;
+import com.csun.game.ashley.systems.PlayerInputSystem;
 import com.csun.game.ashley.systems.RenderSystem;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
@@ -30,6 +29,7 @@ public class MainGame extends Game {
      * so they execute in the order they're put in.
      */
     private void addSystems() {
+        engine.addSystem(new PlayerInputSystem());
         engine.addSystem(new MovementSystem());
         engine.addSystem(new RenderSystem());
         Gdx.app.log("Systems", "added " + engine.getSystems().size() + " systems");
@@ -44,14 +44,14 @@ public class MainGame extends Game {
         Entity entity = engine.createEntity();
 
         // add components
-        entity.add(new TransformComponent());
-        TextureComponent textureComponent = new TextureComponent();
-
+       // TextureComponent textureComponent = new TextureComponent();
         //test
-        //Texture texture = new Texture(Gdx.files.internal("ghost.png"));
-        //textureComponent.textureRegion = new TextureRegion(texture, 0, 0, 200, 200);
+       // Texture texture = new Texture(Gdx.files.internal("gameOne/mummy.png"));
+        //textureComponent.textureRegion = new TextureRegion(texture, 0, 0, 25, 25);
+       // entity.add(textureComponent);
 
-        entity.add(textureComponent);
+        entity.add(new MovementComponent());
+        entity.add(new PlayerComponent());
 
         // add entity to engine
         engine.addEntity(entity);

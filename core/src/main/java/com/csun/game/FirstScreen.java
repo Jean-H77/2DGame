@@ -46,11 +46,12 @@ public class FirstScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        pooledEngine.update(Gdx.graphics.getDeltaTime());
         camera.update();
 
         renderer.setView(camera);
         renderer.render();
+
+        pooledEngine.update(Gdx.graphics.getDeltaTime());
     }
 
     @Override

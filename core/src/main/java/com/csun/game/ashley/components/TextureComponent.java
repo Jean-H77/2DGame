@@ -5,4 +5,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class TextureComponent implements Component {
     public TextureRegion textureRegion;
+
+    @Override
+    public String toString() {
+        return "TextureComponent{" +
+            "textureRegion=" + textureRegion +
+            '}';
+    }
 }
