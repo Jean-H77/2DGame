@@ -7,6 +7,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.PlayerComponent;
+import com.csun.game.ashley.systems.AnimationSystem;
 import com.csun.game.ashley.systems.MovementSystem;
 import com.csun.game.ashley.systems.PlayerInputSystem;
 import com.csun.game.ashley.systems.RenderSystem;
@@ -31,6 +32,7 @@ public class MainGame extends Game {
     private void addSystems() {
         engine.addSystem(new PlayerInputSystem());
         engine.addSystem(new MovementSystem());
+        engine.addSystem(new AnimationSystem());
         engine.addSystem(new RenderSystem());
         Gdx.app.log("Systems", "added " + engine.getSystems().size() + " systems");
     }
