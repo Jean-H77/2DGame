@@ -11,5 +11,6 @@ dependencies {
   api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
   api "com.badlogicgames.gdx:gdx:$gdxVersion"
   implementation group: 'com.google.inject', name: 'guice', version: '4.0'
+  implementation group: 'com.google.code.gson', name: 'gson', version: '2.7'
 }
 
