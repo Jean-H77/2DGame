@@ -3,23 +3,21 @@ package com.csun.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.csun.game.MainGame;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Cursor;
-import com.badlogic.gdx.math.Rectangle;
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 public class TitleScreen implements Screen {
 
     private final MainGame mainGame;
+    private final Screen gameScreen;
     private final SpriteBatch spriteBatch;
     private Texture background;
     private Texture bloodyCursor;
@@ -30,9 +28,11 @@ public class TitleScreen implements Screen {
     private final Rectangle[] optionRects = new Rectangle[menuOptions.length];
     private GlyphLayout layout = new GlyphLayout();
 
-    public TitleScreen(MainGame mainGame) {
+    @Inject
+    public TitleScreen(MainGame mainGame, @Named("GameScreen")Screen gameScreen, SpriteBatch spriteBatch) {
         this.mainGame = mainGame;
-        this.spriteBatch = mainGame.getSpriteBatch();
+        this.gameScreen = gameScreen;
+        this.spriteBatch = spriteBatch;
     }
 
     @Override
@@ -175,7 +175,7 @@ public class TitleScreen implements Screen {
     private void executeOption() {
         switch (currentOption) {
             case 0: // Start
-                mainGame.setScreen(new GameScreen(mainGame));
+                mainGame.setScreen(gameScreen);
                 // Handle start game logic here
                 break;
             case 1: // Load

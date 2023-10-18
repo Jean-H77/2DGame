@@ -5,18 +5,23 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.TextureComponent;
+import com.google.inject.Inject;
 
 public class RenderSystem extends EntitySystem {
 
-    private final SpriteBatch spriteBatch = new SpriteBatch();
+    private final SpriteBatch spriteBatch;
 
     private ImmutableArray<Entity> entities;
 
     private final Family family = Family.all(TextureComponent.class, MovementComponent.class).get();
+
+    @Inject
+    public RenderSystem(SpriteBatch spriteBatch) {
+        this.spriteBatch = spriteBatch;
+    }
 
     @Override
     public void addedToEngine(Engine engine) {

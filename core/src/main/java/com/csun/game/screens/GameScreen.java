@@ -9,8 +9,11 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.csun.game.MainGame;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /** First screen of the application. Displayed after the application is created. */
+@Singleton
 public class GameScreen implements Screen {
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
@@ -21,14 +24,16 @@ public class GameScreen implements Screen {
     private final MainGame game;
     private final PooledEngine pooledEngine;
 
-    public GameScreen(MainGame game) {
+    @Inject
+    public GameScreen(MainGame game, PooledEngine pooledEngine) {
         this.game = game;
-
-        pooledEngine = game.getEngine();
+        this.pooledEngine = pooledEngine;
     }
 
     @Override
     public void show() {
+        game.createPlayer();
+
         // long way TmxMapLoader loader = new TmxMapLoader();
         //map = loader.load("tempmap.tmx");
         camera = new OrthographicCamera();
@@ -38,7 +43,6 @@ public class GameScreen implements Screen {
         float mapWidth = map.getProperties().get("width", Integer.class) * map.getProperties().get("tilewidth", Integer.class);
         float mapHeight = map.getProperties().get("height", Integer.class) * map.getProperties().get("tileheight", Integer.class);
         camera.setToOrtho(false, mapWidth, mapHeight);
-
     }
 
     @Override
