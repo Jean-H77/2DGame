@@ -28,8 +28,8 @@ public class GameScreen implements Screen {
     private final PooledEngine pooledEngine;
 
     @Inject
-    public GameScreen(MainGame game, PooledEngine pooledEngine, OrthographicCamera playerCamera,
-                      OrthographicCamera mapCamera, OrthogonalTiledMapRenderer renderer, @Named("MainGameMap") TiledMap tiledMap) {
+    public GameScreen(MainGame game, PooledEngine pooledEngine, @Named("PlayerCamera") OrthographicCamera playerCamera,
+                      @Named("MapCamera") OrthographicCamera mapCamera, OrthogonalTiledMapRenderer renderer, @Named("MainGameMap") TiledMap tiledMap) {
         this.game = game;
         this.pooledEngine = pooledEngine;
         this.playerCamera = playerCamera;
