@@ -1,4 +1,4 @@
-package com.csun.game;
+package com.csun.game.modules;
 
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.PooledEngine;
@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.csun.game.MainGame;
 import com.csun.game.ashley.systems.AnimationSystem;
 import com.csun.game.ashley.systems.MovementSystem;
 import com.csun.game.ashley.systems.PlayerInputSystem;
@@ -45,10 +46,6 @@ public class GameModule extends AbstractModule {
             .annotatedWith(Names.named("TitleScreen"))
             .to(TitleScreen.class)
             .in(Scopes.NO_SCOPE);
-
-        bind(OrthographicCamera.class)
-            .annotatedWith(Names.named("PlayerCamera"))
-            .toInstance(new OrthographicCamera());
 
         bind(OrthographicCamera.class)
             .annotatedWith(Names.named("MapCamera"))
