@@ -15,10 +15,8 @@ import com.csun.game.ashley.systems.PlayerInputSystem;
 import com.csun.game.ashley.systems.RenderSystem;
 import com.csun.game.screens.GameScreen;
 import com.csun.game.screens.TitleScreen;
-import com.google.inject.AbstractModule;
-import com.google.inject.Provides;
-import com.google.inject.Scopes;
-import com.google.inject.Singleton;
+import com.google.inject.*;
+import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
 import java.util.List;
@@ -34,8 +32,8 @@ public class GameModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(MainGame.class).toInstance(mainGame);
-        bind(SpriteBatch.class).toInstance(new SpriteBatch());
-        bind(PooledEngine.class).toInstance(new PooledEngine());
+        bind(SpriteBatch.class);
+        bind(PooledEngine.class);
 
         bind(Screen.class)
             .annotatedWith(Names.named("GameScreen"))
@@ -49,34 +47,29 @@ public class GameModule extends AbstractModule {
 
         bind(OrthographicCamera.class)
             .annotatedWith(Names.named("MapCamera"))
-            .toInstance(new OrthographicCamera());
+            .to(OrthographicCamera.class);
 
-        TiledMap tm = new TmxMapLoader().load("tempmap.tmx");
         bind(TiledMap.class)
             .annotatedWith(Names.named("MainGameMap"))
-            .toInstance(tm);
-
-        bind(OrthogonalTiledMapRenderer.class)
-            .toInstance(new OrthogonalTiledMapRenderer(tm));
-
-        //bindConstant()
-          //  .annotatedWith(Names.named("mapWidth"))
-           // .to(tm.getProperties().get("width", Integer.class) * tm.getProperties().get("tilewidth", Integer.class));
-
-     //   bindConstant()
-        //    .annotatedWith(Names.named("mapHeight"))
-         //   .to(tm.getProperties().get("height", Integer.class) * tm.getProperties().get("tileheight", Integer.class));
+            .toProvider(() -> new TmxMapLoader().load("tempmap.tmx"));
     }
 
     @Provides
     @Singleton
-    public Systems getSystems() {
+    private Systems provideSystems() {
         return new Systems(List.of(
             PlayerInputSystem.class,
             MovementSystem.class,
             AnimationSystem.class,
             RenderSystem.class
         ));
+    }
+
+    @Provides
+    @Singleton
+    @Inject
+    private OrthogonalTiledMapRenderer provideMapRenderer(@Named("MainGameMap") TiledMap tiledMap) {
+        return new OrthogonalTiledMapRenderer(tiledMap);
     }
 
     public record Systems(List<Class<? extends EntitySystem>> list) { }

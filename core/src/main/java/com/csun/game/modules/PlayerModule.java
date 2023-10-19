@@ -10,6 +10,6 @@ public class PlayerModule extends AbstractModule {
     protected void configure() {
         bind(OrthographicCamera.class)
             .annotatedWith(Names.named("PlayerCamera"))
-            .toInstance(new OrthographicCamera());
+            .to(OrthographicCamera.class);
     }
 }
