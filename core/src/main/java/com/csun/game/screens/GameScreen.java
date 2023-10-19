@@ -6,43 +6,43 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.csun.game.MainGame;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 
 /** First screen of the application. Displayed after the application is created. */
 @Singleton
 public class GameScreen implements Screen {
-    private TiledMap map;
-    private OrthogonalTiledMapRenderer renderer;
-    // idk if we need this he talked about it private StaticTiledMapTile
 
-    private OrthographicCamera camera; //character camera
-    private OrthographicCamera mapCamera; //map camera
+    private final TiledMap tiledMap;
+
+    private final OrthogonalTiledMapRenderer renderer;
+
+    private final OrthographicCamera playerCamera;
+    private final OrthographicCamera mapCamera;
+
     private final MainGame game;
+
     private final PooledEngine pooledEngine;
 
     @Inject
-    public GameScreen(MainGame game, PooledEngine pooledEngine) {
+    public GameScreen(MainGame game, PooledEngine pooledEngine, OrthographicCamera playerCamera,
+                      OrthographicCamera mapCamera, OrthogonalTiledMapRenderer renderer, @Named("MainGameMap") TiledMap tiledMap) {
         this.game = game;
         this.pooledEngine = pooledEngine;
+        this.playerCamera = playerCamera;
+        this.mapCamera = mapCamera;
+        this.renderer = renderer;
+        this.tiledMap = tiledMap;
     }
 
     @Override
     public void show() {
-        game.createPlayer();
-
-        // long way TmxMapLoader loader = new TmxMapLoader();
-        //map = loader.load("tempmap.tmx");
-        camera = new OrthographicCamera();
-        mapCamera = new OrthographicCamera();
-        map = new TmxMapLoader().load("tempmap.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map);
-        float mapWidth = map.getProperties().get("width", Integer.class) * map.getProperties().get("tilewidth", Integer.class);
-        float mapHeight = map.getProperties().get("height", Integer.class) * map.getProperties().get("tileheight", Integer.class);
-        camera.setToOrtho(false, mapWidth, mapHeight);
+        float mapWidth = tiledMap.getProperties().get("width", Integer.class) * tiledMap.getProperties().get("tilewidth", Integer.class);
+        float mapHeight = tiledMap.getProperties().get("height", Integer.class) * tiledMap.getProperties().get("tileheight", Integer.class);
+        playerCamera.setToOrtho(false, mapWidth, mapHeight);
     }
 
     @Override
@@ -51,9 +51,9 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        camera.update();
+        playerCamera.update();
 
-        renderer.setView(camera);
+        renderer.setView(playerCamera);
         renderer.render();
 
         pooledEngine.update(Gdx.graphics.getDeltaTime());
@@ -83,7 +83,7 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         // Destroy screen's assets here.
-        map.dispose();
+        tiledMap.dispose();
         renderer.dispose();
     }
 }
