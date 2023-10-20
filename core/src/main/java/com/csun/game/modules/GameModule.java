@@ -1,6 +1,5 @@
 package com.csun.game.modules;
 
-import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -13,9 +12,13 @@ import com.csun.game.ashley.systems.AnimationSystem;
 import com.csun.game.ashley.systems.MovementSystem;
 import com.csun.game.ashley.systems.PlayerInputSystem;
 import com.csun.game.ashley.systems.RenderSystem;
+import com.csun.game.models.Systems;
 import com.csun.game.screens.GameScreen;
 import com.csun.game.screens.TitleScreen;
-import com.google.inject.*;
+import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
+import com.google.inject.Scopes;
+import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
@@ -67,10 +70,7 @@ public class GameModule extends AbstractModule {
 
     @Provides
     @Singleton
-    @Inject
     private OrthogonalTiledMapRenderer provideMapRenderer(@Named("MainGameMap") TiledMap tiledMap) {
         return new OrthogonalTiledMapRenderer(tiledMap);
     }
-
-    public record Systems(List<Class<? extends EntitySystem>> list) { }
 }

@@ -3,6 +3,7 @@ package com.csun.game;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
+import com.csun.game.models.Systems;
 import com.csun.game.modules.GameModule;
 import com.csun.game.modules.PlayerModule;
 import com.google.inject.Guice;
@@ -18,7 +19,7 @@ public class MainGame extends Game {
         Injector injector = Guice.createInjector(new GameModule(this), new PlayerModule());
         PooledEngine engine = injector.getInstance(PooledEngine.class);
 
-        injector.getInstance(GameModule.Systems.class)
+        injector.getInstance(Systems.class)
             .list()
             .forEach(it -> engine.addSystem(injector.getInstance(it)));
 
