@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.physics.box2d.Shape;
 import com.csun.game.MainGame;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.PlayerComponent;
@@ -34,6 +33,8 @@ public class GameScreen implements Screen {
 
     private final PooledEngine pooledEngine;
 
+    private PlayerComponent playerComponent;
+
     @Inject
     public GameScreen(MainGame game, PooledEngine pooledEngine, @Named("PlayerCamera") OrthographicCamera playerCamera,
                       @Named("MapCamera") OrthographicCamera mapCamera, OrthogonalTiledMapRenderer renderer, @Named("MainGameMap") TiledMap tiledMap, DialogueManager dialogueManager) {
@@ -47,8 +48,9 @@ public class GameScreen implements Screen {
 
     private void createPlayer() {
         Entity entity = pooledEngine.createEntity();
+        playerComponent = new PlayerComponent();
         entity.add(new TextureComponent(new ShapeRenderer()));
-        entity.add(new PlayerComponent());
+        entity.add(playerComponent);
         entity.add(new MovementComponent());
         pooledEngine.addEntity(entity);
         Gdx.app.log("CreatePlayer", "Created Player: Size: " + pooledEngine.getEntities().size());
@@ -59,7 +61,9 @@ public class GameScreen implements Screen {
         float mapWidth = tiledMap.getProperties().get("width", Integer.class) * tiledMap.getProperties().get("tilewidth", Integer.class);
         float mapHeight = tiledMap.getProperties().get("height", Integer.class) * tiledMap.getProperties().get("tileheight", Integer.class);
         playerCamera.setToOrtho(false, mapWidth, mapHeight);
-        createPlayer();
+        if(playerComponent != null) {
+            createPlayer();
+        }
     }
 
     @Override
