@@ -20,7 +20,7 @@ public class MovementSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         MovementComponent movement = mm.get(entity);
-        if(!movement.state.equals(MovementComponent.MovementState.MOVING)) return;
+        if(movement.state.equals(MovementComponent.MovementState.IDLE)) return;
 
         float velocity = movement.velocity * deltaTime;
         float moveX = 0f;
@@ -50,8 +50,8 @@ public class MovementSystem extends IteratingSystem {
         }
 
         Vector2 dest = new Vector2(moveX, moveY).nor();
-        Gdx.app.log("Movement Magnitude", String.valueOf(Math.sqrt(Math.pow(dest.x, 2) + Math.pow(dest.y, 2))));
-
+        //Gdx.app.log("Movement Magnitude", String.valueOf(Math.sqrt(Math.pow(dest.x, 2) + Math.pow(dest.y, 2))));
+        
         float newX = movement.pos.x + dest.x;
         float newY = movement.pos.y + dest.y;
         //@todo collision checking here

@@ -12,6 +12,7 @@ import com.csun.game.ashley.systems.AnimationSystem;
 import com.csun.game.ashley.systems.MovementSystem;
 import com.csun.game.ashley.systems.PlayerInputSystem;
 import com.csun.game.ashley.systems.RenderSystem;
+import com.csun.game.managers.DialogueManager;
 import com.csun.game.models.Systems;
 import com.csun.game.screens.GameScreen;
 import com.csun.game.screens.TitleScreen;
@@ -35,8 +36,8 @@ public class GameModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(MainGame.class).toInstance(mainGame);
-        bind(SpriteBatch.class);
-        bind(PooledEngine.class);
+        bind(SpriteBatch.class).asEagerSingleton(); //untargetting binding
+        bind(PooledEngine.class).asEagerSingleton();
 
         bind(Screen.class)
             .annotatedWith(Names.named("GameScreen"))
@@ -55,6 +56,8 @@ public class GameModule extends AbstractModule {
         bind(TiledMap.class)
             .annotatedWith(Names.named("MainGameMap"))
             .toProvider(() -> new TmxMapLoader().load("tempmap.tmx"));
+
+        bind(DialogueManager.class);
     }
 
     @Provides

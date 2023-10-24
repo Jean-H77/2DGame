@@ -20,9 +20,6 @@ public class PlayerInputSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         MovementComponent mc = mp.get(entity);
-        if(!Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
-            return;
-        }
 
         mc.velocity = 0.0f;
         mc.state = MovementComponent.MovementState.IDLE;
