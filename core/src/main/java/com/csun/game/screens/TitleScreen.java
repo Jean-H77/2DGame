@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -19,11 +20,12 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 public class TitleScreen implements Screen {
+    private static final String DIRECTORY_PATH = "titlescreen/";
 
     private final MainGame mainGame;
     private final Screen gameScreen;
     private final Stage stage;
-    private final ExtendViewport screenViewport;
+    private final ExtendViewport extendViewport;
     private final Image[] menuImageActors = new Image[3];
 
     @Inject
@@ -33,49 +35,26 @@ public class TitleScreen implements Screen {
                        @Named("GameScreen") Screen gameScreen) {
         this.mainGame = mainGame;
         this.stage = stage;
-        this.screenViewport = screenViewPort;
+        this.extendViewport = screenViewPort;
         this.gameScreen = gameScreen;
     }
 
     @Override
     public void show() {
-        stage.setViewport(screenViewport);
+        stage.setViewport(extendViewport);
 
-        Texture background = new Texture(Gdx.files.internal("titlescreen/background.jpg"));
+        Texture background = new Texture(Gdx.files.internal(getFileLocation("background.jpg")));
         Image image = new Image(background);
         image.setTouchable(Touchable.disabled);
         stage.addActor(image);
 
-        ImageButton firstGrave = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("titlescreen/grave_1.png"))));
-        firstGrave.setPosition(1206, 0);
-        firstGrave.addListener(addClickEventListener(this, MenuOptionType.START));
-        stage.addActor(firstGrave);
+        stage.addActor(createGrave(1206, MenuOptionType.START, getFileLocation("grave_1.png")));
+        stage.addActor(createGrave(1434, MenuOptionType.LOAD, getFileLocation("grave_2.png")));
+        stage.addActor(createGrave(1603, MenuOptionType.EXIT, getFileLocation("grave_3.png")));
 
-        ImageButton secondGrave = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("titlescreen/grave_2.png"))));
-        secondGrave.setPosition(1434, 0);
-        secondGrave.addListener(addClickEventListener(this, MenuOptionType.LOAD));
-        stage.addActor(secondGrave);
-
-        ImageButton thirdGrave = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("titlescreen/grave_3.png"))));
-        thirdGrave.setPosition(1603, 0);
-        thirdGrave.addListener(addClickEventListener(this, MenuOptionType.EXIT));
-
-        stage.addActor(thirdGrave);
-
-        menuImageActors[0] = new Image(MenuOptionType.START.unHover);
-        menuImageActors[0].setPosition(1289, 30);
-        stage.addActor(menuImageActors[0]);
-        menuImageActors[0].setTouchable(Touchable.disabled);
-
-        menuImageActors[1] = new Image(MenuOptionType.LOAD.unHover);
-        menuImageActors[1].setPosition(1512, 155);
-        stage.addActor(menuImageActors[1]);
-        menuImageActors[1].setTouchable(Touchable.disabled);
-
-        menuImageActors[2] = new Image(MenuOptionType.EXIT.unHover);
-        menuImageActors[2].setPosition(1658, 35);
-        stage.addActor(menuImageActors[2]);
-        menuImageActors[2].setTouchable(Touchable.disabled);
+        stage.addActor(createMenuImage(MenuOptionType.START));
+        stage.addActor(createMenuImage(MenuOptionType.LOAD));
+        stage.addActor(createMenuImage(MenuOptionType.EXIT));
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -90,7 +69,25 @@ public class TitleScreen implements Screen {
         stage.draw();
     }
 
-    private ClickListener addClickEventListener(TitleScreen titleScreen, MenuOptionType menuOption) {
+    private static String getFileLocation(String file) {
+        return DIRECTORY_PATH + file;
+    }
+
+    private ImageButton createGrave(int xPos, MenuOptionType optionType, String imagePath) {
+        ImageButton grave = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(imagePath))));
+        grave.setPosition(xPos, 0);
+        grave.addListener(getClickEventListener(this, optionType));
+        return grave;
+    }
+
+    private Image createMenuImage(MenuOptionType menuOptionType) {
+         Image image = new Image(menuOptionType.unHover);
+         image.setPosition(menuOptionType.pos.x, menuOptionType.pos.y);
+         image.setTouchable(Touchable.disabled);
+         return menuImageActors[menuOptionType.key] = image;
+    }
+
+    private ClickListener getClickEventListener(TitleScreen titleScreen, MenuOptionType menuOption) {
             return new ClickListener() {
                 @Override
                 public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -125,38 +122,40 @@ public class TitleScreen implements Screen {
 
     private enum MenuOptionType {
         START(
-            new TextureRegionDrawable(new TextureRegion(new Texture("titlescreen/startgame_hover.png"))),
-            new TextureRegionDrawable(new TextureRegion(new Texture("titlescreen/startgame.png"))),
-            TitleScreen::startGame, 0
+            new TextureRegionDrawable(new TextureRegion(new Texture(getFileLocation("startgame_hover.png")))),
+            new TextureRegionDrawable(new TextureRegion(new Texture(getFileLocation("startgame.png")))),
+            TitleScreen::startGame, new Vector2(1289, 30), 0
         ),
         LOAD(
-            new TextureRegionDrawable(new TextureRegion(new Texture("titlescreen/load_hover.png"))),
-            new TextureRegionDrawable(new TextureRegion(new Texture("titlescreen/load.png"))),
-            TitleScreen::loadGame, 1
+            new TextureRegionDrawable(new TextureRegion(new Texture(getFileLocation("load_hover.png")))),
+            new TextureRegionDrawable(new TextureRegion(new Texture(getFileLocation("load.png")))),
+            TitleScreen::loadGame, new Vector2(1512, 155), 1
         ),
         EXIT(
-            new TextureRegionDrawable(new TextureRegion(new Texture("titlescreen/quit_hover.png"))),
-            new TextureRegionDrawable(new TextureRegion(new Texture("titlescreen/quit.png"))),
-            (t) -> Gdx.app.exit(), 2
+            new TextureRegionDrawable(new TextureRegion(new Texture(getFileLocation("quit_hover.png")))),
+            new TextureRegionDrawable(new TextureRegion(new Texture(getFileLocation("quit.png")))),
+            (t) -> Gdx.app.exit(), new Vector2(1658, 35), 2
         )
         ;
 
         private final TextureRegionDrawable hover;
         private final TextureRegionDrawable unHover;
         private final MenuOptionEvent event;
+        private final Vector2 pos;
         private final int key;
 
-        MenuOptionType(TextureRegionDrawable hover, TextureRegionDrawable unHover, MenuOptionEvent menuOptionEvent, int key) {
+        MenuOptionType(TextureRegionDrawable hover, TextureRegionDrawable unHover, MenuOptionEvent menuOptionEvent, Vector2 pos, int key) {
             this.hover = hover;
             this.unHover = unHover;
             this.event = menuOptionEvent;
+            this.pos = pos;
             this.key = key;
         }
     }
 
     @Override
     public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
+        extendViewport.update(width, height, true);
     }
 
     @Override
