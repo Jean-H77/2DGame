@@ -1,7 +1,6 @@
 package com.csun.game.modules;
 
 import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -12,8 +11,6 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csun.game.MainGame;
 import com.csun.game.ashley.systems.AnimationSystem;
@@ -100,7 +97,7 @@ public class GameModule extends AbstractModule {
     }
 
     @Provides
-    private ExtendViewport provideFitViewport() {
+    private ExtendViewport provideExtendedViewport() {
         return new ExtendViewport(1920, 1080);
     }
 }
