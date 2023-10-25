@@ -3,7 +3,9 @@ package com.csun.game.modules;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -13,6 +15,7 @@ import com.csun.game.ashley.systems.MovementSystem;
 import com.csun.game.ashley.systems.PlayerInputSystem;
 import com.csun.game.ashley.systems.RenderSystem;
 import com.csun.game.managers.DialogueManager;
+import com.csun.game.managers.NPCManager;
 import com.csun.game.models.Systems;
 import com.csun.game.screens.GameScreen;
 import com.csun.game.screens.TitleScreen;
@@ -36,13 +39,20 @@ public class GameModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(MainGame.class).toInstance(mainGame);
-        bind(SpriteBatch.class).asEagerSingleton(); //untargetting binding
+
+        bind(SpriteBatch.class).in(Scopes.SINGLETON);
+        bind(ShapeRenderer.class).in(Scopes.SINGLETON);
+        bind(BitmapFont.class).in(Scopes.SINGLETON);
+
+        bind(DialogueManager.class).in(Scopes.SINGLETON);
+        bind(NPCManager.class).in(Scopes.SINGLETON);
+
         bind(PooledEngine.class).asEagerSingleton();
 
         bind(Screen.class)
             .annotatedWith(Names.named("GameScreen"))
             .to(GameScreen.class)
-            .asEagerSingleton();
+            .in(Scopes.SINGLETON);
 
         bind(Screen.class)
             .annotatedWith(Names.named("TitleScreen"))
@@ -56,8 +66,6 @@ public class GameModule extends AbstractModule {
         bind(TiledMap.class)
             .annotatedWith(Names.named("MainGameMap"))
             .toProvider(() -> new TmxMapLoader().load("tempmap.tmx"));
-
-        bind(DialogueManager.class);
     }
 
     @Provides

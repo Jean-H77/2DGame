@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.csun.game.MainGame;
+import com.csun.game.models.Dialogue;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
@@ -40,9 +41,9 @@ public class TitleScreen implements Screen {
 
         spriteBatch.begin();
         spriteBatch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-
         spriteBatch.end();
+
+        new Dialogue(new String[] {"Hello"}).draw();
     }
 
 
