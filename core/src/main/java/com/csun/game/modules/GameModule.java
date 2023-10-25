@@ -1,6 +1,7 @@
 package com.csun.game.modules;
 
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -9,6 +10,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csun.game.MainGame;
 import com.csun.game.ashley.systems.AnimationSystem;
 import com.csun.game.ashley.systems.MovementSystem;
@@ -43,6 +49,14 @@ public class GameModule extends AbstractModule {
         bind(SpriteBatch.class).in(Scopes.SINGLETON);
         bind(ShapeRenderer.class).in(Scopes.SINGLETON);
         bind(BitmapFont.class).in(Scopes.SINGLETON);
+
+        bind(Stage.class)
+            .annotatedWith(Names.named("TitleScreenStage"))
+            .to(Stage.class).in(Scopes.NO_SCOPE);
+
+        bind(ScreenViewport.class)
+            .annotatedWith(Names.named("TitleScreenViewport"))
+            .to(ScreenViewport.class).in(Scopes.NO_SCOPE);
 
         bind(DialogueManager.class).in(Scopes.SINGLETON);
         bind(NPCManager.class).in(Scopes.SINGLETON);
@@ -83,5 +97,10 @@ public class GameModule extends AbstractModule {
     @Singleton
     private OrthogonalTiledMapRenderer provideMapRenderer(@Named("MainGameMap") TiledMap tiledMap) {
         return new OrthogonalTiledMapRenderer(tiledMap);
+    }
+
+    @Provides
+    private ExtendViewport provideFitViewport() {
+        return new ExtendViewport(1920, 1080);
     }
 }
