@@ -42,8 +42,6 @@ public class TitleScreen implements Screen {
         spriteBatch.begin();
         spriteBatch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         spriteBatch.end();
-
-        new Dialogue(new String[] {"Hello"}).draw();
     }
 
 
