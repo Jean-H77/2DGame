@@ -29,7 +29,7 @@ public class TitleScreen implements Screen {
 
     @FunctionalInterface
     private interface GraveClickEvent { void execute(); }
-
+    
     private final MainGame mainGame;
     private final Screen gameScreen;
     private final Stage stage;
@@ -48,20 +48,14 @@ public class TitleScreen implements Screen {
     @Override
     public void show() {
         stage.setViewport(extendViewport);
-
-        Texture background = new Texture(Gdx.files.internal(getFileLocation("background.jpg")));
-        Image image = new Image(background);
-        image.setTouchable(Touchable.disabled);
-        stage.addActor(image);
-
-        stage.addActor(createGrave(1206, 0, "grave_1.png", this::startGame));
-        stage.addActor(createGrave(1434, 1, "grave_2.png", this::loadGame));
-        stage.addActor(createGrave(1603, 2, "grave_3.png", () -> Gdx.app.exit()));
-
-        stage.addActor(createMenuOption(0, 1289, 30));
-        stage.addActor(createMenuOption(1, 1512,155));
-        stage.addActor(createMenuOption(2, 1658,35));
-
+        Image image = createImage("background.jpg"); image.setTouchable(Touchable.disabled);
+        stage.getActors().addAll(
+            image,
+            createGrave(1206, 0, "grave_1.png", this::startGame),
+            createGrave(1434, 1, "grave_2.png", this::loadGame),
+            createGrave(1603, 2, "grave_3.png", () -> Gdx.app.exit()),
+            createMenuOption(0, 1289, 30), createMenuOption(1, 1512,155), createMenuOption(2, 1658,35)
+        );
         Gdx.input.setInputProcessor(stage);
     }
 
