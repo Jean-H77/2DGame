@@ -104,7 +104,7 @@ public class GameModule extends AbstractModule {
 
     @Provides
     @Singleton
-    private TiledMapTileLayer[] provideCollisionLayer(@Named("MainGameMap") TiledMap tiledMap) {
+    private TiledMapTileLayer[] provideMapLayers(@Named("MainGameMap") TiledMap tiledMap) {
         TiledMapTileLayer[] tiledMapTileLayer = new TiledMapTileLayer[tiledMap.getLayers().size()];
         for(int i = 0; i < tiledMapTileLayer.length; i++) tiledMapTileLayer[i] = (TiledMapTileLayer) tiledMap.getLayers().get(i);
         return tiledMapTileLayer;
