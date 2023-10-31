@@ -1,4 +1,4 @@
-package com.mygdx.game.GameOne.weather;
+package com.csun.game.weather;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
