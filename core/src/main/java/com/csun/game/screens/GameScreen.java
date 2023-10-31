@@ -61,7 +61,7 @@ public class GameScreen implements Screen {
         float mapWidth = tiledMap.getProperties().get("width", Integer.class) * tiledMap.getProperties().get("tilewidth", Integer.class);
         float mapHeight = tiledMap.getProperties().get("height", Integer.class) * tiledMap.getProperties().get("tileheight", Integer.class);
         playerCamera.setToOrtho(false, mapWidth, mapHeight);
-        if(playerComponent != null) {
+        if(playerComponent == null) {
             createPlayer();
         }
     }

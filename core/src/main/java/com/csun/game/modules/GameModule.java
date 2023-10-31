@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -99,5 +100,13 @@ public class GameModule extends AbstractModule {
     @Provides
     private ExtendViewport provideExtendedViewport() {
         return new ExtendViewport(1920, 1080);
+    }
+
+    @Provides
+    @Singleton
+    private TiledMapTileLayer[] provideCollisionLayer(@Named("MainGameMap") TiledMap tiledMap) {
+        TiledMapTileLayer[] tiledMapTileLayer = new TiledMapTileLayer[tiledMap.getLayers().size()];
+        for(int i = 0; i < tiledMapTileLayer.length; i++) tiledMapTileLayer[i] = (TiledMapTileLayer) tiledMap.getLayers().get(0);
+        return tiledMapTileLayer;
     }
 }

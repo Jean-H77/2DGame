@@ -5,18 +5,22 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.csun.game.ashley.components.MovementComponent;
+import com.google.inject.Inject;
 
 
 public class MovementSystem extends IteratingSystem {
 
     private final ComponentMapper<MovementComponent> mm = ComponentMapper.getFor(MovementComponent.class);
-    private TiledMapTileLayer collisionLayer;
-    public MovementSystem() {
+
+    private final TiledMapTileLayer collisionLayer;
+
+    @Inject
+    public MovementSystem(TiledMapTileLayer[] tiledMapTileLayers) {
         super(Family.all(MovementComponent.class).get());
+        this.collisionLayer = tiledMapTileLayers[0];
     }
 
     @Override
@@ -50,7 +54,6 @@ public class MovementSystem extends IteratingSystem {
                 moveY -= velocity;
             }
         }
-
         Vector2 dest = new Vector2(moveX, moveY).nor();
         //Gdx.app.log("Movement Magnitude", String.valueOf(Math.sqrt(Math.pow(dest.x, 2) + Math.pow(dest.y, 2))));
 
@@ -58,7 +61,7 @@ public class MovementSystem extends IteratingSystem {
         float newY = movement.pos.y + dest.y;
         //@todo collision checking here
         //save old position
-        float oldX = getX(), oldY = getY(), tileWidth = collisionLayer.getTileHeight(),tileHeight = collisionLayer.getTileHeight();
+        /*float oldX = getX(), oldY = getY(), tileWidth = collisionLayer.getTileHeight(),tileHeight = collisionLayer.getTileHeight();
         boolean collisionX = false, collisionY = false;
         //move on x
         setX(getX()+velocity.x * delta);
@@ -114,11 +117,17 @@ public class MovementSystem extends IteratingSystem {
         if(collisionY){
            setY(oldY);
            velocity.y = 0;
+        }*/
+
+        TiledMapTileLayer.Cell cell;
+        if((cell = collisionLayer.getCell((int) newX, (int) newY)) != null && cell.getTile().getProperties().containsKey("blocked")) {
+            Gdx.app.log("Collision", "Blocked");
+            return;
         }
-
-
 
         movement.pos.x  = newX;
         movement.pos.y = newY;
+
+        Gdx.app.log("Position", "X: " + movement.pos.x + " Y: " + movement.pos.y);
     }
 }
