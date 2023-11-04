@@ -20,7 +20,7 @@ public class MovementSystem extends IteratingSystem {
     @Inject
     public MovementSystem(TiledMapTileLayer[] tiledMapTileLayers) {
         super(Family.all(MovementComponent.class).get());
-        this.collisionLayer = tiledMapTileLayers[0];
+        this.collisionLayer = tiledMapTileLayers[1];
     }
 
     @Override
@@ -59,72 +59,27 @@ public class MovementSystem extends IteratingSystem {
 
         float newX = movement.pos.x + dest.x;
         float newY = movement.pos.y + dest.y;
+
         //@todo collision checking here
-        //save old position
-        /*float oldX = getX(), oldY = getY(), tileWidth = collisionLayer.getTileHeight(),tileHeight = collisionLayer.getTileHeight();
-        boolean collisionX = false, collisionY = false;
-        //move on x
-        setX(getX()+velocity.x * delta);
 
-        if(velocity.x<0){
-            //top left
-            collisionX = collisionLayer.getCell((int) (getX() / tileWidth), (int) ((getY() + getHeight()) / tileHeight)).getTile().getProperties().containsKey("blocked");
-            //top middle
-            if (!collisionX)
-                collisionX = collisionLayer.getCell((int) (getX() / tileWidth), (int) ((getY() + getHeight()/2) / tileHeight)).getTile().getProperties().containsKey("blocked");
-            //bottom left
-            if (!collisionX)
-                collisionX = collisionLayer.getCell((int) (getX() / tileWidth), (int) (getY() / tileHeight)).getTile().getProperties().containsKey("blocked");
-
-        } else if(velocity.x > 0){
-            //top right
-            collisionX = collisionLayer.getCell((int) (getX() + getWidth())/tileWidth, (int) (getY() + getHeight)).getTile().getProperties().containsKey("blocked");
-            //middle right
-            if(!collisionX)
-                collisionX = collisionLayer.getCell((int) ((getX() +getWidth()) / tileWidth), (int) ((getY() + getHeight() / 2) / tileHeight)).getTile().getProperties().containsKey("blocked");
-            //bottom right
-            if(!collisionX)
-                collisionX = collisionLayer.getCell((int) ((getX() +getWidth()) / tileWidth), (int) (getY() / tileHeight)).getTile().getProperties().containsKey("blocked");
+        //TiledMapTileLayer.Cell cell;
+       // if((cell = collisionLayer.getCell((int) newX, (int) newY)) != null && cell.getTile().getProperties().containsKey("blocked")) {
+       //     Gdx.app.log("Collision", "Blocked");
+       //     return;
+        //}
+        //edited it to see the tile number because it seemed that the tiles were blocked randomly
+        for (int x = (int) movement.pos.x; x <= (int) newX; x++) {
+            for (int y = (int) movement.pos.y; y <= (int) newY; y++) {
+                TiledMapTileLayer.Cell cell = collisionLayer.getCell(x, y);
+                Gdx.app.log("Collision", "Checking tile at (" + x + ", " + y + ")");
+                if (cell != null) {
+                    if((cell = collisionLayer.getCell((int) newX, (int) newY)) != null && cell.getTile().getProperties().containsKey("Blocked")) {
+                        Gdx.app.log("Collision", "Blocked");
+                        return;
+                    }
+                }
+            }
         }
-        //react to x collision
-        if(collisionX){
-            setX(oldX);
-            velocity.x = 0;
-        }
-        //move on y
-        setY(getY()+velocity.y * delta);
-        if(velocity.y <0){
-            //bottom left
-            collisionY = collisionLayer.getCell((int) (getX() / tileWidth), (int) (getY() / tileHeight)).getTile().getProperties().containsKey("blocked");
-            //bottom middle
-            if(!collisionY)
-                collisionY = collisionLayer.getCell((int) ((getX() + getWidth() / 2) / tileWidth), (int) (getY() / tileHeight)).getTile().getProperties().containsKey("blocked");
-            //bottom right
-            if(!collisionY)
-                collisionY = collisionLayer.getCell((int) ((getX() + getWidth()) / tileWidth), (int) (getY() / tileHeight)).getTile().getProperties().containsKey("blocked");
-        } else if(velocity.y > 0){
-            //top left
-            collisionY = collisionLayer.getCell((int) ((getX()) / tileWidth), (int) ((getY() + getHeight()) / tileHeight)).getTile().getProperties().containsKey("blocked");
-            //top middle
-            if(!collisionY)
-                collisionY = collisionLayer.getCell((int) ((getX() + getWidth() / 2) / tileWidth), (int) ((getY() + getHeight()) / tileHeight)).getTile().getProperties().containsKey("blocked");
-            //top right
-            if(!collisionY)
-                collisionY = collisionLayer.getCell((int) ((getX() + getWidth()) / tileWidth), (int) ((getY() + getHeight()) / tileHeight)).getTile().getProperties().containsKey("blocked");
-
-        }
-        //react to y collision
-        if(collisionY){
-           setY(oldY);
-           velocity.y = 0;
-        }*/
-
-        TiledMapTileLayer.Cell cell;
-        if((cell = collisionLayer.getCell((int) newX, (int) newY)) != null && cell.getTile().getProperties().containsKey("blocked")) {
-            Gdx.app.log("Collision", "Blocked");
-            return;
-        }
-
         movement.pos.x  = newX;
         movement.pos.y = newY;
 
