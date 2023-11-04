@@ -12,6 +12,7 @@ import com.google.inject.Inject;
 
 
 public class MovementSystem extends IteratingSystem {
+    private static final int TILE_SIZE = 32;
 
     private final ComponentMapper<MovementComponent> mm = ComponentMapper.getFor(MovementComponent.class);
 
@@ -36,7 +37,7 @@ public class MovementSystem extends IteratingSystem {
             case N -> moveY += velocity;
             case S -> moveY -= velocity;
             case E -> moveX += velocity;
-            case W -> moveX-= velocity;
+            case W -> moveX -= velocity;
             case NE -> {
                 moveX += velocity;
                 moveY += velocity;
@@ -55,34 +56,19 @@ public class MovementSystem extends IteratingSystem {
             }
         }
         Vector2 dest = new Vector2(moveX, moveY).nor();
-        //Gdx.app.log("Movement Magnitude", String.valueOf(Math.sqrt(Math.pow(dest.x, 2) + Math.pow(dest.y, 2))));
 
         float newX = movement.pos.x + dest.x;
         float newY = movement.pos.y + dest.y;
 
-        //@todo collision checking here
-
-        //TiledMapTileLayer.Cell cell;
-       // if((cell = collisionLayer.getCell((int) newX, (int) newY)) != null && cell.getTile().getProperties().containsKey("blocked")) {
-       //     Gdx.app.log("Collision", "Blocked");
-       //     return;
-        //}
-        //edited it to see the tile number because it seemed that the tiles were blocked randomly
-        for (int x = (int) movement.pos.x; x <= (int) newX; x++) {
-            for (int y = (int) movement.pos.y; y <= (int) newY; y++) {
-                TiledMapTileLayer.Cell cell = collisionLayer.getCell(x, y);
-                Gdx.app.log("Collision", "Checking tile at (" + x + ", " + y + ")");
-                if (cell != null) {
-                    if((cell = collisionLayer.getCell((int) newX, (int) newY)) != null && cell.getTile().getProperties().containsKey("Blocked")) {
-                        Gdx.app.log("Collision", "Blocked");
-                        return;
-                    }
-                }
-            }
+        TiledMapTileLayer.Cell cell;
+        if((cell = collisionLayer.getCell((int) (newX/TILE_SIZE), (int) (newY/TILE_SIZE))) != null && cell.getTile().getProperties().containsKey("blocked")) {
+            Gdx.app.log("Collision", "Blocked");
+            return;
         }
-        movement.pos.x  = newX;
+
+        movement.pos.x = newX;
         movement.pos.y = newY;
 
-        Gdx.app.log("Position", "X: " + movement.pos.x + " Y: " + movement.pos.y);
+        Gdx.app.log("Position", "X: " + (int)(movement.pos.x/TILE_SIZE) + " Y: " + (int)(movement.pos.y/TILE_SIZE));
     }
 }

@@ -37,7 +37,7 @@ public class GameScreen implements Screen {
 
     @Inject
     public GameScreen(MainGame game, PooledEngine pooledEngine, @Named("PlayerCamera") OrthographicCamera playerCamera,
-                      @Named("MapCamera") OrthographicCamera mapCamera, OrthogonalTiledMapRenderer renderer, @Named("MainGameMap") TiledMap tiledMap, DialogueManager dialogueManager) {
+                      @Named("MapCamera") OrthographicCamera mapCamera, OrthogonalTiledMapRenderer renderer, @Named("MainGameMap") TiledMap tiledMap) {
         this.game = game;
         this.pooledEngine = pooledEngine;
         this.playerCamera = playerCamera;
@@ -60,7 +60,7 @@ public class GameScreen implements Screen {
     public void show() {
         float mapWidth = tiledMap.getProperties().get("width", Integer.class) * tiledMap.getProperties().get("tilewidth", Integer.class);
         float mapHeight = tiledMap.getProperties().get("height", Integer.class) * tiledMap.getProperties().get("tileheight", Integer.class);
-        playerCamera.setToOrtho(false, mapWidth, mapHeight);
+        playerCamera.setToOrtho(false, 1920, 1080);
         if(playerComponent == null) {
             createPlayer();
         }
