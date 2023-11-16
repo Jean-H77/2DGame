@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csun.game.MainGame;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -29,25 +29,25 @@ public class TitleScreen implements Screen {
 
     @FunctionalInterface
     private interface GraveClickEvent { void execute(); }
-    
+
     private final MainGame mainGame;
     private final Screen gameScreen;
     private final Stage stage;
-    private final ExtendViewport extendViewport;
+    private final Viewport viewport;
     private final Image[] menuImageActors = new Image[3];
 
     @Inject
     public TitleScreen(MainGame mainGame, @Named("TitleScreenStage") Stage stage,
-                       ExtendViewport screenViewPort, @Named("GameScreen") Screen gameScreen) {
+                       @Named("Extended") Viewport viewport, @Named("GameScreen") Screen gameScreen) {
         this.mainGame = mainGame;
         this.stage = stage;
-        this.extendViewport = screenViewPort;
+        this.viewport = viewport;
         this.gameScreen = gameScreen;
     }
 
     @Override
     public void show() {
-        stage.setViewport(extendViewport);
+        stage.setViewport(viewport);
         Image image = createImage("background.jpg"); image.setTouchable(Touchable.disabled);
         stage.getActors().addAll(
             image,
@@ -122,7 +122,7 @@ public class TitleScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        extendViewport.update(width, height, true);
+        viewport.update(width, height, true);
     }
 
     @Override

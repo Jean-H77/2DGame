@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csun.game.MainGame;
 import com.csun.game.ashley.systems.AnimationSystem;
 import com.csun.game.ashley.systems.MovementSystem;
@@ -31,6 +32,9 @@ import com.google.inject.name.Names;
 
 import java.util.List;
 
+import static com.csun.game.Constants.VIEWPORT_HEIGHT;
+import static com.csun.game.Constants.VIEWPORT_WIDTH;
+
 public class GameModule extends AbstractModule {
 
     private final MainGame mainGame;
@@ -49,7 +53,7 @@ public class GameModule extends AbstractModule {
 
         bind(Stage.class)
             .annotatedWith(Names.named("TitleScreenStage"))
-            .to(Stage.class).in(Scopes.NO_SCOPE);
+            .to(Stage.class).asEagerSingleton();
 
         bind(ScreenViewport.class)
             .annotatedWith(Names.named("TitleScreenViewport"))
@@ -77,6 +81,10 @@ public class GameModule extends AbstractModule {
         bind(TiledMap.class)
             .annotatedWith(Names.named("MainGameMap"))
             .toProvider(() -> new TmxMapLoader().load("tempmap.tmx"));
+
+        bind(Viewport.class)
+            .annotatedWith(Names.named("Extended"))
+            .toProvider(() -> new ExtendViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT));
     }
 
     @Provides
@@ -94,10 +102,5 @@ public class GameModule extends AbstractModule {
     @Singleton
     private OrthogonalTiledMapRenderer provideMapRenderer(@Named("MainGameMap") TiledMap tiledMap) {
         return new OrthogonalTiledMapRenderer(tiledMap);
-    }
-
-    @Provides
-    private ExtendViewport provideExtendedViewport() {
-        return new ExtendViewport(1920, 1080);
     }
 }
