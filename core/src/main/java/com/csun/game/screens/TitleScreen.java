@@ -68,10 +68,6 @@ public class TitleScreen implements Screen {
         stage.draw();
     }
 
-    private static String getFileLocation(String file) {
-        return DIRECTORY_PATH + file;
-    }
-
     private ImageButton createGrave(int xPos, int index, String imagePath, GraveClickEvent event) {
         ImageButton grave = new ImageButton(createImage(imagePath).getDrawable());
         grave.setPosition(xPos, 0);
@@ -87,7 +83,7 @@ public class TitleScreen implements Screen {
     }
 
     private static Image createImage(String path) {
-        return new Image(new TextureRegionDrawable(new TextureRegion(new Texture(getFileLocation(path)))));
+        return new Image(new TextureRegionDrawable(new TextureRegion(new Texture(DIRECTORY_PATH + path))));
     }
 
     private ClickListener getClickEventListener(int index, GraveClickEvent clickEvent) {
