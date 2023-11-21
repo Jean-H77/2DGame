@@ -1,9 +1,4 @@
 package com.csun.game.dialogue;
 
-public class ChatDialogue implements DialoguePart {
-    private final String[] lines;
-
-    public ChatDialogue(String... lines) {
-        this.lines = lines;
-    }
+public record ChatDialogue(String... lines) implements DialoguePart {
 }
