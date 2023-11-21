@@ -9,11 +9,10 @@ public class DialogueTest {
                 "This is line 2"
             }))
             .addOptionsDialogue(
-                new OptionsDialogue.Builder(3)
-                    .addOption(new Option("Do something", this::doingSomething))
-                    .addOption(new Option("Do something 2", this::doingSomething))
-                    .addOption(new Option("Do something 3", this::doingSomething))
-                    .build()
+                new OptionsDialogue("Select an option",
+                    new Option("Do something1", this::doingSomething),
+                    new Option("Do something2", this::doingSomething),
+                    new Option("Do something3", this::doingSomething))
             )
             .addChatDialogue(new ChatDialogue(new String[]{
                 "This is npc talking line 1",
