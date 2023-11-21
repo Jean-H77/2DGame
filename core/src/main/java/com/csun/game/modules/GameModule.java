@@ -7,12 +7,14 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.csun.game.Constants;
 import com.csun.game.MainGame;
 import com.csun.game.ashley.systems.AnimationSystem;
 import com.csun.game.ashley.systems.MovementSystem;
@@ -97,5 +99,18 @@ public class GameModule extends AbstractModule {
     @Singleton
     private OrthogonalTiledMapRenderer provideMapRenderer(@Named("MainGameMap") TiledMap tiledMap) {
         return new OrthogonalTiledMapRenderer(tiledMap);
+    }
+
+    @Provides
+    private ExtendViewport provideExtendedViewport() {
+        return new ExtendViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+    }
+
+    @Provides
+    @Singleton
+    private TiledMapTileLayer[] provideMapLayers(@Named("MainGameMap") TiledMap tiledMap) {
+        TiledMapTileLayer[] tiledMapTileLayer = new TiledMapTileLayer[tiledMap.getLayers().size()];
+        for(int i = 0; i < tiledMapTileLayer.length; i++) tiledMapTileLayer[i] = (TiledMapTileLayer) tiledMap.getLayers().get(i);
+        return tiledMapTileLayer;
     }
 }

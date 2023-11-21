@@ -37,7 +37,7 @@ public class RenderSystem extends IteratingSystem {
         MovementComponent movement = entity.getComponent(MovementComponent.class);
         texture.shape.begin(ShapeRenderer.ShapeType.Filled);
         texture.shape.setColor(Color.RED);
-        texture.shape.circle(movement.pos.x, movement.pos.y, 15);
+        texture.shape.circle(movement.pos.x, movement.pos.y, 16);
         texture.shape.end();
     }
 
