@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DialogueChain {
-
     private final DialoguePart[] parts;
     int step;
 
