@@ -18,8 +18,6 @@ import com.csun.game.ashley.systems.AnimationSystem;
 import com.csun.game.ashley.systems.MovementSystem;
 import com.csun.game.ashley.systems.PlayerInputSystem;
 import com.csun.game.ashley.systems.RenderSystem;
-import com.csun.game.managers.DialogueManager;
-import com.csun.game.managers.NPCManager;
 import com.csun.game.models.Systems;
 import com.csun.game.screens.GameScreen;
 import com.csun.game.screens.TitleScreen;
@@ -58,9 +56,6 @@ public class GameModule extends AbstractModule {
         bind(ScreenViewport.class)
             .annotatedWith(Names.named("TitleScreenViewport"))
             .to(ScreenViewport.class).in(Scopes.NO_SCOPE);
-
-        bind(DialogueManager.class).in(Scopes.SINGLETON);
-        bind(NPCManager.class).in(Scopes.SINGLETON);
 
         bind(PooledEngine.class).asEagerSingleton();
 

@@ -13,7 +13,9 @@ import com.csun.game.MainGame;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.PlayerComponent;
 import com.csun.game.ashley.components.TextureComponent;
-import com.csun.game.managers.DialogueManager;
+import com.csun.game.dialogue.ChatDialogue;
+import com.csun.game.dialogue.DialogueChain;
+import com.csun.game.dialogue.OptionsDialogue;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
@@ -37,7 +39,7 @@ public class GameScreen implements Screen {
 
     @Inject
     public GameScreen(MainGame game, PooledEngine pooledEngine, @Named("PlayerCamera") OrthographicCamera playerCamera,
-                      @Named("MapCamera") OrthographicCamera mapCamera, OrthogonalTiledMapRenderer renderer, @Named("MainGameMap") TiledMap tiledMap, DialogueManager dialogueManager) {
+                      @Named("MapCamera") OrthographicCamera mapCamera, OrthogonalTiledMapRenderer renderer, @Named("MainGameMap") TiledMap tiledMap) {
         this.game = game;
         this.pooledEngine = pooledEngine;
         this.playerCamera = playerCamera;
