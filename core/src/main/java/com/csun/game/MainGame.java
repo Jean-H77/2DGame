@@ -2,7 +2,6 @@ package com.csun.game;
 
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.csun.game.models.Systems;
 import com.csun.game.modules.GameModule;
@@ -24,7 +23,6 @@ public class MainGame extends Game {
             .list()
             .forEach(it -> engine.addSystem(injector.getInstance(it)));
 
-        Gdx.app.log("Systems", "Systems Size: " + engine.getSystems().size());
         setScreen(injector.getInstance(Key.get(Screen.class, Names.named("TitleScreen"))));
     }
 }
