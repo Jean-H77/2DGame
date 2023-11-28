@@ -1,0 +1,96 @@
+{
+    "assets": [
+      {
+        "name": "Headless Horseman",
+        "type": "sprite",
+        "path": "assets/main_character.png",
+        "position": {"x": 100, "y": 200},
+        "size": {"width": 64, "height": 64},
+        "properties": {"health": 100, "damage": 10}
+      },
+      {
+        "name": "background",
+        "type": "image",
+        "path": "assets/background.jpg",
+        "position": {"x": 0, "y": 0},
+        "size": {"width": 1920, "height": 1080},
+        "properties": {}
+      },
+      {
+        "name": "background",
+        "type": "image",
+        "path": "assets/background.png",
+        "position": {"x": 0, "y": 0},
+        "size": {"width": 1920, "height": 1080},
+        "properties": {}
+      },
+      {
+        "name": "title screen",
+        "type": "image",
+        "path": "assets/Hollow's Curse - Pursuit of the Headless Horseman.png",
+        "position": {"x": 0, "y": 0},
+        "size": {"width": 1920, "height": 1080},
+        "properties": {}
+      },
+      {
+        "name": "cursor",
+        "type": "image",
+        "path": "assets/bloody_cursor.png",
+        "size": {},
+        "properties": {}
+      },
+      {
+        "name": "lightning weather effect",
+        "type": "image",
+        "path": "assets/lightning.png",
+        "size": {},
+        "properties": {}
+      },
+      {
+        "name": "rain weather effect",
+        "type": "image",
+        "path": "assets/rainParticle.png",
+        "size": {},
+        "properties": {}
+      },
+      {
+        "name": "snow weather effect",
+        "type": "image",
+        "path": "assets/snowParticle.png",
+        "size": {},
+        "properties": {}
+      },
+      {
+        "name": "enemy",
+        "type": "sprite",
+        "path": "assets/ghost.png",
+        "position": {"x": 300, "y": 150},
+        "size": {"width": 40, "height": 40},
+        "properties": {"health": 50, "damage": 5}
+      }
+      {
+        "inputSettings": {
+          "inputFlags": 5
+        },
+        "audioSettings": {
+          "volume": 128
+        },
+        "graphicsSettings": {
+          "resolutionX": 1920,
+          "resolutionY": 1080,
+          "qualityLevel": 2
+        },
+        "resourceManagement": {
+          "dynamicLoading": true,
+          "streamingAssets": true
+        },
+        "compression": {
+          "textureCompression": true,
+          "soundCompression": true
+        }
+      }
+      
+      // Add more assets as needed
+    ]
+  }
+    
