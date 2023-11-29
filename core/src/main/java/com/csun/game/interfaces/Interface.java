@@ -1,5 +1,6 @@
 package com.csun.game.interfaces;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -16,7 +17,10 @@ public abstract class Interface {
     protected abstract void populateStage();
 
     public void addImageButton(String imagePath, ClickListener clickListener) {
-        ImageButton imageButton = new ImageButton(new Image(new TextureRegionDrawable(new TextureRegion(new Texture(imagePath)))).getDrawable());
+        Texture buttonTexture = new Texture(Gdx.files.internal(imagePath));
+        TextureRegionDrawable buttonDrawable = new TextureRegionDrawable(new TextureRegion(buttonTexture));
+        ImageButton imageButton = new ImageButton(buttonDrawable);
+        
         imageButton.addListener(clickListener);
         stage.addActor(imageButton);
     }
