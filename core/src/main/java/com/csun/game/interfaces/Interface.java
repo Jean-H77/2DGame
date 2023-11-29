@@ -20,7 +20,7 @@ public abstract class Interface {
 
     private final Stage stage = new Stage();
 
-    protected abstract void populateStage();
+    protected abstract void buildView();
 
     protected void addImageButton(String imagePath, ClickListener clickListener) {
         ImageButton imageButton = new ImageButton(createTextureRegionDrawable(imagePath));
@@ -46,7 +46,7 @@ public abstract class Interface {
         if((interface_ = cache.get(interfaceType)) != null) return interface_;
         try {
             interface_ = interfaceType.getClassz().getDeclaredConstructor().newInstance();
-            interface_.populateStage();
+            interface_.buildView();
             cache.put(interfaceType, interface_);
             return interface_;
         } catch (Exception ex) {

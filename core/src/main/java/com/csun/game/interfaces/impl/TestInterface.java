@@ -7,7 +7,7 @@ import com.csun.game.interfaces.Interface;
 public class TestInterface extends Interface {
 
     @Override
-    public void populateStage() {
+    public void buildView() {
         addImageButton("/image.png", new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
