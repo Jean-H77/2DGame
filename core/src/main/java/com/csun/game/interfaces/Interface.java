@@ -14,11 +14,11 @@ import java.util.logging.Logger;
 
 public abstract class Interface {
 
-    private static final Logger logger = Logger.getLogger("Interface");
+    private static final Logger logger = Logger.getLogger(Interface.class.getName());
 
     private static final HashMap<InterfaceType, Interface> cache = new HashMap<>();
 
-    protected final Stage stage = new Stage();
+    private final Stage stage = new Stage();
 
     protected abstract void populateStage();
 
@@ -50,10 +50,8 @@ public abstract class Interface {
             cache.put(interfaceType, interface_);
             return interface_;
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.log(Level.SEVERE, "Failed to create interface " + interfaceType.toString(), ex);
         }
-
-        logger.log(Level.SEVERE, "Failed to create interface " + interfaceType.toString());
         return null;
     }
 
