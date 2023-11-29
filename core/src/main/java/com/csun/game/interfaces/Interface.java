@@ -8,10 +8,21 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
+import java.util.HashMap;
+
 public abstract class Interface {
 
-    // just gonna explicit create a new stage here
+    private final HashMap<Integer, Interface> cache = new HashMap<>();
+
     protected final Stage stage = new Stage();
+
+    private final int id;
+
+    private int interfaceCounter;
+
+    protected Interface() {
+        this.id = ++interfaceCounter;
+    }
 
     protected abstract void populateStage();
 
@@ -34,8 +45,13 @@ public abstract class Interface {
         return new TextureRegionDrawable(new TextureRegion(texture));
     }
 
-    public void createInterface() {
+    public Interface getAndCreateInterface() {
+        Interface temp;
+        if((temp = cache.get(id)) != null) return temp;
+
         populateStage();
+        cache.put(id, this);
+        return this;
     }
 
     public void dispose() {
