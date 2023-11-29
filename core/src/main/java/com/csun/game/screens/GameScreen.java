@@ -13,6 +13,8 @@ import com.csun.game.MainGame;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.PlayerComponent;
 import com.csun.game.ashley.components.TextureComponent;
+import com.csun.game.interfaces.Interface;
+import com.csun.game.interfaces.InterfaceType;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
@@ -33,6 +35,8 @@ public class GameScreen implements Screen {
     private final PooledEngine pooledEngine;
 
     private PlayerComponent playerComponent;
+
+    private Interface anInterface;
 
     @Inject
     public GameScreen(MainGame game, PooledEngine pooledEngine, @Named("PlayerCamera") OrthographicCamera playerCamera,
@@ -77,6 +81,8 @@ public class GameScreen implements Screen {
         renderer.render();
 
         pooledEngine.update(Gdx.graphics.getDeltaTime());
+
+        if(anInterface != null) anInterface.process();
     }
 
     @Override
@@ -105,5 +111,14 @@ public class GameScreen implements Screen {
         // Destroy screen's assets here.
         tiledMap.dispose();
         renderer.dispose();
+    }
+
+    public void setInterface(InterfaceType interfaceType) {
+        anInterface = Interface.get(interfaceType);
+    }
+
+    public void removeInterface() {
+        anInterface.dispose();
+        anInterface = null;
     }
 }
