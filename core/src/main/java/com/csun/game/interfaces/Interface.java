@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -16,13 +15,23 @@ public abstract class Interface {
 
     protected abstract void populateStage();
 
-    public void addImageButton(String imagePath, ClickListener clickListener) {
-        Texture buttonTexture = new Texture(Gdx.files.internal(imagePath));
-        TextureRegionDrawable buttonDrawable = new TextureRegionDrawable(new TextureRegion(buttonTexture));
-        ImageButton imageButton = new ImageButton(buttonDrawable);
-        
+    protected void addImageButton(String imagePath, ClickListener clickListener) {
+        ImageButton imageButton = new ImageButton(createTextureRegionDrawable(imagePath));
         imageButton.addListener(clickListener);
         stage.addActor(imageButton);
+    }
+
+    protected void addImageButtonWithHover(String imagePath, String hoverImagePath, ClickListener clickListener) {
+        TextureRegionDrawable nonHover = createTextureRegionDrawable(imagePath);
+        TextureRegionDrawable hover = createTextureRegionDrawable(hoverImagePath);
+        ImageButton imageButton = new ImageButton(nonHover, hover);
+        imageButton.addListener(clickListener);
+        stage.addActor(imageButton);
+    }
+
+    private static TextureRegionDrawable createTextureRegionDrawable(String path) {
+        Texture texture = new Texture(Gdx.files.internal(path));
+        return new TextureRegionDrawable(new TextureRegion(texture));
     }
 
     public void createInterface() {
