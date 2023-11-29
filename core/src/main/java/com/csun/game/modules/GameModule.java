@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.csun.game.Constants;
 import com.csun.game.MainGame;
 import com.csun.game.ashley.systems.AnimationSystem;
 import com.csun.game.ashley.systems.MovementSystem;
@@ -32,8 +31,8 @@ import com.google.inject.name.Names;
 
 import java.util.List;
 
-import static com.csun.game.Constants.VIEWPORT_HEIGHT;
-import static com.csun.game.Constants.VIEWPORT_WIDTH;
+import static com.csun.game.GameConstants.VIEWPORT_HEIGHT;
+import static com.csun.game.GameConstants.VIEWPORT_WIDTH;
 
 public class GameModule extends AbstractModule {
 

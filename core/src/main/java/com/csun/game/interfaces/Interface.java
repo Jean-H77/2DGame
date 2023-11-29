@@ -9,20 +9,16 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public abstract class Interface {
 
-    private final HashMap<Integer, Interface> cache = new HashMap<>();
+    private static final Logger logger = Logger.getLogger("Interface");
+
+    private static final HashMap<InterfaceType, Interface> cache = new HashMap<>();
 
     protected final Stage stage = new Stage();
-
-    private final int id;
-
-    private int interfaceCounter;
-
-    protected Interface() {
-        this.id = ++interfaceCounter;
-    }
 
     protected abstract void populateStage();
 
@@ -45,13 +41,20 @@ public abstract class Interface {
         return new TextureRegionDrawable(new TextureRegion(texture));
     }
 
-    public Interface getAndCreateInterface() {
-        Interface temp;
-        if((temp = cache.get(id)) != null) return temp;
+    public static Interface get(InterfaceType interfaceType) {
+        Interface interface_;
+        if((interface_ = cache.get(interfaceType)) != null) return interface_;
+        try {
+            interface_ = interfaceType.getClassz().getDeclaredConstructor().newInstance();
+            interface_.populateStage();
+            cache.put(interfaceType, interface_);
+            return interface_;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
-        populateStage();
-        cache.put(id, this);
-        return this;
+        logger.log(Level.SEVERE, "Failed to create interface " + interfaceType.toString());
+        return null;
     }
 
     public void dispose() {

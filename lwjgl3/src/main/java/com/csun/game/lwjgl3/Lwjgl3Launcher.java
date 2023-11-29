@@ -4,7 +4,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.csun.game.MainGame;
 
-import static com.csun.game.Constants.GAME_TITLE;
+import static com.csun.game.GameConstants.GAME_TITLE;
 
 /** Launches the desktop (LWJGL3) application. */
 public class Lwjgl3Launcher {

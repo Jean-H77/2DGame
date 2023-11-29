@@ -1,8 +1,8 @@
 package com.csun.game;
 
-public final class Constants {
+public final class GameConstants {
 
-    private Constants() {
+    private GameConstants() {
 
     }
 
