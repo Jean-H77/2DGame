@@ -3,6 +3,7 @@ package com.csun.game.interfaces;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -22,18 +23,22 @@ public abstract class Interface {
 
     protected abstract void buildView();
 
-    protected void addImageButton(String imagePath, ClickListener clickListener) {
+    public Interface addImageButton(String imagePath, int xPos, int yPos, ButtonClick buttonClick) {
         ImageButton imageButton = new ImageButton(createTextureRegionDrawable(imagePath));
-        imageButton.addListener(clickListener);
+        imageButton.setPosition(xPos, yPos);
+        imageButton.addListener(createOnButtonClickListener(buttonClick));
         stage.addActor(imageButton);
+        return this;
     }
 
-    protected void addImageButtonWithHover(String imagePath, String hoverImagePath, ClickListener clickListener) {
+    public Interface addImageButtonWithHover(String imagePath, String hoverImagePath, int xPos, int yPos, ButtonClick buttonClick) {
         TextureRegionDrawable nonHover = createTextureRegionDrawable(imagePath);
         TextureRegionDrawable hover = createTextureRegionDrawable(hoverImagePath);
         ImageButton imageButton = new ImageButton(nonHover, hover);
-        imageButton.addListener(clickListener);
+        imageButton.setPosition(xPos, yPos);
+        imageButton.addListener(createOnButtonClickListener(buttonClick));
         stage.addActor(imageButton);
+        return this;
     }
 
     private static TextureRegionDrawable createTextureRegionDrawable(String path) {
@@ -41,13 +46,23 @@ public abstract class Interface {
         return new TextureRegionDrawable(new TextureRegion(texture));
     }
 
+    private static ClickListener createOnButtonClickListener(ButtonClick buttonClick) {
+        return new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                buttonClick.onButtonClick();
+            }
+        };
+    }
+
     public static Interface get(InterfaceType interfaceType) {
         Interface interface_;
-        if((interface_ = cache.get(interfaceType)) != null) return interface_;
+        boolean isCacheable = interfaceType.isCacheable();
+        if(isCacheable && (interface_ = cache.get(interfaceType)) != null) return interface_;
         try {
             interface_ = interfaceType.getClassz().getDeclaredConstructor().newInstance();
             interface_.buildView();
-            cache.put(interfaceType, interface_);
+            if(isCacheable) cache.put(interfaceType, interface_);
             return interface_;
         } catch (Exception ex) {
             logger.log(Level.SEVERE, "Failed to create interface " + interfaceType.toString(), ex);
