@@ -11,15 +11,13 @@ public class TestScreen implements Screen {
 
     @Override
     public void show() {
-        Interface.get(TestInterface.ID).ifPresent(val -> anInterface = val);
-        Gdx.input.setInputProcessor(anInterface.getStage());
+
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        anInterface.process(delta);
     }
 
     @Override

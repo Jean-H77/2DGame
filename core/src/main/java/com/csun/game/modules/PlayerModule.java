@@ -13,11 +13,6 @@ import com.google.inject.Scopes;
 
 public class PlayerModule extends AbstractModule {
 
-    @Override
-    protected void configure() {
-
-    }
-
     @Provides
     public Player createPlayer(PooledEngine pooledEngine) {
         Entity entity = pooledEngine.createEntity();

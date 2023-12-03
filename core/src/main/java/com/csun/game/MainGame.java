@@ -5,8 +5,10 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.csun.game.interfaces.Interface;
+import com.csun.game.interfaces.impl.TestInterface;
 import com.csun.game.models.Systems;
 import com.csun.game.modules.GameModule;
+import com.csun.game.modules.InterfaceModule;
 import com.csun.game.modules.PlayerModule;
 import com.csun.game.modules.ScreenModule;
 import com.csun.game.screens.GameScreen;
@@ -22,7 +24,12 @@ public class MainGame extends Game {
 
     @Override
     public void create() {
-        Injector injector = Guice.createInjector(new GameModule(this), new PlayerModule(), new ScreenModule());
+        Injector injector = Guice.createInjector(
+            new GameModule(this),
+            new PlayerModule(),
+            new ScreenModule(),
+            new InterfaceModule()
+        );
 
         PooledEngine engine = injector.getInstance(PooledEngine.class);
 
