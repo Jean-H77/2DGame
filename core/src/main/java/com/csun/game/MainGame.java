@@ -9,6 +9,7 @@ import com.csun.game.models.Systems;
 import com.csun.game.modules.GameModule;
 import com.csun.game.modules.PlayerModule;
 import com.csun.game.modules.ScreenModule;
+import com.csun.game.screens.GameScreen;
 import com.csun.game.screens.TestScreen;
 import com.csun.game.screens.TitleScreen;
 import com.google.inject.Guice;
@@ -29,7 +30,6 @@ public class MainGame extends Game {
             .list()
             .forEach(it -> engine.addSystem(injector.getInstance(it)));
 
-        Interface.unpack();
-        setScreen(injector.getInstance(TitleScreen.class));
+        setScreen(injector.getInstance(GameScreen.class));
     }
 }

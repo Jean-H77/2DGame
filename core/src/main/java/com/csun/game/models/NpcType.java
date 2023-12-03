@@ -4,8 +4,8 @@ import com.csun.game.ashley.components.TextureComponent;
 import com.google.common.collect.ImmutableList;
 
 public enum NpcType {
-    MAN(new TextureComponent(null)),
-    WOMEN(new TextureComponent(null));
+    MAN(new TextureComponent()),
+    WOMEN(new TextureComponent());
 
     private final TextureComponent textureComponent;
 

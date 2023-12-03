@@ -1,58 +1,41 @@
 package com.csun.game.screens;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.csun.game.GameMap;
 import com.csun.game.MainGame;
-import com.csun.game.ashley.components.MovementComponent;
-import com.csun.game.ashley.components.PlayerComponent;
-import com.csun.game.ashley.components.TextureComponent;
-import com.csun.game.interfaces.impl.TestInterface;
+import com.csun.game.Player;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.google.inject.name.Named;
+
+import static com.csun.game.GameConstants.VIEWPORT_HEIGHT;
+import static com.csun.game.GameConstants.VIEWPORT_WIDTH;
 
 /** First screen of the application. Displayed after the application is created. */
 @Singleton
 public class GameScreen implements Screen {
 
-    private final OrthographicCamera playerCamera;
     private final MainGame game;
     private final GameMap gameMap;
     private final PooledEngine pooledEngine;
-    private PlayerComponent playerComponent;
+    private final Player player;
+    private final OrthographicCamera playerCamera;
 
     @Inject
-    public GameScreen(MainGame game, PooledEngine pooledEngine, GameMap gameMap,
-                      @Named("PlayerCamera") OrthographicCamera playerCamera) {
+    public GameScreen(MainGame game, PooledEngine pooledEngine, GameMap gameMap, Player player) {
         this.game = game;
         this.pooledEngine = pooledEngine;
-        this.playerCamera = playerCamera;
         this.gameMap = gameMap;
-    }
-
-    private void createPlayer() {
-        Entity entity = pooledEngine.createEntity();
-        playerComponent = new PlayerComponent();
-        entity.add(new TextureComponent(new ShapeRenderer()));
-        entity.add(playerComponent);
-        entity.add(new MovementComponent());
-        pooledEngine.addEntity(entity);
-        Gdx.app.log("CreatePlayer", "Created Player: Size: " + pooledEngine.getEntities().size());
+        this.player = player;
+        playerCamera = player.getCamera();
     }
 
     @Override
     public void show() {
-        playerCamera.setToOrtho(false, 1920, 1080);
-        if(playerComponent == null) {
-            createPlayer();
-        }
+        playerCamera.setToOrtho(false, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
     }
 
     @Override
@@ -60,7 +43,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        playerCamera.update();
+        player.update(delta);
 
         gameMap.getRenderer().setView(playerCamera);
         gameMap.getRenderer().render();

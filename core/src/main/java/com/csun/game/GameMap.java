@@ -14,16 +14,14 @@ public class GameMap {
 
     private final HashMap<String, TiledMap> tiledMaps = new HashMap<>();
 
-    private final OrthographicCamera orthographicCamera;
-
+    private final OrthographicCamera mapCamera;
     private OrthogonalTiledMapRenderer renderer;
 
     private TiledMap currentMap;
 
     @Inject
     public GameMap(OrthographicCamera orthographicCamera) {
-        this.orthographicCamera = orthographicCamera;
-
+        this.mapCamera = orthographicCamera;
         //remove later
         loadMap("tempmap.tmx");
     }
@@ -32,8 +30,8 @@ public class GameMap {
         return tiledMaps;
     }
 
-    public OrthographicCamera getOrthographicCamera() {
-        return orthographicCamera;
+    public OrthographicCamera getMapCamera() {
+        return mapCamera;
     }
 
     public void loadMap(String path) {
@@ -79,5 +77,9 @@ public class GameMap {
     public Optional<TiledMapTileLayer> getLayer(int type) {
         return currentMap == null ? Optional.empty() :
             Optional.ofNullable((TiledMapTileLayer) currentMap.getLayers().get(type));
+    }
+
+    public void setRenderer(OrthogonalTiledMapRenderer renderer) {
+        this.renderer = renderer;
     }
 }
