@@ -10,11 +10,6 @@ import com.google.inject.*;
 
 public class PlayerModule extends AbstractModule {
 
-    @Override
-    protected void configure() {
-
-    }
-
     @Provides
     @Singleton
     public Player createPlayer(PooledEngine pooledEngine) {
