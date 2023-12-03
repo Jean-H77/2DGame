@@ -6,10 +6,7 @@ import com.csun.game.Player;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.PlayerComponent;
 import com.csun.game.ashley.components.TextureComponent;
-import com.google.inject.AbstractModule;
-import com.google.inject.Provider;
-import com.google.inject.Provides;
-import com.google.inject.Scopes;
+import com.google.inject.*;
 
 public class PlayerModule extends AbstractModule {
 
@@ -19,6 +16,7 @@ public class PlayerModule extends AbstractModule {
     }
 
     @Provides
+    @Singleton
     public Player createPlayer(PooledEngine pooledEngine) {
         Entity entity = pooledEngine.createEntity();
         entity.add(new PlayerComponent());
