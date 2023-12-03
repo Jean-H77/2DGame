@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.csun.game.GameMap;
 import com.csun.game.MainGame;
 import com.csun.game.Player;
@@ -22,12 +24,14 @@ public class GameScreen implements Screen {
     private final GameMap gameMap;
     private final PooledEngine pooledEngine;
     private final OrthographicCamera playerCamera;
+    private final OrthogonalTiledMapRenderer renderer;
 
     @Inject
     public GameScreen(MainGame game, PooledEngine pooledEngine, GameMap gameMap, Player player) {
         this.game = game;
         this.pooledEngine = pooledEngine;
         this.gameMap = gameMap;
+        this.renderer = gameMap.getRenderer();
         playerCamera = (OrthographicCamera) player.getCamera();
     }
 
@@ -41,8 +45,8 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        gameMap.getRenderer().setView(playerCamera);
-        gameMap.getRenderer().render();
+        renderer.setView(playerCamera);
+        renderer.render();
 
         pooledEngine.update(Gdx.graphics.getDeltaTime());
     }
