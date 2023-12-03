@@ -8,6 +8,7 @@ public class PlayerModule extends AbstractModule {
 
     @Override
     protected void configure() {
+
         bind(OrthographicCamera.class)
             .annotatedWith(Names.named("PlayerCamera"))
             .to(OrthographicCamera.class);

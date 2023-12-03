@@ -1,13 +1,24 @@
 package com.csun.game.interfaces.impl;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.csun.game.interfaces.Interface;
 
 public class TestInterface extends Interface {
 
+    public static final int ID = 1;
+
+    public TestInterface() {
+        super(ID);
+    }
+
     @Override
     public void buildView() {
-        addImageButton("/3.png", 5, 5, () -> {})
-            .addImageButton("/4.png", 6, 6, () -> {})
-            .addImageButtonWithHover("/5.png", "/6.png", 7, 7, () -> {});
+        addRectangle(50, 50, 100, 100, Color.CHARTREUSE, ShapeRenderer.ShapeType.Filled)
+            .addRectangle(100, 100, 100, 100, Color.RED, ShapeRenderer.ShapeType.Filled);
+
+        addImageButtonWithClickHover("switch_on.png", "switch_off.png",
+            225, 225, (x, y) -> Gdx.app.log("Clicked", x + " " + y));
     }
 }

@@ -8,13 +8,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.csun.game.GameMap;
 import com.csun.game.MainGame;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.PlayerComponent;
 import com.csun.game.ashley.components.TextureComponent;
-import com.csun.game.interfaces.Interface;
-import com.csun.game.interfaces.InterfaceType;
+import com.csun.game.interfaces.impl.TestInterface;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
@@ -23,30 +22,19 @@ import com.google.inject.name.Named;
 @Singleton
 public class GameScreen implements Screen {
 
-    private final TiledMap tiledMap;
-
-    private final OrthogonalTiledMapRenderer renderer;
-
     private final OrthographicCamera playerCamera;
-    private final OrthographicCamera mapCamera;
-
     private final MainGame game;
-
+    private final GameMap gameMap;
     private final PooledEngine pooledEngine;
-
     private PlayerComponent playerComponent;
 
-    private Interface anInterface;
-
     @Inject
-    public GameScreen(MainGame game, PooledEngine pooledEngine, @Named("PlayerCamera") OrthographicCamera playerCamera,
-                      @Named("MapCamera") OrthographicCamera mapCamera, OrthogonalTiledMapRenderer renderer, @Named("MainGameMap") TiledMap tiledMap) {
+    public GameScreen(MainGame game, PooledEngine pooledEngine, GameMap gameMap,
+                      @Named("PlayerCamera") OrthographicCamera playerCamera) {
         this.game = game;
         this.pooledEngine = pooledEngine;
         this.playerCamera = playerCamera;
-        this.mapCamera = mapCamera;
-        this.renderer = renderer;
-        this.tiledMap = tiledMap;
+        this.gameMap = gameMap;
     }
 
     private void createPlayer() {
@@ -61,8 +49,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        float mapWidth = tiledMap.getProperties().get("width", Integer.class) * tiledMap.getProperties().get("tilewidth", Integer.class);
-        float mapHeight = tiledMap.getProperties().get("height", Integer.class) * tiledMap.getProperties().get("tileheight", Integer.class);
         playerCamera.setToOrtho(false, 1920, 1080);
         if(playerComponent == null) {
             createPlayer();
@@ -71,18 +57,15 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        // Draw your screen here. "delta" is the time since last render in seconds.
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         playerCamera.update();
 
-        renderer.setView(playerCamera);
-        renderer.render();
+        gameMap.getRenderer().setView(playerCamera);
+        gameMap.getRenderer().render();
 
         pooledEngine.update(Gdx.graphics.getDeltaTime());
-
-        if(anInterface != null) anInterface.process();
     }
 
     @Override
@@ -109,16 +92,6 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         // Destroy screen's assets here.
-        tiledMap.dispose();
-        renderer.dispose();
-    }
-
-    public void setInterface(InterfaceType interfaceType) {
-        anInterface = Interface.get(interfaceType);
-    }
-
-    public void removeInterface() {
-        anInterface.dispose();
-        anInterface = null;
+        gameMap.dispose();
     }
 }

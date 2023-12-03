@@ -13,14 +13,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csun.game.MainGame;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-public class TitleScreen implements Screen {
-    private static final String DIRECTORY_PATH = "titlescreen/";
+import static com.csun.game.GameConstants.VIEWPORT_HEIGHT;
+import static com.csun.game.GameConstants.VIEWPORT_WIDTH;
 
+public class TitleScreen implements Screen {
     private static final Image[][] MENU_IMAGES = {
         { createImage("startgame_hover.png"), createImage("startgame.png") },
         { createImage("load_hover.png"), createImage("load.png") },
@@ -32,16 +34,13 @@ public class TitleScreen implements Screen {
 
     private final MainGame mainGame;
     private final Screen gameScreen;
-    private final Stage stage;
-    private final Viewport viewport;
+    private final Stage stage = new Stage();
+    private final Viewport viewport = new ExtendViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
     private final Image[] menuImageActors = new Image[3];
 
     @Inject
-    public TitleScreen(MainGame mainGame, @Named("TitleScreenStage") Stage stage,
-                       @Named("Extended") Viewport viewport, @Named("GameScreen") Screen gameScreen) {
+    public TitleScreen(MainGame mainGame, @Named("GameScreen") Screen gameScreen) {
         this.mainGame = mainGame;
-        this.stage = stage;
-        this.viewport = viewport;
         this.gameScreen = gameScreen;
     }
 
@@ -83,7 +82,7 @@ public class TitleScreen implements Screen {
     }
 
     private static Image createImage(String path) {
-        return new Image(new TextureRegionDrawable(new TextureRegion(new Texture(DIRECTORY_PATH + path))));
+        return new Image(new TextureRegionDrawable(new TextureRegion(new Texture("titlescreen/" + path))));
     }
 
     private ClickListener getClickEventListener(int index, GraveClickEvent clickEvent) {

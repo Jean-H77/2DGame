@@ -7,21 +7,23 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
+import com.csun.game.GameMap;
 import com.csun.game.ashley.components.MovementComponent;
 import com.google.inject.Inject;
 
+import static com.csun.game.GameConstants.TILE_SIZE;
+
 
 public class MovementSystem extends IteratingSystem {
-    private static final int TILE_SIZE = 32;
 
     private final ComponentMapper<MovementComponent> mm = ComponentMapper.getFor(MovementComponent.class);
 
-    private final TiledMapTileLayer collisionLayer;
+    private final GameMap gameMap;
 
     @Inject
-    public MovementSystem(TiledMapTileLayer[] tiledMapTileLayers) {
+    public MovementSystem(GameMap gameMap) {
         super(Family.all(MovementComponent.class).get());
-        this.collisionLayer = tiledMapTileLayers[1];
+        this.gameMap = gameMap;
     }
 
     @Override
@@ -61,7 +63,7 @@ public class MovementSystem extends IteratingSystem {
         float newY = movement.pos.y + dest.y;
 
         TiledMapTileLayer.Cell cell;
-        if((cell = collisionLayer.getCell((int) (newX/TILE_SIZE), (int) (newY/TILE_SIZE))) != null && cell.getTile().getProperties().containsKey("blocked")) {
+        if((cell = gameMap.getLayer(1).getCell((int) (newX/TILE_SIZE), (int) (newY/TILE_SIZE))) != null && cell.getTile().getProperties().containsKey("blocked")) {
             Gdx.app.log("Collision", "Blocked");
             return;
         }
