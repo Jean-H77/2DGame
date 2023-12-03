@@ -36,7 +36,7 @@ public class GameMap {
 
     public void loadMap(String path) {
         if(tiledMaps.containsKey(path)) {
-            currentMap = tiledMaps.get(path);
+            setCurrentMap(tiledMaps.get(path));
             return;
         }
         TiledMap temp = new TmxMapLoader().load(path);
