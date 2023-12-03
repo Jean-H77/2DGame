@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.google.inject.Inject;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 public class GameMap {
 
@@ -75,7 +76,8 @@ public class GameMap {
         renderer.dispose();
     }
 
-    public TiledMapTileLayer getLayer(int type) {
-        return (TiledMapTileLayer) currentMap.getLayers().get(type);
+    public Optional<TiledMapTileLayer> getLayer(int type) {
+        return currentMap == null ? Optional.empty() :
+            Optional.ofNullable((TiledMapTileLayer) currentMap.getLayers().get(type));
     }
 }

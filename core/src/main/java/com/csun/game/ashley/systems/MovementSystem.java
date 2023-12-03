@@ -11,6 +11,9 @@ import com.csun.game.GameMap;
 import com.csun.game.ashley.components.MovementComponent;
 import com.google.inject.Inject;
 
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import static com.csun.game.GameConstants.TILE_SIZE;
 
 
@@ -61,12 +64,18 @@ public class MovementSystem extends IteratingSystem {
 
         float newX = movement.pos.x + dest.x;
         float newY = movement.pos.y + dest.y;
+        AtomicBoolean isBlocked = new AtomicBoolean(); //@Todo redo this
 
-        TiledMapTileLayer.Cell cell;
-        if((cell = gameMap.getLayer(1).getCell((int) (newX/TILE_SIZE), (int) (newY/TILE_SIZE))) != null && cell.getTile().getProperties().containsKey("blocked")) {
-            Gdx.app.log("Collision", "Blocked");
-            return;
-        }
+        Optional<TiledMapTileLayer> optionalLayer = gameMap.getLayer(1);
+        optionalLayer.ifPresent(tiledMapTileLayer -> {
+            TiledMapTileLayer.Cell cell;
+            if((cell = tiledMapTileLayer.getCell((int) (newX/TILE_SIZE), (int) (newY/TILE_SIZE))) != null && cell.getTile().getProperties().containsKey("blocked")) {
+                Gdx.app.log("Collision", "Blocked");
+                isBlocked.set(true);
+            }
+        });
+
+        if(isBlocked.get()) return;
 
         movement.pos.x = newX;
         movement.pos.y = newY;
