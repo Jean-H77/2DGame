@@ -21,7 +21,6 @@ public class GameScreen implements Screen {
     private final MainGame game;
     private final GameMap gameMap;
     private final PooledEngine pooledEngine;
-    private final Player player;
     private final OrthographicCamera playerCamera;
 
     @Inject
@@ -29,8 +28,7 @@ public class GameScreen implements Screen {
         this.game = game;
         this.pooledEngine = pooledEngine;
         this.gameMap = gameMap;
-        this.player = player;
-        playerCamera = player.getCamera();
+        playerCamera = (OrthographicCamera) player.getCamera();
     }
 
     @Override
@@ -42,8 +40,6 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        player.update(delta);
 
         gameMap.getRenderer().setView(playerCamera);
         gameMap.getRenderer().render();

@@ -14,7 +14,7 @@ public class GameMap {
 
     private final HashMap<String, TiledMap> tiledMaps = new HashMap<>();
 
-    private final OrthographicCamera mapCamera;
+    private final OrthographicCamera mapCamera; //map camera might be needed
     private OrthogonalTiledMapRenderer renderer;
 
     private TiledMap currentMap;

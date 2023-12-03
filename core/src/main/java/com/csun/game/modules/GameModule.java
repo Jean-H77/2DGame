@@ -6,10 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.csun.game.GameMap;
 import com.csun.game.MainGame;
-import com.csun.game.ashley.systems.AnimationSystem;
-import com.csun.game.ashley.systems.MovementSystem;
-import com.csun.game.ashley.systems.PlayerInputSystem;
-import com.csun.game.ashley.systems.RenderSystem;
+import com.csun.game.ashley.systems.*;
 import com.csun.game.models.Systems;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -46,7 +43,8 @@ public class GameModule extends AbstractModule {
             PlayerInputSystem.class,
             MovementSystem.class,
             AnimationSystem.class,
-            RenderSystem.class
+            RenderSystem.class,
+            CameraSystem.class
         ));
     }
 }
