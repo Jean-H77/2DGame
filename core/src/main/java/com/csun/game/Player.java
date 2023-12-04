@@ -2,22 +2,20 @@ package com.csun.game;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Camera;
-import com.csun.game.ashley.components.PlayerCameraComponent;
+import com.csun.game.ashley.components.CameraComponent;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.TextureComponent;
 
 public class Player {
 
-    private final Entity entity;
     private final MovementComponent movementComponent;
     private final TextureComponent textureComponent;
-    private final PlayerCameraComponent cameraComponent;
+    private final CameraComponent cameraComponent;
 
     public Player(Entity entity) {
-        this.entity = entity;
         this.movementComponent = entity.getComponent(MovementComponent.class);
         this.textureComponent = entity.getComponent(TextureComponent.class);
-        this.cameraComponent = entity.getComponent(PlayerCameraComponent.class);
+        this.cameraComponent = entity.getComponent(CameraComponent.class);
     }
 
     public float getX() {
@@ -29,12 +27,9 @@ public class Player {
     }
 
     public Camera getCamera() {
-        return cameraComponent.camera;
+        return cameraComponent.camera();
     }
 
-    public Entity getEntity() {
-        return entity;
-    }
 
     public MovementComponent getMovementComponent() {
         return movementComponent;
@@ -44,7 +39,7 @@ public class Player {
         return textureComponent;
     }
 
-    public PlayerCameraComponent getCameraComponent() {
+    public CameraComponent getCameraComponent() {
         return cameraComponent;
     }
 }

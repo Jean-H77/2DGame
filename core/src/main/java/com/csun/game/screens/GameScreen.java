@@ -25,6 +25,7 @@ public class GameScreen implements Screen {
     private final PooledEngine pooledEngine;
     private final OrthographicCamera playerCamera;
     private final OrthogonalTiledMapRenderer renderer;
+    private final Player player;
 
     @Inject
     public GameScreen(MainGame game, PooledEngine pooledEngine, GameMap gameMap, Player player) {
@@ -32,6 +33,7 @@ public class GameScreen implements Screen {
         this.pooledEngine = pooledEngine;
         this.gameMap = gameMap;
         this.renderer = gameMap.getRenderer();
+        this.player = player;
         playerCamera = (OrthographicCamera) player.getCamera();
     }
 
@@ -44,6 +46,9 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        //@Todo remove after we get player sprites
+        player.getTextureComponent().shape.setProjectionMatrix(playerCamera.combined);
 
         renderer.setView(playerCamera);
         renderer.render();
