@@ -31,14 +31,12 @@ public class PlayerLoad {
         this.player = player;
     }
 
-    public CompletableFuture<AttributesMap> loadPlayerAttributes() {
-        AttributesMap attributesMap = new AttributesMap();
-
-        return CompletableFuture.supplyAsync(() -> {
+    public CompletableFuture<Void> loadPlayerAttributes() {
+        return CompletableFuture.runAsync(() -> {
             try {
                 final Path path = PLAYER_SAVE_DIR.resolve(PLAYER_SAVE_FILE_NAME);
 
-                if (!Files.exists(path)) return attributesMap;
+                if (!Files.exists(path)) return;
 
                 JsonElement jsonElement;
                 try (final Reader reader = new FileReader(path.toFile())) {
@@ -59,7 +57,6 @@ public class PlayerLoad {
             } catch (Exception e) {
                 logger.log(Level.SEVERE, "Error while loading player data", e);
             }
-            return attributesMap;
         });
     }
 }

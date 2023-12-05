@@ -26,8 +26,6 @@ public class PlayerSave {
 
     private final ExecutorService thread = Executors.newSingleThreadExecutor();
 
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
     @Inject
     public PlayerSave(Player player) {
         this.player = player;
@@ -35,7 +33,7 @@ public class PlayerSave {
 
     public void save() {
         run();
-        //thread.submit(() -> run());
+        thread.submit(() -> run());
     }
 
     public <T> void run() {
