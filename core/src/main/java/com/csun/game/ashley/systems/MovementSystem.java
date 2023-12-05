@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.csun.game.GameMap;
 import com.csun.game.ashley.components.MovementComponent;
+import com.csun.game.models.MovementState;
 import com.google.inject.Inject;
 
 import java.util.Optional;
@@ -23,6 +24,8 @@ public class MovementSystem extends IteratingSystem {
 
     private final GameMap gameMap;
 
+    private final AtomicBoolean isBlocked = new AtomicBoolean();
+
     @Inject
     public MovementSystem(GameMap gameMap) {
         super(Family.all(MovementComponent.class).get());
@@ -32,11 +35,13 @@ public class MovementSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         MovementComponent movement = mm.get(entity);
-        if(movement.state.equals(MovementComponent.MovementState.IDLE)) return;
+        if(movement.state.equals(MovementState.IDLE)) return;
 
         float velocity = movement.velocity * deltaTime;
         float moveX = 0f;
         float moveY = 0f;
+
+        isBlocked.set(false);
 
         switch (movement.dir) {
             case N -> moveY += velocity;
@@ -64,7 +69,6 @@ public class MovementSystem extends IteratingSystem {
 
         float newX = movement.pos.x + dest.x;
         float newY = movement.pos.y + dest.y;
-        AtomicBoolean isBlocked = new AtomicBoolean(); //@Todo redo this
 
         Optional<TiledMapTileLayer> optionalLayer = gameMap.getLayer(1);
         optionalLayer.ifPresent(tiledMapTileLayer -> {
