@@ -32,7 +32,6 @@ public class PlayerSave {
     }
 
     public void save() {
-        run();
         thread.submit(() -> run());
     }
 
