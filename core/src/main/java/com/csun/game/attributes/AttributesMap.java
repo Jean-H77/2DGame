@@ -2,6 +2,7 @@ package com.csun.game.attributes;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class AttributesMap {
 
@@ -20,13 +21,16 @@ public class AttributesMap {
         return attributes.containsKey(key);
     }
 
-    @SuppressWarnings("unused")
     public HashMap<AttributeKey<?>, Object> getPersistentAttributeMap() {
-        HashMap<AttributeKey<?>, Object> map = new HashMap<>();
-        for(Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
-            if (entry.getKey().isPersistent()) map.put(entry.getKey(), entry.getValue());
-        }
-        return map;
+        return attributes
+            .entrySet()
+            .stream()
+            .filter(entry -> entry.getKey().isPersistent())
+            .collect(
+                Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                (existing, replacement) -> replacement,
+                HashMap::new)
+            );
     }
 
     public HashMap<AttributeKey<?>, Object> getAttributes() {
