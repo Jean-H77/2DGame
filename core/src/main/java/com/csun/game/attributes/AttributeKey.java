@@ -1,18 +1,24 @@
 package com.csun.game.attributes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AttributeKey<T> {
 
-    private final boolean isPersistent;
+    public static final List<AttributeKey<?>> PERSISTABLE_ATTRIBUTES = new ArrayList<>();
 
-    public boolean isPersistent() {
-        return isPersistent;
+    private final AttributePersistable attributePersistable;
+
+    public AttributePersistable getAttributePersist() {
+        return attributePersistable;
     }
 
-    public AttributeKey(boolean isPersistent) {
-        this.isPersistent = isPersistent;
+    public AttributeKey(AttributePersistable attributePersistable) {
+        this.attributePersistable = attributePersistable;
+        if(attributePersistable != null) PERSISTABLE_ATTRIBUTES.add(this);
     }
 
     public AttributeKey() {
-        this.isPersistent = false;
+        this.attributePersistable = null;
     }
 }

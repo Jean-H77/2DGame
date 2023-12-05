@@ -1,4 +1,4 @@
-package com.csun.game;
+package com.csun.game.player;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Camera;
@@ -26,14 +26,7 @@ public final class Player {
         this.cameraComponent = entity.getComponent(CameraComponent.class);
 
         defaultAttributes();
-    }
-
-    public float getTruePosX() {
-        return movementComponent.pos.x;
-    }
-
-    public float getTruePosY() {
-        return movementComponent.pos.y;
+        load();
     }
 
     public float getTilePosX() {
@@ -46,10 +39,6 @@ public final class Player {
 
     public Camera getCamera() {
         return cameraComponent.camera();
-    }
-
-    public MovementComponent getMovementComponent() {
-        return movementComponent;
     }
 
     public TextureComponent getTextureComponent() {
@@ -72,6 +61,10 @@ public final class Player {
         return attributes;
     }
 
+    public MovementComponent getMovementComponent() {
+        return movementComponent;
+    }
+
     public void move(Direction dir) {
         movementComponent.velocity = 1;
         movementComponent.state = MovementState.MOVING;
@@ -81,5 +74,14 @@ public final class Player {
     private void defaultAttributes() {
         attributes.set(Attributes.PLAYER_NAME, "un_named");
         attributes.set(Attributes.PLAYER_KILLS, 0);
+        attributes.set(Attributes.PLAYER_POSITION, movementComponent.pos);
+    }
+
+    public void save() {
+        new PlayerSave(this).save();
+    }
+
+    public void load() {
+        new PlayerLoad(this).loadPlayerAttributes().join();
     }
 }

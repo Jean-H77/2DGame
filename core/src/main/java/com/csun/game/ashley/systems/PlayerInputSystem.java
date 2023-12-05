@@ -6,7 +6,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.csun.game.Player;
+import com.csun.game.player.Player;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.PlayerComponent;
 import com.csun.game.models.Direction;
@@ -39,6 +39,9 @@ public class PlayerInputSystem extends IteratingSystem {
     }
 
     private boolean handleHotKeyInput() {
+        if(Gdx.input.isKeyPressed(Input.Keys.Y)) {
+            player.save();
+        }
         return false;
     }
 

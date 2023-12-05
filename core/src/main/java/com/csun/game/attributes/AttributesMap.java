@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+//@Todo add functionality to add duration to an attribute
 public class AttributesMap {
 
     private final HashMap<AttributeKey<?>, Object> attributes = new HashMap<>();
@@ -21,15 +22,19 @@ public class AttributesMap {
         return attributes.containsKey(key);
     }
 
-    public HashMap<AttributeKey<?>, Object> getPersistentAttributeMap() {
+    @SuppressWarnings("unchecked")
+    public <T> HashMap<AttributeKey<T>, Object> getPersistentAttributeMap() {
         return attributes
             .entrySet()
             .stream()
-            .filter(entry -> entry.getKey().isPersistent())
+            .filter(entry -> entry.getKey().getAttributePersist() != null)
             .collect(
-                Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
-                (existing, replacement) -> replacement,
-                HashMap::new)
+                Collectors.toMap(
+                    entry -> (AttributeKey<T>) entry.getKey(),
+                    Map.Entry::getValue,
+                    (existing, replacement) -> replacement,
+                    HashMap::new
+                )
             );
     }
 

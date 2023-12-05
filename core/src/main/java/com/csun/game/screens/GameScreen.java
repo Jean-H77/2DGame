@@ -5,11 +5,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.csun.game.GameMap;
 import com.csun.game.MainGame;
-import com.csun.game.Player;
+import com.csun.game.player.Player;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
