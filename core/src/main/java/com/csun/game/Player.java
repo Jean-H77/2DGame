@@ -1,12 +1,10 @@
 package com.csun.game;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.csun.game.ashley.components.CameraComponent;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.TextureComponent;
-import com.csun.game.attributes.AttributeKey;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.attributes.AttributesMap;
 import com.csun.game.models.Direction;
@@ -14,7 +12,7 @@ import com.csun.game.models.MovementState;
 
 import static com.csun.game.GameConstants.TILE_SIZE;
 
-public class Player {
+public final class Player {
 
     private final AttributesMap attributes = new AttributesMap();
 
@@ -26,6 +24,8 @@ public class Player {
         this.movementComponent = entity.getComponent(MovementComponent.class);
         this.textureComponent = entity.getComponent(TextureComponent.class);
         this.cameraComponent = entity.getComponent(CameraComponent.class);
+
+        defaultAttributes();
     }
 
     public float getTruePosX() {
@@ -60,6 +60,14 @@ public class Player {
         return cameraComponent;
     }
 
+    public String getName() {
+        return attributes.get(Attributes.PLAYER_NAME);
+    }
+
+    public int getTotalKills() {
+        return attributes.get(Attributes.PLAYER_KILLS);
+    }
+
     public AttributesMap getAttributes() {
         return attributes;
     }
@@ -68,5 +76,10 @@ public class Player {
         movementComponent.velocity = 1;
         movementComponent.state = MovementState.MOVING;
         movementComponent.dir = dir;
+    }
+
+    private void defaultAttributes() {
+        attributes.set(Attributes.PLAYER_NAME, "un_named");
+        attributes.set(Attributes.PLAYER_KILLS, 0);
     }
 }
