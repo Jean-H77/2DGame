@@ -69,7 +69,9 @@ public class PlayerInputSystem extends IteratingSystem {
             }
             return true;
         }
-
+        if(Gdx.input.isKeyJustPressed(Input.Keys.I)){
+            backpackComponent.isOpen = !backpackComponent.isOpen;
+        }
         if(Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT) && !(Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT))) {
             player.move(Direction.W);
             return true;
