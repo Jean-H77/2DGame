@@ -35,7 +35,7 @@ public class PlayerSave {
         thread.submit(() -> run());
     }
 
-    public <T> void run() {
+    private <T> void run() {
         HashMap<AttributeKey<T>, Object> persistentAttributes = player.getAttributes().getPersistentAttributeMap();
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();

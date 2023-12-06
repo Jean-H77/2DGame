@@ -10,67 +10,52 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.csun.game.GameMap;
 import com.csun.game.MainGame;
 import com.csun.game.ashley.components.BackpackComponent;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.PlayerComponent;
 import com.csun.game.ashley.components.TextureComponent;
+import com.csun.game.player.Player;
 import com.csun.game.screens.backpack.BackpackOverlayScreen;
 import com.csun.game.screens.backpack.GameOverlayScreen;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
+import static com.csun.game.GameConstants.VIEWPORT_HEIGHT;
+import static com.csun.game.GameConstants.VIEWPORT_WIDTH;
+
 /** First screen of the application. Displayed after the application is created. */
 @Singleton
 public class GameScreen implements Screen {
 
-    private final TiledMap tiledMap;
-
-    private final OrthogonalTiledMapRenderer renderer;
-
-    private final OrthographicCamera playerCamera;
-    private final OrthographicCamera mapCamera;
 
     private final MainGame game;
 
+    private final GameMap gameMap;
     private final PooledEngine pooledEngine;
-
-    private PlayerComponent playerComponent;
+    private final OrthographicCamera playerCamera;
+    private final OrthogonalTiledMapRenderer renderer;
+    private final Player player;
 
     private BackpackOverlayScreen backpackOverlayScreen;
     private GameOverlayScreen gameOverlayScreen;
 
     @Inject
-    public GameScreen(MainGame game, PooledEngine pooledEngine, @Named("PlayerCamera") OrthographicCamera playerCamera,
-                      @Named("MapCamera") OrthographicCamera mapCamera, OrthogonalTiledMapRenderer renderer, @Named("MainGameMap") TiledMap tiledMap) {
+    public GameScreen(MainGame game, PooledEngine pooledEngine, GameMap gameMap, Player player) {
         this.game = game;
         this.pooledEngine = pooledEngine;
-        this.playerCamera = playerCamera;
-        this.mapCamera = mapCamera;
-        this.renderer = renderer;
-        this.tiledMap = tiledMap;
-    }
-
-    private void createPlayer() {
-        Entity entity = pooledEngine.createEntity();
-        playerComponent = new PlayerComponent();
-        entity.add(new TextureComponent(new ShapeRenderer()));
-        entity.add(playerComponent);
-        entity.add(new MovementComponent());
-        entity.add(new BackpackComponent());
-        pooledEngine.addEntity(entity);
-        Gdx.app.log("CreatePlayer", "Created Player: Size: " + pooledEngine.getEntities().size());
+        this.gameMap = gameMap;
+        this.renderer = gameMap.getRenderer();
+        this.player = player;
+        playerCamera = (OrthographicCamera) player.getCamera();
     }
 
     @Override
     public void show() {
-        float mapWidth = tiledMap.getProperties().get("width", Integer.class) * tiledMap.getProperties().get("tilewidth", Integer.class);
-        float mapHeight = tiledMap.getProperties().get("height", Integer.class) * tiledMap.getProperties().get("tileheight", Integer.class);
-        playerCamera.setToOrtho(false, 800, 1000);
-        if(playerComponent == null) {
-            createPlayer();
-        }
+        playerCamera.setToOrtho(false, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+
         backpackOverlayScreen = new BackpackOverlayScreen(game,pooledEngine);
         gameOverlayScreen = new GameOverlayScreen(game,pooledEngine,backpackOverlayScreen);
 
@@ -90,7 +75,8 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        playerCamera.update();
+        //@Todo remove after we get player sprites
+        player.getTextureComponent().shape.setProjectionMatrix(playerCamera.combined);
 
         renderer.setView(playerCamera);
         renderer.render();
@@ -125,8 +111,7 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         // Destroy screen's assets here.
-        tiledMap.dispose();
-        renderer.dispose();
+        gameMap.dispose();
         backpackOverlayScreen.dispose();
         gameOverlayScreen.dispose();
     }
