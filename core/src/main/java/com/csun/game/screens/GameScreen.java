@@ -1,58 +1,104 @@
 package com.csun.game.screens;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.csun.game.GameMap;
 import com.csun.game.MainGame;
-import com.csun.game.player.Player;
+import com.csun.game.ashley.components.BackpackComponent;
+import com.csun.game.ashley.components.MovementComponent;
+import com.csun.game.ashley.components.PlayerComponent;
+import com.csun.game.ashley.components.TextureComponent;
+import com.csun.game.screens.backpack.BackpackOverlayScreen;
+import com.csun.game.screens.backpack.GameOverlayScreen;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import static com.csun.game.GameConstants.VIEWPORT_HEIGHT;
-import static com.csun.game.GameConstants.VIEWPORT_WIDTH;
+import com.google.inject.name.Named;
 
 /** First screen of the application. Displayed after the application is created. */
 @Singleton
 public class GameScreen implements Screen {
 
-    private final MainGame game;
-    private final GameMap gameMap;
-    private final PooledEngine pooledEngine;
-    private final OrthographicCamera playerCamera;
+    private final TiledMap tiledMap;
+
     private final OrthogonalTiledMapRenderer renderer;
-    private final Player player;
+
+    private final OrthographicCamera playerCamera;
+    private final OrthographicCamera mapCamera;
+
+    private final MainGame game;
+
+    private final PooledEngine pooledEngine;
+
+    private PlayerComponent playerComponent;
+
+    private BackpackOverlayScreen backpackOverlayScreen;
+    private GameOverlayScreen gameOverlayScreen;
 
     @Inject
-    public GameScreen(MainGame game, PooledEngine pooledEngine, GameMap gameMap, Player player) {
+    public GameScreen(MainGame game, PooledEngine pooledEngine, @Named("PlayerCamera") OrthographicCamera playerCamera,
+                      @Named("MapCamera") OrthographicCamera mapCamera, OrthogonalTiledMapRenderer renderer, @Named("MainGameMap") TiledMap tiledMap) {
         this.game = game;
         this.pooledEngine = pooledEngine;
-        this.gameMap = gameMap;
-        this.renderer = gameMap.getRenderer();
-        this.player = player;
-        playerCamera = (OrthographicCamera) player.getCamera();
+        this.playerCamera = playerCamera;
+        this.mapCamera = mapCamera;
+        this.renderer = renderer;
+        this.tiledMap = tiledMap;
+    }
+
+    private void createPlayer() {
+        Entity entity = pooledEngine.createEntity();
+        playerComponent = new PlayerComponent();
+        entity.add(new TextureComponent(new ShapeRenderer()));
+        entity.add(playerComponent);
+        entity.add(new MovementComponent());
+        entity.add(new BackpackComponent());
+        pooledEngine.addEntity(entity);
+        Gdx.app.log("CreatePlayer", "Created Player: Size: " + pooledEngine.getEntities().size());
     }
 
     @Override
     public void show() {
-        playerCamera.setToOrtho(false, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+        float mapWidth = tiledMap.getProperties().get("width", Integer.class) * tiledMap.getProperties().get("tilewidth", Integer.class);
+        float mapHeight = tiledMap.getProperties().get("height", Integer.class) * tiledMap.getProperties().get("tileheight", Integer.class);
+        playerCamera.setToOrtho(false, 800, 1000);
+        if(playerComponent == null) {
+            createPlayer();
+        }
+        backpackOverlayScreen = new BackpackOverlayScreen(game,pooledEngine);
+        gameOverlayScreen = new GameOverlayScreen(game,pooledEngine,backpackOverlayScreen);
+
+        backpackOverlayScreen.show();
+        gameOverlayScreen.show();
+
+        InputMultiplexer  inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(backpackOverlayScreen.getInputProcessor());
+        inputMultiplexer.addProcessor(gameOverlayScreen.getInputProcessor());
+
+        Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
     @Override
     public void render(float delta) {
+        // Draw your screen here. "delta" is the time since last render in seconds.
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        //@Todo remove after we get player sprites
-        player.getTextureComponent().shape.setProjectionMatrix(playerCamera.combined);
+        playerCamera.update();
 
         renderer.setView(playerCamera);
         renderer.render();
 
         pooledEngine.update(Gdx.graphics.getDeltaTime());
+
+        backpackOverlayScreen.render(delta);
+        gameOverlayScreen.render(delta);
     }
 
     @Override
@@ -79,6 +125,9 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         // Destroy screen's assets here.
-        gameMap.dispose();
+        tiledMap.dispose();
+        renderer.dispose();
+        backpackOverlayScreen.dispose();
+        gameOverlayScreen.dispose();
     }
 }
