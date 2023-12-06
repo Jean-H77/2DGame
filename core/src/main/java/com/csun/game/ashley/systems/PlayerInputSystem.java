@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.csun.game.ashley.components.BackpackComponent;
 import com.csun.game.player.Player;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.PlayerComponent;
@@ -16,7 +17,7 @@ import com.google.inject.Inject;
 public class PlayerInputSystem extends IteratingSystem {
 
     private final ComponentMapper<MovementComponent> mp = ComponentMapper.getFor(MovementComponent.class);
-
+    private final ComponentMapper<BackpackComponent> backpackComponentComponentMapper = ComponentMapper.getFor(BackpackComponent.class);
     private final Player player;
 
     @Inject
@@ -30,12 +31,16 @@ public class PlayerInputSystem extends IteratingSystem {
         MovementComponent mc = mp.get(entity);
         mc.velocity = 0.0f;
         mc.state = MovementState.IDLE;
+        BackpackComponent backpackComponent = backpackComponentComponentMapper.get(entity);
 
         if(!Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) return;
 
         if(handleMovementInput(mc)) return;
 
         if(handleHotKeyInput()) return;
+        if(Gdx.input.isKeyJustPressed(Input.Keys.I)){
+            backpackComponent.isOpen = !backpackComponent.isOpen;
+        }
     }
 
     private boolean handleHotKeyInput() {
@@ -68,9 +73,6 @@ public class PlayerInputSystem extends IteratingSystem {
                 player.move(Direction.S);
             }
             return true;
-        }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.I)){
-            backpackComponent.isOpen = !backpackComponent.isOpen;
         }
         if(Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT) && !(Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT))) {
             player.move(Direction.W);
