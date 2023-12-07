@@ -26,7 +26,8 @@ public final class Player {
         this.cameraComponent = entity.getComponent(CameraComponent.class);
 
         defaultAttributes();
-        load();
+
+        load(); // for testing
     }
 
     public float getTilePosX() {

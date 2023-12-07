@@ -21,10 +21,9 @@ import static com.csun.game.GameConstants.TILE_SIZE;
 public class MovementSystem extends IteratingSystem {
 
     private final ComponentMapper<MovementComponent> mm = ComponentMapper.getFor(MovementComponent.class);
-
     private final GameMap gameMap;
-
     private final AtomicBoolean isBlocked = new AtomicBoolean();
+    private final Vector2 dest = Vector2.Zero;
 
     @Inject
     public MovementSystem(GameMap gameMap) {
@@ -65,7 +64,10 @@ public class MovementSystem extends IteratingSystem {
                 moveY -= velocity;
             }
         }
-        Vector2 dest = new Vector2(moveX, moveY).nor();
+
+        dest.x = moveX;
+        dest.y = moveY;
+        dest.nor();
 
         float newX = movement.pos.x + dest.x;
         float newY = movement.pos.y + dest.y;
