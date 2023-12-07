@@ -13,7 +13,6 @@ import com.csun.game.models.MovementState;
 import com.google.inject.Inject;
 
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.csun.game.GameConstants.TILE_SIZE;
 
@@ -22,7 +21,7 @@ public class MovementSystem extends IteratingSystem {
 
     private final ComponentMapper<MovementComponent> mm = ComponentMapper.getFor(MovementComponent.class);
     private final GameMap gameMap;
-    private final AtomicBoolean isBlocked = new AtomicBoolean();
+    private boolean isBlocked;
     private final Vector2 dest = Vector2.Zero;
 
     @Inject
@@ -36,11 +35,12 @@ public class MovementSystem extends IteratingSystem {
         MovementComponent movement = mm.get(entity);
         if(movement.state.equals(MovementState.IDLE)) return;
 
+        movement.state = MovementState.IDLE;
         float velocity = movement.velocity * deltaTime;
         float moveX = 0f;
         float moveY = 0f;
 
-        isBlocked.set(false);
+        isBlocked = false;
 
         switch (movement.dir) {
             case N -> moveY += velocity;
@@ -65,6 +65,8 @@ public class MovementSystem extends IteratingSystem {
             }
         }
 
+        movement.velocity = 0.0f;
+
         dest.x = moveX;
         dest.y = moveY;
         dest.nor();
@@ -77,11 +79,11 @@ public class MovementSystem extends IteratingSystem {
             TiledMapTileLayer.Cell cell;
             if((cell = tiledMapTileLayer.getCell((int) (newX/TILE_SIZE), (int) (newY/TILE_SIZE))) != null && cell.getTile().getProperties().containsKey("blocked")) {
                 Gdx.app.log("Collision", "Blocked");
-                isBlocked.set(true);
+                isBlocked = true;
             }
         });
 
-        if(isBlocked.get()) return;
+        if(isBlocked) return;
 
         movement.pos.x = newX;
         movement.pos.y = newY;

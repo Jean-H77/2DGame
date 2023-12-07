@@ -28,13 +28,9 @@ public class PlayerInputSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         MovementComponent mc = mp.get(entity);
-        mc.velocity = 0.0f;
-        mc.state = MovementState.IDLE;
 
         if(!Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) return;
-
         if(handleMovementInput(mc)) return;
-
         if(handleHotKeyInput()) return;
     }
 
@@ -50,32 +46,32 @@ public class PlayerInputSystem extends IteratingSystem {
 
         if(Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP) && !(Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN))) {
             if(Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                player.move(Direction.NE);
+                mc.move(Direction.NE);
             } else if(Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                player.move(Direction.NW);
+                mc.move(Direction.NW);
             } else {
-                player.move(Direction.N);
+                mc.move(Direction.N);
             }
             return true;
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN) && !(Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP))) {
             if(Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                player.move(Direction.SE);
+                mc.move(Direction.SE);
             } else if(Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                player.move(Direction.SW);
+                mc.move(Direction.SW);
             } else {
-                player.move(Direction.S);
+                mc.move(Direction.S);
             }
             return true;
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT) && !(Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT))) {
-            player.move(Direction.W);
+            mc.move(Direction.W);
             return true;
         }
         if(Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT) && !(Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT))) {
-            player.move(Direction.E);
+            mc.move(Direction.E);
             return true;
         }
         return false;
