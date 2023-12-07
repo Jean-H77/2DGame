@@ -23,7 +23,7 @@ import static com.csun.game.GameConstants.VIEWPORT_HEIGHT;
 import static com.csun.game.GameConstants.VIEWPORT_WIDTH;
 
 public class TitleScreen implements Screen {
-    private static final Image[][] MENU_IMAGES = {
+    private static final Image[][] menuImages = {
         { createImage("startgame_hover.png"), createImage("startgame.png") },
         { createImage("load_hover.png"), createImage("load.png") },
         { createImage("quit_hover.png"), createImage("quit.png") },
@@ -75,7 +75,7 @@ public class TitleScreen implements Screen {
     }
 
     private Image createMenuOption(int index, int x, int y) {
-         Image image = new Image(MENU_IMAGES[index][1].getDrawable());
+         Image image = new Image(menuImages[index][1].getDrawable());
          image.setPosition(x, y);
          image.setTouchable(Touchable.disabled);
          return menuImageActors[index] = image;
@@ -90,13 +90,13 @@ public class TitleScreen implements Screen {
                 @Override
                 public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                     super.enter(event, x, y, pointer, fromActor);
-                    menuImageActors[index].setDrawable(MENU_IMAGES[index][0].getDrawable());
+                    menuImageActors[index].setDrawable(menuImages[index][0].getDrawable());
                     menuImageActors[index].pack();
                 }
                 @Override
                 public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                     super.exit(event, x, y, pointer, toActor);
-                    menuImageActors[index].setDrawable(MENU_IMAGES[index][1].getDrawable());
+                    menuImageActors[index].setDrawable(menuImages[index][1].getDrawable());
                     menuImageActors[index].pack();
                 }
                 @Override
