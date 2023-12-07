@@ -10,7 +10,7 @@ public class MovementComponent implements Component {
     public Vector2 pos = Vector2.Zero;
     public Direction dir = Direction.N;
     public MovementState state = MovementState.IDLE;
-    public float velocity = 1;
+    public float velocity = 0f;
     public boolean disabled;
 
     public MovementComponent(Vector2 vector2) {
@@ -19,5 +19,11 @@ public class MovementComponent implements Component {
 
     public MovementComponent() {
 
+    }
+
+    public void move(Direction dir) {
+        velocity = 1;
+        state = MovementState.MOVING;
+        this.dir = dir;
     }
 }

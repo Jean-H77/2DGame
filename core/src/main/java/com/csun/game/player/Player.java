@@ -66,12 +66,6 @@ public final class Player {
         return movementComponent;
     }
 
-    public void move(Direction dir) {
-        movementComponent.velocity = 1;
-        movementComponent.state = MovementState.MOVING;
-        movementComponent.dir = dir;
-    }
-
     private void defaultAttributes() {
         attributes.set(Attributes.PLAYER_NAME, "un_named");
         attributes.set(Attributes.PLAYER_KILLS, 0);
