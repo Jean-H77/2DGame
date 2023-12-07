@@ -12,8 +12,6 @@ import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.models.MovementState;
 import com.google.inject.Inject;
 
-import java.util.Optional;
-
 import static com.csun.game.GameConstants.TILE_SIZE;
 
 
@@ -39,7 +37,6 @@ public class MovementSystem extends IteratingSystem {
         float velocity = movement.velocity * deltaTime;
         float moveX = 0f;
         float moveY = 0f;
-
         isBlocked = false;
 
         switch (movement.dir) {
@@ -64,18 +61,15 @@ public class MovementSystem extends IteratingSystem {
                 moveY -= velocity;
             }
         }
-
         movement.velocity = 0.0f;
 
-        dest.x = moveX;
-        dest.y = moveY;
+        dest.x = moveX; dest.y = moveY;
         dest.nor();
 
         float newX = movement.pos.x + dest.x;
         float newY = movement.pos.y + dest.y;
 
-        Optional<TiledMapTileLayer> optionalLayer = gameMap.getLayer(1);
-        optionalLayer.ifPresent(tiledMapTileLayer -> {
+        gameMap.getLayer(1).ifPresent(tiledMapTileLayer -> {
             TiledMapTileLayer.Cell cell;
             if((cell = tiledMapTileLayer.getCell((int) (newX/TILE_SIZE), (int) (newY/TILE_SIZE))) != null && cell.getTile().getProperties().containsKey("blocked")) {
                 Gdx.app.log("Collision", "Blocked");
@@ -84,10 +78,7 @@ public class MovementSystem extends IteratingSystem {
         });
 
         if(isBlocked) return;
-
         movement.pos.x = newX;
         movement.pos.y = newY;
-
-        Gdx.app.log("Position", "X: " + (int)(movement.pos.x/TILE_SIZE) + " Y: " + (int)(movement.pos.y/TILE_SIZE));
     }
 }

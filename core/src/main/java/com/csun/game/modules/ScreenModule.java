@@ -2,7 +2,6 @@ package com.csun.game.modules;
 
 import com.badlogic.gdx.Screen;
 import com.csun.game.screens.GameScreen;
-import com.csun.game.screens.TestScreen;
 import com.csun.game.screens.TitleScreen;
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
@@ -21,11 +20,6 @@ public class ScreenModule extends AbstractModule {
         bind(Screen.class)
             .annotatedWith(Names.named("TitleScreen"))
             .to(TitleScreen.class)
-            .in(Scopes.NO_SCOPE);
-
-        bind(Screen.class)
-            .annotatedWith(Names.named("TestScreen"))
-            .to(TestScreen.class)
             .in(Scopes.NO_SCOPE);
     }
 }
