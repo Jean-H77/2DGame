@@ -54,10 +54,6 @@ public final class Player {
         return attributes.get(Attributes.PLAYER_NAME);
     }
 
-    public int getTotalKills() {
-        return attributes.get(Attributes.PLAYER_KILLS);
-    }
-
     public AttributesMap getAttributes() {
         return attributes;
     }
@@ -68,7 +64,6 @@ public final class Player {
 
     private void defaultAttributes() {
         attributes.set(Attributes.PLAYER_NAME, "un_named");
-        attributes.set(Attributes.PLAYER_KILLS, 0);
         attributes.set(Attributes.PLAYER_POSITION, movementComponent.pos);
     }
 

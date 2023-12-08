@@ -22,6 +22,10 @@ public class AttributesMap {
         return attributes.containsKey(key);
     }
 
+    public <T> T getOrDefault(AttributeKey<T> key, T defaultValue) {
+        return hasKey(key) ? get(key) : defaultValue;
+    }
+
     @SuppressWarnings("unchecked")
     public <T> HashMap<AttributeKey<T>, Object> getPersistentAttributeMap() {
         return attributes

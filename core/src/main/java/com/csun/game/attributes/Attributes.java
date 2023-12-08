@@ -23,18 +23,6 @@ public final class Attributes {
         }
     });
 
-    public static final AttributeKey<Integer> PLAYER_KILLS = new AttributeKey<>(new AttributePersistable("player_kills") {
-        @Override
-        public Object write(Player player, Gson gson) {
-            return player.getAttributes().get(Attributes.PLAYER_KILLS);
-        }
-
-        @Override
-        public void read(Player player, JsonElement jsonElement, Gson gson) {
-            player.getAttributes().set(Attributes.PLAYER_NAME, jsonElement.getAsString());
-        }
-    });
-
     /**
      * This attribute will be used to save the players current position
      * not to be mistaken with players current tile position which should
