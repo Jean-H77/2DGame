@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.google.inject.Inject;
+import com.badlogic.gdx.math.Rectangle;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -14,8 +15,10 @@ public class GameMap {
 
     private final HashMap<String, TiledMap> tiledMaps = new HashMap<>();
     private final OrthographicCamera mapCamera; //map camera might be needed
+
     private OrthogonalTiledMapRenderer renderer;
     private TiledMap currentMap;
+    private Rectangle mapBoundaries;
 
     @Inject
     public GameMap(OrthographicCamera orthographicCamera) {
@@ -48,6 +51,7 @@ public class GameMap {
 
     public void setCurrentMap(TiledMap currentMap) {
         this.currentMap = currentMap;
+        mapBoundaries = new Rectangle(0, 0, getCurrentMapWidth(), getCurrentMapHeight());
         if(renderer == null) {
             renderer = new OrthogonalTiledMapRenderer(currentMap);
             return;
@@ -79,5 +83,9 @@ public class GameMap {
 
     public void setRenderer(OrthogonalTiledMapRenderer renderer) {
         this.renderer = renderer;
+    }
+
+    public Rectangle getBoundaries() {
+        return mapBoundaries;
     }
 }
