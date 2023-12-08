@@ -11,6 +11,7 @@ import com.csun.game.GameMap;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.models.MovementState;
 import com.google.inject.Inject;
+import java.util.Optional;
 
 import static com.csun.game.GameConstants.TILE_SIZE;
 
@@ -19,9 +20,10 @@ public class MovementSystem extends IteratingSystem {
 
     private final ComponentMapper<MovementComponent> mm = ComponentMapper.getFor(MovementComponent.class);
     private final GameMap gameMap;
-    private boolean isBlocked;
     private final Vector2 dest = Vector2.Zero;
-
+  
+    private boolean isBlocked;
+  
     @Inject
     public MovementSystem(GameMap gameMap) {
         super(Family.all(MovementComponent.class).get());
@@ -37,6 +39,7 @@ public class MovementSystem extends IteratingSystem {
         float velocity = movement.velocity * deltaTime;
         float moveX = 0f;
         float moveY = 0f;
+
         isBlocked = false;
 
         switch (movement.dir) {
@@ -63,7 +66,11 @@ public class MovementSystem extends IteratingSystem {
         }
         movement.velocity = 0.0f;
 
+        dest.x = moveX;
+        dest.y = moveY;
+
         dest.x = moveX; dest.y = moveY;
+
         dest.nor();
 
         float newX = movement.pos.x + dest.x;
@@ -78,6 +85,7 @@ public class MovementSystem extends IteratingSystem {
         });
 
         if(isBlocked) return;
+
         movement.pos.x = newX;
         movement.pos.y = newY;
     }
