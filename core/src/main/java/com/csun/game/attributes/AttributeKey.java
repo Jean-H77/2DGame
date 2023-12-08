@@ -5,7 +5,7 @@ import java.util.List;
 
 public class AttributeKey<T> {
 
-    public static final List<AttributeKey<?>> PERSISTABLE_ATTRIBUTES = new ArrayList<>();
+    public static final List<AttributeKey<?>> persistableAttributes = new ArrayList<>();
 
     private final AttributePersistable attributePersistable;
 
@@ -15,7 +15,7 @@ public class AttributeKey<T> {
 
     public AttributeKey(AttributePersistable attributePersistable) {
         this.attributePersistable = attributePersistable;
-        if(attributePersistable != null) PERSISTABLE_ATTRIBUTES.add(this);
+        if(attributePersistable != null) persistableAttributes.add(this);
     }
 
     public AttributeKey() {

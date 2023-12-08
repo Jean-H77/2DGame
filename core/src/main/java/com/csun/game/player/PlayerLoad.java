@@ -2,7 +2,6 @@ package com.csun.game.player;
 
 import com.csun.game.attributes.AttributeKey;
 import com.csun.game.attributes.AttributePersistable;
-import com.csun.game.attributes.AttributesMap;
 import com.google.gson.*;
 import com.google.inject.Inject;
 
@@ -44,7 +43,7 @@ public class PlayerLoad {
                 }
 
                 JsonObject jsonObject = jsonElement.getAsJsonObject();
-                List<AttributeKey<?>> attributes = AttributeKey.PERSISTABLE_ATTRIBUTES;
+                List<AttributeKey<?>> attributes = AttributeKey.persistableAttributes;
 
                 for (AttributeKey<?> property : attributes) {
                     AttributePersistable persistable = property.getAttributePersist();
