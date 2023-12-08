@@ -21,9 +21,9 @@ public class MovementSystem extends IteratingSystem {
     private final ComponentMapper<MovementComponent> mm = ComponentMapper.getFor(MovementComponent.class);
     private final GameMap gameMap;
     private final Vector2 dest = Vector2.Zero;
-  
+
     private boolean isBlocked;
-  
+
     @Inject
     public MovementSystem(GameMap gameMap) {
         super(Family.all(MovementComponent.class).get());
@@ -65,9 +65,6 @@ public class MovementSystem extends IteratingSystem {
             }
         }
         movement.velocity = 0.0f;
-
-        dest.x = moveX;
-        dest.y = moveY;
 
         dest.x = moveX; dest.y = moveY;
 

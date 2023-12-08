@@ -6,7 +6,7 @@ import com.csun.game.models.Systems;
 import com.csun.game.modules.GameModule;
 import com.csun.game.modules.PlayerModule;
 import com.csun.game.modules.ScreenModule;
-import com.csun.game.screens.TitleScreen;
+import com.csun.game.screens.GameScreen;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
@@ -27,6 +27,6 @@ public class MainGame extends Game {
             .list()
             .forEach(it -> engine.addSystem(injector.getInstance(it)));
 
-        setScreen(injector.getInstance(TitleScreen.class));
+        setScreen(injector.getInstance(GameScreen.class));
     }
 }
