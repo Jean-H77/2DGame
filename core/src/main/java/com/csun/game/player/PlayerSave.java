@@ -15,8 +15,7 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.csun.game.GameConstants.PLAYER_SAVE_DIR;
-import static com.csun.game.GameConstants.PLAYER_SAVE_FILE_NAME;
+import static com.csun.game.GameConstants.*;
 
 public class PlayerSave {
 
@@ -35,10 +34,10 @@ public class PlayerSave {
         thread.submit(() -> run());
     }
 
-    public <T> void run() {
+    private synchronized <T> void run() {
         HashMap<AttributeKey<T>, Object> persistentAttributes = player.getAttributes().getPersistentAttributeMap();
 
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Gson gson = GSON_PRETTY_PRINT;
         JsonObject properties = new JsonObject();
 
         for(Map.Entry<AttributeKey<T>, Object> entry : persistentAttributes.entrySet()) {

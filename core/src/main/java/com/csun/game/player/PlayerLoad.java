@@ -14,14 +14,12 @@ import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.csun.game.GameConstants.PLAYER_SAVE_DIR;
-import static com.csun.game.GameConstants.PLAYER_SAVE_FILE_NAME;
+import static com.csun.game.GameConstants.*;
 
 public class PlayerLoad {
 
     private static final Logger logger = Logger.getLogger(PlayerLoad.class.getName());
 
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     private final Player player;
 
@@ -30,7 +28,7 @@ public class PlayerLoad {
         this.player = player;
     }
 
-    public CompletableFuture<Void> loadPlayerAttributes() {
+    public synchronized CompletableFuture<Void> loadPlayerAttributes() {
         return CompletableFuture.runAsync(() -> {
             try {
                 final Path path = PLAYER_SAVE_DIR.resolve(PLAYER_SAVE_FILE_NAME);
@@ -50,7 +48,7 @@ public class PlayerLoad {
                     String label = persistable.getKey();
                     JsonElement propertyElement = jsonObject.get(label);
                     if (propertyElement == null || propertyElement.isJsonNull()) continue;
-                    persistable.read(player, propertyElement, gson);
+                    persistable.read(player, propertyElement, GSON_PRETTY_PRINT);
                 }
 
             } catch (Exception e) {
