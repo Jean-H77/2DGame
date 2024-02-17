@@ -1,13 +1,14 @@
 package com.csun.game.screens;
 
+import box2dLight.RayHandler;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.csun.game.GameMap;
-import com.csun.game.MainGame;
+import com.csun.game.attributes.Attributes;
+import com.csun.game.map.GameMap;
 import com.csun.game.player.Player;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -20,6 +21,7 @@ import static com.csun.game.GameConstants.VIEWPORT_WIDTH;
 public class GameScreen implements Screen {
 
     private final GameMap gameMap;
+    private final RayHandler rayHandler;
     private final PooledEngine pooledEngine;
     private final OrthographicCamera playerCamera;
     private final OrthogonalTiledMapRenderer renderer;
@@ -30,13 +32,14 @@ public class GameScreen implements Screen {
         this.pooledEngine = pooledEngine;
         this.gameMap = gameMap;
         this.renderer = gameMap.getRenderer();
+        this.rayHandler = gameMap.getRayHandler();
         this.player = player;
         playerCamera = (OrthographicCamera) player.getCamera();
     }
 
     @Override
     public void show() {
-        playerCamera.setToOrtho(false, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+        player.login();
     }
 
     @Override
@@ -50,12 +53,13 @@ public class GameScreen implements Screen {
         renderer.render();
 
         pooledEngine.update(Gdx.graphics.getDeltaTime());
+
+        rayHandler.setCombinedMatrix(playerCamera.combined);
+        rayHandler.updateAndRender();
     }
 
     @Override
     public void resize(int width, int height) {
-        // Resize your screen here. The parameters represent the new window size.
-
     }
 
     @Override

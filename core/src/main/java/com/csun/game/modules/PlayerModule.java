@@ -8,6 +8,7 @@ import com.csun.game.ashley.components.CameraComponent;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.PlayerComponent;
 import com.csun.game.ashley.components.TextureComponent;
+import com.csun.game.map.GameMap;
 import com.csun.game.player.Player;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -20,13 +21,13 @@ public class PlayerModule extends AbstractModule {
 
     @Provides
     @Singleton
-    public Player providePlayer(PooledEngine pooledEngine) {
+    public Player providePlayer(PooledEngine pooledEngine, GameMap gameMap) {
         Entity entity = pooledEngine.createEntity();
         entity.add(new PlayerComponent());
         entity.add(new TextureComponent());
         entity.add(new MovementComponent(new Vector2(PLAYER_START_X,PLAYER_START_Y)));
         entity.add(new CameraComponent(new OrthographicCamera()));
         pooledEngine.addEntity(entity);
-        return new Player(entity);
+        return new Player(entity, gameMap);
     }
 }

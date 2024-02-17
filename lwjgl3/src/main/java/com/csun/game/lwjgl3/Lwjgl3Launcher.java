@@ -1,8 +1,14 @@
 package com.csun.game.lwjgl3;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.csun.game.MainGame;
+import com.csun.game.modules.GameModule;
+import com.csun.game.modules.PlayerModule;
+import com.csun.game.modules.ScreenModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 import static com.csun.game.GameConstants.*;
 
@@ -14,7 +20,12 @@ public class Lwjgl3Launcher {
     }
 
     private static Lwjgl3Application createApplication() {
-        return new Lwjgl3Application(new MainGame(), getDefaultConfiguration());
+        Injector injector = Guice.createInjector(
+            new GameModule(),
+            new PlayerModule(),
+            new ScreenModule()
+        );
+        return new Lwjgl3Application(injector.getInstance(Game.class), getDefaultConfiguration());
     }
 
     private static Lwjgl3ApplicationConfiguration getDefaultConfiguration() {

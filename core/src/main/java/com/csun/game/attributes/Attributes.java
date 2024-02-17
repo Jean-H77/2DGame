@@ -23,11 +23,7 @@ public final class Attributes {
         }
     });
 
-    /**
-     * This attribute will be used to save the players current position
-     * not to be mistaken with players current tile position which should
-     * be called with player.getTilePosX() and player.getTilePosY();
-     */
+
     public static final AttributeKey<Vector2> PLAYER_POSITION = new AttributeKey<>(new AttributePersistable("player_position") {
         @Override
         public Object write(Player player, Gson gson) {
@@ -39,6 +35,18 @@ public final class Attributes {
             Vector2 vector2 = gson.fromJson(jsonElement, Vector2.class);
             player.getAttributes().set(Attributes.PLAYER_POSITION, vector2);
             player.getMovementComponent().pos = vector2;
+        }
+    });
+
+    public static final AttributeKey<String> PLAYER_CURRENT_MAP = new AttributeKey<>(new AttributePersistable("current_map_name") {
+        @Override
+        public Object write(Player player, Gson gson) {
+            return player.getAttributes().get(Attributes.PLAYER_CURRENT_MAP);
+        }
+
+        @Override
+        public void read(Player player, JsonElement jsonElement, Gson gson) {
+            player.getAttributes().set(Attributes.PLAYER_CURRENT_MAP, jsonElement.getAsString());
         }
     });
 }

@@ -4,18 +4,13 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
-import com.csun.game.GameMap;
+import com.csun.game.map.GameMap;
 import com.csun.game.ashley.components.CameraComponent;
 import com.csun.game.ashley.components.MovementComponent;
-import com.csun.game.ashley.components.TextureComponent;
 import com.google.inject.Inject;
-
-import static com.csun.game.GameConstants.*;
 
 public class CameraSystem extends IteratingSystem {
 

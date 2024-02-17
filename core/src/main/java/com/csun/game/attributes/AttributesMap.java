@@ -2,12 +2,13 @@ package com.csun.game.attributes;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 //@Todo add functionality to add duration to an attribute
 public class AttributesMap {
 
-    private final HashMap<AttributeKey<?>, Object> attributes = new HashMap<>();
+    private final ConcurrentHashMap<AttributeKey<?>, Object> attributes = new ConcurrentHashMap<>();
 
     @SuppressWarnings("unchecked")
     public <T> T get(AttributeKey<T> key) {
@@ -42,7 +43,7 @@ public class AttributesMap {
             );
     }
 
-    public HashMap<AttributeKey<?>, Object> getAttributes() {
+    public ConcurrentHashMap<AttributeKey<?>, Object> getAttributes() {
         return attributes;
     }
 }

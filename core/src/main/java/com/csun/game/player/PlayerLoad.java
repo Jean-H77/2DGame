@@ -20,7 +20,6 @@ public class PlayerLoad {
 
     private static final Logger logger = Logger.getLogger(PlayerLoad.class.getName());
 
-
     private final Player player;
 
     @Inject
