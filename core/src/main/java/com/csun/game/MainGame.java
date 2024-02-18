@@ -2,17 +2,11 @@ package com.csun.game;
 
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Game;
-import com.csun.game.attributes.Attributes;
 import com.csun.game.models.Systems;
 import com.csun.game.player.Player;
 import com.csun.game.screens.GameScreen;
-import com.csun.game.screens.TitleScreen;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ForkJoinPool;
 
 public class MainGame extends Game {
 
