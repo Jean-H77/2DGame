@@ -1,5 +1,6 @@
 package com.csun.game.attributes;
 
+import box2dLight.PointLight;
 import com.badlogic.gdx.math.Vector2;
 import com.csun.game.player.Player;
 import com.google.gson.Gson;
@@ -49,4 +50,6 @@ public final class Attributes {
             player.getAttributes().set(Attributes.PLAYER_CURRENT_MAP, jsonElement.getAsString());
         }
     });
+
+    public static final AttributeKey<PointLight> PLAYER_POINT_LIGHT = new AttributeKey<>();
 }

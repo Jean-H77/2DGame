@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
 import org.javatuples.Quintet;
 
@@ -26,6 +27,7 @@ public class GameMap {
     private final HashMap<String, Color> lightColors = new HashMap<>();
     private final HashMap<TiledMap, List<Quintet<Integer, Color, Integer, Integer, Integer>>> lightPoints = new HashMap<>();
     private final RayHandler rayHandler;
+    private final World world;
     private final OrthographicCamera mapCamera; //map camera might be needed
 
     private OrthogonalTiledMapRenderer renderer;
@@ -33,9 +35,10 @@ public class GameMap {
     private Rectangle mapBoundaries;
 
     @Inject
-    public GameMap(OrthographicCamera orthographicCamera, RayHandler rayHandler) {
+    public GameMap(OrthographicCamera orthographicCamera, RayHandler rayHandler, World world) {
         this.mapCamera = orthographicCamera;
         this.rayHandler = rayHandler;
+        this.world = world;
         //remove later
         enterMap("tempmap.tmx", 1f);
     }
@@ -163,5 +166,25 @@ public class GameMap {
 
     public void setAmbientLight(float ambientLight) {
         rayHandler.setAmbientLight(ambientLight);
+    }
+
+    public HashMap<String, Color> getLightColors() {
+        return lightColors;
+    }
+
+    public HashMap<TiledMap, List<Quintet<Integer, Color, Integer, Integer, Integer>>> getLightPoints() {
+        return lightPoints;
+    }
+
+    public World getWorld() {
+        return world;
+    }
+
+    public Rectangle getMapBoundaries() {
+        return mapBoundaries;
+    }
+
+    public void setMapBoundaries(Rectangle mapBoundaries) {
+        this.mapBoundaries = mapBoundaries;
     }
 }

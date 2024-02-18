@@ -3,6 +3,7 @@ package com.csun.game;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Game;
 import com.csun.game.models.Systems;
+import com.csun.game.player.Player;
 import com.csun.game.screens.GameScreen;
 import com.google.inject.Inject;
 import com.google.inject.Injector;

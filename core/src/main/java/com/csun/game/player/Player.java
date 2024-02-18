@@ -1,8 +1,15 @@
 package com.csun.game.player;
 
+import box2dLight.PointLight;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Box2D;
+import com.badlogic.gdx.physics.box2d.World;
 import com.csun.game.ashley.components.CameraComponent;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.TextureComponent;
@@ -71,7 +78,26 @@ public final class Player {
     public void login() {
         defaultAttributes();
         ((OrthographicCamera) getCamera()).setToOrtho(false, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-        load().thenRun(() -> gameMap.enterMap(attributes.get(Attributes.PLAYER_CURRENT_MAP), 1f));
+        load().thenRun(() -> {
+            gameMap.enterMap(attributes.get(Attributes.PLAYER_CURRENT_MAP), 1f);
+        });
+    }
+
+    public void toggleLight(int radius) {
+        if(!attributes.hasKey(Attributes.PLAYER_POINT_LIGHT)) {
+            attributes.set(Attributes.PLAYER_POINT_LIGHT, new PointLight(gameMap.getRayHandler(),
+                1000,
+                Color.WHITE,
+                radius,
+                movementComponent.pos.x,
+                movementComponent.pos.y
+            ));
+            gameMap.getRayHandler().setAmbientLight(0.03f);
+            return;
+        }
+        gameMap.getRayHandler().setAmbientLight(1f);
+        attributes.get(Attributes.PLAYER_POINT_LIGHT).remove();
+        attributes.remove(Attributes.PLAYER_POINT_LIGHT);
     }
 
     public CompletableFuture<Void> save() {

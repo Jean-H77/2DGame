@@ -19,6 +19,10 @@ public class AttributesMap {
         attributes.put(key, value);
     }
 
+    public <T> void remove(AttributeKey<T> key) {
+        attributes.remove(key);
+    }
+
     public <T> boolean hasKey(AttributeKey<T> key) {
         return attributes.containsKey(key);
     }
