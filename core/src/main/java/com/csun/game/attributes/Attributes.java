@@ -1,6 +1,6 @@
 package com.csun.game.attributes;
 
-import box2dLight.PointLight;
+import box2dLight.Light;
 import com.badlogic.gdx.math.Vector2;
 import com.csun.game.player.Player;
 import com.google.gson.Gson;
@@ -51,7 +51,7 @@ public final class Attributes {
         }
     });
 
-    public static final AttributeKey<PointLight> PLAYER_POINT_LIGHT = new AttributeKey<>();
+    public static final AttributeKey<Light> PLAYER_LIGHT = new AttributeKey<>();
 
     public static final AttributeKey<Boolean> PLAYER_IS_LOGGED_IN = new AttributeKey<>();
 }

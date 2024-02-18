@@ -1,5 +1,6 @@
 package com.csun.game.player;
 
+import box2dLight.ConeLight;
 import box2dLight.PointLight;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Camera;
@@ -11,6 +12,7 @@ import com.csun.game.ashley.components.TextureComponent;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.attributes.AttributesMap;
 import com.csun.game.map.GameMap;
+import com.csun.game.models.LightType;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -87,21 +89,35 @@ public final class Player {
         });
     }
 
-    public void toggleLight(int radius, float darkness) {
-        if(!attributes.hasKey(Attributes.PLAYER_POINT_LIGHT)) {
-            attributes.set(Attributes.PLAYER_POINT_LIGHT, new PointLight(gameMap.getRayHandler(),
-                1000,
-                Color.WHITE,
-                radius,
-                movementComponent.pos.x,
-                movementComponent.pos.y
-            ));
+    public void toggleLight(LightType lightType, int radius, float darkness) {
+        if(!attributes.hasKey(Attributes.PLAYER_LIGHT)) {
+            if(lightType == LightType.POINT_LIGHT) {
+                attributes.set(Attributes.PLAYER_LIGHT, new PointLight(
+                    gameMap.getRayHandler(),
+                    1000,
+                    Color.WHITE,
+                    radius,
+                    movementComponent.pos.x,
+                    movementComponent.pos.y
+                ));
+            } else if(lightType == LightType.CONE_LIGHT) {
+                attributes.set(Attributes.PLAYER_LIGHT, new ConeLight(
+                    gameMap.getRayHandler(),
+                    1000,
+                    Color.WHITE,
+                    radius,
+                    movementComponent.pos.x,
+                    movementComponent.pos.y,
+                    movementComponent.dir.getDegree(),
+                    60.0f
+                ));
+            }
             gameMap.getRayHandler().setAmbientLight(darkness);
             return;
         }
         gameMap.getRayHandler().setAmbientLight(1f);
-        attributes.get(Attributes.PLAYER_POINT_LIGHT).remove();
-        attributes.remove(Attributes.PLAYER_POINT_LIGHT);
+        attributes.get(Attributes.PLAYER_LIGHT).remove();
+        attributes.remove(Attributes.PLAYER_LIGHT);
     }
 
     public CompletableFuture<Void> save() {

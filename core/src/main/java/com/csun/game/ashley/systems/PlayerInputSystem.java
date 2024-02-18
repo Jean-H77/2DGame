@@ -1,5 +1,7 @@
 package com.csun.game.ashley.systems;
 
+import box2dLight.ConeLight;
+import box2dLight.Light;
 import box2dLight.PointLight;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
@@ -13,6 +15,7 @@ import com.csun.game.ashley.components.PlayerComponent;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.map.GameMap;
 import com.csun.game.models.Direction;
+import com.csun.game.models.LightType;
 import com.csun.game.player.Player;
 import com.google.inject.Inject;
 
@@ -36,9 +39,14 @@ public class PlayerInputSystem extends IteratingSystem {
         if(!Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) return;
 
         if(handleMovementInput(mc)) {
-            if(player.getAttributes().hasKey(Attributes.PLAYER_POINT_LIGHT)) {
-                PointLight pointLight = player.getAttributes().get(Attributes.PLAYER_POINT_LIGHT);
-                pointLight.setPosition(mc.pos.x, mc.pos.y);
+            if(player.getAttributes().hasKey(Attributes.PLAYER_LIGHT)) {
+                Light light = player.getAttributes().get(Attributes.PLAYER_LIGHT);
+                if(light instanceof PointLight pointLight) {
+                    pointLight.setPosition(mc.pos.x, mc.pos.y);
+                } else if(light instanceof ConeLight coneLight) {
+                    coneLight.setPosition(mc.pos.x, mc.pos.y);
+                    coneLight.setDirection(mc.dir.getDegree());
+                }
             }
         }
 
@@ -50,7 +58,7 @@ public class PlayerInputSystem extends IteratingSystem {
             player.save()
                 .thenRun(() -> Gdx.app.log("Saved", "Player saved"));
         } else if(Gdx.input.isKeyJustPressed(Input.Keys.I)) {
-            player.toggleLight(100, 0.03f);
+            player.toggleLight(LightType.CONE_LIGHT, 120, 0.03f);
         }
         return false;
     }
