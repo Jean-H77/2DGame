@@ -8,6 +8,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csun.game.map.GameMap;
 import com.csun.game.MainGame;
 import com.csun.game.ashley.systems.*;
@@ -16,8 +20,13 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Scopes;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 
 import java.util.List;
+
+import static com.csun.game.GameConstants.VIEWPORT_HEIGHT;
+import static com.csun.game.GameConstants.VIEWPORT_WIDTH;
 
 public class GameModule extends AbstractModule {
 
@@ -31,6 +40,10 @@ public class GameModule extends AbstractModule {
         bind(GameMap.class).in(Scopes.SINGLETON);
         bind(PooledEngine.class).in(Scopes.SINGLETON);
         bind(World.class).toProvider(() -> new World(new Vector2(0, 0), false)).in(Scopes.SINGLETON);
+        bind(Viewport.class)
+            .annotatedWith(Names.named("ExtendedViewport"))
+            .toProvider(() -> new ExtendViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT))
+            .in(Scopes.SINGLETON);
     }
 
     @Provides

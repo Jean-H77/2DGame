@@ -125,7 +125,7 @@ public class GameMap {
             });
     }
 
-    private TiledMap getCurrentMap() {
+    public TiledMap getCurrentMap() {
         return currentMap;
     }
 

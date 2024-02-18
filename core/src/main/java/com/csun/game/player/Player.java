@@ -7,6 +7,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.csun.game.ashley.components.CameraComponent;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.TextureComponent;
