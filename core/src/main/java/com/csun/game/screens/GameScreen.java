@@ -8,14 +8,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Timer;
-import com.csun.game.attributes.Attributes;
 import com.csun.game.map.GameMap;
 import com.csun.game.player.Player;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import static com.csun.game.GameConstants.VIEWPORT_HEIGHT;
-import static com.csun.game.GameConstants.VIEWPORT_WIDTH;
 
 /** First screen of the application. Displayed after the application is created. */
 @Singleton
