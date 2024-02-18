@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.utils.Timer;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.map.GameMap;
 import com.csun.game.player.Player;
@@ -28,9 +29,9 @@ public class GameScreen implements Screen {
     private final Player player;
 
     @Inject
-    public GameScreen(PooledEngine pooledEngine, GameMap gameMap, Player player) {
+    public GameScreen(PooledEngine pooledEngine, Player player) {
         this.pooledEngine = pooledEngine;
-        this.gameMap = gameMap;
+        this.gameMap = player.getGameMap();
         this.renderer = gameMap.getRenderer();
         this.rayHandler = gameMap.getRayHandler();
         this.player = player;
@@ -39,7 +40,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        player.login();
+
     }
 
     @Override

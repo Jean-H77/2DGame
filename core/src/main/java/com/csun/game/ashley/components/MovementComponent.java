@@ -22,7 +22,7 @@ public class MovementComponent implements Component {
     }
 
     public void move(Direction dir) {
-        velocity = 1;
+        velocity = 1f;
         state = MovementState.MOVING;
         this.dir = dir;
     }

@@ -52,4 +52,6 @@ public final class Attributes {
     });
 
     public static final AttributeKey<PointLight> PLAYER_POINT_LIGHT = new AttributeKey<>();
+
+    public static final AttributeKey<Boolean> PLAYER_IS_LOGGED_IN = new AttributeKey<>();
 }

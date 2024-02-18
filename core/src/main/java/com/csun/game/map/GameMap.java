@@ -39,8 +39,6 @@ public class GameMap {
         this.mapCamera = orthographicCamera;
         this.rayHandler = rayHandler;
         this.world = world;
-        //remove later
-        enterMap("tempmap.tmx", 1f);
     }
 
     public HashMap<String, TiledMap> getTiledMaps() {
@@ -51,12 +49,11 @@ public class GameMap {
         return mapCamera;
     }
 
-    public boolean enterMap(String map, float ambientLight) {
+    public void enterMap(String map, float ambientLight) {
         TiledMap tiledMap = getMap(map);
         setAmbientLight(ambientLight);
         setMapLights(tiledMap);
         setCurrentMap(tiledMap);
-        return true;
     }
 
     private TiledMap getMap(String map) {

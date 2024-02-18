@@ -2,14 +2,9 @@ package com.csun.game.player;
 
 import box2dLight.PointLight;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Box2D;
-import com.badlogic.gdx.physics.box2d.World;
 import com.csun.game.ashley.components.CameraComponent;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.TextureComponent;
@@ -34,6 +29,8 @@ public final class Player {
         this.textureComponent = entity.getComponent(TextureComponent.class);
         this.cameraComponent = entity.getComponent(CameraComponent.class);
         this.gameMap = gameMap;
+
+        login();
     }
 
     public float getTilePosX() {
@@ -68,6 +65,8 @@ public final class Player {
         attributes.set(Attributes.PLAYER_NAME, "un_named");
         attributes.set(Attributes.PLAYER_POSITION, movementComponent.pos);
         attributes.set(Attributes.PLAYER_CURRENT_MAP, "tempmap.tmx");
+        attributes.set(Attributes.PLAYER_IS_LOGGED_IN, false);
+        moveToMap(attributes.get(Attributes.PLAYER_CURRENT_MAP));
     }
 
     public void moveToMap(String map) {
@@ -78,12 +77,17 @@ public final class Player {
     public void login() {
         defaultAttributes();
         ((OrthographicCamera) getCamera()).setToOrtho(false, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-        load().thenRun(() -> {
-            gameMap.enterMap(attributes.get(Attributes.PLAYER_CURRENT_MAP), 1f);
+        load().thenRun(this::postLoad);
+    }
+
+    public CompletableFuture<Void> postLoad() {
+        return CompletableFuture.runAsync(() -> {
+            attributes.set(Attributes.PLAYER_IS_LOGGED_IN, true);
+            moveToMap(attributes.get(Attributes.PLAYER_CURRENT_MAP));
         });
     }
 
-    public void toggleLight(int radius) {
+    public void toggleLight(int radius, float darkness) {
         if(!attributes.hasKey(Attributes.PLAYER_POINT_LIGHT)) {
             attributes.set(Attributes.PLAYER_POINT_LIGHT, new PointLight(gameMap.getRayHandler(),
                 1000,
@@ -92,7 +96,7 @@ public final class Player {
                 movementComponent.pos.x,
                 movementComponent.pos.y
             ));
-            gameMap.getRayHandler().setAmbientLight(0.03f);
+            gameMap.getRayHandler().setAmbientLight(darkness);
             return;
         }
         gameMap.getRayHandler().setAmbientLight(1f);
@@ -106,5 +110,13 @@ public final class Player {
 
     public CompletableFuture<Void> load() {
         return new PlayerLoad(this).loadPlayerAttributes();
+    }
+
+    public CameraComponent getCameraComponent() {
+        return cameraComponent;
+    }
+
+    public GameMap getGameMap() {
+        return gameMap;
     }
 }

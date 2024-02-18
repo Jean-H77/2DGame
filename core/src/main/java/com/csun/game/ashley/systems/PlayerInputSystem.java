@@ -50,7 +50,7 @@ public class PlayerInputSystem extends IteratingSystem {
             player.save()
                 .thenRun(() -> Gdx.app.log("Saved", "Player saved"));
         } else if(Gdx.input.isKeyJustPressed(Input.Keys.I)) {
-            player.toggleLight(100);
+            player.toggleLight(100, 0.03f);
         }
         return false;
     }
