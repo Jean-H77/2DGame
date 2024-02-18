@@ -44,7 +44,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-
+        viewport.setCamera(playerCamera);
     }
 
     @Override
