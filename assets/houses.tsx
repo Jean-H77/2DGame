@@ -3,7 +3,7 @@
  <properties>
   <property name="blocked" value=""/>
  </properties>
- <image source="../../../../../houses.png" width="1024" height="1024"/>
+ <image source="houses.png" width="1024" height="1024"/>
  <tile id="0">
   <properties>
    <property name="blocked" value=""/>
@@ -3676,7 +3676,7 @@
  </tile>
  <tile id="734">
   <properties>
-   <property name="blocked" value=""/>
+   <property name="nm_door" value="untitled.tmx"/>
   </properties>
  </tile>
  <tile id="735">

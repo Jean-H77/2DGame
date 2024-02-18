@@ -58,22 +58,23 @@ public class PlayerInputSystem extends IteratingSystem {
             player.save()
                 .thenRun(() -> Gdx.app.log("Saved", "Player saved"));
         } else if(Gdx.input.isKeyJustPressed(Input.Keys.I)) {
-            player.toggleLight(LightType.CONE_LIGHT, 500);
+            player.toggleLight(LightType.CONE_LIGHT, 200);
         }
         return false;
     }
 
     private boolean handleMovementInput(MovementComponent mc) {
+        if(mc.disabled) return false;
+
         gameMap.getLayer(1).ifPresent(tiledMapTileLayer -> {
             TiledMapTileLayer.Cell cell = tiledMapTileLayer.getCell((int) player.getTilePosX(), (int) player.getTilePosY());
             if(cell != null) {
                 if (cell.getTile().getProperties().containsKey("nm_door")) {
+                    mc.disabled = true;
                     player.moveToMap((String) cell.getTile().getProperties().get("nm_door"));
                 }
             }
         });
-
-        if(mc.disabled) return false;
 
         if(Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP) && !(Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN))) {
             if(Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {

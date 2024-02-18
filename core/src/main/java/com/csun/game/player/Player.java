@@ -1,13 +1,11 @@
 package com.csun.game.player;
 
-import box2dLight.ChainLight;
 import box2dLight.ConeLight;
 import box2dLight.PointLight;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.csun.game.ashley.components.CameraComponent;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.TextureComponent;
@@ -33,8 +31,6 @@ public final class Player {
         this.textureComponent = entity.getComponent(TextureComponent.class);
         this.cameraComponent = entity.getComponent(CameraComponent.class);
         this.gameMap = gameMap;
-
-        login();
     }
 
     public float getTilePosX() {
@@ -70,12 +66,12 @@ public final class Player {
         attributes.set(Attributes.PLAYER_POSITION, movementComponent.pos);
         attributes.set(Attributes.PLAYER_CURRENT_MAP, "tempmap.tmx");
         attributes.set(Attributes.PLAYER_IS_LOGGED_IN, false);
-        moveToMap(attributes.get(Attributes.PLAYER_CURRENT_MAP));
     }
 
     public void moveToMap(String map) {
         attributes.set(Attributes.PLAYER_CURRENT_MAP, map);
         gameMap.enterMap(map, 1f);
+        movementComponent.disabled = false;
     }
 
     public void login() {
@@ -111,14 +107,6 @@ public final class Player {
                     movementComponent.pos.y,
                     movementComponent.dir.getDegree(),
                     60.0f
-                ));
-            } else if(lightType == LightType.CHAIN_LIGHT) {
-                attributes.set(Attributes.PLAYER_LIGHT, new ChainLight(
-                    gameMap.getRayHandler(),
-                    1000,
-                    Color.WHITE,
-                    radius,
-                    90
                 ));
             }
             gameMap.getRayHandler().setAmbientLight(0.03f);

@@ -11,6 +11,8 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 
 public class MainGame extends Game {
 
@@ -29,6 +31,8 @@ public class MainGame extends Game {
             .list()
             .forEach(it -> engine.addSystem(injector.getInstance(it)));
 
+        Player player = injector.getInstance(Player.class);
+        player.login();
         setScreen(injector.getInstance(GameScreen.class));
     }
 }
