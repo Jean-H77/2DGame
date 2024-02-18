@@ -1,9 +1,12 @@
 package com.csun.game.map;
 
+import box2dLight.ConeLight;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -12,12 +15,10 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
+import org.javatuples.Pair;
 import org.javatuples.Quintet;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static com.csun.game.GameConstants.TILE_SIZE;
 
@@ -92,20 +93,33 @@ public class GameMap {
                         for(int width = 0; width < tileLayer.getWidth(); width++) {
                             if(tileLayer.getCell(width, height) == null) continue;
                             TiledMapTile tiledMapTile = tileLayer.getCell(width, height).getTile();
-                            if(tiledMapTile.getProperties().containsKey("color")) {
-                                String hex = String.valueOf(tiledMapTile.getProperties().containsKey("color"));
+                            if(tiledMapTile.getProperties().containsKey("bike")) {
+                                String type = String.valueOf(tiledMapTile.getProperties().get("type"));
+                                Gdx.app.log("Type", type);
+                                String hex = String.valueOf(tiledMapTile.getProperties().get("bike"));
                                 Color color = lightColors.computeIfAbsent(hex, x -> Color.valueOf(hex));
                                 int rays = (int) tiledMapTile.getProperties().get("rays");
                                 int radius = (int) tiledMapTile.getProperties().get("radius");
                                 int x = (int) (width * TILE_SIZE + ((float) TILE_SIZE /2));
                                 int y = height * TILE_SIZE + TILE_SIZE;
                                 points.add(new Quintet<>(rays, color, radius, x, y));
-                                new PointLight(rayHandler,
-                                    rays,
-                                    color,
-                                    radius,
-                                    x,
-                                    y);
+                                if(Objects.equals(type, "conelight")) {
+                                    new ConeLight(rayHandler,
+                                        rays,
+                                        color,
+                                        radius,
+                                        x,
+                                        y,
+                                        90.0f,
+                                        90.0f);
+                                } else {
+                                    new PointLight(rayHandler,
+                                        rays,
+                                        color,
+                                        radius,
+                                        x,
+                                        y);
+                                }
                             }
                         }
                     }
@@ -146,7 +160,10 @@ public class GameMap {
     }
 
     public Optional<TiledMapTileLayer> getLayer(int type) {
-        return currentMap == null ? Optional.empty() : Optional.ofNullable((TiledMapTileLayer) currentMap.getLayers().get(type));
+        if(currentMap == null || currentMap.getLayers().size() <= type) {
+            return Optional.empty();
+        }
+        return Optional.ofNullable((TiledMapTileLayer) currentMap.getLayers().get(type));
     }
 
     public void setRenderer(OrthogonalTiledMapRenderer renderer) {

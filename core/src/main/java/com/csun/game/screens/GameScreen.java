@@ -40,7 +40,13 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-
+        Timer.schedule(new Timer.Task() {
+            int ticks = 0;
+            @Override
+            public void run() {
+                Gdx.app.log("Ticks", String.valueOf(ticks++));
+            }
+        }, 5, 5, 5);
     }
 
     @Override

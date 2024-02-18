@@ -9,7 +9,6 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.PlayerComponent;
 import com.csun.game.attributes.Attributes;
@@ -58,20 +57,20 @@ public class PlayerInputSystem extends IteratingSystem {
             player.save()
                 .thenRun(() -> Gdx.app.log("Saved", "Player saved"));
         } else if(Gdx.input.isKeyJustPressed(Input.Keys.I)) {
-            player.toggleLight(LightType.CONE_LIGHT, 120, 0.03f);
+            player.toggleLight(LightType.CONE_LIGHT, 500);
         }
         return false;
     }
 
     private boolean handleMovementInput(MovementComponent mc) {
-        gameMap.getLayer(1).ifPresent(tiledMapTileLayer -> {
+        /*gameMap.getLayer(1).ifPresent(tiledMapTileLayer -> {
             TiledMapTileLayer.Cell cell = tiledMapTileLayer.getCell((int) player.getTilePosX(), (int) player.getTilePosY());
             if(cell != null) {
                 if (cell.getTile().getProperties().containsKey("nm_door")) {
                     player.moveToMap((String) cell.getTile().getProperties().get("nm_door"));
                 }
             }
-        });
+        });*/
 
         if(mc.disabled) return false;
 

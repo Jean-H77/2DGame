@@ -1,5 +1,6 @@
 package com.csun.game.player;
 
+import box2dLight.ChainLight;
 import box2dLight.ConeLight;
 import box2dLight.PointLight;
 import com.badlogic.ashley.core.Entity;
@@ -79,17 +80,16 @@ public final class Player {
     public void login() {
         defaultAttributes();
         ((OrthographicCamera) getCamera()).setToOrtho(false, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-        load().thenRun(this::postLoad);
+        load().join();
+        postLoad();
     }
 
-    public CompletableFuture<Void> postLoad() {
-        return CompletableFuture.runAsync(() -> {
-            attributes.set(Attributes.PLAYER_IS_LOGGED_IN, true);
-            moveToMap(attributes.get(Attributes.PLAYER_CURRENT_MAP));
-        });
+    public void postLoad() {
+        attributes.set(Attributes.PLAYER_IS_LOGGED_IN, true);
+        moveToMap(attributes.get(Attributes.PLAYER_CURRENT_MAP));
     }
 
-    public void toggleLight(LightType lightType, int radius, float darkness) {
+    public void toggleLight(LightType lightType, int radius) {
         if(!attributes.hasKey(Attributes.PLAYER_LIGHT)) {
             if(lightType == LightType.POINT_LIGHT) {
                 attributes.set(Attributes.PLAYER_LIGHT, new PointLight(
@@ -111,8 +111,16 @@ public final class Player {
                     movementComponent.dir.getDegree(),
                     60.0f
                 ));
+            } else if(lightType == LightType.CHAIN_LIGHT) {
+                attributes.set(Attributes.PLAYER_LIGHT, new ChainLight(
+                    gameMap.getRayHandler(),
+                    1000,
+                    Color.WHITE,
+                    radius,
+                    90
+                ));
             }
-            gameMap.getRayHandler().setAmbientLight(darkness);
+            gameMap.getRayHandler().setAmbientLight(0.03f);
             return;
         }
         gameMap.getRayHandler().setAmbientLight(1f);
