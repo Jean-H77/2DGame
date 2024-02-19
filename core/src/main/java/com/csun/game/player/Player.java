@@ -69,6 +69,12 @@ public final class Player {
     }
 
     public void moveToMap(String map) {
+        // here we can do something like
+        // if player has this map unlocked then continue else return
+        // if map get ambient light or darkness level < 1.0f
+        // then we can check if player has lantern
+        // if player has lantern then we can toggle the light
+        // then we'll call gameMap.enterMap(map, maps darkness level)
         attributes.set(Attributes.PLAYER_CURRENT_MAP, map);
         gameMap.enterMap(map, 1f);
         movementComponent.disabled = false;
@@ -109,10 +115,8 @@ public final class Player {
                     60.0f
                 ));
             }
-            gameMap.getRayHandler().setAmbientLight(0.03f);
             return;
         }
-        gameMap.getRayHandler().setAmbientLight(1f);
         attributes.get(Attributes.PLAYER_LIGHT).remove();
         attributes.remove(Attributes.PLAYER_LIGHT);
     }
