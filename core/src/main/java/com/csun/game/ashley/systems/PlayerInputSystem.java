@@ -22,14 +22,13 @@ import com.google.inject.Inject;
 public class PlayerInputSystem extends IteratingSystem {
 
     private final ComponentMapper<MovementComponent> mp = ComponentMapper.getFor(MovementComponent.class);
+    private final GameMap gameMap = GameMap.INSTANCE;
     private final Player player;
-    private final GameMap gameMap;
 
     @Inject
-    public PlayerInputSystem(Player player, GameMap gameMap) {
+    public PlayerInputSystem(Player player) {
         super(Family.all(PlayerComponent.class).get());
         this.player = player;
-        this.gameMap = gameMap;
     }
 
     @Override

@@ -16,12 +16,11 @@ public class CameraSystem extends IteratingSystem {
 
     private final ComponentMapper<MovementComponent> mm = ComponentMapper.getFor(MovementComponent.class);
     private final ComponentMapper<CameraComponent> cm = ComponentMapper.getFor(CameraComponent.class);
-    private final GameMap gameMap;
+    private final GameMap gameMap = GameMap.INSTANCE;
 
     @Inject
-    public CameraSystem(GameMap gameMap) {
+    public CameraSystem() {
         super(Family.all(CameraComponent.class, MovementComponent.class).get());
-        this.gameMap = gameMap;
     }
 
     @Override

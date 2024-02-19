@@ -24,13 +24,11 @@ public final class Player {
     private final MovementComponent movementComponent;
     private final TextureComponent textureComponent;
     private final CameraComponent cameraComponent;
-    private final GameMap gameMap;
 
-    public Player(Entity entity, GameMap gameMap) {
+    public Player(Entity entity) {
         this.movementComponent = entity.getComponent(MovementComponent.class);
         this.textureComponent = entity.getComponent(TextureComponent.class);
         this.cameraComponent = entity.getComponent(CameraComponent.class);
-        this.gameMap = gameMap;
     }
 
     public float getTilePosX() {
@@ -76,7 +74,7 @@ public final class Player {
         // if player has lantern then we can toggle the light
         // then we'll call gameMap.enterMap(map, maps darkness level)
         attributes.set(Attributes.PLAYER_CURRENT_MAP, map);
-        gameMap.enterMap(map, 1f);
+        GameMap.INSTANCE.enterMap(map, 1f);
         movementComponent.disabled = false;
     }
 
@@ -96,7 +94,7 @@ public final class Player {
         if(!attributes.hasKey(Attributes.PLAYER_LIGHT)) {
             if(lightType == LightType.POINT_LIGHT) {
                 attributes.set(Attributes.PLAYER_LIGHT, new PointLight(
-                    gameMap.getRayHandler(),
+                    GameMap.INSTANCE.getRayHandler(),
                     1000,
                     Color.WHITE,
                     radius,
@@ -105,7 +103,7 @@ public final class Player {
                 ));
             } else if(lightType == LightType.CONE_LIGHT) {
                 attributes.set(Attributes.PLAYER_LIGHT, new ConeLight(
-                    gameMap.getRayHandler(),
+                    GameMap.INSTANCE.getRayHandler(),
                     1000,
                     Color.WHITE,
                     radius,
@@ -131,9 +129,5 @@ public final class Player {
 
     public CameraComponent getCameraComponent() {
         return cameraComponent;
-    }
-
-    public GameMap getGameMap() {
-        return gameMap;
     }
 }

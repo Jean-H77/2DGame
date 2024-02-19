@@ -18,15 +18,14 @@ import static com.csun.game.GameConstants.TILE_SIZE;
 public class MovementSystem extends IteratingSystem {
 
     private final ComponentMapper<MovementComponent> mm = ComponentMapper.getFor(MovementComponent.class);
-    private final GameMap gameMap;
+    private final GameMap gameMap = GameMap.INSTANCE;
     private final Vector2 dest = Vector2.Zero;
 
     private boolean isBlocked;
 
     @Inject
-    public MovementSystem(GameMap gameMap) {
+    public MovementSystem() {
         super(Family.all(MovementComponent.class).get());
-        this.gameMap = gameMap;
     }
 
     @Override

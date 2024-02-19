@@ -4,6 +4,7 @@ import box2dLight.ConeLight;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.google.inject.Inject;
 import org.javatuples.Quintet;
@@ -20,31 +22,29 @@ import java.util.*;
 
 import static com.csun.game.GameConstants.TILE_SIZE;
 
-public class GameMap {
+public enum GameMap {
+    INSTANCE(new OrthographicCamera());
 
     private static final HashMap<String , TiledMap> tiledMaps = new HashMap<>();
     private final HashMap<String, Color> lightColors = new HashMap<>();
     private final HashMap<TiledMap, List<Quintet<Integer, Color, Integer, Integer, Integer>>> lightPoints = new HashMap<>();
-    private final RayHandler rayHandler;
-    private final World world;
-    private final OrthographicCamera mapCamera; //map camera might be needed
+    private final World world = new World(new Vector2(0, 0), false);
+    private final RayHandler rayHandler = new RayHandler(world);
+    private final Camera mapCamera; //map camera might be needed
 
     private OrthogonalTiledMapRenderer renderer;
     private TiledMap currentMap;
     private Rectangle mapBoundaries;
 
-    @Inject
-    public GameMap(OrthographicCamera orthographicCamera, RayHandler rayHandler, World world) {
-        this.mapCamera = orthographicCamera;
-        this.rayHandler = rayHandler;
-        this.world = world;
+    GameMap(Camera camera) {
+        this.mapCamera = camera;
     }
 
     public HashMap<String, TiledMap> getTiledMaps() {
         return tiledMaps;
     }
 
-    public OrthographicCamera getMapCamera() {
+    public Camera getMapCamera() {
         return mapCamera;
     }
 

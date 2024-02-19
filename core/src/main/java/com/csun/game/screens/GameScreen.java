@@ -18,7 +18,7 @@ import com.google.inject.name.Named;
 @Singleton
 public class GameScreen implements Screen {
 
-    private final GameMap gameMap;
+    private final GameMap gameMap = GameMap.INSTANCE;
     private final RayHandler rayHandler;
     private final PooledEngine pooledEngine;
     private final OrthographicCamera playerCamera;
@@ -29,7 +29,6 @@ public class GameScreen implements Screen {
     @Inject
     public GameScreen(PooledEngine pooledEngine, @Named("ExtendedViewport") Viewport viewport, Player player) {
         this.pooledEngine = pooledEngine;
-        this.gameMap = player.getGameMap();
         this.renderer = gameMap.getRenderer();
         this.rayHandler = gameMap.getRayHandler();
         this.player = player;

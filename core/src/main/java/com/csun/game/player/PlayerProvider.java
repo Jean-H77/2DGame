@@ -8,7 +8,6 @@ import com.csun.game.ashley.components.CameraComponent;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.PlayerComponent;
 import com.csun.game.ashley.components.TextureComponent;
-import com.csun.game.map.GameMap;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -18,12 +17,10 @@ import static com.csun.game.GameConstants.PLAYER_START_Y;
 public class PlayerProvider implements Provider<Player> {
 
     private final PooledEngine pooledEngine;
-    private final GameMap gameMap;
 
     @Inject
-    public PlayerProvider(PooledEngine pooledEngine, GameMap gameMap) {
+    public PlayerProvider(PooledEngine pooledEngine) {
         this.pooledEngine = pooledEngine;
-        this.gameMap = gameMap;
     }
 
     @Override
@@ -34,6 +31,6 @@ public class PlayerProvider implements Provider<Player> {
         entity.add(new MovementComponent(new Vector2(PLAYER_START_X,PLAYER_START_Y)));
         entity.add(new CameraComponent(new OrthographicCamera()));
         pooledEngine.addEntity(entity);
-        return new Player(entity, gameMap);
+        return new Player(entity);
     }
 }

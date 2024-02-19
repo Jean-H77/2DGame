@@ -37,21 +37,11 @@ public class GameModule extends AbstractModule {
         bind(SpriteBatch.class).in(Scopes.SINGLETON);
         bind(ShapeRenderer.class).in(Scopes.SINGLETON);
         bind(BitmapFont.class).in(Scopes.SINGLETON);
-        bind(GameMap.class).in(Scopes.SINGLETON);
         bind(PooledEngine.class).in(Scopes.SINGLETON);
-        bind(World.class).toProvider(() -> new World(new Vector2(0, 0), false)).in(Scopes.SINGLETON);
         bind(Viewport.class)
             .annotatedWith(Names.named("ExtendedViewport"))
             .toProvider(() -> new ExtendViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT))
             .in(Scopes.SINGLETON);
-    }
-
-    @Provides
-    @Singleton
-    private RayHandler provideRayHandler(World world) {
-        RayHandler rayHandler = new RayHandler(world);
-        rayHandler.setAmbientLight(1.0f);
-        return rayHandler;
     }
 
     @Provides
