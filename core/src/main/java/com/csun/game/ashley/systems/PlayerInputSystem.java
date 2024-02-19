@@ -3,13 +3,13 @@ package com.csun.game.ashley.systems;
 import box2dLight.ConeLight;
 import box2dLight.Light;
 import box2dLight.PointLight;
-import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.csun.game.ashley.Mappers;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.PlayerComponent;
 import com.csun.game.attributes.Attributes;
@@ -21,8 +21,6 @@ import com.google.inject.Inject;
 
 public class PlayerInputSystem extends IteratingSystem {
 
-    private final ComponentMapper<MovementComponent> mp = ComponentMapper.getFor(MovementComponent.class);
-    private final GameMap gameMap = GameMap.INSTANCE;
     private final Player player;
 
     @Inject
@@ -33,7 +31,7 @@ public class PlayerInputSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        MovementComponent mc = mp.get(entity);
+        MovementComponent mc = Mappers.movements.get(entity);
 
         if(!Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) return;
 
@@ -65,7 +63,7 @@ public class PlayerInputSystem extends IteratingSystem {
     private boolean handleMovementInput(MovementComponent mc) {
         if(mc.disabled) return false;
 
-        gameMap.getLayer(1).ifPresent(tiledMapTileLayer -> {
+        GameMap.INSTANCE.getLayer(1).ifPresent(tiledMapTileLayer -> {
             TiledMapTileLayer.Cell cell = tiledMapTileLayer.getCell((int) player.getTilePosX(), (int) player.getTilePosY());
             if(cell != null) {
                 if (cell.getTile().getProperties().containsKey("nm_door")) {

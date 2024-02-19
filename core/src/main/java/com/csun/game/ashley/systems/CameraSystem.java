@@ -1,22 +1,18 @@
 package com.csun.game.ashley.systems;
 
-import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
-import com.csun.game.map.GameMap;
+import com.csun.game.ashley.Mappers;
 import com.csun.game.ashley.components.CameraComponent;
 import com.csun.game.ashley.components.MovementComponent;
+import com.csun.game.map.GameMap;
 import com.google.inject.Inject;
 
 public class CameraSystem extends IteratingSystem {
-
-    private final ComponentMapper<MovementComponent> mm = ComponentMapper.getFor(MovementComponent.class);
-    private final ComponentMapper<CameraComponent> cm = ComponentMapper.getFor(CameraComponent.class);
-    private final GameMap gameMap = GameMap.INSTANCE;
 
     @Inject
     public CameraSystem() {
@@ -25,8 +21,8 @@ public class CameraSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        MovementComponent movementComponent = mm.get(entity);
-        CameraComponent cameraComponent = cm.get(entity);
+        MovementComponent movementComponent = Mappers.movements.get(entity);
+        CameraComponent cameraComponent = Mappers.cameras.get(entity);
 
         if(cameraComponent.camera() instanceof OrthographicCamera camera) {
             camera.position.x = movementComponent.pos.x + 8;
@@ -34,7 +30,7 @@ public class CameraSystem extends IteratingSystem {
 
             float halfViewportWidth = (camera.viewportWidth * camera.zoom) / 2f;
             float halfViewportHeight = (camera.viewportHeight * camera.zoom) / 2f;
-            Rectangle boundary = gameMap.getBoundaries();
+            Rectangle boundary = GameMap.INSTANCE.getBoundaries();
 
             camera.position.x = MathUtils.clamp(camera.position.x, boundary.getX() + halfViewportWidth, boundary.getX() + boundary.getWidth() - halfViewportWidth);
             camera.position.y = MathUtils.clamp(camera.position.y, boundary.getY() + halfViewportHeight, boundary.getY() + boundary.getHeight() - halfViewportHeight);

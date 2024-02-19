@@ -15,7 +15,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.google.inject.Inject;
 import org.javatuples.Quintet;
 
 import java.util.*;
@@ -25,7 +24,7 @@ import static com.csun.game.GameConstants.TILE_SIZE;
 public enum GameMap {
     INSTANCE(new OrthographicCamera());
 
-    private static final HashMap<String , TiledMap> tiledMaps = new HashMap<>();
+    private final HashMap<String , TiledMap> tiledMaps = new HashMap<>();
     private final HashMap<String, Color> lightColors = new HashMap<>();
     private final HashMap<TiledMap, List<Quintet<Integer, Color, Integer, Integer, Integer>>> lightPoints = new HashMap<>();
     private final World world = new World(new Vector2(0, 0), false);

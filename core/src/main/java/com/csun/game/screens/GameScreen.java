@@ -18,7 +18,6 @@ import com.google.inject.name.Named;
 @Singleton
 public class GameScreen implements Screen {
 
-    private final GameMap gameMap = GameMap.INSTANCE;
     private final RayHandler rayHandler;
     private final PooledEngine pooledEngine;
     private final OrthographicCamera playerCamera;
@@ -29,8 +28,8 @@ public class GameScreen implements Screen {
     @Inject
     public GameScreen(PooledEngine pooledEngine, @Named("ExtendedViewport") Viewport viewport, Player player) {
         this.pooledEngine = pooledEngine;
-        this.renderer = gameMap.getRenderer();
-        this.rayHandler = gameMap.getRayHandler();
+        this.renderer = GameMap.INSTANCE.getRenderer();
+        this.rayHandler = GameMap.INSTANCE.getRayHandler();
         this.player = player;
         this.viewport = viewport;
         playerCamera = (OrthographicCamera) player.getCamera();
@@ -80,6 +79,6 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         // Destroy screen's assets here.
-        gameMap.dispose();
+        GameMap.INSTANCE.dispose();
     }
 }
