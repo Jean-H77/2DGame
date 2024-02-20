@@ -6,10 +6,14 @@ import box2dLight.PointLight;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.csun.game.ashley.Mappers;
+import com.csun.game.ashley.components.ClickableComponent;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.PlayerComponent;
 import com.csun.game.attributes.Attributes;
@@ -30,8 +34,18 @@ public class PlayerInputSystem extends IteratingSystem {
     }
 
     @Override
+    public ImmutableArray<Entity> getEntities() {
+        return getEngine().getEntitiesFor(Family.all(ClickableComponent.class).get());
+    }
+
+    @Override
     protected void processEntity(Entity entity, float deltaTime) {
         MovementComponent mc = Mappers.movements.get(entity);
+        for(int i = 0; i < getEntities().size(); i++) {
+            if(handleEntityClick(getEntities().get(i))) {
+                return;
+            }
+        }
 
         if(!Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) return;
 
@@ -56,6 +70,26 @@ public class PlayerInputSystem extends IteratingSystem {
                 .thenRun(() -> Gdx.app.log("Saved", "Player saved"));
         } else if(Gdx.input.isKeyJustPressed(Input.Keys.I)) {
             player.toggleLight(LightType.CONE_LIGHT, 200);
+        }
+        return false;
+    }
+
+    public Vector2 getWorldPositionFromScreen(Vector3 v){
+        Vector3 vc = player.getCamera().unproject(new Vector3(v.x,   v.y, v.z));
+        return new Vector2(vc.x, vc.y);
+    }
+
+    private boolean handleEntityClick(Entity entity) {
+        ClickableComponent component = Mappers.clickables.get(entity);
+        if(component != null && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            Vector2 mouseAtWorld = getWorldPositionFromScreen(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+            if (mouseAtWorld.x >= component.bounds.x - component.bounds.width && mouseAtWorld.x <= component.bounds.x + component.bounds.width &&
+                mouseAtWorld.y >= component.bounds.y - component.bounds.height && mouseAtWorld.y <= component.bounds.y + component.bounds.height) {
+
+                String identification = component.identification;
+
+                return true; // Indicate that the click was handled
+            }
         }
         return false;
     }

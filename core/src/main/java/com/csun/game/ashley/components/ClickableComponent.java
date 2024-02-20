@@ -6,12 +6,15 @@ import com.badlogic.gdx.math.Rectangle;
 public class ClickableComponent implements Component {
 
     public Rectangle bounds;
+    public String identification;
 
-    public ClickableComponent(Rectangle bounds) {
+    public ClickableComponent(Rectangle bounds, String identification) {
         this.bounds = bounds;
+        this.identification = identification;
     }
 
-    public ClickableComponent() {
+    public ClickableComponent(String identification) {
         this.bounds = new Rectangle(0,0,0,0);
+        this.identification = identification;
     }
 }
