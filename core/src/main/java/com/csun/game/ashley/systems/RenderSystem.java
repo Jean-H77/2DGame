@@ -36,6 +36,7 @@ public class RenderSystem extends IteratingSystem {
         texture.shape.setColor(Color.RED);
         texture.shape.circle(movement.pos.x, movement.pos.y, 16);
         texture.shape.end();
+
     }
 
 }

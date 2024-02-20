@@ -69,13 +69,13 @@ public class MovementSystem extends IteratingSystem {
         float newX = movement.pos.x + dest.x;
         float newY = movement.pos.y + dest.y;
 
+        Gdx.app.log("Collision", "["+(int) (newX/TILE_SIZE) + ", " + (int) (newY/TILE_SIZE)+ "]");
+
         GameMap.INSTANCE.getLayer(1).ifPresent(tiledMapTileLayer -> {
             TiledMapTileLayer.Cell cell = tiledMapTileLayer.getCell((int) (newX/TILE_SIZE), (int) (newY/TILE_SIZE));
-            if(cell != null) {
-                if (cell.getTile().getProperties().containsKey("blocked")) {
-                    Gdx.app.log("Collision", "Blocked");
-                    isBlocked = true;
-                }
+            if(cell != null && cell.getTile().getProperties().containsKey("blocked")) {
+                Gdx.app.log("Collision", "Blocked ["+(int) (newX/TILE_SIZE) + ", " + (int) (newY/TILE_SIZE)+ "]");
+                isBlocked = true;
             }
         });
 

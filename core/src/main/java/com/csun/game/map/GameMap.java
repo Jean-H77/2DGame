@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import org.checkerframework.checker.units.qual.A;
 import org.javatuples.Quintet;
 
 import java.util.*;
@@ -25,6 +27,7 @@ public enum GameMap {
     INSTANCE(new OrthographicCamera());
 
     private final HashMap<String , TiledMap> tiledMaps = new HashMap<>();
+    private final HashMap<TiledMap, Integer[][]> tiledMapGrid = new HashMap<>();
     private final HashMap<String, Color> lightColors = new HashMap<>();
     private final HashMap<TiledMap, List<Quintet<Integer, Color, Integer, Integer, Integer>>> lightPoints = new HashMap<>();
     private final World world = new World(new Vector2(0, 0), false);
@@ -52,6 +55,40 @@ public enum GameMap {
         setAmbientLight(ambientLight);
         setMapLights(tiledMap);
         setCurrentMap(tiledMap);
+
+        if(tiledMapGrid.containsKey(tiledMap)) {
+            return;
+        }
+
+        getLayer(1).ifPresent(tileLayer -> {
+            Integer[][] grid = new Integer[(int) getCurrentMapHeight()][(int) getCurrentMapWidth()];
+            for(int i = 0; i < grid.length; i++) {
+                for(int k = 0; k < grid[i].length; k++) {
+                    if(tileLayer.getCell(i, k) != null && tileLayer.getCell(i, k).getTile().getProperties().containsKey("blocked")) {
+                        grid[i][k] = -1;
+                    } else {
+                        grid[i][k] = 1;
+                    }
+                }
+            }
+            Gdx.app.log("Blocked", "DONE");
+            tiledMapGrid.put(tiledMap, grid);
+        });
+    }
+
+    public List<Vector2> vect = new ArrayList<>();
+    ShapeRenderer shapeRenderer = new ShapeRenderer();
+    public void drawLine(Camera camera) {
+        if(vect.isEmpty()) return;
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Color.RED);
+        for (int i = 0; i < vect.size() - 1; i++) {
+            Vector2 point1 = vect.get(i);
+            Vector2 point2 = vect.get(i + 1);
+            shapeRenderer.rectLine(point1.x * TILE_SIZE, point1.y * TILE_SIZE, point2.x * TILE_SIZE, point2.y * TILE_SIZE, 10);
+        }
+        shapeRenderer.end();
     }
 
     private TiledMap getMap(String map) {
@@ -197,5 +234,9 @@ public enum GameMap {
 
     public void setMapBoundaries(Rectangle mapBoundaries) {
         this.mapBoundaries = mapBoundaries;
+    }
+
+    public HashMap<TiledMap, Integer[][]> getTiledMapGrid() {
+        return tiledMapGrid;
     }
 }

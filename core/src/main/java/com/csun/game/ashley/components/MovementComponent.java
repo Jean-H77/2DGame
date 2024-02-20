@@ -8,6 +8,7 @@ import com.csun.game.models.MovementState;
 public class MovementComponent implements Component {
 
     public Vector2 pos = Vector2.Zero;
+    public Vector2 dest = Vector2.Zero;
     public Direction dir = Direction.N;
     public MovementState state = MovementState.IDLE;
     public float velocity = 0f;
