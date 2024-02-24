@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csun.game.ashley.Mappers;
 import com.csun.game.ashley.components.*;
@@ -52,15 +53,27 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        Gdx.app.log("Here", "Now in game screen");
         viewport.setCamera(playerCamera);
         Entity entity = pooledEngine.createEntity();
-        entity.add(new MovementComponent(new Vector2(400, 400)));
-        entity.add(new ClickableComponent(new Rectangle(400, 400, 16, 16), "Blob"));
+        entity.add(new MovementComponent(new Vector2(477, 400)));
+        entity.add(new ClickableComponent(new Rectangle(477, 400, 16, 16), "Blob"));
         entity.add(new TextureComponent());
         pooledEngine.addEntity(entity);
 
+        Entity entity1 = pooledEngine.createEntity();
+        entity1.add(new MovementComponent(new Vector2(400, 400)));
+        entity1.add(new ClickableComponent(new Rectangle(400, 400, 16, 16), "Knob"));
+        entity1.add(new TextureComponent());
+        pooledEngine.addEntity(entity1);
+
+        Entity entity2 = pooledEngine.createEntity();
+        entity2.add(new MovementComponent(new Vector2(480, 547)));
+        entity2.add(new ClickableComponent(new Rectangle(480, 547, 16, 16), "Shob"));
+        entity2.add(new TextureComponent());
+        pooledEngine.addEntity(entity2);
+
         font = new BitmapFont();
+        font.setColor(Color.GOLD);
         spriteBatch = new SpriteBatch();
     }
 
@@ -78,7 +91,11 @@ public class GameScreen implements Screen {
         renderer.render();
 
         spriteBatch.begin();
-        font.draw(spriteBatch, player.getMovementComponent().pos.toString(), 15, 15);
+        font.draw(spriteBatch, "Position "+player.getMovementComponent().pos.toString(), 15, 15);
+        Vector3 vc = player.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+        Vector3 mousePos = player.getCamera().unproject(new Vector3(vc.x, vc.y, vc.z));
+        font.draw(spriteBatch, "Mouse "+mousePos.toString(), 15, 30);
+
         spriteBatch.end();
 
         pooledEngine.update(Gdx.graphics.getDeltaTime());

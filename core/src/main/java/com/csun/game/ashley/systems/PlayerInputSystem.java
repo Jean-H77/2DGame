@@ -46,6 +46,7 @@ public class PlayerInputSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         MovementComponent mc = Mappers.movements.get(entity);
+
         for(int i = 0; i < getEntities().size(); i++) {
             if(handleEntityClick(getEntities().get(i))) {
                 return;
@@ -92,7 +93,7 @@ public class PlayerInputSystem extends IteratingSystem {
                 mouseAtWorld.y >= component.bounds.y - component.bounds.height && mouseAtWorld.y <= component.bounds.y + component.bounds.height) {
 
                 String identification = component.identification;
-
+                Gdx.app.log("Clicking ", identification);
                 return true;
             }
         }
