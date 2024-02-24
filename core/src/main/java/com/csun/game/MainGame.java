@@ -2,11 +2,15 @@ package com.csun.game;
 
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.csun.game.models.Systems;
 import com.csun.game.player.Player;
 import com.csun.game.screens.GameScreen;
+import com.csun.game.screens.TitleScreen;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+
+import java.util.concurrent.CompletableFuture;
 
 public class MainGame extends Game {
 
@@ -25,8 +29,31 @@ public class MainGame extends Game {
             .list()
             .forEach(it -> engine.addSystem(injector.getInstance(it)));
 
-        Player player = injector.getInstance(Player.class);
-        player.login();
-        setScreen(injector.getInstance(GameScreen.class));
+        setScreen(injector.getInstance(TitleScreen.class));
+    }
+
+    public void switchScreen(ScreenType screenType) {
+        switch (screenType) {
+            case GAME_SCREEN -> setScreen(injector.getInstance(GameScreen.class));
+            case TITLE_SCREEN -> setScreen(injector.getInstance(TitleScreen.class));
+        }
+    }
+
+    public CompletableFuture<Void> loadGameScreen() {
+       return CompletableFuture.runAsync(() -> {
+           Player player = injector.getInstance(Player.class);
+           player.setDefaults()
+               .load()
+               .thenRun(() -> Gdx.app.postRunnable(() -> {
+                   player.postLoad();
+                   switchScreen(ScreenType.GAME_SCREEN);
+               }));
+       });
+    }
+
+    public enum ScreenType {
+        GAME_SCREEN,
+        TITLE_SCREEN
+        ;
     }
 }

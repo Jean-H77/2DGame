@@ -26,7 +26,7 @@ public class GameModule extends AbstractModule {
     @Override
     protected void configure() {
 
-        bind(Game.class).to(MainGame.class).in(Scopes.SINGLETON);
+        bind(MainGame.class).in(Scopes.SINGLETON);
         bind(SpriteBatch.class).in(Scopes.SINGLETON);
         bind(ShapeRenderer.class).in(Scopes.SINGLETON);
         bind(BitmapFont.class).in(Scopes.SINGLETON);

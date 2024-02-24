@@ -11,8 +11,7 @@ import java.util.Queue;
 
 public class PathFinder {
 
-    public static List<Vector2> findPath(Vector2 start, Vector2 end) {
-        GameMap map = GameMap.INSTANCE;
+    public static List<Vector2> findPath(Vector2 start, Vector2 end, GameMap map) {
         TiledMap currentMap = map.getCurrentMap();
         List<Vector2> path = new ArrayList<>();
 

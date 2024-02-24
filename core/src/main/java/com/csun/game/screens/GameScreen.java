@@ -9,6 +9,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -35,6 +37,8 @@ public class GameScreen implements Screen {
     private final OrthogonalTiledMapRenderer renderer;
     private final Player player;
     private final Viewport viewport;
+    BitmapFont font;
+    SpriteBatch spriteBatch;
 
     @Inject
     public GameScreen(PooledEngine pooledEngine, @Named("ExtendedViewport") Viewport viewport, Player player) {
@@ -48,15 +52,18 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        Gdx.app.log("Here", "Now in game screen");
         viewport.setCamera(playerCamera);
         Entity entity = pooledEngine.createEntity();
         entity.add(new MovementComponent(new Vector2(400, 400)));
         entity.add(new ClickableComponent(new Rectangle(400, 400, 16, 16), "Blob"));
         entity.add(new TextureComponent());
         pooledEngine.addEntity(entity);
+
+        font = new BitmapFont();
+        spriteBatch = new SpriteBatch();
     }
 
-    ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     @Override
     public void render(float delta) {
@@ -70,8 +77,11 @@ public class GameScreen implements Screen {
         renderer.setView(playerCamera);
         renderer.render();
 
-        pooledEngine.update(Gdx.graphics.getDeltaTime());
+        spriteBatch.begin();
+        font.draw(spriteBatch, player.getMovementComponent().pos.toString(), 15, 15);
+        spriteBatch.end();
 
+        pooledEngine.update(Gdx.graphics.getDeltaTime());
         rayHandler.setCombinedMatrix(playerCamera.combined);
         rayHandler.updateAndRender();
     }

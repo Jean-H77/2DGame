@@ -26,6 +26,10 @@ import static com.csun.game.GameConstants.TILE_SIZE;
 public enum GameMap {
     INSTANCE(new OrthographicCamera());
 
+    static {
+
+    }
+
     private final HashMap<String , TiledMap> tiledMaps = new HashMap<>();
     private final HashMap<TiledMap, Integer[][]> tiledMapGrid = new HashMap<>();
     private final HashMap<String, Color> lightColors = new HashMap<>();
@@ -71,7 +75,7 @@ public enum GameMap {
                     }
                 }
             }
-            Gdx.app.log("Blocked", "DONE");
+
             tiledMapGrid.put(tiledMap, grid);
         });
     }

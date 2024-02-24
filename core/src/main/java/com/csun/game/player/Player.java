@@ -78,11 +78,10 @@ public final class Player {
         movementComponent.disabled = false;
     }
 
-    public void login() {
+    public Player setDefaults() {
         defaultAttributes();
         ((OrthographicCamera) getCamera()).setToOrtho(false, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-        load().join();
-        postLoad();
+        return this;
     }
 
     public void postLoad() {

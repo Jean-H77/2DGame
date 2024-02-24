@@ -109,7 +109,7 @@ public class PlayerInputSystem extends IteratingSystem {
                 player.moveToMap((String) cell.getTile().getProperties().get("nm_door"));
             }
 
-            if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            /*if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
                 Vector2 mouse = getWorldPositionFromScreen(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
                 int tileX = (int) (mouse.x / TILE_SIZE);
                 int tileY = (int) (mouse.y / TILE_SIZE);
@@ -117,14 +117,15 @@ public class PlayerInputSystem extends IteratingSystem {
                 if(cell != null && cell.getTile().getProperties().containsKey("blocked")) {
                     Gdx.app.log("Collision", "Blocked [" + tileX + ", " + tileY + "]");
                 } else {
-                    List<Vector2> path = PathFinder.findPath(new Vector2(player.getTilePosX(), player.getTilePosY()), new Vector2(tileX, tileY));
+                    List<Vector2> path = PathFinder.findPath(new Vector2(player.getTilePosX(), player.getTilePosY()), new Vector2(tileX, tileY), GameMap.INSTANCE);
                     if (!path.isEmpty()) {
                         path.remove(path.size() - 1);
                         path.add(new Vector2((mouse.x / TILE_SIZE), (mouse.y / TILE_SIZE)));
                     }
+                    mc.addToMovementQueue(path);
                     GameMap.INSTANCE.vect = path;
                 }
-            }
+            }*/
         });
 
         if(Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP) && !(Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN))) {
