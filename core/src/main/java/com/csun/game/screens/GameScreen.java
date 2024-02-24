@@ -25,6 +25,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
+import java.util.Objects;
+
 import static com.csun.game.GameConstants.PLAYER_START_X;
 import static com.csun.game.GameConstants.PLAYER_START_Y;
 
@@ -40,6 +42,8 @@ public class GameScreen implements Screen {
     private final Viewport viewport;
     BitmapFont font;
     SpriteBatch spriteBatch;
+
+    public static String debugNpcHoverText = "";
 
     @Inject
     public GameScreen(PooledEngine pooledEngine, @Named("ExtendedViewport") Viewport viewport, Player player) {
@@ -90,17 +94,24 @@ public class GameScreen implements Screen {
         renderer.setView(playerCamera);
         renderer.render();
 
+        pooledEngine.update(Gdx.graphics.getDeltaTime());
+
         spriteBatch.begin();
         font.draw(spriteBatch, "Position "+player.getMovementComponent().pos.toString(), 15, 15);
         Vector3 vc = player.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
         Vector3 mousePos = player.getCamera().unproject(new Vector3(vc.x, vc.y, vc.z));
         font.draw(spriteBatch, "Mouse "+mousePos.toString(), 15, 30);
 
+        if(!Objects.equals(debugNpcHoverText, "")) {
+            font.draw(spriteBatch, "Npc hover: " + debugNpcHoverText, 15, 45);
+        }
+
         spriteBatch.end();
 
-        pooledEngine.update(Gdx.graphics.getDeltaTime());
         rayHandler.setCombinedMatrix(playerCamera.combined);
         rayHandler.updateAndRender();
+
+        GameScreen.debugNpcHoverText = "";
     }
 
     @Override
