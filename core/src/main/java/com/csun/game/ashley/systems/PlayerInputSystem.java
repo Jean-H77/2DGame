@@ -12,7 +12,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.csun.game.ai.paths.PathFinder;
 import com.csun.game.ashley.Mappers;
 import com.csun.game.ashley.components.ClickableComponent;
 import com.csun.game.ashley.components.MovementComponent;
@@ -22,12 +21,7 @@ import com.csun.game.map.GameMap;
 import com.csun.game.models.Direction;
 import com.csun.game.models.LightType;
 import com.csun.game.player.Player;
-import com.csun.game.screens.GameScreen;
 import com.google.inject.Inject;
-
-import java.util.List;
-
-import static com.csun.game.GameConstants.TILE_SIZE;
 
 public class PlayerInputSystem extends IteratingSystem {
 
@@ -47,6 +41,7 @@ public class PlayerInputSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         MovementComponent mc = Mappers.movements.get(entity);
+        player.getAttributes().set(Attributes.WORLD_MOUSE_POSITION, getWorldPositionFromScreen(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0)));
 
         for(int i = 0; i < getEntities().size(); i++) {
             if(handleEntityClick(getEntities().get(i))) {
@@ -88,16 +83,17 @@ public class PlayerInputSystem extends IteratingSystem {
 
     private boolean handleEntityClick(Entity entity) {
         ClickableComponent component = Mappers.clickables.get(entity);
-        if(component != null) {
-            Vector2 mouseAtWorld = getWorldPositionFromScreen(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+        if(component != null && player.getAttributes().hasKey(Attributes.WORLD_MOUSE_POSITION)) {
+            Vector2 mouseAtWorld = player.getAttributes().get(Attributes.WORLD_MOUSE_POSITION);
             if (mouseAtWorld.x >= component.bounds.x - component.bounds.width && mouseAtWorld.x <= component.bounds.x + component.bounds.width &&
                 mouseAtWorld.y >= component.bounds.y - component.bounds.height && mouseAtWorld.y <= component.bounds.y + component.bounds.height) {
 
                 String identification = component.identification;
-                GameScreen.debugNpcHoverText = identification;
+                player.getAttributes().set(Attributes.NPC_HOVER, identification);
 
                 if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
                     Gdx.app.log("Clicking ", identification);
+                    player.getAttributes().set(Attributes.LAST_NPC_CLICKED, identification);
                     return true;
                 }
             }

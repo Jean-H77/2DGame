@@ -15,20 +15,15 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csun.game.ashley.Mappers;
 import com.csun.game.ashley.components.*;
+import com.csun.game.attributes.Attributes;
 import com.csun.game.map.GameMap;
 import com.csun.game.player.Player;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-
-import java.util.Objects;
-
-import static com.csun.game.GameConstants.PLAYER_START_X;
-import static com.csun.game.GameConstants.PLAYER_START_Y;
 
 /** First screen of the application. Displayed after the application is created. */
 @Singleton
@@ -42,7 +37,8 @@ public class GameScreen implements Screen {
     private final Viewport viewport;
     BitmapFont font;
     SpriteBatch spriteBatch;
-
+    ShapeRenderer shapeRenderer;
+    SpriteBatch debugSpriteBatch;
     public static String debugNpcHoverText = "";
 
     @Inject
@@ -79,6 +75,9 @@ public class GameScreen implements Screen {
         font = new BitmapFont();
         font.setColor(Color.GOLD);
         spriteBatch = new SpriteBatch();
+        shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setProjectionMatrix(playerCamera.combined);
+        debugSpriteBatch = new SpriteBatch();
     }
 
 
@@ -96,22 +95,31 @@ public class GameScreen implements Screen {
 
         pooledEngine.update(Gdx.graphics.getDeltaTime());
 
-        spriteBatch.begin();
-        font.draw(spriteBatch, "Position "+player.getMovementComponent().pos.toString(), 15, 15);
-        Vector3 vc = player.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-        Vector3 mousePos = player.getCamera().unproject(new Vector3(vc.x, vc.y, vc.z));
-        font.draw(spriteBatch, "Mouse "+mousePos.toString(), 15, 30);
-
-        if(!Objects.equals(debugNpcHoverText, "")) {
-            font.draw(spriteBatch, "Npc hover: " + debugNpcHoverText, 15, 45);
-        }
-
-        spriteBatch.end();
+        debugSpriteBatch.begin();
+        Vector2 mouse = player.getAttributes().get(Attributes.WORLD_MOUSE_POSITION);
+        font.draw(debugSpriteBatch, "Position "+player.getMovementComponent().pos.toString(), 15, 15);
+        font.draw(debugSpriteBatch, "Mouse "+mouse, 15, 30);
+        debugSpriteBatch.end();
 
         rayHandler.setCombinedMatrix(playerCamera.combined);
         rayHandler.updateAndRender();
 
-        GameScreen.debugNpcHoverText = "";
+        if(player.getAttributes().hasKey(Attributes.NPC_HOVER)) {
+            String hover = player.getAttributes().get(Attributes.NPC_HOVER);
+
+            /*shapeRenderer.setProjectionMatrix(playerCamera.combined);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(Color.BLUE);
+            shapeRenderer.rect(mouse.x, mouse.y, 10, 10);
+            shapeRenderer.end();*/
+
+            spriteBatch.begin();
+            spriteBatch.setProjectionMatrix(playerCamera.combined);
+            font.draw(spriteBatch, hover, mouse.x, mouse.y+12);
+            spriteBatch.end();
+
+            player.getAttributes().remove(Attributes.NPC_HOVER);
+        }
     }
 
     @Override
