@@ -1,4 +1,4 @@
-package com.csun.game.dialogue;
+package com.csun.game.UI.dialogue;
 
 import com.csun.game.player.Player;
 

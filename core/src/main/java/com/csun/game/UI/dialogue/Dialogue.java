@@ -1,22 +1,19 @@
-package com.csun.game.dialogue;
+package com.csun.game.UI.dialogue;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import com.csun.game.UI.UI;
+import com.csun.game.UI.dialogue.impl.DialogueOptions;
+import com.csun.game.UI.dialogue.impl.DialogueStatement;
 import com.csun.game.attributes.Attributes;
-import com.csun.game.dialogue.impl.DialogueOptions;
-import com.csun.game.dialogue.impl.DialogueStatement;
 import com.csun.game.player.Player;
 import com.github.tommyettinger.textra.KnownFonts;
 import com.github.tommyettinger.textra.TypingLabel;
@@ -26,10 +23,7 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
-import static com.csun.game.GameConstants.VIEWPORT_HEIGHT;
-import static com.csun.game.GameConstants.VIEWPORT_WIDTH;
-
-public class Dialogue {
+public class Dialogue extends UI {
 
     private static final Skin skin = new Skin();
     static {
@@ -39,21 +33,18 @@ public class Dialogue {
 
     private final Deque<DialoguePart> dialogueParts = new ArrayDeque<>();
 
-    private Stage stage;
     private DialoguePart currentPart;
 
     private Dialogue(Builder builder) {
         this.dialogueParts.addAll(builder.dialogueParts);
     }
 
-    public void buildWidget(Player player) {
+    @Override
+    public void setup(Player player) {
         if(currentPart == null) {
             currentPart = next();
         }
 
-        Viewport viewport = new FitViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-
-        stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
 
         Table root = new Table();
@@ -95,7 +86,7 @@ public class Dialogue {
                             }
                             dialogueParts.addFirst(currentPart);
                             currentPart = next();
-                            buildWidget(player);
+                            setup(player);
                         }
                     }
 
@@ -141,7 +132,7 @@ public class Dialogue {
                             removeDialogue(player);
                             return;
                         }
-                        buildWidget(player);
+                        setup(player);
                     }
                 }
                 @Override

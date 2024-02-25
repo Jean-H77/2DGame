@@ -1,7 +1,7 @@
-package com.csun.game.dialogue.impl;
+package com.csun.game.UI.dialogue.impl;
 
-import com.csun.game.dialogue.DialoguePart;
-import com.csun.game.dialogue.Option;
+import com.csun.game.UI.dialogue.DialoguePart;
+import com.csun.game.UI.dialogue.Option;
 
 public class DialogueOptions implements DialoguePart {
 

@@ -12,7 +12,7 @@ import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.TextureComponent;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.attributes.AttributesMap;
-import com.csun.game.dialogue.Dialogue;
+import com.csun.game.UI.dialogue.Dialogue;
 import com.csun.game.map.GameMap;
 import com.csun.game.models.LightType;
 import com.csun.game.UI.settings.Settings;
@@ -144,6 +144,6 @@ public final class Player {
             attributes.get(Attributes.CURRENT_DIALOGUE).removeDialogue(this);
         }
         attributes.set(Attributes.CURRENT_DIALOGUE, dialogue);
-        dialogue.buildWidget(this);
+        dialogue.setup(this);
     }
 }

@@ -1,9 +1,9 @@
-package com.csun.game.dialogue;
+package com.csun.game.UI.dialogue;
 
 import com.badlogic.gdx.Gdx;
+import com.csun.game.UI.dialogue.impl.DialogueOptions;
+import com.csun.game.UI.dialogue.impl.DialogueStatement;
 import com.csun.game.attributes.Attributes;
-import com.csun.game.dialogue.impl.DialogueOptions;
-import com.csun.game.dialogue.impl.DialogueStatement;
 import com.csun.game.map.GameMap;
 import com.csun.game.models.LightType;
 import com.csun.game.player.Player;
