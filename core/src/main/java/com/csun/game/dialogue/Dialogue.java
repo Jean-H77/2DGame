@@ -120,7 +120,7 @@ public class Dialogue {
             typingLabel.setWrap(true);
             typingLabel.setSize(500, 20);
 
-            TypingLabel continueLabel = new TypingLabel("[%75][SCARLET]Click here to continue[%]", KnownFonts.getStandardFamily());
+            TypingLabel continueLabel = new TypingLabel("[_][%75][SCARLET]Click here to continue[%]", KnownFonts.getStandardFamily());
             continueLabel.setAlignment(Align.center);
             continueLabel.setSize(500, 20);
             continueLabel.addListener(new ClickListener() {
