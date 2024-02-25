@@ -16,6 +16,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.csun.game.UI.BaseUI;
 import com.csun.game.ashley.Mappers;
 import com.csun.game.ashley.components.*;
 import com.csun.game.attributes.Attributes;
@@ -123,6 +124,8 @@ public class GameScreen implements Screen {
         if(player.getAttributes().hasKey(Attributes.CURRENT_DIALOGUE)) {
             player.getAttributes().get(Attributes.CURRENT_DIALOGUE).render(delta);
         }
+
+        player.getAttributes().get(Attributes.ALL_OPENED_UI).forEach(baseUI -> baseUI.render(delta));
     }
 
     @Override
@@ -131,6 +134,8 @@ public class GameScreen implements Screen {
         if(player.getAttributes().hasKey(Attributes.CURRENT_DIALOGUE)) {
             player.getAttributes().get(Attributes.CURRENT_DIALOGUE).resize(width, height);
         }
+
+        player.getAttributes().get(Attributes.ALL_OPENED_UI).forEach(baseUI -> baseUI.resize(width,height));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.csun.game.UI;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.csun.game.player.Player;
@@ -18,6 +19,7 @@ public abstract class BaseUI {
         stage.getViewport().apply();
         stage.act(deltaTime);
         stage.draw();
+        Gdx.app.log("Rendering", "Rendering");
     }
 
     public void exit() {

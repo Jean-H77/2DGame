@@ -12,6 +12,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.csun.game.UI.UIManager;
 import com.csun.game.ashley.Mappers;
 import com.csun.game.ashley.components.ClickableComponent;
 import com.csun.game.ashley.components.MovementComponent;
@@ -79,6 +80,9 @@ public class PlayerInputSystem extends IteratingSystem {
             return true;
         } else if(Gdx.input.isKeyJustPressed(Input.Keys.D)) {
             player.startDialogue(TestDialogue.get());
+            return true;
+        } else if(Gdx.input.isKeyJustPressed(Input.Keys.S)) {
+            UIManager.openUI(player, "SettingsUI");
             return true;
         }
         return false;

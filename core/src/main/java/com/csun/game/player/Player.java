@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.csun.game.UI.impl.settings.Settings;
 import com.csun.game.ashley.components.CameraComponent;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.TextureComponent;
@@ -15,8 +16,8 @@ import com.csun.game.attributes.AttributesMap;
 import com.csun.game.dialogue.Dialogue;
 import com.csun.game.map.GameMap;
 import com.csun.game.models.LightType;
-import com.csun.game.UI.impl.settings.Settings;
 
+import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
 import static com.csun.game.GameConstants.*;
@@ -68,6 +69,7 @@ public final class Player {
         attributes.set(Attributes.PLAYER_CURRENT_MAP, "tempmap.tmx");
         attributes.set(Attributes.PLAYER_IS_LOGGED_IN, false);
         attributes.set(Attributes.PLAYER_SETTINGS, new Settings());
+        attributes.set(Attributes.ALL_OPENED_UI, new ArrayList<>());
     }
 
     public void moveToMap(String map) {
