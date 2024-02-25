@@ -16,4 +16,5 @@ public record Option(String title, Command command, DialoguePart next) {
     public static Option create(String title, DialoguePart next) {
         return new Option(title, null, next);
     }
+
 }

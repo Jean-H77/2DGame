@@ -56,10 +56,10 @@ public class TestDialogue {
             .addOptions(new DialogueOptions(
                 Option.create("This is the option dialogue will increase light radius", (player) -> player.enableLight(LightType.CONE_LIGHT, 500),
                     new DialogueOptions(
-                        Option.create("Change light to point light and exit dialogue", (player) -> player.enableLight(LightType.POINT_LIGHT, 500), null),
-                        Option.create("Exit dialogue", (player) -> player.getAttributes().get(Attributes.CURRENT_DIALOGUE).removeDialogue(player), null)
+                        Option.create("Change light to point light and exit dialogue", (player) -> player.enableLight(LightType.POINT_LIGHT, 500)),
+                        Option.create("Exit dialogue", (player) -> player.getAttributes().get(Attributes.CURRENT_DIALOGUE).removeDialogue(player))
                     )),
-                Option.create("This option dialogue will just exit your dialogue", (player) -> player.getAttributes().get(Attributes.CURRENT_DIALOGUE).removeDialogue(player), null),
+                Option.create("This option dialogue will just exit your dialogue", (player) -> player.getAttributes().get(Attributes.CURRENT_DIALOGUE).removeDialogue(player)),
                 Option.create("This option will keep the dialogue going", new DialogueStatement() {
                     @Override
                     public String getText(Player player) {
