@@ -11,6 +11,8 @@ import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.TextureComponent;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.attributes.AttributesMap;
+import com.csun.game.dialogue.Dialogue;
+import com.csun.game.dialogue.TestDialogue;
 import com.csun.game.map.GameMap;
 import com.csun.game.models.LightType;
 
@@ -89,18 +91,18 @@ public final class Player {
         moveToMap(attributes.get(Attributes.PLAYER_CURRENT_MAP));
     }
 
-    public void toggleLight(LightType lightType, int radius) {
-        if(!attributes.hasKey(Attributes.PLAYER_LIGHT)) {
-            if(lightType == LightType.POINT_LIGHT) {
-                attributes.set(Attributes.PLAYER_LIGHT, new PointLight(
-                    GameMap.INSTANCE.getRayHandler(),
-                    1000,
-                    Color.WHITE,
-                    radius,
-                    movementComponent.pos.x,
-                    movementComponent.pos.y
-                ));
-            } else if(lightType == LightType.CONE_LIGHT) {
+    public void enableLight(LightType lightType, int radius) {
+        disableLight();
+        if(lightType == LightType.POINT_LIGHT) {
+            attributes.set(Attributes.PLAYER_LIGHT, new PointLight(
+                GameMap.INSTANCE.getRayHandler(),
+                1000,
+                Color.WHITE,
+                radius,
+                movementComponent.pos.x,
+                movementComponent.pos.y
+            ));
+        } else if(lightType == LightType.CONE_LIGHT) {
                 attributes.set(Attributes.PLAYER_LIGHT, new ConeLight(
                     GameMap.INSTANCE.getRayHandler(),
                     1000,
@@ -112,6 +114,10 @@ public final class Player {
                     60.0f
                 ));
             }
+    }
+
+    public void disableLight() {
+        if(!attributes.hasKey(Attributes.PLAYER_LIGHT)) {
             return;
         }
         attributes.get(Attributes.PLAYER_LIGHT).remove();
@@ -128,5 +134,10 @@ public final class Player {
 
     public CameraComponent getCameraComponent() {
         return cameraComponent;
+    }
+
+    public void addDialogue(Dialogue dialogue) {
+        attributes.set(Attributes.CURRENT_DIALOGUE, dialogue);
+        dialogue.buildWidget(this);
     }
 }

@@ -22,6 +22,7 @@ import com.csun.game.attributes.Attributes;
 import com.csun.game.dialogue.Dialogue;
 import com.csun.game.dialogue.Option;
 import com.csun.game.dialogue.impl.DialogueOptions;
+import com.csun.game.dialogue.impl.DialogueStatement;
 import com.csun.game.map.GameMap;
 import com.csun.game.models.LightType;
 import com.csun.game.player.Player;
@@ -86,17 +87,6 @@ public class GameScreen implements Screen {
         debugSpriteBatch = new SpriteBatch();
 
         font = new BitmapFont();
-
-        dialogue = new Dialogue.Builder()
-            .addOption(new DialogueOptions(
-                Option.Create("[SCARLET]Toggle Light", (player) -> player.toggleLight(LightType.CONE_LIGHT, 200)),
-                Option.Create("[SCARLET]Dim area", (player) -> GameMap.INSTANCE.getRayHandler().setAmbientLight(0.4f)),
-                Option.Create("[SCARLET]Lighten area", (player) -> GameMap.INSTANCE.getRayHandler().setAmbientLight(1f))
-            ))
-            .build();
-
-        player.getAttributes().set(Attributes.CURRENT_DIALOGUE, dialogue);
-        dialogue.buildWidget(player);
     }
 
 
@@ -125,12 +115,6 @@ public class GameScreen implements Screen {
 
         if(player.getAttributes().hasKey(Attributes.NPC_HOVER)) {
             String hover = player.getAttributes().get(Attributes.NPC_HOVER);
-
-            /*shapeRenderer.setProjectionMatrix(playerCamera.combined);
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-            shapeRenderer.setColor(Color.BLUE);
-            shapeRenderer.rect(mouse.x, mouse.y, 10, 10);
-            shapeRenderer.end();*/
 
             spriteBatch.begin();
             spriteBatch.setProjectionMatrix(playerCamera.combined);

@@ -17,6 +17,7 @@ import com.csun.game.ashley.components.ClickableComponent;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.PlayerComponent;
 import com.csun.game.attributes.Attributes;
+import com.csun.game.dialogue.TestDialogue;
 import com.csun.game.map.GameMap;
 import com.csun.game.models.Direction;
 import com.csun.game.models.LightType;
@@ -49,6 +50,12 @@ public class PlayerInputSystem extends IteratingSystem {
             }
         }
 
+        if(!Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) return;
+
+        if(handleHotKeyInput()) {
+            return;
+        }
+
         if(handleMovementInput(mc)) {
             if(player.getAttributes().hasKey(Attributes.PLAYER_LIGHT)) {
                 Light light = player.getAttributes().get(Attributes.PLAYER_LIGHT);
@@ -60,18 +67,19 @@ public class PlayerInputSystem extends IteratingSystem {
                 }
             }
         }
-
-        if(!Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) return;
-
-        if(handleHotKeyInput());
     }
 
     private boolean handleHotKeyInput() {
         if(Gdx.input.isKeyJustPressed(Input.Keys.Y)) {
             player.save()
                 .thenRun(() -> Gdx.app.log("Saved", "Player saved"));
+            return true;
         } else if(Gdx.input.isKeyJustPressed(Input.Keys.I)) {
-            player.toggleLight(LightType.CONE_LIGHT, 200);
+            player.enableLight(LightType.CONE_LIGHT, 200);
+            return true;
+        } else if(Gdx.input.isKeyPressed(Input.Keys.D)) {
+            player.addDialogue(TestDialogue.get());
+            return true;
         }
         return false;
     }
