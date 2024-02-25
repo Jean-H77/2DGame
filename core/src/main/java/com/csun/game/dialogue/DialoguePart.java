@@ -1,4 +1,4 @@
-package com.csun.game.UI.dialogue;
+package com.csun.game.dialogue;
 
 public interface DialoguePart {
 

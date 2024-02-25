@@ -17,7 +17,7 @@ import com.csun.game.ashley.components.ClickableComponent;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.PlayerComponent;
 import com.csun.game.attributes.Attributes;
-import com.csun.game.UI.dialogue.TestDialogue;
+import com.csun.game.dialogue.TestDialogue;
 import com.csun.game.map.GameMap;
 import com.csun.game.models.Direction;
 import com.csun.game.models.LightType;

@@ -7,7 +7,8 @@ import com.csun.game.player.Player;
 import static com.csun.game.GameConstants.VIEWPORT_HEIGHT;
 import static com.csun.game.GameConstants.VIEWPORT_WIDTH;
 
-public abstract class UI {
+
+public abstract class BaseUI {
 
     protected final Stage stage = new Stage(new FitViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT));
 
@@ -17,6 +18,10 @@ public abstract class UI {
         stage.getViewport().apply();
         stage.act(deltaTime);
         stage.draw();
+    }
+
+    public void exit() {
+        stage.dispose();
     }
 
     public void resize(int width, int height) {

@@ -2,9 +2,9 @@ package com.csun.game.attributes;
 
 import box2dLight.Light;
 import com.badlogic.gdx.math.Vector2;
-import com.csun.game.UI.dialogue.Dialogue;
+import com.csun.game.dialogue.Dialogue;
 import com.csun.game.player.Player;
-import com.csun.game.UI.settings.Settings;
+import com.csun.game.UI.impl.settings.Settings;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 

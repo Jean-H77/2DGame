@@ -3,6 +3,7 @@ package com.csun.game;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.csun.game.UI.UIManager;
 import com.csun.game.models.Systems;
 import com.csun.game.player.Player;
 import com.csun.game.screens.GameScreen;
@@ -23,6 +24,13 @@ public class MainGame extends Game {
 
     @Override
     public void create() {
+        setupInjector();
+        UIManager.scan();
+
+       // UIManager.openUI("SettingsUI");
+    }
+
+    public void setupInjector() {
         PooledEngine engine = injector.getInstance(PooledEngine.class);
 
         injector.getInstance(Systems.class)

@@ -1,4 +1,4 @@
-package com.csun.game.UI.dialogue;
+package com.csun.game.dialogue;
 
 public record Option(String title, Command command, DialoguePart next) {
     public static Option create(String title, Command command, DialoguePart next) {

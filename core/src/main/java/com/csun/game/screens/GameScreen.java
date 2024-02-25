@@ -19,7 +19,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csun.game.ashley.Mappers;
 import com.csun.game.ashley.components.*;
 import com.csun.game.attributes.Attributes;
-import com.csun.game.UI.dialogue.Dialogue;
+import com.csun.game.dialogue.Dialogue;
 import com.csun.game.map.GameMap;
 import com.csun.game.player.Player;
 import com.google.inject.Inject;

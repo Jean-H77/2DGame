@@ -1,18 +1,19 @@
-package com.csun.game.UI.dialogue;
+package com.csun.game.dialogue;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.csun.game.UI.UI;
-import com.csun.game.UI.dialogue.impl.DialogueOptions;
-import com.csun.game.UI.dialogue.impl.DialogueStatement;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.csun.game.dialogue.impl.DialogueOptions;
+import com.csun.game.dialogue.impl.DialogueStatement;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.player.Player;
 import com.github.tommyettinger.textra.KnownFonts;
@@ -23,7 +24,10 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
-public class Dialogue extends UI {
+import static com.csun.game.GameConstants.VIEWPORT_HEIGHT;
+import static com.csun.game.GameConstants.VIEWPORT_WIDTH;
+
+public class Dialogue {
 
     private static final Skin skin = new Skin();
     static {
@@ -32,6 +36,7 @@ public class Dialogue extends UI {
     }
 
     private final Deque<DialoguePart> dialogueParts = new ArrayDeque<>();
+    private final Stage stage = new Stage(new FitViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT));
 
     private DialoguePart currentPart;
 
@@ -39,7 +44,6 @@ public class Dialogue extends UI {
         this.dialogueParts.addAll(builder.dialogueParts);
     }
 
-    @Override
     public void setup(Player player) {
         if(currentPart == null) {
             currentPart = next();
