@@ -19,7 +19,11 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csun.game.ashley.Mappers;
 import com.csun.game.ashley.components.*;
 import com.csun.game.attributes.Attributes;
+import com.csun.game.dialogue.Dialogue;
+import com.csun.game.dialogue.Option;
+import com.csun.game.dialogue.impl.DialogueOptions;
 import com.csun.game.map.GameMap;
+import com.csun.game.models.LightType;
 import com.csun.game.player.Player;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -39,7 +43,9 @@ public class GameScreen implements Screen {
     SpriteBatch spriteBatch;
     ShapeRenderer shapeRenderer;
     SpriteBatch debugSpriteBatch;
+    BitmapFont debugFont;
     public static String debugNpcHoverText = "";
+    Dialogue dialogue;
 
     @Inject
     public GameScreen(PooledEngine pooledEngine, @Named("ExtendedViewport") Viewport viewport, Player player) {
@@ -72,12 +78,25 @@ public class GameScreen implements Screen {
         entity2.add(new TextureComponent());
         pooledEngine.addEntity(entity2);
 
-        font = new BitmapFont();
-        font.setColor(Color.GOLD);
+        debugFont = new BitmapFont();
+        debugFont.setColor(Color.GOLD);
         spriteBatch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(playerCamera.combined);
         debugSpriteBatch = new SpriteBatch();
+
+        font = new BitmapFont();
+
+        dialogue = new Dialogue.Builder()
+            .addOption(new DialogueOptions(
+                Option.Create("[SCARLET]Toggle Light", (player) -> player.toggleLight(LightType.CONE_LIGHT, 200)),
+                Option.Create("[SCARLET]Dim area", (player) -> GameMap.INSTANCE.getRayHandler().setAmbientLight(0.4f)),
+                Option.Create("[SCARLET]Lighten area", (player) -> GameMap.INSTANCE.getRayHandler().setAmbientLight(1f))
+            ))
+            .build();
+
+        player.getAttributes().set(Attributes.CURRENT_DIALOGUE, dialogue);
+        dialogue.buildWidget(player);
     }
 
 
@@ -97,8 +116,8 @@ public class GameScreen implements Screen {
 
         debugSpriteBatch.begin();
         Vector2 mouse = player.getAttributes().get(Attributes.WORLD_MOUSE_POSITION);
-        font.draw(debugSpriteBatch, "Position "+player.getMovementComponent().pos.toString(), 15, 15);
-        font.draw(debugSpriteBatch, "Mouse "+mouse, 15, 30);
+        debugFont.draw(debugSpriteBatch, "Position "+player.getMovementComponent().pos.toString(), 15, 15);
+        debugFont.draw(debugSpriteBatch, "Mouse "+mouse, 15, 30);
         debugSpriteBatch.end();
 
         rayHandler.setCombinedMatrix(playerCamera.combined);
@@ -120,11 +139,18 @@ public class GameScreen implements Screen {
 
             player.getAttributes().remove(Attributes.NPC_HOVER);
         }
+
+        if(player.getAttributes().hasKey(Attributes.CURRENT_DIALOGUE)) {
+            player.getAttributes().get(Attributes.CURRENT_DIALOGUE).render(delta);
+        }
     }
 
     @Override
     public void resize(int width, int height) {
         viewport.update(width,height);
+        if(player.getAttributes().hasKey(Attributes.CURRENT_DIALOGUE)) {
+            player.getAttributes().get(Attributes.CURRENT_DIALOGUE).resize(width, height);
+        }
     }
 
     @Override

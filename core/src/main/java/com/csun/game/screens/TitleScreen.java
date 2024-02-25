@@ -15,6 +15,9 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.csun.game.MainGame;
+import com.github.tommyettinger.textra.KnownFonts;
+import com.github.tommyettinger.textra.TextraButton;
+import com.github.tommyettinger.textra.TextraLabel;
 import com.google.inject.Inject;
 
 import static com.csun.game.GameConstants.*;
@@ -41,7 +44,7 @@ public class TitleScreen implements Screen {
         skin.addRegions(new TextureAtlas(Gdx.files.internal("gdx-skins-master/cloud-form/skin/cloud-form-ui.atlas")));
         skin.load(Gdx.files.internal("gdx-skins-master/cloud-form/skin/cloud-form-ui.json"));
 
-        TextButton startGameTextButton = new TextButton("Start Game", skin, "default");
+        TextraButton startGameTextButton = new TextraButton("Start Game", skin, "default");
         startGameTextButton.setSize(100, 100);
         startGameTextButton.setPosition((float) Gdx.graphics.getWidth() /2 - startGameTextButton.getWidth()/2, (float) Gdx.graphics.getHeight() /2 - startGameTextButton.getHeight()/6);
         startGameTextButton.addListener(new ClickListener() {
@@ -64,7 +67,7 @@ public class TitleScreen implements Screen {
         });
         stage.addActor(exitGameTextButton);
 
-        Label titleLabel = new Label(GAME_TITLE, skin, "default");
+        TextraLabel titleLabel = new TextraLabel(GAME_TITLE, KnownFonts.getStandardFamily());
         titleLabel.setWrap(true);
         titleLabel.setAlignment(Align.center);
         titleLabel.setSize(200, 100);

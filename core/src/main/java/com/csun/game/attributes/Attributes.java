@@ -2,6 +2,7 @@ package com.csun.game.attributes;
 
 import box2dLight.Light;
 import com.badlogic.gdx.math.Vector2;
+import com.csun.game.dialogue.Dialogue;
 import com.csun.game.player.Player;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -60,4 +61,6 @@ public final class Attributes {
     public static final AttributeKey<Vector2> WORLD_MOUSE_POSITION = new AttributeKey<>();
 
     public static final AttributeKey<String> LAST_NPC_CLICKED = new AttributeKey<>();
+
+    public static final AttributeKey<Dialogue> CURRENT_DIALOGUE = new AttributeKey<>();
 }
