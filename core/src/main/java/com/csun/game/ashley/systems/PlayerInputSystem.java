@@ -12,6 +12,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.csun.game.UI.BaseUI;
 import com.csun.game.UI.UIManager;
 import com.csun.game.ashley.Mappers;
 import com.csun.game.ashley.components.ClickableComponent;
@@ -84,6 +85,9 @@ public class PlayerInputSystem extends IteratingSystem {
         } else if(Gdx.input.isKeyJustPressed(Input.Keys.S)) {
             UIManager.openUI(player, "SettingsUI");
             return true;
+        } else if(Gdx.input.isKeyJustPressed(Input.Keys.A)) {
+            UIManager.removeUI(player, "SettingsUI");
+            return true;
         }
         return false;
     }
@@ -116,6 +120,12 @@ public class PlayerInputSystem extends IteratingSystem {
 
     private boolean handleMovementInput(MovementComponent mc) {
         if(mc.disabled) return false;
+
+        if(player.getAttributes().get(Attributes.ALL_OPENED_UI)
+            .stream()
+            .anyMatch(baseUi -> !baseUi.isWalkable())) {
+            return false;
+        }
 
         GameMap.INSTANCE.getLayer(1).ifPresent(tiledMapTileLayer -> {
             TiledMapTileLayer.Cell cell = tiledMapTileLayer.getCell((int) player.getTilePosX(), (int) player.getTilePosY());

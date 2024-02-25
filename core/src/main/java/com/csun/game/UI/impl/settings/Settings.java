@@ -2,7 +2,7 @@ package com.csun.game.UI.impl.settings;
 
 public class Settings {
 
-    private int packedInt; //wanted to try something different and use bitwise operations
+    private int packedInt;
 
     public void setScreenType(ScreenType screenType) {
         packedInt &= ~1;
@@ -10,7 +10,7 @@ public class Settings {
     }
 
     public ScreenType getScreenType() {
-        return (packedInt & 1) == 0 ? ScreenType.FULL_SCREEN : ScreenType.FIXED;
+        return (packedInt & 1) == 0 ? ScreenType.FULL_SCREEN : ScreenType.WINDOWED;
     }
 
     public void setAudioLevel(int value) {

@@ -2,7 +2,7 @@ package com.csun.game.UI.impl.settings;
 
 public enum ScreenType {
     FULL_SCREEN(0),
-    FIXED(1)
+    WINDOWED(1)
     ;
     private final int type;
 

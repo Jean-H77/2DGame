@@ -15,6 +15,12 @@ public abstract class BaseUI {
 
     public abstract void setup(Player player);
 
+    /**
+     * Having this return true means that the player can walk
+     * around while the interface is open
+     */
+    public abstract boolean isWalkable();
+
     public void render(float deltaTime) {
         stage.getViewport().apply();
         stage.act(deltaTime);
@@ -23,7 +29,7 @@ public abstract class BaseUI {
     }
 
     public void exit() {
-        stage.dispose();
+
     }
 
     public void resize(int width, int height) {
