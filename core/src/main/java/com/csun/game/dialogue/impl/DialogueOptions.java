@@ -25,8 +25,4 @@ public class DialogueOptions implements DialoguePart {
     public DialoguePart getNext() {
         return next;
     }
-
-    public void handleSelection(int selection) {
-
-    }
 }
