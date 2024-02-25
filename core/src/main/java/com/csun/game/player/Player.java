@@ -15,6 +15,7 @@ import com.csun.game.attributes.AttributesMap;
 import com.csun.game.dialogue.Dialogue;
 import com.csun.game.map.GameMap;
 import com.csun.game.models.LightType;
+import com.csun.game.settings.Settings;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -66,6 +67,7 @@ public final class Player {
         attributes.set(Attributes.PLAYER_POSITION, movementComponent.pos);
         attributes.set(Attributes.PLAYER_CURRENT_MAP, "tempmap.tmx");
         attributes.set(Attributes.PLAYER_IS_LOGGED_IN, false);
+        attributes.set(Attributes.PLAYER_SETTINGS, new Settings());
     }
 
     public void moveToMap(String map) {
