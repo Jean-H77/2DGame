@@ -15,7 +15,7 @@ import com.csun.game.attributes.AttributesMap;
 import com.csun.game.dialogue.Dialogue;
 import com.csun.game.map.GameMap;
 import com.csun.game.models.LightType;
-import com.csun.game.settings.Settings;
+import com.csun.game.UI.settings.Settings;
 
 import java.util.concurrent.CompletableFuture;
 

@@ -1,4 +1,4 @@
-package com.csun.game.settings;
+package com.csun.game.UI.settings;
 
 public enum ScreenType {
     FULL_SCREEN(0),
