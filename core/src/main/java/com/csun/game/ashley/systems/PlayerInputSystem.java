@@ -77,8 +77,8 @@ public class PlayerInputSystem extends IteratingSystem {
         } else if(Gdx.input.isKeyJustPressed(Input.Keys.I)) {
             player.enableLight(LightType.CONE_LIGHT, 200);
             return true;
-        } else if(Gdx.input.isKeyPressed(Input.Keys.D)) {
-            player.addDialogue(TestDialogue.get());
+        } else if(Gdx.input.isKeyJustPressed(Input.Keys.D)) {
+            player.startDialogue(TestDialogue.get());
             return true;
         }
         return false;

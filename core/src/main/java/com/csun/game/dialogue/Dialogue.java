@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csun.game.attributes.Attributes;
@@ -66,13 +67,14 @@ public class Dialogue {
         root.add(table);
 
         if(currentPart instanceof DialogueOptions dialogueOptions) {
-            Option[] options = dialogueOptions.options();
+            Option[] options = dialogueOptions.getOptions();
 
             TypingLabel header = new TypingLabel("[_][%75][SCARLET] Select an option [%]", KnownFonts.getStandardFamily());
             header.setSize(500, 20);
             table.row();
             table.add(header);
 
+            int i = 0;
             for (Option option : options) {
                 TypingLabel label = new TypingLabel("[%75][SCARLET]" + option.title() + "[%]", KnownFonts.getStandardFamily());
                 label.setSize(500, 20);
@@ -81,10 +83,14 @@ public class Dialogue {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         if(label.hasEnded()) {
-                            option.command().execute(player);
-                            currentPart = option.next();
+                            Command command = option.command();
+                            if(command != null) {
+                                command.execute(player);
+                            }
+                            currentPart = option.next() != null ? option.next() : dialogueOptions.getNext();
                             if (currentPart == null) {
                                 removeDialogue(player);
+                                Gdx.app.log("Dialogue", "Removing");
                                 return;
                             }
                             dialogueParts.addFirst(currentPart);
@@ -127,6 +133,9 @@ public class Dialogue {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     if(continueLabel.hasEnded()) {
+                        if(statement.getNext() != null) {
+                            dialogueParts.addFirst(statement.getNext());
+                        }
                         currentPart = next();
                         if (currentPart == null) {
                             removeDialogue(player);
@@ -190,6 +199,11 @@ public class Dialogue {
 
         public Builder addStatement(DialogueStatement dialogueStatement) {
             dialogueParts.add(dialogueStatement);
+            return this;
+        }
+
+        public Builder addPart(DialoguePart dialoguePart) {
+            dialogueParts.add(dialoguePart);
             return this;
         }
 

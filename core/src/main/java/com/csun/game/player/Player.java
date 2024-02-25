@@ -3,6 +3,7 @@ package com.csun.game.player;
 import box2dLight.ConeLight;
 import box2dLight.PointLight;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -12,7 +13,6 @@ import com.csun.game.ashley.components.TextureComponent;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.attributes.AttributesMap;
 import com.csun.game.dialogue.Dialogue;
-import com.csun.game.dialogue.TestDialogue;
 import com.csun.game.map.GameMap;
 import com.csun.game.models.LightType;
 
@@ -136,7 +136,11 @@ public final class Player {
         return cameraComponent;
     }
 
-    public void addDialogue(Dialogue dialogue) {
+    public void startDialogue(Dialogue dialogue) {
+        Gdx.app.log("Dialogue", "Setting dialogue");
+        if(attributes.hasKey(Attributes.CURRENT_DIALOGUE)) {
+            attributes.get(Attributes.CURRENT_DIALOGUE).removeDialogue(this);
+        }
         attributes.set(Attributes.CURRENT_DIALOGUE, dialogue);
         dialogue.buildWidget(this);
     }
