@@ -11,12 +11,13 @@ import java.util.Queue;
 
 public class PathFinder {
 
-    public static List<Vector2> findPath(Vector2 start, Vector2 end, GameMap map) {
+    public static PathResult findPath(Vector2 start, Vector2 end, GameMap map) {
         TiledMap currentMap = map.getCurrentMap();
         List<Vector2> path = new ArrayList<>();
+        List<Vector2> waypoints = new ArrayList<>();
 
         if (!map.getTiledMapGrid().containsKey(currentMap)) {
-            return path;
+            return new PathResult(path, waypoints); // Return empty path and waypoints if map is not in grid
         }
 
         int rows = (int) map.getCurrentMapHeight();
@@ -28,7 +29,6 @@ public class PathFinder {
         int[][] parent = new int[rows][cols];
 
         Queue<Cell> queue = new LinkedList<>();
-
         queue.add(new Cell((int) start.x, (int) start.y));
         visited[(int) start.x][(int) start.y] = true;
 
@@ -59,17 +59,27 @@ public class PathFinder {
         if (reachedEnd) {
             int i = (int) end.x;
             int j = (int) end.y;
+            Vector2 prevDirection = null;
             while (i != (int) start.x || j != (int) start.y) {
-                path.add(0, new Vector2(i, j));
+                Vector2 currentPoint = new Vector2(i, j);
+                path.add(0, currentPoint); // Add to path in reverse
+
                 int pi = parent[i][j] / cols;
                 int pj = parent[i][j] % cols;
+
+                Vector2 direction = new Vector2(i - pi, j - pj);
+                if (!direction.equals(prevDirection)) {
+                    waypoints.add(0, currentPoint); // Add as waypoint if direction changed
+                }
+                prevDirection = direction;
+
                 i = pi;
                 j = pj;
             }
-            path.add(0, start);
+            path.add(0, start); // Add start point at the beginning
         }
 
-        return path;
+        return new PathResult(path, waypoints);
     }
 
     record Cell(int row, int col) {}

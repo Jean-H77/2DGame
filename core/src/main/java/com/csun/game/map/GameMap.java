@@ -16,6 +16,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.csun.game.ai.paths.PathResult;
 import org.checkerframework.checker.units.qual.A;
 import org.javatuples.Quintet;
 
@@ -80,20 +81,33 @@ public enum GameMap {
         });
     }
 
-    public List<Vector2> vect = new ArrayList<>();
+    public PathResult pathResult;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     public void drawLine(Camera camera) {
-        if(vect.isEmpty()) return;
+        if(pathResult == null) return;
+        List<Vector2> path = pathResult.path();
+        List<Vector2> waypoints = pathResult.waypoints();
+
+        if (path.isEmpty()) return;
+
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
         shapeRenderer.setColor(Color.RED);
-        for (int i = 0; i < vect.size() - 1; i++) {
-            Vector2 point1 = vect.get(i);
-            Vector2 point2 = vect.get(i + 1);
+        for (int i = 0; i < path.size() - 1; i++) {
+            Vector2 point1 = path.get(i);
+            Vector2 point2 = path.get(i + 1);
             shapeRenderer.rectLine(point1.x * TILE_SIZE, point1.y * TILE_SIZE, point2.x * TILE_SIZE, point2.y * TILE_SIZE, 10);
         }
+
+        shapeRenderer.setColor(Color.BLUE);
+        for (Vector2 waypoint : waypoints) {
+            shapeRenderer.circle(waypoint.x * TILE_SIZE, waypoint.y * TILE_SIZE, 10);
+        }
+
         shapeRenderer.end();
     }
+
 
     private TiledMap getMap(String map) {
         TiledMap tiledMap;

@@ -27,6 +27,10 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.List;
+
 /** First screen of the application. Displayed after the application is created. */
 @Singleton
 public class GameScreen implements Screen {
@@ -126,6 +130,8 @@ public class GameScreen implements Screen {
         }
 
         player.getAttributes().get(Attributes.ALL_OPENED_UI).forEach(baseUI -> baseUI.render(delta));
+
+        GameMap.INSTANCE.drawLine(playerCamera);
     }
 
     @Override
@@ -137,7 +143,6 @@ public class GameScreen implements Screen {
 
         player.getAttributes().get(Attributes.ALL_OPENED_UI).forEach(baseUI -> baseUI.resize(width,height));
     }
-
     @Override
     public void pause() {
         // Invoked when your application is paused.
