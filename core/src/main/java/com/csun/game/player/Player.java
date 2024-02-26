@@ -23,10 +23,7 @@ import com.csun.game.quest.Quest;
 import com.csun.game.quest.QuestConstants;
 import com.csun.game.quest.impl.TestQuest;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 import static com.csun.game.GameConstants.*;
@@ -79,11 +76,7 @@ public final class Player {
         attributes.set(Attributes.PLAYER_IS_LOGGED_IN, false);
         attributes.set(Attributes.PLAYER_SETTINGS, new Settings());
         attributes.set(Attributes.ALL_OPENED_UI, new ArrayList<>());
-        attributes.set(Attributes.ACTION_LISTENERS, new ArrayList<>());
-        attributes.set(Attributes.QUEST_STAGES, new HashMap<>());
-
-        List<ActionListener> actionListeners = attributes.get(Attributes.ACTION_LISTENERS);
-        actionListeners.addAll(QuestConstants.QUESTS.values());
+        attributes.set(Attributes.ACTION_LISTENERS, List.copyOf(QuestConstants.QUESTS.values()));
     }
 
     public void moveToMap(String map) {
