@@ -107,8 +107,15 @@ public class PlayerInputSystem extends IteratingSystem {
                 String identification = component.identification;
                 player.getAttributes().set(Attributes.NPC_HOVER, identification);
 
+                player.getAttributes().get(Attributes.ACTION_LISTENERS)
+                    .forEach(actionListener -> actionListener
+                        .hoverOverNpc(player, identification, mouseAtWorld.x, mouseAtWorld.y));
+
                 if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-                    Gdx.app.log("Clicking ", identification);
+                    player.getAttributes().get(Attributes.ACTION_LISTENERS)
+                        .forEach(actionListener -> actionListener
+                                .clickNpc(player, identification, mouseAtWorld.x, mouseAtWorld.y));
+
                     player.getAttributes().set(Attributes.LAST_NPC_CLICKED, identification);
                     return true;
                 }

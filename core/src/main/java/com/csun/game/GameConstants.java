@@ -12,7 +12,7 @@ public final class GameConstants {
 
     }
 
-    public static final Gson GSON_PRETTY_PRINT = new GsonBuilder().setPrettyPrinting().create();
+    public static final Gson GSON_PRETTY_PRINT = new GsonBuilder().setPrettyPrinting().enableComplexMapKeySerialization().create();
 
     public static final Path PLAYER_SAVE_DIR = Paths.get(System.getProperty("user.home"), "csun");
 

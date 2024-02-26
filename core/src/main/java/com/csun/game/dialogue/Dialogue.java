@@ -12,10 +12,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.csun.game.action.ActionListener;
 import com.csun.game.dialogue.impl.DialogueOptions;
 import com.csun.game.dialogue.impl.DialogueStatement;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.player.Player;
+import com.csun.game.quest.impl.TestQuest;
 import com.github.tommyettinger.textra.KnownFonts;
 import com.github.tommyettinger.textra.TypingLabel;
 

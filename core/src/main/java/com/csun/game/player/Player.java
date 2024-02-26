@@ -8,16 +8,25 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.csun.game.UI.impl.settings.Settings;
+import com.csun.game.action.ActionListener;
 import com.csun.game.ashley.components.CameraComponent;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.TextureComponent;
+import com.csun.game.attributes.AttributeKey;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.attributes.AttributesMap;
 import com.csun.game.dialogue.Dialogue;
 import com.csun.game.map.GameMap;
+import com.csun.game.misc.MutableInt;
 import com.csun.game.models.LightType;
+import com.csun.game.quest.Quest;
+import com.csun.game.quest.QuestConstants;
+import com.csun.game.quest.impl.TestQuest;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import static com.csun.game.GameConstants.*;
@@ -70,6 +79,11 @@ public final class Player {
         attributes.set(Attributes.PLAYER_IS_LOGGED_IN, false);
         attributes.set(Attributes.PLAYER_SETTINGS, new Settings());
         attributes.set(Attributes.ALL_OPENED_UI, new ArrayList<>());
+        attributes.set(Attributes.ACTION_LISTENERS, new ArrayList<>());
+        attributes.set(Attributes.QUEST_STAGES, new HashMap<>());
+
+        List<ActionListener> actionListeners = attributes.get(Attributes.ACTION_LISTENERS);
+        actionListeners.addAll(QuestConstants.QUESTS.values());
     }
 
     public void moveToMap(String map) {
@@ -82,6 +96,10 @@ public final class Player {
         attributes.set(Attributes.PLAYER_CURRENT_MAP, map);
         GameMap.INSTANCE.enterMap(map, 1f);
         movementComponent.disabled = false;
+
+        attributes.get(Attributes.ACTION_LISTENERS)
+            .forEach(actionListener -> actionListener
+                .enterMap(this, map));
     }
 
     public Player setDefaults() {
@@ -118,6 +136,10 @@ public final class Player {
                     60.0f
                 ));
             }
+    }
+
+    public MutableInt getQuestStage(String quest) {
+        return attributes.get(Attributes.QUEST_STAGES).computeIfAbsent(quest, x -> new MutableInt(1));
     }
 
     public void disableLight() {
