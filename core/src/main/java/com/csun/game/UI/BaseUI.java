@@ -26,6 +26,8 @@ public abstract class BaseUI {
         stage.getViewport().apply();
         stage.act(deltaTime);
         stage.draw();
+
+        loop(deltaTime);
     }
 
     public void exit() {
