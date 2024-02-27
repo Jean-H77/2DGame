@@ -36,11 +36,13 @@ import static com.csun.game.GameConstants.TILE_SIZE;
 public class PlayerInputSystem extends IteratingSystem {
 
     private final Player player;
+    private final UIManager uiManager;
 
     @Inject
-    public PlayerInputSystem(Player player) {
+    public PlayerInputSystem(Player player, UIManager uiManager) {
         super(Family.all(PlayerComponent.class).get());
         this.player = player;
+        this.uiManager = uiManager;
     }
 
     @Override
@@ -89,11 +91,11 @@ public class PlayerInputSystem extends IteratingSystem {
         } else if(Gdx.input.isKeyJustPressed(Input.Keys.D)) {
             player.startDialogue(TestDialogue.get());
             return true;
-        } else if(Gdx.input.isKeyJustPressed(Input.Keys.S)) {
-            UIManager.getInstance().openUI(player, "settings");
+        } else if(Gdx.input.isKeyJustPressed(Input.Keys.K)) {
+            uiManager.openUI(player, "settings");
             return true;
-        } else if(Gdx.input.isKeyJustPressed(Input.Keys.A)) {
-            UIManager.getInstance().removeUI(player, "settings");
+        } else if(Gdx.input.isKeyJustPressed(Input.Keys.L)) {
+            uiManager.removeUI(player, "settings");
             return true;
         }
         return false;

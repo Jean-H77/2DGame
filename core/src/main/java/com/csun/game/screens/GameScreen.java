@@ -16,9 +16,10 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.csun.game.UI.BaseUI;
 import com.csun.game.ashley.Mappers;
-import com.csun.game.ashley.components.*;
+import com.csun.game.ashley.components.ClickableComponent;
+import com.csun.game.ashley.components.MovementComponent;
+import com.csun.game.ashley.components.TextureComponent;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.dialogue.Dialogue;
 import com.csun.game.map.GameMap;
@@ -26,10 +27,6 @@ import com.csun.game.player.Player;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.List;
 
 /** First screen of the application. Displayed after the application is created. */
 @Singleton

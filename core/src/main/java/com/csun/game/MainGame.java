@@ -31,9 +31,6 @@ public class MainGame extends Game {
             .forEach(it -> engine.addSystem(injector.getInstance(it)));
 
         setScreen(injector.getInstance(TitleScreen.class));
-
-        // hacky way to do it but libgdx graphics have to finish loading before initializing the UI
-        injector.getInstance(UIManager.class);
     }
 
     public void switchScreen(ScreenType screenType) {
