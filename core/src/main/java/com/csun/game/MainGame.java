@@ -24,13 +24,6 @@ public class MainGame extends Game {
 
     @Override
     public void create() {
-        setupInjector();
-        UIManager.scan();
-
-       // UIManager.openUI("SettingsUI");
-    }
-
-    public void setupInjector() {
         PooledEngine engine = injector.getInstance(PooledEngine.class);
 
         injector.getInstance(Systems.class)
@@ -38,6 +31,9 @@ public class MainGame extends Game {
             .forEach(it -> engine.addSystem(injector.getInstance(it)));
 
         setScreen(injector.getInstance(TitleScreen.class));
+
+        // hacky way to do it but libgdx graphics have to finish loading before initializing the UI
+        injector.getInstance(UIManager.class);
     }
 
     public void switchScreen(ScreenType screenType) {

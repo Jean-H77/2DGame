@@ -8,6 +8,7 @@ import com.csun.game.MainGame;
 import com.csun.game.modules.GameModule;
 import com.csun.game.modules.PlayerModule;
 import com.csun.game.modules.ScreenModule;
+import com.csun.game.modules.UIModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
@@ -24,7 +25,8 @@ public class Lwjgl3Launcher {
         Injector injector = Guice.createInjector(
             new GameModule(),
             new PlayerModule(),
-            new ScreenModule()
+            new ScreenModule(),
+            new UIModule()
         );
         return new Lwjgl3Application(injector.getInstance(MainGame.class), getDefaultConfiguration());
     }

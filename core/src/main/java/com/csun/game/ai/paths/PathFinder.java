@@ -17,7 +17,7 @@ public class PathFinder {
         List<Vector2> waypoints = new ArrayList<>();
 
         if (!map.getTiledMapGrid().containsKey(currentMap)) {
-            return new PathResult(path, waypoints); // Return empty path and waypoints if map is not in grid
+            return new PathResult(path, waypoints);
         }
 
         int rows = (int) map.getCurrentMapHeight();
@@ -62,21 +62,21 @@ public class PathFinder {
             Vector2 prevDirection = null;
             while (i != (int) start.x || j != (int) start.y) {
                 Vector2 currentPoint = new Vector2(i, j);
-                path.add(0, currentPoint); // Add to path in reverse
+                path.add(0, currentPoint);
 
                 int pi = parent[i][j] / cols;
                 int pj = parent[i][j] % cols;
 
                 Vector2 direction = new Vector2(i - pi, j - pj);
                 if (!direction.equals(prevDirection)) {
-                    waypoints.add(0, currentPoint); // Add as waypoint if direction changed
+                    waypoints.add(0, currentPoint);
                 }
                 prevDirection = direction;
 
                 i = pi;
                 j = pj;
             }
-            path.add(0, start); // Add start point at the beginning
+            path.add(0, start);
         }
 
         return new PathResult(path, waypoints);

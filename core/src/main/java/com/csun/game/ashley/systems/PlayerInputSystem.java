@@ -90,10 +90,10 @@ public class PlayerInputSystem extends IteratingSystem {
             player.startDialogue(TestDialogue.get());
             return true;
         } else if(Gdx.input.isKeyJustPressed(Input.Keys.S)) {
-            UIManager.openUI(player, "SettingsUI");
+            UIManager.getInstance().openUI(player, "settings");
             return true;
         } else if(Gdx.input.isKeyJustPressed(Input.Keys.A)) {
-            UIManager.removeUI(player, "SettingsUI");
+            UIManager.getInstance().removeUI(player, "settings");
             return true;
         }
         return false;

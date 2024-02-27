@@ -9,12 +9,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.csun.game.UI.BaseUI;
+import com.csun.game.annotations.UIComponent;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.player.Player;
 
 import static com.csun.game.GameConstants.VIEWPORT_HEIGHT;
 import static com.csun.game.GameConstants.VIEWPORT_WIDTH;
 
+@UIComponent(key = "settings")
 public class SettingsUI extends BaseUI {
 
     @Override
@@ -55,6 +57,11 @@ public class SettingsUI extends BaseUI {
         });
         fullScreenButton.setSize(50.0f, 50.0f);
         table.add(windowedScreenButton);
+    }
+
+    @Override
+    public void loop(float deltaTime) {
+
     }
 
     @Override
