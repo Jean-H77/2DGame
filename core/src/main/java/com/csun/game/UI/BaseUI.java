@@ -14,7 +14,7 @@ public abstract class BaseUI {
 
     public abstract void setup(Player player);
 
-    public abstract void loop(float deltaTime);
+    public abstract void loop(Player player, float deltaTime);
 
     /**
      * Having this return true means that the player can walk
@@ -22,12 +22,12 @@ public abstract class BaseUI {
      */
     public abstract boolean isWalkable();
 
-    public void render(float deltaTime) {
+    public void render(Player player, float deltaTime) {
         stage.getViewport().apply();
         stage.act(deltaTime);
         stage.draw();
 
-        loop(deltaTime);
+        loop(player, deltaTime);
     }
 
     public void exit() {

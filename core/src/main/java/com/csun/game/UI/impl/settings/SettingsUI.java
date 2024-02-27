@@ -60,7 +60,7 @@ public class SettingsUI extends BaseUI {
     }
 
     @Override
-    public void loop(float deltaTime) {
+    public void loop(Player player, float deltaTime) {
 
     }
 

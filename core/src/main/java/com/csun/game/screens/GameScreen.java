@@ -129,7 +129,7 @@ public class GameScreen implements Screen {
             player.getAttributes().get(Attributes.CURRENT_DIALOGUE).render(delta);
         }
 
-        player.getAttributes().get(Attributes.ALL_OPENED_UI).forEach(baseUI -> baseUI.render(delta));
+        player.getAttributes().get(Attributes.ALL_OPENED_UI).forEach(baseUI -> baseUI.render(player, delta));
 
         GameMap.INSTANCE.drawLine(playerCamera);
     }
