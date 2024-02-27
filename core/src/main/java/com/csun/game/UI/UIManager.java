@@ -1,6 +1,5 @@
 package com.csun.game.UI;
 
-import com.badlogic.gdx.Gdx;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.player.Player;
 import com.google.inject.Inject;

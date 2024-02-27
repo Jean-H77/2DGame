@@ -1,6 +1,5 @@
 package com.csun.game.modules;
 
-import com.badlogic.gdx.Gdx;
 import com.csun.game.UI.BaseUI;
 import com.csun.game.UI.UIManager;
 import com.csun.game.annotations.UIComponent;
@@ -12,7 +11,12 @@ import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ScanResult;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class UIModule extends AbstractModule {
+
+    private static final Logger LOGGER = Logger.getLogger("UIModule");
 
     @Override
     protected void configure() {
@@ -33,12 +37,11 @@ public class UIModule extends AbstractModule {
                         Object value = uiComponentAnnotationInfo.getParameterValues().getValue("key");
                         if (value != null) {
                             String key = value.toString();
-                            System.out.println("Binding: " + key + " to " + clazz.asSubclass(BaseUI.class));
                             mapBinder.addBinding(key).to(clazz.asSubclass(BaseUI.class));
                         }
                     }
                 } else {
-                    Gdx.app.log("Warning", "Class " + classInfo.getName() + " is not a subclass of BaseUI");
+                    LOGGER.log(Level.WARNING, "Class " + classInfo.getName() + " is not a subclass of BaseUI");
                 }
             }
         }
