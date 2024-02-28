@@ -62,7 +62,7 @@ public final class Player {
     private void defaultAttributes() {
         attributes.set(Attributes.PLAYER_NAME, "un_named");
         attributes.set(Attributes.PLAYER_POSITION, movementComponent.pos);
-        attributes.set(Attributes.PLAYER_CURRENT_MAP, "tempmap.tmx");
+        attributes.set(Attributes.PLAYER_CURRENT_MAP, "circusmap.tmx");
         attributes.set(Attributes.PLAYER_IS_LOGGED_IN, false);
     }
 
