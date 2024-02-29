@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.10" tiledversion="1.10.2" name="flags" tilewidth="32" tileheight="32" tilecount="42" columns="6">
- <image source="../../../../../Dropbox/PC/Downloads/flags.png" width="192" height="224"/>
+ <image source="flags.png" width="192" height="224"/>
  <tile id="0">
   <properties>
    <property name="blocked" value=""/>
@@ -177,6 +177,36 @@
   </properties>
  </tile>
  <tile id="35">
+  <properties>
+   <property name="blocked" value=""/>
+  </properties>
+ </tile>
+ <tile id="36">
+  <properties>
+   <property name="blocked" value=""/>
+  </properties>
+ </tile>
+ <tile id="37">
+  <properties>
+   <property name="blocked" value=""/>
+  </properties>
+ </tile>
+ <tile id="38">
+  <properties>
+   <property name="blocked" value=""/>
+  </properties>
+ </tile>
+ <tile id="39">
+  <properties>
+   <property name="blocked" value=""/>
+  </properties>
+ </tile>
+ <tile id="40">
+  <properties>
+   <property name="blocked" value=""/>
+  </properties>
+ </tile>
+ <tile id="41">
   <properties>
    <property name="blocked" value=""/>
   </properties>
