@@ -31,6 +31,7 @@ public class RenderSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
         TextureComponent texture = entity.getComponent(TextureComponent.class);
         MovementComponent movement = entity.getComponent(MovementComponent.class);
+        texture.shape.setProjectionMatrix(spriteBatch.getProjectionMatrix());
         texture.shape.begin(ShapeRenderer.ShapeType.Filled);
         texture.shape.setColor(Color.RED);
         texture.shape.circle(movement.pos.x, movement.pos.y, 16);

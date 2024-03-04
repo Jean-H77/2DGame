@@ -38,8 +38,9 @@ public class GameScreen implements Screen {
     private final OrthogonalTiledMapRenderer renderer;
     private final Player player;
     private final Viewport viewport;
+    private final SpriteBatch spriteBatch;
+
     BitmapFont font;
-    SpriteBatch spriteBatch;
     ShapeRenderer shapeRenderer;
     SpriteBatch debugSpriteBatch;
     BitmapFont debugFont;
@@ -47,8 +48,9 @@ public class GameScreen implements Screen {
     Dialogue dialogue;
 
     @Inject
-    public GameScreen(PooledEngine pooledEngine, @Named("ExtendedViewport") Viewport viewport, Player player) {
+    public GameScreen(PooledEngine pooledEngine, @Named("ExtendedViewport") Viewport viewport, Player player, SpriteBatch spriteBatch) {
         this.pooledEngine = pooledEngine;
+        this.spriteBatch = spriteBatch;
         this.renderer = GameMap.INSTANCE.getRenderer();
         this.rayHandler = GameMap.INSTANCE.getRayHandler();
         this.player = player;
@@ -59,7 +61,7 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         viewport.setCamera(playerCamera);
-        Entity entity = pooledEngine.createEntity();
+        /*Entity entity = pooledEngine.createEntity();
         entity.add(new MovementComponent(new Vector2(477, 400)));
         entity.add(new ClickableComponent(new Rectangle(477, 400, 16, 16), "Blob"));
         entity.add(new TextureComponent());
@@ -75,11 +77,10 @@ public class GameScreen implements Screen {
         entity2.add(new MovementComponent(new Vector2(480, 547)));
         entity2.add(new ClickableComponent(new Rectangle(480, 547, 16, 16), "Shob"));
         entity2.add(new TextureComponent());
-        pooledEngine.addEntity(entity2);
+        pooledEngine.addEntity(entity2);*/
 
         debugFont = new BitmapFont();
         debugFont.setColor(Color.GOLD);
-        spriteBatch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(playerCamera.combined);
         debugSpriteBatch = new SpriteBatch();
@@ -94,8 +95,8 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         viewport.apply();
 
-        pooledEngine.getEntitiesFor(Family.all(TextureComponent.class).get()).forEach(entity -> Mappers.textures.get(entity).shape.setProjectionMatrix(playerCamera.combined));
-        player.getTextureComponent().shape.setProjectionMatrix(playerCamera.combined);
+        //pooledEngine.getEntitiesFor(Family.all(TextureComponent.class).get()).forEach(entity -> Mappers.textures.get(entity).shape.setProjectionMatrix(playerCamera.combined));
+        spriteBatch.setProjectionMatrix(playerCamera.combined);
 
         renderer.setView(playerCamera);
         renderer.render();

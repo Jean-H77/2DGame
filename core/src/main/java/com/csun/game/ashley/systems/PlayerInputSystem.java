@@ -12,24 +12,19 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.csun.game.UI.BaseUI;
 import com.csun.game.UI.UIManager;
 import com.csun.game.ai.paths.PathFinder;
 import com.csun.game.ai.paths.PathResult;
 import com.csun.game.ashley.Mappers;
-import com.csun.game.ashley.components.ClickableComponent;
-import com.csun.game.ashley.components.MovementComponent;
-import com.csun.game.ashley.components.PlayerComponent;
+import com.csun.game.ashley.components.*;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.dialogue.TestDialogue;
 import com.csun.game.map.GameMap;
+import com.csun.game.models.AnimationType;
 import com.csun.game.models.Direction;
 import com.csun.game.models.LightType;
 import com.csun.game.player.Player;
-import com.csun.game.screens.GameScreen;
 import com.google.inject.Inject;
-
-import java.util.List;
 
 import static com.csun.game.GameConstants.TILE_SIZE;
 
@@ -53,6 +48,7 @@ public class PlayerInputSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         MovementComponent mc = Mappers.movements.get(entity);
+        AnimationComponent ac = Mappers.animations.get(entity);
         player.getAttributes().set(Attributes.WORLD_MOUSE_POSITION, getWorldPositionFromScreen(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0)));
 
         for(int i = 0; i < getEntities().size(); i++) {
@@ -61,7 +57,7 @@ public class PlayerInputSystem extends IteratingSystem {
             }
         }
 
-        if(handleMovementInput(mc)) {
+        if(handleMovementInput(mc, ac)) {
             if(player.getAttributes().hasKey(Attributes.PLAYER_LIGHT)) {
                 Light light = player.getAttributes().get(Attributes.PLAYER_LIGHT);
                 if(light instanceof PointLight pointLight) {
@@ -70,6 +66,16 @@ public class PlayerInputSystem extends IteratingSystem {
                     coneLight.setPosition(mc.pos.x, mc.pos.y);
                     coneLight.setDirection(mc.dir.getDegree());
                 }
+            }
+        } else {
+            if(ac.animationType == AnimationType.PLAYER_WALK_NORTH) {
+                ac.nextAnim(AnimationType.PLAYER_IDLE_NORTH);
+            } else if(ac.animationType == AnimationType.PLAYER_WALK_SOUTH) {
+                ac.nextAnim(AnimationType.PLAYER_IDLE_SOUTH);
+            } else if(ac.animationType == AnimationType.PLAYER_WALK_EAST) {
+                ac.nextAnim(AnimationType.PLAYER_IDLE_EAST);
+            } else if(ac.animationType == AnimationType.PLAYER_WALK_WEST) {
+                ac.nextAnim(AnimationType.PLAYER_IDLE_WEST);
             }
         }
 
@@ -134,7 +140,7 @@ public class PlayerInputSystem extends IteratingSystem {
         return false;
     }
 
-    private boolean handleMovementInput(MovementComponent mc) {
+    private boolean handleMovementInput(MovementComponent mc, AnimationComponent ac) {
         if(mc.disabled) return false;
 
         if(player.getAttributes().get(Attributes.ALL_OPENED_UI)
@@ -150,14 +156,14 @@ public class PlayerInputSystem extends IteratingSystem {
                 player.moveToMap((String) cell.getTile().getProperties().get("nm_door"));
             }
 
-            if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            /*if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
                 Vector2 mouse = player.getAttributes().get(Attributes.WORLD_MOUSE_POSITION);
                 int tileX = (int) (mouse.x / TILE_SIZE);
                 int tileY = (int) (mouse.y / TILE_SIZE);
                 cell = tiledMapTileLayer.getCell(tileX, tileY);
-                /*if(cell != null && cell.getTile().getProperties().containsKey("blocked")) {
+                *//*if(cell != null && cell.getTile().getProperties().containsKey("blocked")) {
                     Gdx.app.log("Collision", "Blocked [" + tileX + ", " + tileY + "]");
-                } else {*/
+                } else {*//*
                 PathResult pathResult = PathFinder.findPath(new Vector2(player.getTilePosX(), player.getTilePosY()), new Vector2(tileX, tileY), GameMap.INSTANCE);
 
                 if (!pathResult.path().isEmpty()) {
@@ -169,7 +175,7 @@ public class PlayerInputSystem extends IteratingSystem {
                 }
                     //mc.addToMovementQueue(path);
                     GameMap.INSTANCE.pathResult = pathResult;
-                }
+                }*/
             //}
         });
 
@@ -181,6 +187,7 @@ public class PlayerInputSystem extends IteratingSystem {
             } else {
                 mc.move(Direction.N);
             }
+            ac.nextAnim(AnimationType.PLAYER_WALK_NORTH);
             return true;
         }
 
@@ -192,15 +199,18 @@ public class PlayerInputSystem extends IteratingSystem {
             } else {
                 mc.move(Direction.S);
             }
+            ac.nextAnim(AnimationType.PLAYER_WALK_SOUTH);
             return true;
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT) && !(Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT))) {
             mc.move(Direction.W);
+            ac.nextAnim(AnimationType.PLAYER_WALK_WEST);
             return true;
         }
         if(Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT) && !(Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT))) {
             mc.move(Direction.E);
+            ac.nextAnim(AnimationType.PLAYER_WALK_EAST);
             return true;
         }
         return false;

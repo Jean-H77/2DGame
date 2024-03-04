@@ -4,10 +4,8 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.csun.game.ashley.components.CameraComponent;
-import com.csun.game.ashley.components.MovementComponent;
-import com.csun.game.ashley.components.PlayerComponent;
-import com.csun.game.ashley.components.TextureComponent;
+import com.csun.game.ashley.components.*;
+import com.csun.game.models.AnimationType;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -27,7 +25,7 @@ public class PlayerProvider implements Provider<Player> {
     public Player get() {
         Entity entity = pooledEngine.createEntity();
         entity.add(new PlayerComponent());
-        entity.add(new TextureComponent());
+        entity.add(new AnimationComponent(AnimationType.PLAYER_WALK_NORTH, 48, 48));
         entity.add(new MovementComponent(new Vector2(PLAYER_START_X,PLAYER_START_Y)));
         entity.add(new CameraComponent(new OrthographicCamera()));
         pooledEngine.addEntity(entity);
