@@ -33,18 +33,10 @@ public class TitleScreen implements Screen {
 
     @Override
     public void render(float v) {
-        Gdx.app.log("Rendering", "Ye");
-
         if(assetManager.update()) {
-            if(assetManager.get("witch.atlas") == null) {
-                Gdx.app.log("Is false, ", "ISNULL");
-
-            }
-         //   AnimationType.AnimationData.init(assetManager);
             mainGame.switchScreen(MainGame.ScreenType.MENU_SCREEN);
-        } else {
-            Gdx.app.log("Is false, ", String.valueOf(assetManager.getProgress()));
         }
+        float progress = assetManager.getProgress();
     }
 
     @Override
