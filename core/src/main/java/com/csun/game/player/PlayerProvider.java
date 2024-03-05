@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.csun.game.ashley.components.*;
+import com.csun.game.map.GameMap;
 import com.csun.game.models.AnimationType;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -15,10 +16,12 @@ import static com.csun.game.GameConstants.PLAYER_START_Y;
 public class PlayerProvider implements Provider<Player> {
 
     private final PooledEngine pooledEngine;
+    private final GameMap gameMap;
 
     @Inject
-    public PlayerProvider(PooledEngine pooledEngine) {
+    public PlayerProvider(PooledEngine pooledEngine, GameMap gameMap) {
         this.pooledEngine = pooledEngine;
+        this.gameMap = gameMap;
     }
 
     @Override
@@ -29,6 +32,6 @@ public class PlayerProvider implements Provider<Player> {
         entity.add(new MovementComponent(new Vector2(PLAYER_START_X,PLAYER_START_Y)));
         entity.add(new CameraComponent(new OrthographicCamera()));
         pooledEngine.addEntity(entity);
-        return new Player(entity);
+        return new Player(entity, gameMap);
     }
 }

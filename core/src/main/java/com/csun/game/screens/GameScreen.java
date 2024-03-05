@@ -51,8 +51,8 @@ public class GameScreen implements Screen {
     public GameScreen(PooledEngine pooledEngine, @Named("ExtendedViewport") Viewport viewport, Player player, SpriteBatch spriteBatch) {
         this.pooledEngine = pooledEngine;
         this.spriteBatch = spriteBatch;
-        this.renderer = GameMap.INSTANCE.getRenderer();
-        this.rayHandler = GameMap.INSTANCE.getRayHandler();
+        this.renderer = player.getGameMap().getRenderer();
+        this.rayHandler = player.getGameMap().getRayHandler();
         this.player = player;
         this.viewport = viewport;
         playerCamera = (OrthographicCamera) player.getCamera();
@@ -129,7 +129,7 @@ public class GameScreen implements Screen {
 
         player.getAttributes().get(Attributes.ALL_OPENED_UI).forEach(baseUI -> baseUI.render(player, delta));
 
-        GameMap.INSTANCE.drawLine(playerCamera);
+        //GameMap.INSTANCE.drawLine(playerCamera);
     }
 
     @Override
@@ -158,6 +158,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        GameMap.INSTANCE.dispose();
+        player.getGameMap().dispose();
     }
 }

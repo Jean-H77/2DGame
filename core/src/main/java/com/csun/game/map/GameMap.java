@@ -4,6 +4,7 @@ import box2dLight.ConeLight;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -17,6 +18,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.csun.game.ai.paths.PathResult;
+import com.google.inject.Inject;
 import org.checkerframework.checker.units.qual.A;
 import org.javatuples.Quintet;
 
@@ -24,44 +26,35 @@ import java.util.*;
 
 import static com.csun.game.GameConstants.TILE_SIZE;
 
-public enum GameMap {
-    INSTANCE(new OrthographicCamera());
-
-    static {
-
-    }
-
+public class GameMap {
+    private final AssetManager assetManager;
     private final HashMap<String , TiledMap> tiledMaps = new HashMap<>();
     private final HashMap<TiledMap, Integer[][]> tiledMapGrid = new HashMap<>();
     private final HashMap<String, Color> lightColors = new HashMap<>();
     private final HashMap<TiledMap, List<Quintet<Integer, Color, Integer, Integer, Integer>>> lightPoints = new HashMap<>();
     private final World world = new World(new Vector2(0, 0), false);
     private final RayHandler rayHandler = new RayHandler(world);
-    private final Camera mapCamera; //map camera might be needed
 
     private OrthogonalTiledMapRenderer renderer;
     private TiledMap currentMap;
     private Rectangle mapBoundaries;
 
-    GameMap(Camera camera) {
-        this.mapCamera = camera;
+    @Inject
+    GameMap(AssetManager assetManager) {
+        this.assetManager = assetManager;
     }
 
     public HashMap<String, TiledMap> getTiledMaps() {
         return tiledMaps;
     }
 
-    public Camera getMapCamera() {
-        return mapCamera;
-    }
-
     public void enterMap(String map, float ambientLight) {
         TiledMap tiledMap = getMap(map);
+        setCurrentMap(tiledMap);
         setAmbientLight(ambientLight);
         setMapLights(tiledMap);
-        setCurrentMap(tiledMap);
 
-        if(tiledMapGrid.containsKey(tiledMap)) {
+        /*if(tiledMapGrid.containsKey(tiledMap)) {
             return;
         }
 
@@ -78,7 +71,7 @@ public enum GameMap {
             }
 
             tiledMapGrid.put(tiledMap, grid);
-        });
+        });*/
     }
 
     public PathResult pathResult;
@@ -110,14 +103,16 @@ public enum GameMap {
 
 
     private TiledMap getMap(String map) {
-        TiledMap tiledMap;
+        Gdx.app.log("Map", map);
+        return assetManager.get(map);
+        /*TiledMap tiledMap;
         if(tiledMaps.containsKey(map)) {
             tiledMap = tiledMaps.get(map);
         } else {
             tiledMap = new TmxMapLoader().load(map);
             tiledMaps.put(map, tiledMap);
         }
-        return tiledMap;
+        return tiledMap;*/
     }
 
 

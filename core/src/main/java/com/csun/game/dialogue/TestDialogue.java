@@ -26,14 +26,14 @@ public class TestDialogue {
                         return "I clicked toggle light";
                     }
                 }),
-                Option.create("Dim area", (player) -> GameMap.INSTANCE.setAmbientLight(0.3f),
+                Option.create("Dim area", (player) -> player.getGameMap().setAmbientLight(0.3f),
                     new DialogueStatement() {
                         @Override
                         public String getText(Player player) {
                             return "I clicked dim area";
                         }
                     }),
-                Option.create("Lighten area", (player) -> GameMap.INSTANCE.setAmbientLight(1.0f),
+                Option.create("Lighten area", (player) -> player.getGameMap().setAmbientLight(1.0f),
                     new DialogueStatement() {
                         @Override
                         public String getText(Player player) {

@@ -7,6 +7,7 @@ import com.csun.game.models.Systems;
 import com.csun.game.player.Player;
 import com.csun.game.screens.GameScreen;
 import com.csun.game.screens.MenuScreen;
+import com.csun.game.screens.TitleScreen;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
@@ -29,13 +30,14 @@ public class MainGame extends Game {
             .list()
             .forEach(it -> engine.addSystem(injector.getInstance(it)));
 
-        setScreen(injector.getInstance(MenuScreen.class));
+        switchScreen(ScreenType.TITLE_SCREEN);
     }
 
     public void switchScreen(ScreenType screenType) {
         switch (screenType) {
             case GAME_SCREEN -> setScreen(injector.getInstance(GameScreen.class));
             case MENU_SCREEN -> setScreen(injector.getInstance(MenuScreen.class));
+            case TITLE_SCREEN -> setScreen(injector.getInstance(TitleScreen.class));
         }
     }
 

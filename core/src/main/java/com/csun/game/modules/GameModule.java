@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csun.game.MainGame;
 import com.csun.game.ashley.systems.*;
+import com.csun.game.map.GameMap;
 import com.csun.game.models.Systems;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -33,6 +34,7 @@ public class GameModule extends AbstractModule {
         bind(ShapeRenderer.class).in(Scopes.SINGLETON);
         bind(BitmapFont.class).in(Scopes.SINGLETON);
         bind(PooledEngine.class).in(Scopes.SINGLETON);
+        bind(GameMap.class).in(Scopes.SINGLETON);
         bind(Viewport.class)
             .annotatedWith(Names.named("ExtendedViewport"))
             .toProvider(() -> new ExtendViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT))

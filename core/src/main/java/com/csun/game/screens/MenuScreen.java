@@ -2,6 +2,7 @@ package com.csun.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -24,13 +25,15 @@ import static com.csun.game.GameConstants.*;
 public class MenuScreen implements Screen {
 
     private final MainGame mainGame;
-    private Stage stage;
     private final SpriteBatch spriteBatch;
+    private final AssetManager assetManager;
+    private Stage stage;
 
     @Inject
-    public MenuScreen(MainGame mainGame, SpriteBatch spriteBatch) {
+    public MenuScreen(MainGame mainGame, SpriteBatch spriteBatch, AssetManager assetManager) {
         this.mainGame = mainGame;
         this.spriteBatch = spriteBatch;
+        this.assetManager = assetManager;
     }
 
     @Override
@@ -40,7 +43,7 @@ public class MenuScreen implements Screen {
 
         stage = new Stage(new FitViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT), spriteBatch);
         Skin skin = new Skin();
-        skin.addRegions(new TextureAtlas(Gdx.files.internal("gdx-skins-master/cloud-form/skin/cloud-form-ui.atlas")));
+        skin.addRegions(assetManager.get("gdx-skins-master/cloud-form/skin/cloud-form-ui.atlas"));
         skin.load(Gdx.files.internal("gdx-skins-master/cloud-form/skin/cloud-form-ui.json"));
 
         TextraButton startGameTextButton = new TextraButton("Start Game", skin, "default");

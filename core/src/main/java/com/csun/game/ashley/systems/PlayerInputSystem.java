@@ -13,10 +13,11 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.csun.game.UI.UIManager;
-import com.csun.game.ai.paths.PathFinder;
-import com.csun.game.ai.paths.PathResult;
 import com.csun.game.ashley.Mappers;
-import com.csun.game.ashley.components.*;
+import com.csun.game.ashley.components.AnimationComponent;
+import com.csun.game.ashley.components.ClickableComponent;
+import com.csun.game.ashley.components.MovementComponent;
+import com.csun.game.ashley.components.PlayerComponent;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.dialogue.TestDialogue;
 import com.csun.game.map.GameMap;
@@ -25,8 +26,6 @@ import com.csun.game.models.Direction;
 import com.csun.game.models.LightType;
 import com.csun.game.player.Player;
 import com.google.inject.Inject;
-
-import static com.csun.game.GameConstants.TILE_SIZE;
 
 public class PlayerInputSystem extends IteratingSystem {
 
@@ -149,7 +148,7 @@ public class PlayerInputSystem extends IteratingSystem {
             return false;
         }
 
-        GameMap.INSTANCE.getLayer(1).ifPresent(tiledMapTileLayer -> {
+        player.getGameMap().getLayer(1).ifPresent(tiledMapTileLayer -> {
             TiledMapTileLayer.Cell cell = tiledMapTileLayer.getCell((int) player.getTilePosX(), (int) player.getTilePosY());
             if(cell != null && cell.getTile().getProperties().containsKey("nm_door")) {
                 mc.disabled = true;

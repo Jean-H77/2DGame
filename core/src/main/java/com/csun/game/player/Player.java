@@ -9,11 +9,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.csun.game.UI.impl.settings.Settings;
-import com.csun.game.action.ActionListener;
 import com.csun.game.ashley.components.CameraComponent;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.TextureComponent;
-import com.csun.game.attributes.AttributeKey;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.attributes.AttributesMap;
 import com.csun.game.dialogue.Dialogue;
@@ -21,11 +19,10 @@ import com.csun.game.map.GameMap;
 import com.csun.game.misc.MutableInt;
 import com.csun.game.models.Direction;
 import com.csun.game.models.LightType;
-import com.csun.game.quest.Quest;
 import com.csun.game.quest.QuestConstants;
-import com.csun.game.quest.impl.TestQuest;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import static com.csun.game.GameConstants.*;
@@ -36,11 +33,13 @@ public final class Player {
     private final MovementComponent movementComponent;
     private final TextureComponent textureComponent;
     private final CameraComponent cameraComponent;
+    private final GameMap gameMap;
 
-    public Player(Entity entity) {
+    public Player(Entity entity, GameMap gameMap) {
         this.movementComponent = entity.getComponent(MovementComponent.class);
         this.textureComponent = entity.getComponent(TextureComponent.class);
         this.cameraComponent = entity.getComponent(CameraComponent.class);
+        this.gameMap = gameMap;
     }
 
     public float getTilePosX() {
@@ -89,7 +88,7 @@ public final class Player {
         // if player has lantern then we can toggle the light
         // then we'll call gameMap.enterMap(map, maps darkness level)
         attributes.set(Attributes.PLAYER_CURRENT_MAP, map);
-        GameMap.INSTANCE.enterMap(map, 1f);
+        gameMap.enterMap(map, 1f);
         movementComponent.disabled = false;
 
         attributes.get(Attributes.ACTION_LISTENERS)
@@ -113,7 +112,7 @@ public final class Player {
         Vector2 offset = calculatePlayerLightOffset();
         if(lightType == LightType.POINT_LIGHT) {
             attributes.set(Attributes.PLAYER_LIGHT, new PointLight(
-                GameMap.INSTANCE.getRayHandler(),
+                gameMap.getRayHandler(),
                 1000,
                 Color.WHITE,
                 radius,
@@ -122,7 +121,7 @@ public final class Player {
             ));
         } else if(lightType == LightType.CONE_LIGHT) {
                 attributes.set(Attributes.PLAYER_LIGHT, new ConeLight(
-                    GameMap.INSTANCE.getRayHandler(),
+                    gameMap.getRayHandler(),
                     1000,
                     Color.WHITE,
                     radius,
@@ -191,5 +190,9 @@ public final class Player {
         }
         attributes.set(Attributes.CURRENT_DIALOGUE, dialogue);
         dialogue.setup(this);
+    }
+
+    public GameMap getGameMap() {
+        return gameMap;
     }
 }

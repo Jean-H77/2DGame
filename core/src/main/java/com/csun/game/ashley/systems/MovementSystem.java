@@ -20,9 +20,12 @@ public class MovementSystem extends IteratingSystem {
 
     private boolean isBlocked;
 
+    private final GameMap gameMap;
+
     @Inject
-    public MovementSystem() {
+    public MovementSystem(GameMap gameMap) {
         super(Family.all(MovementComponent.class).get());
+        this.gameMap = gameMap;
     }
 
     @Override
@@ -39,7 +42,7 @@ public class MovementSystem extends IteratingSystem {
         dest.x += movement.pos.x;
         dest.y += movement.pos.y;
 
-        GameMap.INSTANCE.getLayer(1).ifPresent(tiledMapTileLayer -> {
+        gameMap.getLayer(1).ifPresent(tiledMapTileLayer -> {
             TiledMapTileLayer.Cell cell = tiledMapTileLayer.getCell((int) (dest.x /TILE_SIZE), (int) (dest.y/TILE_SIZE));
             if(cell != null && cell.getTile().getProperties().containsKey("blocked")) {
                 Gdx.app.log("Collision", "Blocked ["+(int) (dest.x /TILE_SIZE) + ", " + (int) (dest.y/TILE_SIZE)+ "]");
