@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
 import com.csun.game.UI.impl.settings.Settings;
 import com.csun.game.action.ActionListener;
 import com.csun.game.ashley.components.CameraComponent;
@@ -18,6 +19,7 @@ import com.csun.game.attributes.AttributesMap;
 import com.csun.game.dialogue.Dialogue;
 import com.csun.game.map.GameMap;
 import com.csun.game.misc.MutableInt;
+import com.csun.game.models.Direction;
 import com.csun.game.models.LightType;
 import com.csun.game.quest.Quest;
 import com.csun.game.quest.QuestConstants;
@@ -108,6 +110,7 @@ public final class Player {
 
     public void enableLight(LightType lightType, int radius) {
         disableLight();
+        Vector2 offset = calculatePlayerLightOffset();
         if(lightType == LightType.POINT_LIGHT) {
             attributes.set(Attributes.PLAYER_LIGHT, new PointLight(
                 GameMap.INSTANCE.getRayHandler(),
@@ -131,6 +134,32 @@ public final class Player {
             }
     }
 
+    public Vector2 calculatePlayerLightOffset() {
+        Direction dir = movementComponent.dir;
+        Vector2 vector2 = new Vector2();
+        if(dir == Direction.E) {
+            vector2.x = 48;
+        } else if(dir == Direction.W) {
+            vector2.x = -48;
+        } else if(dir == Direction.N) {
+            vector2.y = 48;
+        } else if(dir == Direction.S){
+             vector2.y = -48;
+        } else if(dir == Direction.NE) {
+            vector2.y = 48;
+            vector2.x = 48;
+        } else if(dir == Direction.SE) {
+            vector2.y = -48;
+            vector2.x = 48;
+        } else if(dir == Direction.NW) {
+            vector2.y = 48;
+            vector2.x = -48;
+        } else if(dir == Direction.SW) {
+            vector2.y = -48;
+            vector2.x = -48;
+        }
+        return vector2;
+    }
     public MutableInt getQuestStage(String quest) {
         return attributes.get(Attributes.QUEST_STAGES).computeIfAbsent(quest, x -> new MutableInt(1));
     }

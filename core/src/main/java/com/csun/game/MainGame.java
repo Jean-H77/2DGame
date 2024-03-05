@@ -3,11 +3,10 @@ package com.csun.game;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.csun.game.UI.UIManager;
 import com.csun.game.models.Systems;
 import com.csun.game.player.Player;
 import com.csun.game.screens.GameScreen;
-import com.csun.game.screens.TitleScreen;
+import com.csun.game.screens.MenuScreen;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
@@ -30,13 +29,13 @@ public class MainGame extends Game {
             .list()
             .forEach(it -> engine.addSystem(injector.getInstance(it)));
 
-        setScreen(injector.getInstance(TitleScreen.class));
+        setScreen(injector.getInstance(MenuScreen.class));
     }
 
     public void switchScreen(ScreenType screenType) {
         switch (screenType) {
             case GAME_SCREEN -> setScreen(injector.getInstance(GameScreen.class));
-            case TITLE_SCREEN -> setScreen(injector.getInstance(TitleScreen.class));
+            case MENU_SCREEN -> setScreen(injector.getInstance(MenuScreen.class));
         }
     }
 
@@ -54,7 +53,8 @@ public class MainGame extends Game {
 
     public enum ScreenType {
         GAME_SCREEN,
-        TITLE_SCREEN
+        TITLE_SCREEN,
+        MENU_SCREEN
         ;
     }
 }

@@ -2,6 +2,7 @@ package com.csun.game.modules;
 
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -27,6 +28,7 @@ public class GameModule extends AbstractModule {
     protected void configure() {
 
         bind(MainGame.class).in(Scopes.SINGLETON);
+        bind(AssetManager.class).in(Scopes.SINGLETON);
         bind(SpriteBatch.class).in(Scopes.SINGLETON);
         bind(ShapeRenderer.class).in(Scopes.SINGLETON);
         bind(BitmapFont.class).in(Scopes.SINGLETON);
