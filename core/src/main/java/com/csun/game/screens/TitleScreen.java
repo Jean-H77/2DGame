@@ -27,6 +27,7 @@ public class TitleScreen implements Screen {
 
         assetManager.load("witch.atlas", TextureAtlas.class);
         assetManager.load("gdx-skins-master/cloud-form/skin/cloud-form-ui.atlas", TextureAtlas.class);
+        assetManager.load("gdx-skins-master/comic/skin/comic-ui.atlas", TextureAtlas.class);
     }
 
     @Override

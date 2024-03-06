@@ -1,6 +1,7 @@
 package com.csun.game.UI.impl.settings;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -12,6 +13,7 @@ import com.csun.game.UI.BaseUI;
 import com.csun.game.annotations.UIComponent;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.player.Player;
+import com.google.inject.Inject;
 
 import static com.csun.game.GameConstants.VIEWPORT_HEIGHT;
 import static com.csun.game.GameConstants.VIEWPORT_WIDTH;
@@ -19,13 +21,20 @@ import static com.csun.game.GameConstants.VIEWPORT_WIDTH;
 @UIComponent(key = "settings")
 public class SettingsUI extends BaseUI {
 
+    private final AssetManager assetManager;
+
+    @Inject
+    public SettingsUI(AssetManager assetManager) {
+        this.assetManager = assetManager;
+    }
+
     @Override
     public void setup(Player player) {
         Gdx.app.log("Setting up", "Set up settings");
         Settings settings = player.getAttributes().get(Attributes.PLAYER_SETTINGS);
 
         Skin skin = new Skin();
-        skin.addRegions(new TextureAtlas(Gdx.files.internal("gdx-skins-master/comic/skin/comic-ui.atlas")));
+        skin.addRegions(assetManager.get("gdx-skins-master/comic/skin/comic-ui.atlas"));
         skin.load(Gdx.files.internal("gdx-skins-master/comic/skin/comic-ui.json"));
 
         Table table = new Table(skin);
