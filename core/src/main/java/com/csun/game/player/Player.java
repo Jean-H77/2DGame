@@ -19,10 +19,12 @@ import com.csun.game.map.GameMap;
 import com.csun.game.misc.MutableInt;
 import com.csun.game.models.Direction;
 import com.csun.game.models.LightType;
-import com.csun.game.quest.QuestConstants;
+import com.csun.game.quest.Quest;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import static com.csun.game.GameConstants.*;
@@ -34,12 +36,14 @@ public final class Player {
     private final TextureComponent textureComponent;
     private final CameraComponent cameraComponent;
     private final GameMap gameMap;
+    private final Map<String, Quest> quests;
 
-    public Player(Entity entity, GameMap gameMap) {
+    public Player(Entity entity, GameMap gameMap, Map<String, Quest> quests) {
         this.movementComponent = entity.getComponent(MovementComponent.class);
         this.textureComponent = entity.getComponent(TextureComponent.class);
         this.cameraComponent = entity.getComponent(CameraComponent.class);
         this.gameMap = gameMap;
+        this.quests = quests;
     }
 
     public float getTilePosX() {
@@ -77,7 +81,8 @@ public final class Player {
         attributes.set(Attributes.PLAYER_IS_LOGGED_IN, false);
         attributes.set(Attributes.PLAYER_SETTINGS, new Settings());
         attributes.set(Attributes.ALL_OPENED_UI, new ArrayList<>());
-        attributes.set(Attributes.ACTION_LISTENERS, List.copyOf(QuestConstants.QUESTS.values()));
+        attributes.set(Attributes.QUEST_STAGES, new HashMap<>());
+        attributes.set(Attributes.ACTION_LISTENERS, List.copyOf(quests.values()));
     }
 
     public void moveToMap(String map) {

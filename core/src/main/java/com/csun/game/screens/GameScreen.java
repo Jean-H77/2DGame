@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -16,9 +17,11 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.csun.game.MainGame;
 import com.csun.game.ashley.Mappers;
 import com.csun.game.ashley.components.ClickableComponent;
 import com.csun.game.ashley.components.MovementComponent;
+import com.csun.game.ashley.components.NpcComponent;
 import com.csun.game.ashley.components.TextureComponent;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.dialogue.Dialogue;
@@ -39,6 +42,7 @@ public class GameScreen implements Screen {
     private final Player player;
     private final Viewport viewport;
     private final SpriteBatch spriteBatch;
+    private final MainGame mainGame;
 
     BitmapFont font;
     ShapeRenderer shapeRenderer;
@@ -48,7 +52,7 @@ public class GameScreen implements Screen {
     Dialogue dialogue;
 
     @Inject
-    public GameScreen(PooledEngine pooledEngine, @Named("ExtendedViewport") Viewport viewport, Player player, SpriteBatch spriteBatch) {
+    public GameScreen(PooledEngine pooledEngine, @Named("ExtendedViewport") Viewport viewport, Player player, SpriteBatch spriteBatch, MainGame mainGame) {
         this.pooledEngine = pooledEngine;
         this.spriteBatch = spriteBatch;
         this.renderer = player.getGameMap().getRenderer();
@@ -56,29 +60,12 @@ public class GameScreen implements Screen {
         this.player = player;
         this.viewport = viewport;
         playerCamera = (OrthographicCamera) player.getCamera();
+        this.mainGame = mainGame;
     }
 
     @Override
     public void show() {
         viewport.setCamera(playerCamera);
-        /*Entity entity = pooledEngine.createEntity();
-        entity.add(new MovementComponent(new Vector2(477, 400)));
-        entity.add(new ClickableComponent(new Rectangle(477, 400, 16, 16), "Blob"));
-        entity.add(new TextureComponent());
-        pooledEngine.addEntity(entity);
-
-        Entity entity1 = pooledEngine.createEntity();
-        entity1.add(new MovementComponent(new Vector2(400, 400)));
-        entity1.add(new ClickableComponent(new Rectangle(400, 400, 16, 16), "Knob"));
-        entity1.add(new TextureComponent());
-        pooledEngine.addEntity(entity1);
-
-        Entity entity2 = pooledEngine.createEntity();
-        entity2.add(new MovementComponent(new Vector2(480, 547)));
-        entity2.add(new ClickableComponent(new Rectangle(480, 547, 16, 16), "Shob"));
-        entity2.add(new TextureComponent());
-        pooledEngine.addEntity(entity2);*/
-
         debugFont = new BitmapFont();
         debugFont.setColor(Color.GOLD);
         shapeRenderer = new ShapeRenderer();
@@ -87,7 +74,6 @@ public class GameScreen implements Screen {
 
         font = new BitmapFont();
     }
-
 
     @Override
     public void render(float delta) {

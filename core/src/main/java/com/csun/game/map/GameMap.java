@@ -17,7 +17,10 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.csun.game.MainGame;
 import com.csun.game.ai.paths.PathResult;
+import com.csun.game.screens.FadeScreen;
+import com.csun.game.screens.GameScreen;
 import com.google.inject.Inject;
 import org.checkerframework.checker.units.qual.A;
 import org.javatuples.Quintet;
@@ -40,7 +43,7 @@ public class GameMap {
     private Rectangle mapBoundaries;
 
     @Inject
-    GameMap(AssetManager assetManager) {
+    GameMap(AssetManager assetManager, MainGame mainGame) {
         this.assetManager = assetManager;
     }
 
@@ -53,7 +56,6 @@ public class GameMap {
         setCurrentMap(tiledMap);
         setAmbientLight(ambientLight);
         setMapLights(tiledMap);
-
         /*if(tiledMapGrid.containsKey(tiledMap)) {
             return;
         }
@@ -100,7 +102,6 @@ public class GameMap {
 
         shapeRenderer.end();
     }
-
 
     private TiledMap getMap(String map) {
         Gdx.app.log("Map", map);

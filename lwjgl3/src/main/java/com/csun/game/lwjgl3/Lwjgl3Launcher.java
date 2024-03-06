@@ -5,10 +5,7 @@ import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.csun.game.MainGame;
-import com.csun.game.modules.GameModule;
-import com.csun.game.modules.PlayerModule;
-import com.csun.game.modules.ScreenModule;
-import com.csun.game.modules.UIModule;
+import com.csun.game.modules.*;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
@@ -26,7 +23,8 @@ public class Lwjgl3Launcher {
             new GameModule(),
             new PlayerModule(),
             new ScreenModule(),
-            new UIModule()
+            new UIModule(),
+            new QuestModule()
         );
         return new Lwjgl3Application(injector.getInstance(MainGame.class), getDefaultConfiguration());
     }

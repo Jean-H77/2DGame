@@ -1,13 +1,11 @@
 package com.csun.game.screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.csun.game.MainGame;
-import com.csun.game.models.AnimationType;
 import com.google.inject.Inject;
 
 public class TitleScreen implements Screen {
