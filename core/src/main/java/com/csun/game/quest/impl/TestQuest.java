@@ -12,6 +12,8 @@ import com.csun.game.player.Player;
 import com.csun.game.quest.Quest;
 import com.google.inject.Inject;
 
+import java.util.Objects;
+
 public class TestQuest extends Quest {
 
     @Inject
@@ -69,9 +71,11 @@ public class TestQuest extends Quest {
 
     @Override
     public void enterMap(Player player, String mapName) {
-        addNpc(new Vector2(477, 400), 16, 16, "Blob");
-        addNpc(new Vector2(400, 400), 16, 16, "Knob");
-        addNpc(new Vector2(480, 547), 16, 16, "Shob");
+        int stage = player.getQuestStage(title).getValue();
+        if(Objects.equals(mapName, "act1.tmx")) {
+            addNpc(new Vector2(477, 400), 16, 16, "Blob");
+            addNpc(new Vector2(400, 400), 16, 16, "Knob");
+            addNpc(new Vector2(480, 547), 16, 16, "Shob");
+        }
     }
-
 }
