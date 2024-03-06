@@ -101,6 +101,15 @@ public final class Player {
                 .enterMap(this, map));
     }
 
+    public void moveTo(Vector2 pos, String map) {
+        moveToMap(map);
+        movementComponent.pos = pos;
+    }
+
+    public void moveTo(Vector2 pos) {
+        movementComponent.pos = pos;
+    }
+
     public Player setDefaults() {
         defaultAttributes();
         ((OrthographicCamera) getCamera()).setToOrtho(false, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
