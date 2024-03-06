@@ -85,6 +85,7 @@ public class MainGame extends Game {
     // ok this is a pretty ugly way to handle this, but we don't have a lot of time
     public void addNpc(Vector2 pos, float width, float height, String identification) {
         if(getNpcEntity(identification) != null) return;
+        Gdx.app.log("NPC ADD", identification);
         Entity entity = pooledEngine.createEntity();
         entity.add(new MovementComponent(pos));
         entity.add(new ClickableComponent(new Rectangle(pos.x, pos.y, width, height), identification));
@@ -115,15 +116,12 @@ public class MainGame extends Game {
     }
 
     public Entity getNpcEntity(String identification) {
-        Gdx.app.log("Size", String.valueOf(pooledEngine.getEntities().size()));
         ImmutableArray<Entity> entities = pooledEngine.getEntitiesFor(
             Family.all(NpcComponent.class, MovementComponent.class, ClickableComponent.class, TextureComponent.class).
                 get());
-        Gdx.app.log("Size", String.valueOf(entities.size()));
 
         for(Entity e : entities) {
             ClickableComponent clickableComponent = Mappers.clickables.get(e);
-            Gdx.app.log("Searching", clickableComponent.identification);
             if(clickableComponent.identification.equalsIgnoreCase(identification)) {
                 return e;
             }

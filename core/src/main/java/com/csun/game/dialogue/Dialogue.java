@@ -175,11 +175,9 @@ public class Dialogue {
     }
 
     public void removeDialogue(Player player) {
-        if(player.getAttributes().hasKey(Attributes.CURRENT_DIALOGUE)) {
-            player.getAttributes().remove(Attributes.CURRENT_DIALOGUE);
-            stage.dispose();
-            Gdx.input.setInputProcessor(null);
-        }
+        player.getAttributes().remove(Attributes.CURRENT_DIALOGUE);
+        stage.dispose();
+        Gdx.input.setInputProcessor(null);
     }
 
     public DialoguePart next() {

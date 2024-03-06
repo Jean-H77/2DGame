@@ -1,5 +1,6 @@
 package com.csun.game.quest.impl;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
 import com.csun.game.MainGame;
@@ -48,8 +49,8 @@ public class TestQuest extends Quest {
                 builder.addOptions(new DialogueOptions(fadeScreenOption, exitOption));
             }
             player.startDialogue(builder.build());
-            stage.increment();
         } else if(npc.equalsIgnoreCase("Blob")) {
+            Gdx.app.log("I'm here now?", "ok");
             player.startDialogue(new Dialogue.Builder()
                     .addOptions(new DialogueOptions(
                         Option.create("Remove npc", (p) -> Timer.schedule(new Timer.Task() {

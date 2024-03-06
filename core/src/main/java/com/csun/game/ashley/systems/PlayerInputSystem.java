@@ -20,7 +20,6 @@ import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.PlayerComponent;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.dialogue.TestDialogue;
-import com.csun.game.map.GameMap;
 import com.csun.game.models.AnimationType;
 import com.csun.game.models.Direction;
 import com.csun.game.models.LightType;
@@ -49,6 +48,10 @@ public class PlayerInputSystem extends IteratingSystem {
         MovementComponent mc = Mappers.movements.get(entity);
         AnimationComponent ac = Mappers.animations.get(entity);
         player.getAttributes().set(Attributes.WORLD_MOUSE_POSITION, getWorldPositionFromScreen(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0)));
+
+        if(player.getAttributes().get(Attributes.CURRENT_DIALOGUE) != null) {
+            return;
+        }
 
         for(int i = 0; i < getEntities().size(); i++) {
             if(handleEntityClick(getEntities().get(i))) {
