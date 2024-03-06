@@ -31,4 +31,8 @@ public class Quest extends ActionAdapter {
     protected void moveNpc(String identification, Vector2 newPos) {
         mainGame.moveNpc(identification, newPos);
     }
+
+    protected boolean containsNpc(String identification) {
+        return mainGame.getNpcEntity(identification) != null;
+    }
 }
