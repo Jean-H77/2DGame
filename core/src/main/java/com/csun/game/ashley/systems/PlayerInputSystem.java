@@ -13,6 +13,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.csun.game.UI.UIManager;
+import com.csun.game.ai.paths.PathFinder;
+import com.csun.game.ai.paths.PathResult;
 import com.csun.game.ashley.Mappers;
 import com.csun.game.ashley.components.AnimationComponent;
 import com.csun.game.ashley.components.ClickableComponent;
@@ -25,6 +27,10 @@ import com.csun.game.models.Direction;
 import com.csun.game.models.LightType;
 import com.csun.game.player.Player;
 import com.google.inject.Inject;
+
+import java.util.ArrayDeque;
+
+import static com.csun.game.GameConstants.TILE_SIZE;
 
 public class PlayerInputSystem extends IteratingSystem {
 
@@ -54,7 +60,7 @@ public class PlayerInputSystem extends IteratingSystem {
         }
 
         for(int i = 0; i < getEntities().size(); i++) {
-            if(handleEntityClick(getEntities().get(i))) {
+            if(handleEntityClick(getEntities().get(i),mc)) {
                 return;
             }
         }
@@ -114,7 +120,7 @@ public class PlayerInputSystem extends IteratingSystem {
         return new Vector2(vc.x, vc.y);
     }
 
-    private boolean handleEntityClick(Entity entity) {
+    private boolean handleEntityClick(Entity entity, MovementComponent mc) {
         ClickableComponent component = Mappers.clickables.get(entity);
         if(component != null && player.getAttributes().hasKey(Attributes.WORLD_MOUSE_POSITION)) {
             Vector2 mouseAtWorld = player.getAttributes().get(Attributes.WORLD_MOUSE_POSITION);
@@ -134,6 +140,16 @@ public class PlayerInputSystem extends IteratingSystem {
                                 .clickNpc(player, identification, mouseAtWorld.x, mouseAtWorld.y));
 
                     player.getAttributes().set(Attributes.LAST_NPC_CLICKED, identification);
+
+                    MovementComponent movementComponent = Mappers.movements.get(entity);
+                    if(movementComponent != null) {
+                        Vector2 mouse = player.getAttributes().get(Attributes.WORLD_MOUSE_POSITION);
+                        PathResult pathResult = PathFinder.findPath(
+                            new Vector2(player.getTilePosX(), player.getTilePosY()),
+                            new Vector2((int) (mouse.x / TILE_SIZE),  (int) (mouse.y / TILE_SIZE)),
+                            player.getGameMap());
+                        mc.setPath(new ArrayDeque<>(pathResult.waypoints()));
+                    }
                     return true;
                 }
             }
@@ -158,27 +174,20 @@ public class PlayerInputSystem extends IteratingSystem {
                 player.moveToMap((String) cell.getTile().getProperties().get("nm_door"));
             }
 
-            /*if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
                 Vector2 mouse = player.getAttributes().get(Attributes.WORLD_MOUSE_POSITION);
                 int tileX = (int) (mouse.x / TILE_SIZE);
                 int tileY = (int) (mouse.y / TILE_SIZE);
                 cell = tiledMapTileLayer.getCell(tileX, tileY);
-                *//*if(cell != null && cell.getTile().getProperties().containsKey("blocked")) {
+                if(cell != null && cell.getTile().getProperties().containsKey("blocked")) {
                     Gdx.app.log("Collision", "Blocked [" + tileX + ", " + tileY + "]");
-                } else {*//*
-                PathResult pathResult = PathFinder.findPath(new Vector2(player.getTilePosX(), player.getTilePosY()), new Vector2(tileX, tileY), GameMap.INSTANCE);
-
-                if (!pathResult.path().isEmpty()) {
-                    pathResult.path().remove(pathResult.path().size() - 1);
-                    pathResult.path().add(new Vector2((mouse.x / TILE_SIZE), (mouse.y / TILE_SIZE)));
-                    for(Vector2 vect : pathResult.path()) {
-                        Gdx.app.log("Path", "Pathing: " + vect);
-                    }
+                } else {
+                PathResult pathResult = PathFinder.findPath(new Vector2(player.getTilePosX(), player.getTilePosY()), new Vector2(tileX, tileY), player.getGameMap());
+                    mc.setPath(new ArrayDeque<>(pathResult.waypoints()));
+                    player.getGameMap().pathResult = pathResult;
+                    player.getGameMap().waypoints = new ArrayDeque<>(pathResult.waypoints());
                 }
-                    //mc.addToMovementQueue(path);
-                    GameMap.INSTANCE.pathResult = pathResult;
-                }*/
-            //}
+            }
         });
 
         if(Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP) && !(Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN))) {

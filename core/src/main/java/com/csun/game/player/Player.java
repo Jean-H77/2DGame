@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.csun.game.UI.impl.settings.Settings;
+import com.csun.game.ashley.components.AnimationComponent;
 import com.csun.game.ashley.components.CameraComponent;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.TextureComponent;
@@ -35,13 +36,15 @@ public final class Player {
     private final MovementComponent movementComponent;
     private final TextureComponent textureComponent;
     private final CameraComponent cameraComponent;
+    private final AnimationComponent animationComponent;
     private final GameMap gameMap;
     private final Map<String, Quest> quests;
 
-    public Player(Entity entity, GameMap gameMap, Map<String, Quest> quests) {
+    public Player(Entity entity,GameMap gameMap, Map<String, Quest> quests) {
         this.movementComponent = entity.getComponent(MovementComponent.class);
         this.textureComponent = entity.getComponent(TextureComponent.class);
         this.cameraComponent = entity.getComponent(CameraComponent.class);
+        this.animationComponent = entity.getComponent(AnimationComponent.class);
         this.gameMap = gameMap;
         this.quests = quests;
     }
@@ -198,7 +201,6 @@ public final class Player {
     }
 
     public void startDialogue(Dialogue dialogue) {
-        Gdx.app.log("Dialogue", "Setting dialogue");
         if(attributes.hasKey(Attributes.CURRENT_DIALOGUE)) {
             attributes.get(Attributes.CURRENT_DIALOGUE).removeDialogue(this);
         }
@@ -208,5 +210,9 @@ public final class Player {
 
     public GameMap getGameMap() {
         return gameMap;
+    }
+
+    public AnimationComponent getAnimationComponent() {
+        return animationComponent;
     }
 }

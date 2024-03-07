@@ -18,6 +18,8 @@ public class MovementComponent implements Component {
     public MovementState state = MovementState.IDLE;
     public float velocity = 0f;
     public boolean disabled;
+    public Deque<Vector2> waypoints = new ArrayDeque<>();
+    public Vector2 nextWaypoint;
 
     public MovementComponent(Vector2 vector2) {
         this.pos = vector2;
@@ -25,21 +27,14 @@ public class MovementComponent implements Component {
 
     public void move(Direction dir) {
         velocity = 1f;
-        this.dir = dir;
         state = MovementState.MOVING;
         movementQueue.add(dir);
     }
 
-    // ok ye this needs to be redone
-    public void addToMovementQueue(List<Vector2> positions) {
-        movementQueue.clear();
-        state = MovementState.MOVING;
+    public void setPath(Deque<Vector2> path) {
         velocity = 1f;
-        Vector2 old = pos;
-        for(Vector2 it : positions) {
-            Direction direction = MovementSystem.getDirection(it, old);
-            movementQueue.add(direction);
-            old = it;
-        }
+        this.waypoints = path;
+        state = MovementState.MOVING;
+        this.nextWaypoint = this.waypoints.pop();
     }
 }

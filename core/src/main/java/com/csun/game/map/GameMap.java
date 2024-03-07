@@ -56,7 +56,7 @@ public class GameMap {
         setCurrentMap(tiledMap);
         setAmbientLight(ambientLight);
         setMapLights(tiledMap);
-        /*if(tiledMapGrid.containsKey(tiledMap)) {
+        if(tiledMapGrid.containsKey(tiledMap)) {
             return;
         }
 
@@ -73,15 +73,16 @@ public class GameMap {
             }
 
             tiledMapGrid.put(tiledMap, grid);
-        });*/
+        });
     }
 
     public PathResult pathResult;
+    public Deque<Vector2> waypoints = new ArrayDeque<>();
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     public void drawLine(Camera camera) {
         if(pathResult == null) return;
-        List<Vector2> path = pathResult.path();
-        List<Vector2> waypoints = pathResult.waypoints();
+        List<Vector2> path = new ArrayList<>(pathResult.path());
+        List<Vector2> waypoints = new ArrayList<>(pathResult.waypoints());
 
         if (path.isEmpty()) return;
 
