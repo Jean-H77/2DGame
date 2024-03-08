@@ -5,9 +5,11 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -25,6 +27,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
+import java.nio.ByteBuffer;
+
 /** First screen of the application. Displayed after the application is created. */
 @Singleton
 public class GameScreen implements Screen {
@@ -37,6 +41,7 @@ public class GameScreen implements Screen {
     private final Viewport viewport;
     private final SpriteBatch spriteBatch;
     private final MainGame mainGame;
+    private final AssetManager assetManager;
 
     BitmapFont font;
     ShapeRenderer shapeRenderer;
@@ -45,7 +50,7 @@ public class GameScreen implements Screen {
     boolean debug = false;
 
     @Inject
-    public GameScreen(PooledEngine pooledEngine, @Named("ExtendedViewport") Viewport viewport, Player player, SpriteBatch spriteBatch, MainGame mainGame) {
+    public GameScreen(PooledEngine pooledEngine, @Named("ExtendedViewport") Viewport viewport, Player player, SpriteBatch spriteBatch, MainGame mainGame, AssetManager assetManager) {
         this.pooledEngine = pooledEngine;
         this.spriteBatch = spriteBatch;
         this.renderer = player.getGameMap().getRenderer();
@@ -54,6 +59,7 @@ public class GameScreen implements Screen {
         this.viewport = viewport;
         playerCamera = (OrthographicCamera) player.getCamera();
         this.mainGame = mainGame;
+        this.assetManager = assetManager;
     }
 
     @Override
@@ -72,6 +78,10 @@ public class GameScreen implements Screen {
         font.setColor(Color.SKY);
         debugFont.setColor(Color.WHITE);
         generator.dispose();
+
+        Pixmap pm = new Pixmap(Gdx.files.internal("gaming-mouse.png"));
+        Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, 0, 0));
+        pm.dispose();
     }
 
     @Override
