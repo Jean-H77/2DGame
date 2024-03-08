@@ -42,7 +42,7 @@ public class GameScreen implements Screen {
     ShapeRenderer shapeRenderer;
     SpriteBatch debugSpriteBatch;
     BitmapFont debugFont;
-    boolean debug = true;
+    boolean debug = false;
 
     @Inject
     public GameScreen(PooledEngine pooledEngine, @Named("ExtendedViewport") Viewport viewport, Player player, SpriteBatch spriteBatch, MainGame mainGame) {

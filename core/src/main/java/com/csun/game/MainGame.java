@@ -81,6 +81,10 @@ public class MainGame extends Game {
         GameScreen gameScreen = injector.getInstance(GameScreen.class);
         FadeScreen.fade(gameScreen, gameScreen, this);
     }
+    public void fadeGameScreen(String text) {
+        GameScreen gameScreen = injector.getInstance(GameScreen.class);
+        FadeScreen.fade(gameScreen, gameScreen, this, text);
+    }
 
     public PooledEngine getPooledEngine() {
         return pooledEngine;
@@ -159,5 +163,10 @@ public class MainGame extends Game {
         NpcComponent npcComponent = Mappers.npcs.get(entity);
         npcComponent.say = statement;
         npcComponent.time = seconds;
+    }
+
+    public Vector2 getNpcPosition(String identification) {
+        Entity entity = getNpcEntity(identification);
+        return entity == null ? null : Mappers.movements.get(entity).pos;
     }
 }

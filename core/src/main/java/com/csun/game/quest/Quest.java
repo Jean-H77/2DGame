@@ -20,6 +20,10 @@ public class Quest extends ActionAdapter {
         mainGame.fadeGameScreen();
     }
 
+    public void fadeScreen(String text) {
+        mainGame.fadeGameScreen(text);
+    }
+
     protected void addNpc(Vector2 pos, float width, float height, String identification) {
         mainGame.addNpc(pos, width, height, identification);
     }
@@ -42,5 +46,9 @@ public class Quest extends ActionAdapter {
 
     protected void npcSay(String statement, String identification, int seconds) {
         mainGame.npcSay(statement, identification, seconds);
+    }
+
+    protected Vector2 getNpcPosition(String identification) {
+        return mainGame.getNpcPosition(identification);
     }
 }
