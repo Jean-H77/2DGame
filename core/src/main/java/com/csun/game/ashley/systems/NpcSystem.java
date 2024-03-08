@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.csun.game.ashley.Mappers;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.NpcComponent;
@@ -15,7 +16,7 @@ import com.google.inject.Inject;
 
 public class NpcSystem extends IteratingSystem {
 
-    private final BitmapFont font = new BitmapFont();
+    private final BitmapFont font;
     private final GlyphLayout layout = new GlyphLayout();
     private final SpriteBatch spriteBatch;
 
@@ -23,8 +24,14 @@ public class NpcSystem extends IteratingSystem {
     public NpcSystem(SpriteBatch spriteBatch) {
         super(Family.all(NpcComponent.class, MovementComponent.class).get());
         this.spriteBatch = spriteBatch;
-        font.setColor(Color.GOLD);
+
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("npc_font.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        font = generator.generateFont(parameter);
+        font.setColor(Color.valueOf("ffff00"));
+        generator.dispose();
     }
+
     @Override
     public void update(float deltaTime) {
         spriteBatch.begin();

@@ -93,7 +93,7 @@ public class MainGame extends Game {
         Entity entity = pooledEngine.createEntity();
         entity.add(new MovementComponent(pos));
         entity.add(new ClickableComponent(new Rectangle(pos.x, pos.y, width, height), identification));
-        entity.add(new AnimationComponent(AnimationType.PLAYER_IDLE_EAST, 48, 48));
+        entity.add(new AnimationComponent(AnimationType.PLAYER_IDLE_EAST, width, height));
         NpcComponent npcComponent = new NpcComponent();
         npcComponent.width = width;
         npcComponent.height = height;

@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -19,7 +20,6 @@ import com.csun.game.MainGame;
 import com.csun.game.ashley.Mappers;
 import com.csun.game.ashley.components.ClickableComponent;
 import com.csun.game.attributes.Attributes;
-import com.csun.game.dialogue.Dialogue;
 import com.csun.game.player.Player;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -59,13 +59,19 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         viewport.setCamera(playerCamera);
-        debugFont = new BitmapFont();
-        debugFont.setColor(Color.GOLD);
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(playerCamera.combined);
         debugSpriteBatch = new SpriteBatch();
-
         font = new BitmapFont();
+
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("arial_narrow_7.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 20;
+        debugFont = generator.generateFont(parameter);
+        font = generator.generateFont(parameter);
+        font.setColor(Color.SKY);
+        debugFont.setColor(Color.WHITE);
+        generator.dispose();
     }
 
     @Override
