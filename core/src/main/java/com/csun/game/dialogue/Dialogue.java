@@ -2,7 +2,9 @@ package com.csun.game.dialogue;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -18,6 +20,7 @@ import com.csun.game.dialogue.impl.DialogueStatement;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.player.Player;
 import com.csun.game.quest.impl.TestQuest;
+import com.github.tommyettinger.textra.Font;
 import com.github.tommyettinger.textra.KnownFonts;
 import com.github.tommyettinger.textra.TypingLabel;
 
@@ -32,9 +35,18 @@ import static com.csun.game.GameConstants.VIEWPORT_WIDTH;
 public class Dialogue {
 
     private static final Skin skin = new Skin();
+    private static BitmapFont bitmapFont;
+    private static Font font;
     static {
         skin.addRegions(new TextureAtlas(Gdx.files.internal("gdx-skins-master/comic/skin/comic-ui.atlas")));
         skin.load(Gdx.files.internal("gdx-skins-master/comic/skin/comic-ui.json"));
+
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("dialogue/papyrus.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 30;
+        bitmapFont = generator.generateFont(parameter);
+        font = new Font(bitmapFont);
+        generator.dispose();
     }
 
     private final Deque<DialoguePart> dialogueParts = new ArrayDeque<>();
@@ -54,26 +66,26 @@ public class Dialogue {
         Gdx.input.setInputProcessor(stage);
 
         Table root = new Table();
-        Image image = new Image(new Texture(Gdx.files.internal("dialogue_board.png")));
+        Image image = new Image(new Texture(Gdx.files.internal("dialogue/dialogue_board.png")));
         root.setBackground(image.getDrawable());
         root.setSize(stage.getWidth(), stage.getHeight());
         root.align(Align.center);
         stage.addActor(root);
 
-        Table table = new Table(skin);
+        Table table = new Table();
         root.add(table);
 
         if(currentPart instanceof DialogueOptions dialogueOptions) {
             Option[] options = dialogueOptions.getOptions();
 
-            TypingLabel header = new TypingLabel("[_][%75][SCARLET] Select an option [%]", KnownFonts.getStandardFamily());
+            TypingLabel header = new TypingLabel("[_][BLACK] Select an option [%]", font);
             header.setSize(500, 20);
             table.row();
             table.add(header);
 
             int i = 0;
             for (Option option : options) {
-                TypingLabel label = new TypingLabel("[%75][SCARLET]" + option.title() + "[%]", KnownFonts.getStandardFamily());
+                TypingLabel label = new TypingLabel("[BLACK]" + option.title() + "[%]", font);
                 label.setSize(500, 20);
 
                 label.addListener(new ClickListener() {
@@ -99,7 +111,7 @@ public class Dialogue {
                     @Override
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                         if(label.hasEnded()) {
-                            label.setText(label.storedText.replace("[SCARLET]", "[WHITE]"), true);
+                            label.setText(label.storedText.replace("[BLACK]", "[WHITE]"), true);
                         }
                         super.enter(event, x, y, pointer, fromActor);
                     }
@@ -107,7 +119,7 @@ public class Dialogue {
                     @Override
                     public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                         if(label.hasEnded()) {
-                            label.setText(label.storedText.replace("[WHITE]", "[SCARLET]"), true);
+                            label.setText(label.storedText.replace("[WHITE]", "[BLACK]"), true);
                         }
                         super.exit(event, x, y, pointer, toActor);
                     }
@@ -118,12 +130,12 @@ public class Dialogue {
             }
 
         } else if(currentPart instanceof DialogueStatement statement) {
-            TypingLabel typingLabel = new TypingLabel("[%75][SCARLET]" + statement.getText(player) + "[%]", KnownFonts.getStandardFamily());
+            TypingLabel typingLabel = new TypingLabel("[BLACK]" + statement.getText(player) + "[%]", font);
             typingLabel.setAlignment(Align.center);
             typingLabel.setWrap(true);
             typingLabel.setSize(500, 20);
 
-            TypingLabel continueLabel = new TypingLabel("[_][%75][SCARLET]Click here to continue[%]", KnownFonts.getStandardFamily());
+            TypingLabel continueLabel = new TypingLabel("[_][BLACK]Click here to continue[%]", font);
             continueLabel.setAlignment(Align.center);
             continueLabel.setSize(500, 20);
             continueLabel.addListener(new ClickListener() {
@@ -144,7 +156,7 @@ public class Dialogue {
                 @Override
                 public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                     if(continueLabel.hasEnded()) {
-                        continueLabel.setText(continueLabel.storedText.replace("[SCARLET]", "[WHITE]"), true);
+                        continueLabel.setText(continueLabel.storedText.replace("[BLACK]", "[WHITE]"), true);
                     }
                     super.enter(event, x, y, pointer, fromActor);
                 }
@@ -152,7 +164,7 @@ public class Dialogue {
                 @Override
                 public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                     if(continueLabel.hasEnded()) {
-                        continueLabel.setText(continueLabel.storedText.replace("[WHITE]", "[SCARLET]"), true);
+                        continueLabel.setText(continueLabel.storedText.replace("[WHITE]", "[BLACK]"), true);
                     }
                     super.exit(event, x, y, pointer, toActor);
                 }
