@@ -48,7 +48,8 @@ public class GameModule extends AbstractModule {
             MovementSystem.class,
             AnimationSystem.class,
             RenderSystem.class,
-            CameraSystem.class
+            CameraSystem.class,
+            NpcSystem.class
         ));
     }
 }

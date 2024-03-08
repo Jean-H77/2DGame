@@ -1,11 +1,9 @@
 package com.csun.game.screens;
 
 import box2dLight.RayHandler;
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -20,21 +18,12 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csun.game.MainGame;
 import com.csun.game.ashley.Mappers;
 import com.csun.game.ashley.components.ClickableComponent;
-import com.csun.game.ashley.components.MovementComponent;
-import com.csun.game.ashley.components.NpcComponent;
-import com.csun.game.ashley.components.TextureComponent;
-import com.csun.game.ashley.systems.MovementSystem;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.dialogue.Dialogue;
-import com.csun.game.map.GameMap;
-import com.csun.game.models.AnimationType;
-import com.csun.game.models.Direction;
 import com.csun.game.player.Player;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-
-import static com.csun.game.GameConstants.TILE_SIZE;
 
 /** First screen of the application. Displayed after the application is created. */
 @Singleton
@@ -53,8 +42,7 @@ public class GameScreen implements Screen {
     ShapeRenderer shapeRenderer;
     SpriteBatch debugSpriteBatch;
     BitmapFont debugFont;
-    public static String debugNpcHoverText = "";
-    Dialogue dialogue;
+    boolean debug = true;
 
     @Inject
     public GameScreen(PooledEngine pooledEngine, @Named("ExtendedViewport") Viewport viewport, Player player, SpriteBatch spriteBatch, MainGame mainGame) {
@@ -93,12 +81,23 @@ public class GameScreen implements Screen {
         renderer.render();
 
         pooledEngine.update(Gdx.graphics.getDeltaTime());
-
-        debugSpriteBatch.begin();
         Vector2 mouse = player.getAttributes().get(Attributes.WORLD_MOUSE_POSITION);
-        debugFont.draw(debugSpriteBatch, "Position "+player.getMovementComponent().pos.toString(), 15, 15);
-        debugFont.draw(debugSpriteBatch, "Mouse "+mouse, 15, 30);
-        debugSpriteBatch.end();
+
+        if(debug) {
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(Color.CYAN);
+            shapeRenderer.setProjectionMatrix(playerCamera.combined);
+            pooledEngine.getEntitiesFor(Family.all(ClickableComponent.class).get()).forEach(entity -> {
+                Rectangle rectangle = Mappers.clickables.get(entity).bounds;
+                shapeRenderer.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+            });
+            shapeRenderer.end();
+
+            debugSpriteBatch.begin();
+            debugFont.draw(debugSpriteBatch, "Position " + player.getMovementComponent().pos.toString(), 15, 15);
+            debugFont.draw(debugSpriteBatch, "Mouse " + mouse, 15, 30);
+            debugSpriteBatch.end();
+        }
 
         rayHandler.setCombinedMatrix(playerCamera.combined);
         rayHandler.updateAndRender();
@@ -121,26 +120,7 @@ public class GameScreen implements Screen {
         player.getAttributes().get(Attributes.ALL_OPENED_UI).forEach(baseUI -> baseUI.render(player, delta));
 
         player.getGameMap().drawLine(playerCamera);
-        /*if(player.getGameMap().waypoints != null) {
-            if (waypoint == null && !player.getGameMap().waypoints.isEmpty()) {
-                waypoint = player.getGameMap().waypoints.pop();
-            }
-            if (waypoint != null) {
-                Vector2 myvect = new Vector2((int) player.getMovementComponent().pos.x, (int) player.getMovementComponent().pos.y);
-                Vector2 waypointVect = new Vector2((int)waypoint.x * 32, (int)waypoint.y * 32);
-                Direction direction = MovementSystem.getDirection(waypointVect, myvect);
-                if (!myvect.equals(waypointVect)) {
-                    player.getMovementComponent().move(direction);
-                } else if (!player.getGameMap().waypoints.isEmpty()) {
-                    waypoint = player.getGameMap().waypoints.pop();
-                } else {
-                    waypoint = null;
-                }
-            }
-        }*/
     }
-
-    Vector2 waypoint;
 
     @Override
     public void resize(int width, int height) {

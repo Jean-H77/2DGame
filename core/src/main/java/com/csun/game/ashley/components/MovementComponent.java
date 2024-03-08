@@ -1,6 +1,7 @@
 package com.csun.game.ashley.components;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.csun.game.ashley.systems.MovementSystem;
 import com.csun.game.models.Direction;
@@ -20,7 +21,7 @@ public class MovementComponent implements Component {
     public boolean disabled;
     public Deque<Vector2> waypoints = new ArrayDeque<>();
     public Vector2 nextWaypoint;
-
+    public float threshold;
     public MovementComponent(Vector2 vector2) {
         this.pos = vector2;
     }
@@ -32,9 +33,12 @@ public class MovementComponent implements Component {
     }
 
     public void setPath(Deque<Vector2> path) {
+        if(path.isEmpty()) {
+            return;
+        }
         velocity = 1f;
-        this.waypoints = path;
         state = MovementState.MOVING;
+        this.waypoints = path;
         this.nextWaypoint = this.waypoints.pop();
     }
 }

@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.csun.game.ashley.Mappers;
 import com.csun.game.ashley.components.AnimationComponent;
+import com.csun.game.ashley.components.ClickableComponent;
 import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.map.GameMap;
 import com.csun.game.models.AnimationType;
@@ -89,12 +90,11 @@ public class MovementSystem extends IteratingSystem {
         if (movement.state.equals(MovementState.IDLE)) return;
         isBlocked = false;
         Direction direction = null;
-
         if (movement.nextWaypoint != null) {
             Vector2 temp = new Vector2((int) movement.pos.x, (int) movement.pos.y);
             Vector2 waypointWorldPos = new Vector2((int)movement.nextWaypoint.x * TILE_SIZE, (int)movement.nextWaypoint.y * TILE_SIZE);
-            if (!temp.equals(waypointWorldPos)) {
-                direction = MovementSystem.getDirection(waypointWorldPos, temp);
+            if (isCloseEnough(temp, waypointWorldPos, movement.threshold)) {
+                direction = getDirection(waypointWorldPos, temp);
                 if(animation != null && direction != null) {
                     switch (direction) {
                         case N,NE,NW -> animation.nextAnim(AnimationType.PLAYER_WALK_NORTH);
@@ -145,10 +145,15 @@ public class MovementSystem extends IteratingSystem {
         if (isBlocked) return;
 
         movement.pos = dest;
+
+        ClickableComponent clickableComponent = Mappers.clickables.get(entity);
+        if(clickableComponent != null) {
+            clickableComponent.bounds.x = movement.pos.x;
+            clickableComponent.bounds.y = movement.pos.y;
+        }
     }
 
-    private boolean isCloseEnough(Vector2 pos1, Vector2 pos2) {
-        final float threshold = 1.0f;
-        return pos1.dst(pos2) < threshold;
+    private boolean isCloseEnough(Vector2 pos1, Vector2 pos2, float threshold) {
+        return pos1.dst(pos2) > threshold;
     }
 }

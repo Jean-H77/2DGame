@@ -8,11 +8,12 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.csun.game.ai.paths.PathFinder;
+import com.csun.game.ai.paths.PathResult;
 import com.csun.game.ashley.Mappers;
-import com.csun.game.ashley.components.ClickableComponent;
-import com.csun.game.ashley.components.MovementComponent;
-import com.csun.game.ashley.components.NpcComponent;
-import com.csun.game.ashley.components.TextureComponent;
+import com.csun.game.ashley.components.*;
+import com.csun.game.map.GameMap;
+import com.csun.game.models.AnimationType;
 import com.csun.game.models.Systems;
 import com.csun.game.player.Player;
 import com.csun.game.screens.FadeScreen;
@@ -22,7 +23,10 @@ import com.csun.game.screens.TitleScreen;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
+import java.util.ArrayDeque;
 import java.util.concurrent.CompletableFuture;
+
+import static com.csun.game.GameConstants.TILE_SIZE;
 
 public class MainGame extends Game {
 
@@ -89,8 +93,11 @@ public class MainGame extends Game {
         Entity entity = pooledEngine.createEntity();
         entity.add(new MovementComponent(pos));
         entity.add(new ClickableComponent(new Rectangle(pos.x, pos.y, width, height), identification));
-        entity.add(new TextureComponent());
-        entity.add(new NpcComponent());
+        entity.add(new AnimationComponent(AnimationType.PLAYER_IDLE_EAST, 48, 48));
+        NpcComponent npcComponent = new NpcComponent();
+        npcComponent.width = width;
+        npcComponent.height = height;
+        entity.add(npcComponent);
         pooledEngine.addEntity(entity);
     }
 
@@ -100,6 +107,21 @@ public class MainGame extends Game {
         Entity entity = getNpcEntity(identification);
         if(entity != null) {
             pooledEngine.removeEntity(entity);
+        }
+    }
+
+    public void walkNpc(String identification, float tileX, float tileY) {
+        Entity entity = getNpcEntity(identification);
+        if(entity != null) {
+            MovementComponent movementComponent = Mappers.movements.get(entity);
+            PathResult pathResult = PathFinder.findPath(
+                new Vector2(
+                    movementComponent.pos.x / TILE_SIZE,
+                    movementComponent.pos.y / TILE_SIZE
+                ),
+                new Vector2((int)(tileX/ TILE_SIZE), (int)(tileY/TILE_SIZE)),
+                injector.getInstance(GameMap.class));
+            movementComponent.setPath(new ArrayDeque<>(pathResult.waypoints()));
         }
     }
 
@@ -117,7 +139,7 @@ public class MainGame extends Game {
 
     public Entity getNpcEntity(String identification) {
         ImmutableArray<Entity> entities = pooledEngine.getEntitiesFor(
-            Family.all(NpcComponent.class, MovementComponent.class, ClickableComponent.class, TextureComponent.class).
+            Family.all(NpcComponent.class, MovementComponent.class, ClickableComponent.class, AnimationComponent.class).
                 get());
 
         for(Entity e : entities) {
@@ -127,5 +149,15 @@ public class MainGame extends Game {
             }
         }
         return null;
+    }
+
+    public void npcSay(String statement, String identification, int seconds) {
+        Entity entity = getNpcEntity(identification);
+        if(entity == null) {
+            return;
+        }
+        NpcComponent npcComponent = Mappers.npcs.get(entity);
+        npcComponent.say = statement;
+        npcComponent.time = seconds;
     }
 }

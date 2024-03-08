@@ -1,5 +1,6 @@
 package com.csun.game.ai.paths;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import com.csun.game.map.GameMap;

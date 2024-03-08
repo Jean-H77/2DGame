@@ -12,4 +12,5 @@ public final class Mappers {
     public static final ComponentMapper<MovementComponent> movements = ComponentMapper.getFor(MovementComponent.class);
     public static final ComponentMapper<CameraComponent> cameras = ComponentMapper.getFor(CameraComponent.class);
     public static final ComponentMapper<ClickableComponent> clickables = ComponentMapper.getFor(ClickableComponent.class);
+    public static final ComponentMapper<NpcComponent> npcs = ComponentMapper.getFor(NpcComponent.class);
 }

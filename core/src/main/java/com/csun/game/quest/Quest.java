@@ -35,4 +35,12 @@ public class Quest extends ActionAdapter {
     protected boolean containsNpc(String identification) {
         return mainGame.getNpcEntity(identification) != null;
     }
+
+    protected void walkNpc(String identification, float tileX, float tileY) {
+        mainGame.walkNpc(identification, tileX, tileY);
+    }
+
+    protected void npcSay(String statement, String identification, int seconds) {
+        mainGame.npcSay(statement, identification, seconds);
+    }
 }

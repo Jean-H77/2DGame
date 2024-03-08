@@ -25,7 +25,9 @@ public class TestQuest extends Quest {
     @Override
     public void clickNpc(Player player, String npc, float mouseX, float mouseY) {
         MutableInt stage = player.getQuestStage(title);
-        if(npc.equalsIgnoreCase("Shob")) {
+        npcSay("Hello my name is " + npc, npc, 3);
+
+        /*if(npc.equalsIgnoreCase("Shob")) {
             player.startDialogue(new Dialogue.Builder()
                 .addStatement(new DialogueStatement() {
                     @Override
@@ -35,7 +37,10 @@ public class TestQuest extends Quest {
                 })
                 .build());
         } else if(npc.equalsIgnoreCase("Knob")) {
-            Dialogue.Builder builder = new Dialogue.Builder();
+
+           // walkNpc(npc, 960, 608);
+           // npcSay("Hello my name is " + npc, npc, 3);
+            *//*Dialogue.Builder builder = new Dialogue.Builder();
             if(stage.getValue() > 1) {
                 builder.addStatement(new DialogueStatement() {
                     @Override
@@ -48,9 +53,11 @@ public class TestQuest extends Quest {
                 Option exitOption = Option.create("Exit");
                 builder.addOptions(new DialogueOptions(fadeScreenOption, exitOption));
             }
-            player.startDialogue(builder.build());
+            player.startDialogue(builder.build());*//*
+
+
+
         } else if(npc.equalsIgnoreCase("Blob")) {
-            Gdx.app.log("I'm here now?", "ok");
             player.startDialogue(new Dialogue.Builder()
                     .addOptions(new DialogueOptions(
                         Option.create("Remove npc", (p) -> Timer.schedule(new Timer.Task() {
@@ -62,7 +69,7 @@ public class TestQuest extends Quest {
                         Option.create("Exit")
                     ))
                 .build());
-        }
+        }*/
     }
 
     @Override
@@ -74,9 +81,9 @@ public class TestQuest extends Quest {
     public void enterMap(Player player, String mapName) {
         int stage = player.getQuestStage(title).getValue();
         if(Objects.equals(mapName, "act1.tmx")) {
-            addNpc(new Vector2(477, 400), 16, 16, "Blob");
-            addNpc(new Vector2(400, 400), 16, 16, "Knob");
-            addNpc(new Vector2(480, 547), 16, 16, "Shob");
+            addNpc(new Vector2(255, 501), 48, 48, "Blob");
+            addNpc(new Vector2(608, 500), 48, 48, "Knob");
+            addNpc(new Vector2(172, 625), 48, 48, "Shob");
         }
     }
 }
