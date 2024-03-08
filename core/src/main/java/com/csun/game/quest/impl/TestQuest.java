@@ -7,7 +7,9 @@ import com.csun.game.MainGame;
 import com.csun.game.dialogue.Dialogue;
 import com.csun.game.dialogue.Option;
 import com.csun.game.dialogue.impl.DialogueOptions;
+import com.csun.game.dialogue.impl.DialogueStatement;
 import com.csun.game.misc.MutableInt;
+import com.csun.game.models.AnimationType;
 import com.csun.game.player.Player;
 import com.csun.game.quest.Quest;
 import com.google.inject.Inject;
@@ -51,8 +53,42 @@ public class TestQuest extends Quest {
                             }
                         }, 2, 0.5f);
                     });
+                    Option singOption = Option.create("Sing me a song!", (p) -> {
+                        stage.set(4);
+                        String[] song = new String[] {
+                            "In the morning, when the sun rises high",
+                            "Golden rays fill the vast, open sky",
+                            "Birds take flight, a sight to behold",
+                            "Oh, sing, nature's choir, in harmony",
+                            "Rustling leaves, waves on the sea",
+                            "Dance with the breeze, light and free",
+                            "In this wild world, beauty we see",
+                            "Beneath the trees, in the forest's heart",
+                            "Whispering secrets, where shadows dart",
+                            "Sunbeams filter through leaves above",
+                            "A tranquil sanctuary, filled with love",
+                            "Oh, sing, nature's choir, in harmony",
+                            "Rustling leaves, waves on the sea",
+                            "Embrace the calm, let your spirit be",
+                            "In nature's embrace, we find our key"
+                        };
+                        Timer.schedule(new Timer.Task() {
+                            int i;
+                            @Override
+                            public void run() {
+                                if(i == song.length) {
+                                    npcSay("OK i'm done :)", npc, 2);
+                                    stage.set(1);
+                                    cancel();
+                                    return;
+                                }
+                                npcSay(song[i], npc, 2);
+                                i++;
+                            }
+                        }, 1, 3);
+                    });
                     Option exitOption = Option.create("Exit");
-                    builder.addOptions(new DialogueOptions(walkToDoorOptions, exitOption));
+                    builder.addOptions(new DialogueOptions(walkToDoorOptions, singOption, exitOption));
                     player.startDialogue(builder.build());
                 }
                 case 3 -> {
@@ -74,6 +110,28 @@ public class TestQuest extends Quest {
                     player.startDialogue(builder.build());
                 }
             }
+        } else if(npc.equalsIgnoreCase("Blob")) {
+            Dialogue.Builder builder = new Dialogue.Builder()
+                .addStatement(new DialogueStatement() {
+                    @Override
+                    public String getText(Player player) {
+                        return "Hey Blob! Why are you counting?";
+                    }
+                })
+                .addStatement(new DialogueStatement() {
+                    @Override
+                    public String getText(Player player) {
+                        return "I'm trying to count to " + Integer.MAX_VALUE + " don't mess me up or i'd have to start over";
+                    }
+                })
+                .addStatement(new DialogueStatement() {
+                    @Override
+                    public String getText(Player player) {
+                        return "Ok i'm sorry Blob :(";
+                    }
+                });
+
+            player.startDialogue(builder.build());
         }
     }
 
@@ -86,9 +144,9 @@ public class TestQuest extends Quest {
     public void enterMap(Player player, String mapName) {
         int stage = player.getQuestStage(title).getValue();
         if (Objects.equals(mapName, "act1.tmx")) {
-            addNpc(new Vector2(255, 501), 48, 48, "Blob");
-            addNpc(new Vector2(608, 500), 48, 48, "Knob");
-            addNpc(new Vector2(172, 625), 48, 48, "Shob");
+            addNpc(new Vector2(255, 501), 48, 48, "Blob", AnimationType.PLAYER_IDLE_WEST);
+            addNpc(new Vector2(608, 500), 48, 48, "Knob", AnimationType.PLAYER_IDLE_EAST);
+            addNpc(new Vector2(172, 625), 48, 48, "Shob", AnimationType.PLAYER_IDLE_NORTH);
 
 
             //we can also make tasks

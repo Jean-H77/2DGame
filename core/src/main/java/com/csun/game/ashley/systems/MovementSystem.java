@@ -110,11 +110,8 @@ public class MovementSystem extends IteratingSystem {
                 movement.velocity = 0.0f;
                 movement.state = MovementState.IDLE;
                 if(animation != null && animation.animationType != null) {
-                    switch (animation.animationType) {
-                        case PLAYER_WALK_EAST -> animation.nextAnim(AnimationType.PLAYER_IDLE_EAST);
-                        case PLAYER_WALK_NORTH -> animation.nextAnim(AnimationType.PLAYER_IDLE_NORTH);
-                        case PLAYER_WALK_SOUTH -> animation.nextAnim(AnimationType.PLAYER_IDLE_SOUTH);
-                        case PLAYER_WALK_WEST -> animation.nextAnim(AnimationType.PLAYER_IDLE_WEST);
+                    if(AnimationType.IDLE_TRANSITION_ANIMATIONS.containsKey(animation.animationType)) {
+                        animation.nextAnim(AnimationType.IDLE_TRANSITION_ANIMATIONS.get(animation.animationType));
                     }
                 }
             }

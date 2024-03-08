@@ -13,8 +13,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.csun.game.UI.UIManager;
-import com.csun.game.ai.paths.PathFinder;
-import com.csun.game.ai.paths.PathResult;
 import com.csun.game.ashley.Mappers;
 import com.csun.game.ashley.components.AnimationComponent;
 import com.csun.game.ashley.components.ClickableComponent;
@@ -27,8 +25,6 @@ import com.csun.game.models.Direction;
 import com.csun.game.models.LightType;
 import com.csun.game.player.Player;
 import com.google.inject.Inject;
-
-import java.util.ArrayDeque;
 
 import static com.csun.game.GameConstants.TILE_SIZE;
 
@@ -76,14 +72,8 @@ public class PlayerInputSystem extends IteratingSystem {
                 }
             }
         } else {
-            if (ac.animationType == AnimationType.PLAYER_WALK_NORTH) {
-                ac.nextAnim(AnimationType.PLAYER_IDLE_NORTH);
-            } else if (ac.animationType == AnimationType.PLAYER_WALK_SOUTH) {
-                ac.nextAnim(AnimationType.PLAYER_IDLE_SOUTH);
-            } else if (ac.animationType == AnimationType.PLAYER_WALK_EAST) {
-                ac.nextAnim(AnimationType.PLAYER_IDLE_EAST);
-            } else if (ac.animationType == AnimationType.PLAYER_WALK_WEST) {
-                ac.nextAnim(AnimationType.PLAYER_IDLE_WEST);
+            if(AnimationType.IDLE_TRANSITION_ANIMATIONS.containsKey(ac.animationType)) {
+                ac.nextAnim(AnimationType.IDLE_TRANSITION_ANIMATIONS.get(ac.animationType));
             }
         }
 

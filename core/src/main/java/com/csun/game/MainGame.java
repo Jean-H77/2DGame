@@ -91,13 +91,13 @@ public class MainGame extends Game {
     }
 
     // ok this is a pretty ugly way to handle this, but we don't have a lot of time
-    public void addNpc(Vector2 pos, float width, float height, String identification) {
+    public void addNpc(Vector2 pos, float width, float height, String identification, AnimationType animationType) {
         if(getNpcEntity(identification) != null) return;
         Gdx.app.log("NPC ADD", identification);
         Entity entity = pooledEngine.createEntity();
         entity.add(new MovementComponent(pos));
         entity.add(new ClickableComponent(new Rectangle(pos.x, pos.y, width, height), identification));
-        entity.add(new AnimationComponent(AnimationType.PLAYER_IDLE_EAST, width, height));
+        entity.add(new AnimationComponent(animationType, width, height));
         NpcComponent npcComponent = new NpcComponent();
         npcComponent.width = width;
         npcComponent.height = height;

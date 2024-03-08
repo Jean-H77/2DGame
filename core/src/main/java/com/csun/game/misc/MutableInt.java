@@ -31,5 +31,9 @@ public class MutableInt {
     public int decrementAndGet() {
         return value--;
     }
+
+    public void set(int val) {
+        value = val;
+    }
 }
 

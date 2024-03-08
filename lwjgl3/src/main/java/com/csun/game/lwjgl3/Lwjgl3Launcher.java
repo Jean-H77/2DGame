@@ -33,6 +33,7 @@ public class Lwjgl3Launcher {
         Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
         configuration.setTitle(GAME_TITLE);
         configuration.useVsync(true);
+        configuration.setResizable(false);
         //// Limits FPS to the refresh rate of the currently active monitor.
         configuration.setForegroundFPS(60);
         configuration.setIdleFPS(60);
@@ -40,7 +41,6 @@ public class Lwjgl3Launcher {
         //// useful for testing performance, but can also be very stressful to some hardware.
         //// You may also need to configure GPU drivers to fully disable Vsync; this can cause screen tearing.
         configuration.setWindowedMode(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-        configuration.setResizable(true);
        // configuration.setWindowIcon("libgdx128.png", "libgdx64.png", "libgdx32.png", "libgdx16.png");
         return configuration;
     }

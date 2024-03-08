@@ -1,6 +1,7 @@
 package com.csun.game.dialogue;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -13,7 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.csun.game.action.ActionListener;
 import com.csun.game.dialogue.impl.DialogueOptions;
 import com.csun.game.dialogue.impl.DialogueStatement;
@@ -37,20 +41,25 @@ public class Dialogue {
     private static final Skin skin = new Skin();
     private static BitmapFont bitmapFont;
     private static Font font;
+    private static Texture texture;
+    private static final int ROOT_WIDTH = 420;
+    private static final int ROOT_HEIGHT = 150;
     static {
         skin.addRegions(new TextureAtlas(Gdx.files.internal("gdx-skins-master/comic/skin/comic-ui.atlas")));
         skin.load(Gdx.files.internal("gdx-skins-master/comic/skin/comic-ui.json"));
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("dialogue/papyrus.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("dialogue/di.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 30;
+        parameter.size = 16;
         bitmapFont = generator.generateFont(parameter);
         font = new Font(bitmapFont);
         generator.dispose();
+
+        texture = new Texture(Gdx.files.internal("dialogue/dialogue_board.png"));
     }
 
     private final Deque<DialoguePart> dialogueParts = new ArrayDeque<>();
-    private final Stage stage = new Stage(new FitViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT));
+    private final Stage stage = new Stage(new ScreenViewport());
 
     private DialoguePart currentPart;
 
@@ -63,13 +72,17 @@ public class Dialogue {
             currentPart = next();
         }
 
+        stage.clear();
         Gdx.input.setInputProcessor(stage);
 
         Table root = new Table();
-        Image image = new Image(new Texture(Gdx.files.internal("dialogue/dialogue_board.png")));
+        Image image = new Image(texture);
         root.setBackground(image.getDrawable());
-        root.setSize(stage.getWidth(), stage.getHeight());
-        root.align(Align.center);
+        root.setSize(ROOT_WIDTH, ROOT_HEIGHT);
+        float xPosition = (stage.getWidth() / 2) - (ROOT_WIDTH / 2);
+        float yPosition = 10;
+        root.setPosition(xPosition, yPosition);
+
         stage.addActor(root);
 
         Table table = new Table();
@@ -78,15 +91,14 @@ public class Dialogue {
         if(currentPart instanceof DialogueOptions dialogueOptions) {
             Option[] options = dialogueOptions.getOptions();
 
-            TypingLabel header = new TypingLabel("[_][BLACK] Select an option [%]", font);
-            header.setSize(500, 20);
-            table.row();
+            TypingLabel header = new TypingLabel("[_][FIREBRICK] Select an option [%]", font);
+            header.setSize(400, 16);
+            table.row().padBottom(10);
             table.add(header);
 
-            int i = 0;
             for (Option option : options) {
                 TypingLabel label = new TypingLabel("[BLACK]" + option.title() + "[%]", font);
-                label.setSize(500, 20);
+                label.setSize(400, 16);
 
                 label.addListener(new ClickListener() {
                     @Override
@@ -124,7 +136,6 @@ public class Dialogue {
                         super.exit(event, x, y, pointer, toActor);
                     }
                 });
-
                 table.row();
                 table.add(label);
             }
@@ -133,11 +144,11 @@ public class Dialogue {
             TypingLabel typingLabel = new TypingLabel("[BLACK]" + statement.getText(player) + "[%]", font);
             typingLabel.setAlignment(Align.center);
             typingLabel.setWrap(true);
-            typingLabel.setSize(500, 20);
+            typingLabel.setSize(400, 16);
 
-            TypingLabel continueLabel = new TypingLabel("[_][BLACK]Click here to continue[%]", font);
+            TypingLabel continueLabel = new TypingLabel("[BLUE]Click here to continue[%]", font);
             continueLabel.setAlignment(Align.center);
-            continueLabel.setSize(500, 20);
+            continueLabel.setSize(400, 16);
             continueLabel.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -156,7 +167,7 @@ public class Dialogue {
                 @Override
                 public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                     if(continueLabel.hasEnded()) {
-                        continueLabel.setText(continueLabel.storedText.replace("[BLACK]", "[WHITE]"), true);
+                        continueLabel.setText(continueLabel.storedText.replace("[BLUE]", "[WHITE]"), true);
                     }
                     super.enter(event, x, y, pointer, fromActor);
                 }
@@ -164,14 +175,14 @@ public class Dialogue {
                 @Override
                 public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                     if(continueLabel.hasEnded()) {
-                        continueLabel.setText(continueLabel.storedText.replace("[WHITE]", "[BLACK]"), true);
+                        continueLabel.setText(continueLabel.storedText.replace("[WHITE]", "[BLUE]"), true);
                     }
                     super.exit(event, x, y, pointer, toActor);
                 }
             });
 
             table.add(typingLabel);
-            table.row();
+            table.row().padTop(10);
             table.add(continueLabel);
         }
     }
@@ -183,7 +194,9 @@ public class Dialogue {
     }
 
     public void resize(int width, int height) {
-        stage.getViewport().update(width, height, false);
+        stage.getViewport().update(width, height);
+        float xPosition = ((float) width / 2) - ((float) ROOT_WIDTH / 2);
+        stage.getActors().get(0).setPosition(xPosition, 10);
     }
 
     public void removeDialogue(Player player) {
