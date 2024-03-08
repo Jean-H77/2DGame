@@ -25,9 +25,8 @@ public class TestQuest extends Quest {
     @Override
     public void clickNpc(Player player, String npc, float mouseX, float mouseY) {
         MutableInt stage = player.getQuestStage(title);
-        npcSay("Hello my name is " + npc, npc, 3);
 
-        /*if(npc.equalsIgnoreCase("Shob")) {
+        if(npc.equalsIgnoreCase("Shob")) {
             player.startDialogue(new Dialogue.Builder()
                 .addStatement(new DialogueStatement() {
                     @Override
@@ -37,10 +36,7 @@ public class TestQuest extends Quest {
                 })
                 .build());
         } else if(npc.equalsIgnoreCase("Knob")) {
-
-           // walkNpc(npc, 960, 608);
-           // npcSay("Hello my name is " + npc, npc, 3);
-            *//*Dialogue.Builder builder = new Dialogue.Builder();
+            Dialogue.Builder builder = new Dialogue.Builder();
             if(stage.getValue() > 1) {
                 builder.addStatement(new DialogueStatement() {
                     @Override
@@ -53,10 +49,7 @@ public class TestQuest extends Quest {
                 Option exitOption = Option.create("Exit");
                 builder.addOptions(new DialogueOptions(fadeScreenOption, exitOption));
             }
-            player.startDialogue(builder.build());*//*
-
-
-
+            player.startDialogue(builder.build());
         } else if(npc.equalsIgnoreCase("Blob")) {
             player.startDialogue(new Dialogue.Builder()
                     .addOptions(new DialogueOptions(
@@ -69,7 +62,7 @@ public class TestQuest extends Quest {
                         Option.create("Exit")
                     ))
                 .build());
-        }*/
+        }
     }
 
     @Override
@@ -84,6 +77,18 @@ public class TestQuest extends Quest {
             addNpc(new Vector2(255, 501), 48, 48, "Blob");
             addNpc(new Vector2(608, 500), 48, 48, "Knob");
             addNpc(new Vector2(172, 625), 48, 48, "Shob");
+
+
+            //we can also make tasks
+            Timer.Task numberCountTask = new Timer.Task() {
+                int count;
+                @Override
+                public void run() {
+                    npcSay(String.valueOf(count++), "Knob", 1);
+                }
+            };
+            //0 start delay then keep repeating every 1.5 seconds until you call cancel()
+            Timer.schedule(numberCountTask,0, 1.5f);
         }
     }
 }
