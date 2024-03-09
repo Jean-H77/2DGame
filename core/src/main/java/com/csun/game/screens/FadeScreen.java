@@ -8,15 +8,21 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csun.game.MainGame;
 
 import java.util.Objects;
+
+import static com.csun.game.GameConstants.VIEWPORT_HEIGHT;
+import static com.csun.game.GameConstants.VIEWPORT_WIDTH;
 
 public class FadeScreen implements Screen {
 
     private static BitmapFont font;
     private static final SpriteBatch spriteBatch = new SpriteBatch();
     private static final GlyphLayout layout = new GlyphLayout();
+    private final Viewport viewport = new ExtendViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
 
     static {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("npc_font.ttf"));
@@ -66,6 +72,7 @@ public class FadeScreen implements Screen {
     public void render(float v) {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(Gdx.gl.GL_COLOR_BUFFER_BIT);
+        viewport.apply();
 
         if (fadeDirection) {
             current.render(Gdx.graphics.getDeltaTime());
@@ -94,14 +101,17 @@ public class FadeScreen implements Screen {
             }
         }
         else if (alpha <= 0 && !fadeDirection) {
+            if(current instanceof MenuScreen) {
+                current.dispose();
+            }
             mainGame.setScreen(next);
         }
         alpha += (float) (fadeDirection ? 0.005 : -0.005);
     }
 
     @Override
-    public void resize(int i, int i1) {
-
+    public void resize(int width, int height) {
+        viewport.update(width,height);
     }
 
     @Override

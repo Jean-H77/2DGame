@@ -5,7 +5,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -21,19 +20,20 @@ import com.github.tommyettinger.textra.TextraButton;
 import com.github.tommyettinger.textra.TextraLabel;
 import com.google.inject.Inject;
 
-import static com.csun.game.GameConstants.*;
+import static com.csun.game.GameConstants.GAME_TITLE;
 
 public class MenuScreen implements Screen {
 
     private final MainGame mainGame;
-    private final SpriteBatch spriteBatch;
     private final AssetManager assetManager = Assets.INSTANCE.getManager();
-    private Stage stage;
+    private boolean clickedPlay = false;
+    private final Stage stage;
 
     @Inject
-    public MenuScreen(MainGame mainGame, SpriteBatch spriteBatch, AssetManager assetManager) {
+    public MenuScreen(MainGame mainGame, SpriteBatch spriteBatch) {
         this.mainGame = mainGame;
-        this.spriteBatch = spriteBatch;
+        stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()), spriteBatch);
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -41,7 +41,6 @@ public class MenuScreen implements Screen {
         // ShaderProgram shaderProgram = new ShaderProgram(Gdx.files.internal("shaders/example.vert"), Gdx.files.internal("shaders/example.frag"));
         // spriteBatch.setShader(shaderProgram);
 
-        stage = new Stage(new FitViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT), spriteBatch);
         Skin skin = new Skin();
         skin.addRegions(assetManager.get("gdx-skins-master/cloud-form/skin/cloud-form-ui.atlas"));
         skin.load(Gdx.files.internal("gdx-skins-master/cloud-form/skin/cloud-form-ui.json"));
@@ -52,7 +51,12 @@ public class MenuScreen implements Screen {
         startGameTextButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                mainGame.fadeScreen("Random welcome text here", mainGame.getInjector().getInstance(GameScreen.class), mainGame.getInjector().getInstance(MenuScreen.class));
+                if(!clickedPlay) {
+                    Gdx.input.setInputProcessor(null);
+                    clickedPlay = true;
+                    Gdx.app.log("C", "C");
+                    mainGame.fadeScreen("Random welcome text here", mainGame.getInjector().getInstance(GameScreen.class), mainGame.getInjector().getInstance(MenuScreen.class));
+                }
             }
         });
         stage.addActor(startGameTextButton);
@@ -74,8 +78,6 @@ public class MenuScreen implements Screen {
         titleLabel.setSize(200, 100);
         titleLabel.setPosition((float) Gdx.graphics.getWidth() /2 - titleLabel.getWidth()/2, (float) Gdx.graphics.getHeight() - titleLabel.getHeight());
         stage.addActor(titleLabel);
-
-        Gdx.input.setInputProcessor(stage);
     }
 
     @Override

@@ -1,9 +1,11 @@
 package com.csun.game.lwjgl3;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Graphics;
 import com.csun.game.MainGame;
 import com.csun.game.modules.*;
 import com.google.inject.Guice;
@@ -34,9 +36,14 @@ public class Lwjgl3Launcher {
         configuration.setTitle(GAME_TITLE);
         configuration.useVsync(true);
         configuration.setResizable(false);
+        configuration.setWindowIcon(Files.FileType.Internal, "jar_icon.png");
         //// Limits FPS to the refresh rate of the currently active monitor.
+        Lwjgl3Graphics.Monitor primaryMonitor = Lwjgl3ApplicationConfiguration.getPrimaryMonitor();
+        Graphics.DisplayMode displayMode = Lwjgl3ApplicationConfiguration.getDisplayMode(primaryMonitor);
+        configuration.setFullscreenMode(displayMode);
         configuration.setForegroundFPS(60);
         configuration.setIdleFPS(60);
+        configuration.setDecorated(false);
         //// If you remove the above line and set Vsync to false, you can get unlimited FPS, which can be
         //// useful for testing performance, but can also be very stressful to some hardware.
         //// You may also need to configure GPU drivers to fully disable Vsync; this can cause screen tearing.

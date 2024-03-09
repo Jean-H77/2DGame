@@ -21,7 +21,7 @@ public class ScreenModule extends AbstractModule {
         bind(Screen.class)
             .annotatedWith(Names.named("MenuScreen"))
             .to(MenuScreen.class)
-            .in(Scopes.NO_SCOPE);
+            .in(Scopes.SINGLETON);
 
         bind(Screen.class)
             .annotatedWith(Names.named("TitleScreen"))
