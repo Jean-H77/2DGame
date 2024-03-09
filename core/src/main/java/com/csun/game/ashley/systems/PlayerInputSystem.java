@@ -192,7 +192,7 @@ public class PlayerInputSystem extends IteratingSystem {
             } else {
                 mc.move(Direction.N);
             }
-            ac.nextAnim(AnimationType.PLAYER_WALK_NORTH);
+            ac.nextAnim(AnimationType.WITCH_WALK_NORTH);
             return true;
         }
 
@@ -204,18 +204,18 @@ public class PlayerInputSystem extends IteratingSystem {
             } else {
                 mc.move(Direction.S);
             }
-            ac.nextAnim(AnimationType.PLAYER_WALK_SOUTH);
+            ac.nextAnim(AnimationType.WITCH_WALK_SOUTH);
             return true;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT) && !(Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT))) {
             mc.move(Direction.W);
-            ac.nextAnim(AnimationType.PLAYER_WALK_WEST);
+            ac.nextAnim(AnimationType.WITCH_WALK_WEST);
             return true;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT) && !(Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT))) {
             mc.move(Direction.E);
-            ac.nextAnim(AnimationType.PLAYER_WALK_EAST);
+            ac.nextAnim(AnimationType.WITCH_WALK_EAST);
             return true;
         }
         return false;

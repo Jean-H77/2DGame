@@ -10,6 +10,7 @@ import com.csun.game.ashley.Mappers;
 import com.csun.game.ashley.components.AnimationComponent;
 import com.csun.game.ashley.components.ClickableComponent;
 import com.csun.game.ashley.components.MovementComponent;
+import com.csun.game.ashley.components.NpcComponent;
 import com.csun.game.map.GameMap;
 import com.csun.game.models.AnimationType;
 import com.csun.game.models.Direction;
@@ -92,15 +93,59 @@ public class MovementSystem extends IteratingSystem {
         Direction direction = null;
         if (movement.nextWaypoint != null) {
             Vector2 temp = new Vector2((int) movement.pos.x, (int) movement.pos.y);
-            Vector2 waypointWorldPos = new Vector2((int)movement.nextWaypoint.x * TILE_SIZE, (int)movement.nextWaypoint.y * TILE_SIZE);
+            Vector2 waypointWorldPos = new Vector2((int) movement.nextWaypoint.x * TILE_SIZE, (int) movement.nextWaypoint.y * TILE_SIZE);
             if (isCloseEnough(temp, waypointWorldPos, movement.threshold)) {
                 direction = getDirection(waypointWorldPos, temp);
-                if(animation != null && direction != null) {
+                if (animation != null && direction != null) {
+                    NpcComponent npcComponent = Mappers.npcs.get(entity);
+                    /**
+                     * Ok so this is a terrible way to do this, but we don't have a lot of time
+                     */
                     switch (direction) {
-                        case N,NE,NW -> animation.nextAnim(AnimationType.PLAYER_WALK_NORTH);
-                        case S,SE,SW -> animation.nextAnim(AnimationType.PLAYER_WALK_SOUTH);
-                        case E -> animation.nextAnim(AnimationType.PLAYER_WALK_EAST);
-                        case W -> animation.nextAnim(AnimationType.PLAYER_WALK_WEST);
+                        case N, NE, NW -> {
+                            if (npcComponent != null) {
+                                if (npcComponent.id.equals("Doctor")) {
+                                    animation.nextAnim(AnimationType.DOCTOR_WALK_NORTH);
+                                } else if(npcComponent.id.equalsIgnoreCase("Mom")) {
+                                    animation.nextAnim(AnimationType.MOM_WALK_NORTH);
+                                }
+                            } else {
+                                animation.nextAnim(AnimationType.WITCH_WALK_NORTH);
+                            }
+                        }
+                        case S, SE, SW -> {
+                            if (npcComponent != null) {
+                                if (npcComponent.id.equals("Doctor")) {
+                                    animation.nextAnim(AnimationType.DOCTOR_WALK_SOUTH);
+                                } else if(npcComponent.id.equalsIgnoreCase("Mom")) {
+                                    animation.nextAnim(AnimationType.MOM_WALK_SOUTH);
+                                }
+                            } else {
+                                animation.nextAnim(AnimationType.WITCH_WALK_SOUTH);
+                            }
+                        }
+                        case E -> {
+                            if (npcComponent != null) {
+                                if (npcComponent.id.equals("Doctor")) {
+                                    animation.nextAnim(AnimationType.DOCTOR_WALK_EAST);
+                                } else if(npcComponent.id.equalsIgnoreCase("Mom")) {
+                                    animation.nextAnim(AnimationType.MOM_WALK_EAST);
+                                }
+                            } else {
+                                animation.nextAnim(AnimationType.WITCH_WALK_EAST);
+                            }
+                        }
+                        case W -> {
+                            if (npcComponent != null) {
+                                if (npcComponent.id.equals("Doctor")) {
+                                    animation.nextAnim(AnimationType.DOCTOR_WALK_WEST);
+                                } else if(npcComponent.id.equalsIgnoreCase("Mom")) {
+                                    animation.nextAnim(AnimationType.MOM_WALK_WEST);
+                                }
+                            } else {
+                                animation.nextAnim(AnimationType.WITCH_WALK_WEST);
+                            }
+                        }
                     }
                 }
             } else if (!movement.waypoints.isEmpty()) {
@@ -109,19 +154,19 @@ public class MovementSystem extends IteratingSystem {
                 movement.nextWaypoint = null;
                 movement.velocity = 0.0f;
                 movement.state = MovementState.IDLE;
-                if(animation != null && animation.animationType != null) {
-                    if(AnimationType.IDLE_TRANSITION_ANIMATIONS.containsKey(animation.animationType)) {
+                if (animation != null && animation.animationType != null) {
+                    if (AnimationType.IDLE_TRANSITION_ANIMATIONS.containsKey(animation.animationType)) {
                         animation.nextAnim(AnimationType.IDLE_TRANSITION_ANIMATIONS.get(animation.animationType));
                     }
                 }
             }
         } else {
-            if(!movement.movementQueue.isEmpty()) {
+            if (!movement.movementQueue.isEmpty()) {
                 direction = movement.movementQueue.pop();
             }
         }
 
-        if(direction == null) {
+        if (direction == null) {
             return;
         }
 
@@ -144,7 +189,7 @@ public class MovementSystem extends IteratingSystem {
         movement.pos = dest;
 
         ClickableComponent clickableComponent = Mappers.clickables.get(entity);
-        if(clickableComponent != null) {
+        if (clickableComponent != null) {
             clickableComponent.bounds.x = movement.pos.x;
             clickableComponent.bounds.y = movement.pos.y;
         }

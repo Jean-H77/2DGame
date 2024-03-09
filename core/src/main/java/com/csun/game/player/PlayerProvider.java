@@ -33,7 +33,7 @@ public class PlayerProvider implements Provider<Player> {
     public Player get() {
         Entity entity = pooledEngine.createEntity();
         entity.add(new PlayerComponent());
-        entity.add(new AnimationComponent(AnimationType.PLAYER_WALK_NORTH, 48, 48));
+        entity.add(new AnimationComponent(AnimationType.WITCH_WALK_NORTH, 48, 48));
         entity.add(new MovementComponent(new Vector2(PLAYER_START_X,PLAYER_START_Y)));
         entity.add(new CameraComponent(new OrthographicCamera()));
         pooledEngine.addEntity(entity);

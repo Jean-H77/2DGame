@@ -9,15 +9,34 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+// @Todo redo this whole thing
 public enum AnimationType {
-    PLAYER_WALK_NORTH("north", AnimationData.PLAYER_ATLAS, Range.open(1, 7), 6),
-    PLAYER_WALK_SOUTH("south", AnimationData.PLAYER_ATLAS, Range.open(1, 7), 6),
-    PLAYER_WALK_WEST("west", AnimationData.PLAYER_ATLAS, Range.open(1, 7), 6),
-    PLAYER_WALK_EAST("east", AnimationData.PLAYER_ATLAS, Range.open(1, 7), 6),
-    PLAYER_IDLE_NORTH("north", AnimationData.PLAYER_ATLAS, Range.singleton(0), 1),
-    PLAYER_IDLE_SOUTH("south", AnimationData.PLAYER_ATLAS, Range.singleton(0), 1),
-    PLAYER_IDLE_WEST("west", AnimationData.PLAYER_ATLAS, Range.singleton(0), 1),
-    PLAYER_IDLE_EAST("east", AnimationData.PLAYER_ATLAS, Range.singleton(0), 1);
+    WITCH_WALK_NORTH("north", AnimationData.WITCH_ATLAS, Range.open(1, 7), 6),
+    WITCH_WALK_SOUTH("south", AnimationData.WITCH_ATLAS, Range.open(1, 7), 6),
+    WITCH_WALK_WEST("west", AnimationData.WITCH_ATLAS, Range.open(1, 7), 6),
+    WITCH_WALK_EAST("east", AnimationData.WITCH_ATLAS, Range.open(1, 7), 6),
+    WITCH_IDLE_NORTH("north", AnimationData.WITCH_ATLAS, Range.singleton(0), 1),
+    WITCH_IDLE_SOUTH("south", AnimationData.WITCH_ATLAS, Range.singleton(0), 1),
+    WITCH_IDLE_WEST("west", AnimationData.WITCH_ATLAS, Range.singleton(0), 1),
+    WITCH_IDLE_EAST("east", AnimationData.WITCH_ATLAS, Range.singleton(0), 1),
+
+    DOCTOR_WALK_NORTH("north", AnimationData.DOCTOR_ATLAS, Range.open(1, 7), 6),
+    DOCTOR_WALK_SOUTH("south", AnimationData.DOCTOR_ATLAS, Range.open(1, 7), 6),
+    DOCTOR_WALK_WEST("west", AnimationData.DOCTOR_ATLAS, Range.open(1, 7), 6),
+    DOCTOR_WALK_EAST("east", AnimationData.DOCTOR_ATLAS, Range.open(1, 7), 6),
+    DOCTOR_IDLE_NORTH("north", AnimationData.DOCTOR_ATLAS, Range.singleton(0), 1),
+    DOCTOR_IDLE_SOUTH("south", AnimationData.DOCTOR_ATLAS, Range.singleton(0), 1),
+    DOCTOR_IDLE_WEST("west", AnimationData.DOCTOR_ATLAS, Range.singleton(0), 1),
+    DOCTOR_IDLE_EAST("east", AnimationData.DOCTOR_ATLAS, Range.singleton(0), 1),
+
+    MOM_WALK_NORTH("north", AnimationData.MOM_ATLAS, Range.open(1, 7), 6),
+    MOM_WALK_SOUTH("south", AnimationData.MOM_ATLAS, Range.open(1, 7), 6),
+    MOM_WALK_WEST("west", AnimationData.MOM_ATLAS, Range.open(1, 7), 6),
+    MOM_WALK_EAST("east", AnimationData.MOM_ATLAS, Range.open(1, 7), 6),
+    MOM_IDLE_NORTH("north", AnimationData.MOM_ATLAS, Range.singleton(0), 1),
+    MOM_IDLE_SOUTH("south", AnimationData.MOM_ATLAS, Range.singleton(0), 1),
+    MOM_IDLE_WEST("west", AnimationData.MOM_ATLAS, Range.singleton(0), 1),
+    MOM_IDLE_EAST("east", AnimationData.MOM_ATLAS, Range.singleton(0), 1);
 
 
     AnimationType(String key, TextureAtlas atlas, Range<Integer> framesIndices, float length) {
@@ -51,14 +70,20 @@ public enum AnimationType {
      * going to redo how we handle animations later but this will work for now
      */
     static {
-        IDLE_TRANSITION_ANIMATIONS.put(PLAYER_WALK_NORTH, PLAYER_IDLE_NORTH);
-        IDLE_TRANSITION_ANIMATIONS.put(PLAYER_WALK_SOUTH, PLAYER_IDLE_SOUTH);
-        IDLE_TRANSITION_ANIMATIONS.put(PLAYER_WALK_EAST, PLAYER_IDLE_EAST);
-        IDLE_TRANSITION_ANIMATIONS.put(PLAYER_WALK_WEST, PLAYER_IDLE_WEST);
+        IDLE_TRANSITION_ANIMATIONS.put(WITCH_WALK_NORTH, WITCH_IDLE_NORTH);
+        IDLE_TRANSITION_ANIMATIONS.put(WITCH_WALK_SOUTH, WITCH_IDLE_SOUTH);
+        IDLE_TRANSITION_ANIMATIONS.put(WITCH_WALK_EAST, WITCH_IDLE_EAST);
+        IDLE_TRANSITION_ANIMATIONS.put(WITCH_WALK_WEST, WITCH_IDLE_WEST);
 
+        IDLE_TRANSITION_ANIMATIONS.put(DOCTOR_WALK_NORTH, DOCTOR_IDLE_NORTH);
+        IDLE_TRANSITION_ANIMATIONS.put(DOCTOR_WALK_SOUTH, DOCTOR_IDLE_SOUTH);
+        IDLE_TRANSITION_ANIMATIONS.put(DOCTOR_WALK_EAST, DOCTOR_IDLE_EAST);
+        IDLE_TRANSITION_ANIMATIONS.put(DOCTOR_WALK_WEST, DOCTOR_IDLE_WEST);
     }
 
     static class AnimationData {
-        public static final TextureAtlas PLAYER_ATLAS = new TextureAtlas(Gdx.files.internal("witch.atlas"));
+        public static final TextureAtlas WITCH_ATLAS = new TextureAtlas(Gdx.files.internal("witch.atlas"));
+        public static final TextureAtlas DOCTOR_ATLAS = new TextureAtlas(Gdx.files.internal("doctor.atlas"));
+        public static final TextureAtlas MOM_ATLAS = new TextureAtlas(Gdx.files.internal("mom.atlas"));
     }
 }

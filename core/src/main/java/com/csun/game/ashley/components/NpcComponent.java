@@ -7,4 +7,5 @@ public class NpcComponent implements Component {
     public float time;
     public float width;
     public float height;
+    public String id;
 }

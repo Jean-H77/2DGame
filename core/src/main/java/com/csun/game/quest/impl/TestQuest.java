@@ -27,7 +27,7 @@ public class TestQuest extends Quest {
     public void clickNpc(Player player, String npc, float mouseX, float mouseY) {
         MutableInt stage = player.getQuestStage(title);
 
-        if (npc.equalsIgnoreCase("Knob")) {
+        if (npc.equalsIgnoreCase("Doctor")) {
             switch (stage.getValue()) {
                 case 1,2 -> {
                     Dialogue.Builder builder = new Dialogue.Builder();
@@ -110,12 +110,12 @@ public class TestQuest extends Quest {
                     player.startDialogue(builder.build());
                 }
             }
-        } else if(npc.equalsIgnoreCase("Blob")) {
+        } else if(npc.equalsIgnoreCase("Mom")) {
             Dialogue.Builder builder = new Dialogue.Builder()
                 .addStatement(new DialogueStatement() {
                     @Override
                     public String getText(Player player) {
-                        return "Hey Blob! Why are you counting?";
+                        return "Hey " + npc + "! Why are you counting?";
                     }
                 })
                 .addStatement(new DialogueStatement() {
@@ -127,7 +127,7 @@ public class TestQuest extends Quest {
                 .addStatement(new DialogueStatement() {
                     @Override
                     public String getText(Player player) {
-                        return "Ok i'm sorry Blob :(";
+                        return "Ok i'm sorry " + npc + " :(";
                     }
                 });
 
@@ -144,9 +144,9 @@ public class TestQuest extends Quest {
     public void enterMap(Player player, String mapName) {
         int stage = player.getQuestStage(title).getValue();
         if (Objects.equals(mapName, "act1.tmx")) {
-            addNpc(new Vector2(255, 501), 48, 48, "Blob", AnimationType.PLAYER_IDLE_WEST);
-            addNpc(new Vector2(608, 500), 48, 48, "Knob", AnimationType.PLAYER_IDLE_EAST);
-            addNpc(new Vector2(172, 625), 48, 48, "Shob", AnimationType.PLAYER_IDLE_NORTH);
+            addNpc(new Vector2(255, 501), 48, 48, "Mom", AnimationType.MOM_IDLE_WEST);
+            addNpc(new Vector2(608, 500), 48, 48, "Doctor", AnimationType.DOCTOR_IDLE_EAST);
+            addNpc(new Vector2(172, 625), 48, 48, "Shob", AnimationType.WITCH_IDLE_EAST);
 
 
             //we can also make tasks
@@ -155,7 +155,7 @@ public class TestQuest extends Quest {
 
                 @Override
                 public void run() {
-                    npcSay(String.valueOf(count++), "Blob", 1);
+                    npcSay(String.valueOf(count++), "Mom", 1);
                 }
             };
             //0 start delay then keep repeating every 1.5 seconds until you call cancel()
