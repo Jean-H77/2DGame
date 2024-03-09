@@ -3,7 +3,7 @@ package com.csun.game.quest;
 import com.badlogic.gdx.math.Vector2;
 import com.csun.game.MainGame;
 import com.csun.game.action.ActionAdapter;
-import com.csun.game.models.AnimationType;
+import com.csun.game.models.Animations;
 import com.google.inject.Inject;
 
 public class Quest extends ActionAdapter {
@@ -25,8 +25,8 @@ public class Quest extends ActionAdapter {
         mainGame.fadeGameScreen(text);
     }
 
-    protected void addNpc(Vector2 pos, float width, float height, String identification, AnimationType animationType) {
-        mainGame.addNpc(pos, width, height, identification, animationType);
+    protected void addNpc(Vector2 pos, float width, float height, String identification, Animations.Anim animations) {
+        mainGame.addNpc(pos, width, height, identification, animations);
     }
 
     protected void removeNpc(String identification) {

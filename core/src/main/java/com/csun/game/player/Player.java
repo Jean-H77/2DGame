@@ -18,6 +18,7 @@ import com.csun.game.attributes.AttributesMap;
 import com.csun.game.dialogue.Dialogue;
 import com.csun.game.map.GameMap;
 import com.csun.game.misc.MutableInt;
+import com.csun.game.models.Animations;
 import com.csun.game.models.Direction;
 import com.csun.game.models.LightType;
 import com.csun.game.quest.Quest;
@@ -121,6 +122,7 @@ public final class Player {
 
     public void postLoad() {
         attributes.set(Attributes.PLAYER_IS_LOGGED_IN, true);
+        animationComponent.set(Animations.WITCH_IDLE_NORTH, 48, 48);
         moveToMap(attributes.get(Attributes.PLAYER_CURRENT_MAP));
     }
 

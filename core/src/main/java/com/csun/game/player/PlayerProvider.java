@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.csun.game.ashley.components.*;
 import com.csun.game.map.GameMap;
-import com.csun.game.models.AnimationType;
+import com.csun.game.models.Animations;
 import com.csun.game.quest.Quest;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -33,7 +33,7 @@ public class PlayerProvider implements Provider<Player> {
     public Player get() {
         Entity entity = pooledEngine.createEntity();
         entity.add(new PlayerComponent());
-        entity.add(new AnimationComponent(AnimationType.WITCH_WALK_NORTH, 48, 48));
+        entity.add(new AnimationComponent(Animations.WITCH_WALK_NORTH, 48, 48));
         entity.add(new MovementComponent(new Vector2(PLAYER_START_X,PLAYER_START_Y)));
         entity.add(new CameraComponent(new OrthographicCamera()));
         pooledEngine.addEntity(entity);

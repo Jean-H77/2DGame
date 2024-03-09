@@ -3,43 +3,111 @@ package com.csun.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.PixmapLoader;
-import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.csun.game.MainGame;
+import com.csun.game.misc.Assets;
+import com.csun.game.models.Animations;
 import com.google.inject.Inject;
+
 
 public class TitleScreen implements Screen {
 
-    private final AssetManager assetManager;
     private final MainGame mainGame;
+    private float time;
+    private BitmapFont titleFont;
+    private BitmapFont loadingFont;
+    private final Stage stage = new Stage();
+    float fadeTimer = 0f;
+    float fadeDuration = 5f;
+    private Label loadingLabel;
 
     @Inject
-    public TitleScreen(AssetManager assetManager, MainGame mainGame) {
-        this.assetManager = assetManager;
+    public TitleScreen(MainGame mainGame) {
         this.mainGame = mainGame;
     }
 
     @Override
     public void show() {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fiendish.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 35;
+        parameter.color = Color.WHITE;
+        titleFont = generator.generateFont(parameter);
+        generator.dispose();
+
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("BloodLust.ttf"));
+        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 20;
+        parameter.color = Color.WHITE;
+        loadingFont = generator.generateFont(parameter);
+        generator.dispose();
+
+        AssetManager assetManager = Assets.INSTANCE.getManager();
         assetManager.setLoader(TiledMap.class, new TmxMapLoader());
         assetManager.load("act1.tmx", TiledMap.class);
         assetManager.load("act2.tmx", TiledMap.class);
 
         assetManager.load("witch.atlas", TextureAtlas.class);
+        assetManager.load("doctor.atlas", TextureAtlas.class);
+        assetManager.load("mom.atlas", TextureAtlas.class);
+
         assetManager.load("gdx-skins-master/cloud-form/skin/cloud-form-ui.atlas", TextureAtlas.class);
         assetManager.load("gdx-skins-master/comic/skin/comic-ui.atlas", TextureAtlas.class);
+
+        assetManager.load("dialogue/dialogue_board.png", Texture.class);
+
+        Table table = new Table();
+        table.setFillParent(true);
+
+        stage.addActor(table);
+
+        Label.LabelStyle titleStyle = new Label.LabelStyle(titleFont, Color.ORANGE);
+        Label titleLabel = new Label("RoguePixel Games", titleStyle);
+        table.add(titleLabel).expand().center();
+        table.row();
+
+        Label.LabelStyle loadingStyle = new Label.LabelStyle(loadingFont, Color.WHITE);
+        loadingLabel = new Label("Loading...", loadingStyle);
+        table.add(loadingLabel).expand().center();
+        table.row();
     }
 
     @Override
     public void render(float v) {
+        ScreenUtils.clear(Color.BLACK);
+
+        AssetManager assetManager = Assets.INSTANCE.getManager();
         if(assetManager.update()) {
-            mainGame.switchScreen(MainGame.ScreenType.MENU_SCREEN);
+            if(time >= 5) {
+                Animations.init(assetManager);
+                mainGame.loadPlayer();
+                mainGame.fadeScreen("",mainGame.getInjector().getInstance(MenuScreen.class), mainGame.getInjector().getInstance(TitleScreen.class));
+            }
         }
-        float progress = assetManager.getProgress();
+
+        time += v;
+        fadeTimer += Gdx.graphics.getDeltaTime();
+        if (fadeTimer > fadeDuration) {
+            fadeTimer -= fadeDuration;
+        }
+        float fadeAlpha = Interpolation.sine.apply(Math.abs(MathUtils.sin(fadeTimer / fadeDuration * MathUtils.PI)));
+        Color currentColor = loadingLabel.getColor();
+        loadingLabel.setColor(currentColor.r, currentColor.g, currentColor.b, fadeAlpha);
+
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
     }
 
     @Override

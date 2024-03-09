@@ -20,7 +20,7 @@ import com.csun.game.ashley.components.MovementComponent;
 import com.csun.game.ashley.components.PlayerComponent;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.dialogue.TestDialogue;
-import com.csun.game.models.AnimationType;
+import com.csun.game.models.Animations;
 import com.csun.game.models.Direction;
 import com.csun.game.models.LightType;
 import com.csun.game.player.Player;
@@ -72,8 +72,8 @@ public class PlayerInputSystem extends IteratingSystem {
                 }
             }
         } else {
-            if(AnimationType.IDLE_TRANSITION_ANIMATIONS.containsKey(ac.animationType)) {
-                ac.nextAnim(AnimationType.IDLE_TRANSITION_ANIMATIONS.get(ac.animationType));
+            if(Animations.IDLE_TRANSITION_ANIMATIONS.containsKey(ac.animations)) {
+                ac.nextAnim(Animations.IDLE_TRANSITION_ANIMATIONS.get(ac.animations));
             }
         }
 
@@ -192,7 +192,7 @@ public class PlayerInputSystem extends IteratingSystem {
             } else {
                 mc.move(Direction.N);
             }
-            ac.nextAnim(AnimationType.WITCH_WALK_NORTH);
+            ac.nextAnim(Animations.WITCH_WALK_NORTH);
             return true;
         }
 
@@ -204,18 +204,18 @@ public class PlayerInputSystem extends IteratingSystem {
             } else {
                 mc.move(Direction.S);
             }
-            ac.nextAnim(AnimationType.WITCH_WALK_SOUTH);
+            ac.nextAnim(Animations.WITCH_WALK_SOUTH);
             return true;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT) && !(Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT))) {
             mc.move(Direction.W);
-            ac.nextAnim(AnimationType.WITCH_WALK_WEST);
+            ac.nextAnim(Animations.WITCH_WALK_WEST);
             return true;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT) && !(Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT))) {
             mc.move(Direction.E);
-            ac.nextAnim(AnimationType.WITCH_WALK_EAST);
+            ac.nextAnim(Animations.WITCH_WALK_EAST);
             return true;
         }
         return false;

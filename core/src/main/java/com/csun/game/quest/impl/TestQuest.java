@@ -9,7 +9,7 @@ import com.csun.game.dialogue.Option;
 import com.csun.game.dialogue.impl.DialogueOptions;
 import com.csun.game.dialogue.impl.DialogueStatement;
 import com.csun.game.misc.MutableInt;
-import com.csun.game.models.AnimationType;
+import com.csun.game.models.Animations;
 import com.csun.game.player.Player;
 import com.csun.game.quest.Quest;
 import com.google.inject.Inject;
@@ -144,9 +144,9 @@ public class TestQuest extends Quest {
     public void enterMap(Player player, String mapName) {
         int stage = player.getQuestStage(title).getValue();
         if (Objects.equals(mapName, "act1.tmx")) {
-            addNpc(new Vector2(255, 501), 48, 48, "Mom", AnimationType.MOM_IDLE_WEST);
-            addNpc(new Vector2(608, 500), 48, 48, "Doctor", AnimationType.DOCTOR_IDLE_EAST);
-            addNpc(new Vector2(172, 625), 48, 48, "Shob", AnimationType.WITCH_IDLE_EAST);
+            addNpc(new Vector2(255, 501), 48, 48, "Mom", Animations.MOM_IDLE_WEST);
+            addNpc(new Vector2(608, 500), 48, 48, "Doctor", Animations.DOCTOR_IDLE_EAST);
+            addNpc(new Vector2(172, 625), 48, 48, "Shob", Animations.WITCH_IDLE_EAST);
 
 
             //we can also make tasks

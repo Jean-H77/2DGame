@@ -1,6 +1,7 @@
 package com.csun.game.dialogue;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -22,6 +23,7 @@ import com.csun.game.action.ActionListener;
 import com.csun.game.dialogue.impl.DialogueOptions;
 import com.csun.game.dialogue.impl.DialogueStatement;
 import com.csun.game.attributes.Attributes;
+import com.csun.game.misc.Assets;
 import com.csun.game.player.Player;
 import com.csun.game.quest.impl.TestQuest;
 import com.github.tommyettinger.textra.Font;
@@ -38,16 +40,14 @@ import static com.csun.game.GameConstants.VIEWPORT_WIDTH;
 
 public class Dialogue {
 
-    private static final Skin skin = new Skin();
+    private static final AssetManager assetManager = Assets.INSTANCE.getManager();
     private static BitmapFont bitmapFont;
     private static Font font;
     private static Texture texture;
     private static final int ROOT_WIDTH = 420;
     private static final int ROOT_HEIGHT = 150;
-    static {
-        skin.addRegions(new TextureAtlas(Gdx.files.internal("gdx-skins-master/comic/skin/comic-ui.atlas")));
-        skin.load(Gdx.files.internal("gdx-skins-master/comic/skin/comic-ui.json"));
 
+    static {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("dialogue/di.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 16;
@@ -55,7 +55,7 @@ public class Dialogue {
         font = new Font(bitmapFont);
         generator.dispose();
 
-        texture = new Texture(Gdx.files.internal("dialogue/dialogue_board.png"));
+        texture = assetManager.get("dialogue/dialogue_board.png");
     }
 
     private final Deque<DialoguePart> dialogueParts = new ArrayDeque<>();

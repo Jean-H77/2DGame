@@ -7,22 +7,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.csun.game.MainGame;
 import com.csun.game.ai.paths.PathResult;
-import com.csun.game.screens.FadeScreen;
-import com.csun.game.screens.GameScreen;
-import com.google.inject.Inject;
-import org.checkerframework.checker.units.qual.A;
+import com.csun.game.misc.Assets;
 import org.javatuples.Quintet;
 
 import java.util.*;
@@ -30,7 +24,7 @@ import java.util.*;
 import static com.csun.game.GameConstants.TILE_SIZE;
 
 public class GameMap {
-    private final AssetManager assetManager;
+    private final AssetManager assetManager = Assets.INSTANCE.getManager();
     private final HashMap<String , TiledMap> tiledMaps = new HashMap<>();
     private final HashMap<TiledMap, Integer[][]> tiledMapGrid = new HashMap<>();
     private final HashMap<String, Color> lightColors = new HashMap<>();
@@ -41,11 +35,6 @@ public class GameMap {
     private OrthogonalTiledMapRenderer renderer;
     private TiledMap currentMap;
     private Rectangle mapBoundaries;
-
-    @Inject
-    GameMap(AssetManager assetManager, MainGame mainGame) {
-        this.assetManager = assetManager;
-    }
 
     public HashMap<String, TiledMap> getTiledMaps() {
         return tiledMaps;

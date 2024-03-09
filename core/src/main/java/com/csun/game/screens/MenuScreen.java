@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.csun.game.MainGame;
+import com.csun.game.misc.Assets;
 import com.github.tommyettinger.textra.KnownFonts;
 import com.github.tommyettinger.textra.TextraButton;
 import com.github.tommyettinger.textra.TextraLabel;
@@ -26,14 +27,13 @@ public class MenuScreen implements Screen {
 
     private final MainGame mainGame;
     private final SpriteBatch spriteBatch;
-    private final AssetManager assetManager;
+    private final AssetManager assetManager = Assets.INSTANCE.getManager();
     private Stage stage;
 
     @Inject
     public MenuScreen(MainGame mainGame, SpriteBatch spriteBatch, AssetManager assetManager) {
         this.mainGame = mainGame;
         this.spriteBatch = spriteBatch;
-        this.assetManager = assetManager;
     }
 
     @Override
@@ -52,8 +52,7 @@ public class MenuScreen implements Screen {
         startGameTextButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                mainGame.loadGameScreen()
-                    .thenRun(() -> Gdx.input.setInputProcessor(null));
+                mainGame.fadeScreen("Random welcome text here", mainGame.getInjector().getInstance(GameScreen.class), mainGame.getInjector().getInstance(MenuScreen.class));
             }
         });
         stage.addActor(startGameTextButton);

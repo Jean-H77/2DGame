@@ -35,6 +35,7 @@ public class FadeScreen implements Screen {
     private boolean fadeDirection = true;
     private ShapeRenderer shapeRenderer;
     private float midPause = 0f;
+    private float pauseLength = 1f;
 
     private String fadeText;
 
@@ -83,7 +84,7 @@ public class FadeScreen implements Screen {
         if (alpha >= 1) {
             fadeDirection = false;
             midPause += Gdx.graphics.getDeltaTime();
-            if(midPause <= 1.5f) {
+            if(midPause <= pauseLength) {
                 if(!Objects.equals(fadeText, "")) {
                     spriteBatch.begin();
                     font.draw(spriteBatch, layout, (Gdx.graphics.getWidth() - layout.width) / 2, (Gdx.graphics.getHeight() + layout.height) / 2);
@@ -122,4 +123,5 @@ public class FadeScreen implements Screen {
     public void dispose() {
 
     }
+
 }

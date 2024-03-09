@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.csun.game.ai.paths.PathFinder;
@@ -13,7 +14,7 @@ import com.csun.game.ai.paths.PathResult;
 import com.csun.game.ashley.Mappers;
 import com.csun.game.ashley.components.*;
 import com.csun.game.map.GameMap;
-import com.csun.game.models.AnimationType;
+import com.csun.game.models.Animations;
 import com.csun.game.models.Systems;
 import com.csun.game.player.Player;
 import com.csun.game.screens.FadeScreen;
@@ -58,17 +59,15 @@ public class MainGame extends Game {
         }
     }
 
-    public CompletableFuture<Void> loadGameScreen() {
-       return CompletableFuture.runAsync(() -> {
-           Player player = injector.getInstance(Player.class);
-           player.setDefaults()
-               .load()
-               .thenRun(() -> Gdx.app.postRunnable(() -> {
-                   player.postLoad();
-                   switchScreen(ScreenType.GAME_SCREEN);
-               }));
-       });
+    public CompletableFuture<Void> loadPlayer() {
+        return CompletableFuture.runAsync(() -> {
+            Player player = injector.getInstance(Player.class);
+            player.setDefaults()
+                .load()
+                .thenRun(() -> Gdx.app.postRunnable(player::postLoad));
+        });
     }
+
 
     public enum ScreenType {
         GAME_SCREEN,
@@ -81,22 +80,26 @@ public class MainGame extends Game {
         GameScreen gameScreen = injector.getInstance(GameScreen.class);
         FadeScreen.fade(gameScreen, gameScreen, this);
     }
+
     public void fadeGameScreen(String text) {
         GameScreen gameScreen = injector.getInstance(GameScreen.class);
         FadeScreen.fade(gameScreen, gameScreen, this, text);
     }
 
+    public void fadeScreen(String text, Screen to, Screen from) {
+        FadeScreen.fade(from, to, this, text);
+    }
     public PooledEngine getPooledEngine() {
         return pooledEngine;
     }
 
     // ok this is a pretty ugly way to handle this, but we don't have a lot of time
-    public void addNpc(Vector2 pos, float width, float height, String identification, AnimationType animationType) {
+    public void addNpc(Vector2 pos, float width, float height, String identification, Animations.Anim animations) {
         if(getNpcEntity(identification) != null) return;
         Entity entity = pooledEngine.createEntity();
         entity.add(new MovementComponent(pos));
         entity.add(new ClickableComponent(new Rectangle(pos.x, pos.y, width, height), identification));
-        entity.add(new AnimationComponent(animationType, width, height));
+        entity.add(new AnimationComponent(animations, width, height));
         NpcComponent npcComponent = new NpcComponent();
         npcComponent.id = identification;
         npcComponent.width = width;
@@ -168,5 +171,9 @@ public class MainGame extends Game {
     public Vector2 getNpcPosition(String identification) {
         Entity entity = getNpcEntity(identification);
         return entity == null ? null : Mappers.movements.get(entity).pos;
+    }
+
+    public Injector getInjector() {
+        return injector;
     }
 }
