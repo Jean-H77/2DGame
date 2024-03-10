@@ -14,10 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.csun.game.UI.UIManager;
 import com.csun.game.ashley.Mappers;
-import com.csun.game.ashley.components.AnimationComponent;
-import com.csun.game.ashley.components.ClickableComponent;
-import com.csun.game.ashley.components.MovementComponent;
-import com.csun.game.ashley.components.PlayerComponent;
+import com.csun.game.ashley.components.*;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.dialogue.TestDialogue;
 import com.csun.game.models.Animations;
@@ -47,7 +44,7 @@ public class PlayerInputSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        MovementComponent mc = Mappers.movements.get(entity);
+        TransformComponent mc = Mappers.movements.get(entity);
         AnimationComponent ac = Mappers.animations.get(entity);
         player.getAttributes().set(Attributes.WORLD_MOUSE_POSITION, getWorldPositionFromScreen(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0)));
 
@@ -72,8 +69,8 @@ public class PlayerInputSystem extends IteratingSystem {
                 }
             }
         } else {
-            if(Animations.IDLE_TRANSITION_ANIMATIONS.containsKey(ac.animations)) {
-                ac.nextAnim(Animations.IDLE_TRANSITION_ANIMATIONS.get(ac.animations));
+            if(Animations.IDLE_TRANSITION_ANIMATIONS.containsKey(ac.currentAnimation)) {
+                ac.nextAnim(Animations.IDLE_TRANSITION_ANIMATIONS.get(ac.currentAnimation));
             }
         }
 
@@ -109,25 +106,28 @@ public class PlayerInputSystem extends IteratingSystem {
         return new Vector2(vc.x, vc.y);
     }
 
-    private boolean handleEntityClick(Entity entity, MovementComponent mc) {
+    private boolean handleEntityClick(Entity entity, TransformComponent mc) {
         ClickableComponent component = Mappers.clickables.get(entity);
         if (component != null && player.getAttributes().hasKey(Attributes.WORLD_MOUSE_POSITION)) {
             Vector2 mouseAtWorld = player.getAttributes().get(Attributes.WORLD_MOUSE_POSITION);
             if (mouseAtWorld.x >= component.bounds.x && mouseAtWorld.x <= component.bounds.x + component.bounds.width &&
                 mouseAtWorld.y >= component.bounds.y && mouseAtWorld.y <= component.bounds.y + component.bounds.height) {
 
-                String identification = component.identification;
-                player.getAttributes().set(Attributes.NPC_HOVER, identification);
+                String identification = component.id;
+                NpcComponent npcComponent = Mappers.npcs.get(entity);
+
+                if(npcComponent != null) {
 
                 player.getAttributes().get(Attributes.ACTION_LISTENERS)
                     .forEach(actionListener -> actionListener
-                        .hoverOverNpc(player, identification, mouseAtWorld.x, mouseAtWorld.y));
+                        .hoverOverNpc(player, npcComponent.npc.getName(), mouseAtWorld.x, mouseAtWorld.y));
+                player.getAttributes().set(Attributes.NPC_HOVER, npcComponent.npc.getName());
 
                 if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
                     player.getAttributes().set(Attributes.LAST_NPC_CLICKED, identification);
 
-                    MovementComponent movementComponent = Mappers.movements.get(entity);
-                    if (movementComponent != null && mc.pos.dst(movementComponent.pos) > TILE_SIZE*2) {
+                    TransformComponent transformComponent = Mappers.movements.get(entity);
+                    if (transformComponent != null && mc.pos.dst(transformComponent.pos) > TILE_SIZE * 2) {
 
                         // i'll clean this up later
                         /*Vector2 mouse = player.getAttributes().get(Attributes.WORLD_MOUSE_POSITION);
@@ -142,10 +142,10 @@ public class PlayerInputSystem extends IteratingSystem {
                     } else {
                         player.getAttributes().get(Attributes.ACTION_LISTENERS)
                             .forEach(actionListener -> actionListener
-                                .clickNpc(player, identification, mouseAtWorld.x, mouseAtWorld.y));
+                                .clickNpc(player, npcComponent.npc.getName(), identification, mouseAtWorld.x, mouseAtWorld.y));
                     }
-
                     return true;
+                }
                 }
             }
         }
@@ -153,7 +153,7 @@ public class PlayerInputSystem extends IteratingSystem {
         return false;
     }
 
-    private boolean handleMovementInput(MovementComponent mc, AnimationComponent ac) {
+    private boolean handleMovementInput(TransformComponent mc, AnimationComponent ac) {
         if (mc.disabled) return false;
 
         if (player.getAttributes().get(Attributes.ALL_OPENED_UI)

@@ -40,7 +40,7 @@ import static com.csun.game.GameConstants.VIEWPORT_WIDTH;
 
 public class Dialogue {
 
-    private static final AssetManager assetManager = Assets.INSTANCE.getManager();
+    private final AssetManager assetManager = Assets.INSTANCE.getManager();
     private static BitmapFont bitmapFont;
     private static Font font;
     private static Texture texture;
@@ -54,8 +54,6 @@ public class Dialogue {
         bitmapFont = generator.generateFont(parameter);
         font = new Font(bitmapFont);
         generator.dispose();
-
-        texture = assetManager.get("dialogue/dialogue_board.png");
     }
 
     private final Deque<DialoguePart> dialogueParts = new ArrayDeque<>();
@@ -71,6 +69,8 @@ public class Dialogue {
         if(currentPart == null) {
             currentPart = next();
         }
+
+        texture = assetManager.get("dialogue/dialogue_board.png");
 
         stage.clear();
         Gdx.input.setInputProcessor(stage);

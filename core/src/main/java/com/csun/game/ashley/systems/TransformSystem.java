@@ -9,26 +9,30 @@ import com.badlogic.gdx.math.Vector2;
 import com.csun.game.ashley.Mappers;
 import com.csun.game.ashley.components.AnimationComponent;
 import com.csun.game.ashley.components.ClickableComponent;
-import com.csun.game.ashley.components.MovementComponent;
+import com.csun.game.ashley.components.TransformComponent;
 import com.csun.game.ashley.components.NpcComponent;
 import com.csun.game.map.GameMap;
 import com.csun.game.models.Animations;
 import com.csun.game.models.Direction;
 import com.csun.game.models.MovementState;
+import com.csun.game.npc.Npc;
+import com.csun.game.npc.NpcManager;
 import com.google.inject.Inject;
 
 import static com.csun.game.GameConstants.TILE_SIZE;
 
 
-public class MovementSystem extends IteratingSystem {
+public class TransformSystem extends IteratingSystem {
 
     private final GameMap gameMap;
+    private final NpcManager npcManager;
     private boolean isBlocked;
 
     @Inject
-    public MovementSystem(GameMap gameMap) {
-        super(Family.all(MovementComponent.class, AnimationComponent.class).get());
+    public TransformSystem(GameMap gameMap, NpcManager npcManager) {
+        super(Family.all(TransformComponent.class, AnimationComponent.class).get());
         this.gameMap = gameMap;
+        this.npcManager = npcManager;
     }
 
     public static Direction getDirection(Vector2 newPos, Vector2 oldPos) {
@@ -86,7 +90,7 @@ public class MovementSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        MovementComponent movement = Mappers.movements.get(entity);
+        TransformComponent movement = Mappers.movements.get(entity);
         AnimationComponent animation = Mappers.animations.get(entity);
         if (movement.state.equals(MovementState.IDLE)) return;
         isBlocked = false;
@@ -98,50 +102,31 @@ public class MovementSystem extends IteratingSystem {
                 direction = getDirection(waypointWorldPos, temp);
                 if (animation != null && direction != null) {
                     NpcComponent npcComponent = Mappers.npcs.get(entity);
-                    /**
-                     * Ok so this is a terrible way to do this, but we don't have a lot of time
-                     */
                     switch (direction) {
                         case N, NE, NW -> {
                             if (npcComponent != null) {
-                                if (npcComponent.id.equals("Doctor")) {
-                                    animation.nextAnim(Animations.DOCTOR_WALK_NORTH);
-                                } else if(npcComponent.id.equalsIgnoreCase("Mom")) {
-                                    animation.nextAnim(Animations.MOM_WALK_NORTH);
-                                }
+                                animation.nextAnim(npcComponent.npc.getWalkingIdleAnims().get("north")[0]);
                             } else {
                                 animation.nextAnim(Animations.WITCH_WALK_NORTH);
                             }
                         }
                         case S, SE, SW -> {
                             if (npcComponent != null) {
-                                if (npcComponent.id.equals("Doctor")) {
-                                    animation.nextAnim(Animations.DOCTOR_WALK_SOUTH);
-                                } else if(npcComponent.id.equalsIgnoreCase("Mom")) {
-                                    animation.nextAnim(Animations.MOM_WALK_SOUTH);
-                                }
+                                animation.nextAnim(npcComponent.npc.getWalkingIdleAnims().get("south")[0]);
                             } else {
                                 animation.nextAnim(Animations.WITCH_WALK_SOUTH);
                             }
                         }
                         case E -> {
                             if (npcComponent != null) {
-                                if (npcComponent.id.equals("Doctor")) {
-                                    animation.nextAnim(Animations.DOCTOR_WALK_EAST);
-                                } else if(npcComponent.id.equalsIgnoreCase("Mom")) {
-                                    animation.nextAnim(Animations.MOM_WALK_EAST);
-                                }
+                                animation.nextAnim(npcComponent.npc.getWalkingIdleAnims().get("east")[0]);
                             } else {
                                 animation.nextAnim(Animations.WITCH_WALK_EAST);
                             }
                         }
                         case W -> {
                             if (npcComponent != null) {
-                                if (npcComponent.id.equals("Doctor")) {
-                                    animation.nextAnim(Animations.DOCTOR_WALK_WEST);
-                                } else if(npcComponent.id.equalsIgnoreCase("Mom")) {
-                                    animation.nextAnim(Animations.MOM_WALK_WEST);
-                                }
+                                animation.nextAnim(npcComponent.npc.getWalkingIdleAnims().get("west")[0]);
                             } else {
                                 animation.nextAnim(Animations.WITCH_WALK_WEST);
                             }
@@ -154,9 +139,9 @@ public class MovementSystem extends IteratingSystem {
                 movement.nextWaypoint = null;
                 movement.velocity = 0.0f;
                 movement.state = MovementState.IDLE;
-                if (animation != null && animation.animations != null) {
-                    if (Animations.IDLE_TRANSITION_ANIMATIONS.containsKey(animation.animations)) {
-                        animation.nextAnim(Animations.IDLE_TRANSITION_ANIMATIONS.get(animation.animations));
+                if (animation != null && animation.currentAnimation != null) {
+                    if (Animations.IDLE_TRANSITION_ANIMATIONS.containsKey(animation.currentAnimation)) {
+                        animation.nextAnim(Animations.IDLE_TRANSITION_ANIMATIONS.get(animation.currentAnimation));
                     }
                 }
             }

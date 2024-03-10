@@ -9,7 +9,8 @@ import com.csun.game.dialogue.Option;
 import com.csun.game.dialogue.impl.DialogueOptions;
 import com.csun.game.dialogue.impl.DialogueStatement;
 import com.csun.game.misc.MutableInt;
-import com.csun.game.models.Animations;
+import com.csun.game.npc.Npc;
+import com.csun.game.npc.NpcManager;
 import com.csun.game.player.Player;
 import com.csun.game.quest.Quest;
 import com.google.inject.Inject;
@@ -19,35 +20,35 @@ import java.util.Objects;
 public class TestQuest extends Quest {
 
     @Inject
-    public TestQuest(String title, MainGame mainGame) {
-        super(title, mainGame);
+    public TestQuest(String title, MainGame mainGame, NpcManager npcManager) {
+        super(title, mainGame, npcManager);
     }
 
     @Override
-    public void clickNpc(Player player, String npc, float mouseX, float mouseY) {
+    public void clickNpc(Player player, String name, String id, float mouseX, float mouseY) {
         MutableInt stage = player.getQuestStage(title);
 
-        if (npc.equalsIgnoreCase("Doctor")) {
+        if (id.equalsIgnoreCase("gesg3")) {
             switch (stage.getValue()) {
                 case 1,2 -> {
                     Dialogue.Builder builder = new Dialogue.Builder();
                     Option walkToDoorOptions = Option.create("Take me to the village doors", (p) -> {
-                        npcSay("Ok let's go to the village doors!", npc, 1);
+                        npcSay("Ok let's go to the village doors!", id, 1);
                         Timer.schedule(new Timer.Task() {
                             @Override
                             public void run() {
                                 if (stage.getValue() == 2) {
-                                    Vector2 pos = getNpcPosition(npc);
+                                    Vector2 pos = getNpcPosition(id);
                                     if ((int) (pos.x) == 960 && (int) (pos.y) == 864) {
-                                        npcSay("Ok we're here!", npc, 3);
+                                        npcSay("Ok we're here!", id, 3);
                                         cancel();
                                         stage.increment();
                                     } else {
                                         Gdx.app.log("Pos", pos.toString());
                                     }
                                 } else {
-                                    npcSay("Follow me!", npc, 2);
-                                    walkNpc(npc, 960, 864);
+                                    npcSay("Follow me!", id, 2);
+                                    walkNpc(id, 960, 864);
                                     stage.increment();
                                 }
                             }
@@ -77,12 +78,12 @@ public class TestQuest extends Quest {
                             @Override
                             public void run() {
                                 if(i == song.length) {
-                                    npcSay("OK i'm done :)", npc, 2);
+                                    npcSay("OK i'm done :)", id, 2);
                                     stage.set(1);
                                     cancel();
                                     return;
                                 }
-                                npcSay(song[i], npc, 2);
+                                npcSay(song[i], id, 2);
                                 i++;
                             }
                         }, 1, 3);
@@ -110,12 +111,12 @@ public class TestQuest extends Quest {
                     player.startDialogue(builder.build());
                 }
             }
-        } else if(npc.equalsIgnoreCase("Mom")) {
+        } else if(id.equalsIgnoreCase("534252gfse")) {
             Dialogue.Builder builder = new Dialogue.Builder()
                 .addStatement(new DialogueStatement() {
                     @Override
                     public String getText(Player player) {
-                        return "Hey " + npc + "! Why are you counting?";
+                        return "Hey " + name + "! Why are you counting?";
                     }
                 })
                 .addStatement(new DialogueStatement() {
@@ -127,10 +128,9 @@ public class TestQuest extends Quest {
                 .addStatement(new DialogueStatement() {
                     @Override
                     public String getText(Player player) {
-                        return "Ok i'm sorry " + npc + " :(";
+                        return "Ok i'm sorry " + name + " :(";
                     }
                 });
-
             player.startDialogue(builder.build());
         }
     }
@@ -144,10 +144,10 @@ public class TestQuest extends Quest {
     public void enterMap(Player player, String mapName) {
         int stage = player.getQuestStage(title).getValue();
         if (Objects.equals(mapName, "act1.tmx")) {
-            addNpc(new Vector2(255, 501), 48, 48, "Mom", Animations.MOM_IDLE_WEST);
-            addNpc(new Vector2(608, 500), 48, 48, "Doctor", Animations.DOCTOR_IDLE_EAST);
-            addNpc(new Vector2(172, 625), 48, 48, "Shob", Animations.WITCH_IDLE_EAST);
 
+            addNpc("534252gfse", new Vector2(255, 501), Npc.MOM);
+            addNpc("gesg3", new Vector2(608, 500), Npc.DOCTOR);
+            addNpc("gesgsg", new Vector2(172, 625), Npc.WITCH);
 
             //we can also make tasks
             Timer.Task numberCountTask = new Timer.Task() {
@@ -155,7 +155,7 @@ public class TestQuest extends Quest {
 
                 @Override
                 public void run() {
-                    npcSay(String.valueOf(count++), "Mom", 1);
+                    npcSay(String.valueOf(count++), "534252gfse", 1);
                 }
             };
             //0 start delay then keep repeating every 1.5 seconds until you call cancel()

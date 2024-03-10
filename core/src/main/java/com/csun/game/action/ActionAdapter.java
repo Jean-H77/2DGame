@@ -10,7 +10,7 @@ public class ActionAdapter implements ActionListener {
     }
 
     @Override
-    public void clickNpc(Player player, String npc, float mouseX, float mouseY) {
+    public void clickNpc(Player player, String name, String id, float mouseX, float mouseY) {
 
     }
 

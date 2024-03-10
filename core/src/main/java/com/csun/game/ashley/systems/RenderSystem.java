@@ -6,7 +6,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.csun.game.ashley.components.MovementComponent;
+import com.csun.game.ashley.components.TransformComponent;
 import com.csun.game.ashley.components.TextureComponent;
 import com.google.inject.Inject;
 
@@ -16,7 +16,7 @@ public class RenderSystem extends IteratingSystem {
 
     @Inject
     public RenderSystem(SpriteBatch spriteBatch) {
-        super(Family.all(TextureComponent.class, MovementComponent.class).get());
+        super(Family.all(TextureComponent.class, TransformComponent.class).get());
         this.spriteBatch = spriteBatch;
     }
 
@@ -30,7 +30,7 @@ public class RenderSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         TextureComponent texture = entity.getComponent(TextureComponent.class);
-        MovementComponent movement = entity.getComponent(MovementComponent.class);
+        TransformComponent movement = entity.getComponent(TransformComponent.class);
         texture.shape.setProjectionMatrix(spriteBatch.getProjectionMatrix());
         texture.shape.begin(ShapeRenderer.ShapeType.Filled);
         texture.shape.setColor(Color.RED);

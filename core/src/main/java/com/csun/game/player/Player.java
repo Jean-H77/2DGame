@@ -3,7 +3,6 @@ package com.csun.game.player;
 import box2dLight.ConeLight;
 import box2dLight.PointLight;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -11,7 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.csun.game.UI.impl.settings.Settings;
 import com.csun.game.ashley.components.AnimationComponent;
 import com.csun.game.ashley.components.CameraComponent;
-import com.csun.game.ashley.components.MovementComponent;
+import com.csun.game.ashley.components.TransformComponent;
 import com.csun.game.ashley.components.TextureComponent;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.attributes.AttributesMap;
@@ -34,7 +33,7 @@ import static com.csun.game.GameConstants.*;
 public final class Player {
 
     private final AttributesMap attributes = new AttributesMap();
-    private final MovementComponent movementComponent;
+    private final TransformComponent transformComponent;
     private final TextureComponent textureComponent;
     private final CameraComponent cameraComponent;
     private final AnimationComponent animationComponent;
@@ -42,7 +41,7 @@ public final class Player {
     private final Map<String, Quest> quests;
 
     public Player(Entity entity,GameMap gameMap, Map<String, Quest> quests) {
-        this.movementComponent = entity.getComponent(MovementComponent.class);
+        this.transformComponent = entity.getComponent(TransformComponent.class);
         this.textureComponent = entity.getComponent(TextureComponent.class);
         this.cameraComponent = entity.getComponent(CameraComponent.class);
         this.animationComponent = entity.getComponent(AnimationComponent.class);
@@ -51,11 +50,11 @@ public final class Player {
     }
 
     public float getTilePosX() {
-        return movementComponent.pos.x / TILE_SIZE;
+        return transformComponent.pos.x / TILE_SIZE;
     }
 
     public float getTilePosY() {
-        return movementComponent.pos.y / TILE_SIZE;
+        return transformComponent.pos.y / TILE_SIZE;
     }
 
     public Camera getCamera() {
@@ -74,13 +73,13 @@ public final class Player {
         return attributes;
     }
 
-    public MovementComponent getMovementComponent() {
-        return movementComponent;
+    public TransformComponent getMovementComponent() {
+        return transformComponent;
     }
 
     private void defaultAttributes() {
         attributes.set(Attributes.PLAYER_NAME, "un_named");
-        attributes.set(Attributes.PLAYER_POSITION, movementComponent.pos);
+        attributes.set(Attributes.PLAYER_POSITION, transformComponent.pos);
         attributes.set(Attributes.PLAYER_CURRENT_MAP, "act1.tmx");
         attributes.set(Attributes.PLAYER_IS_LOGGED_IN, false);
         attributes.set(Attributes.PLAYER_SETTINGS, new Settings());
@@ -98,7 +97,7 @@ public final class Player {
         // then we'll call gameMap.enterMap(map, maps darkness level)
         attributes.set(Attributes.PLAYER_CURRENT_MAP, map);
         gameMap.enterMap(map, 1f);
-        movementComponent.disabled = false;
+        transformComponent.disabled = false;
 
         attributes.get(Attributes.ACTION_LISTENERS)
             .forEach(actionListener -> actionListener
@@ -107,11 +106,11 @@ public final class Player {
 
     public void moveTo(Vector2 pos, String map) {
         moveToMap(map);
-        movementComponent.pos = pos;
+        transformComponent.pos = pos;
     }
 
     public void moveTo(Vector2 pos) {
-        movementComponent.pos = pos;
+        transformComponent.pos = pos;
     }
 
     public Player setDefaults() {
@@ -135,8 +134,8 @@ public final class Player {
                 1000,
                 Color.WHITE,
                 radius,
-                movementComponent.pos.x,
-                movementComponent.pos.y
+                transformComponent.pos.x,
+                transformComponent.pos.y
             ));
         } else if(lightType == LightType.CONE_LIGHT) {
                 attributes.set(Attributes.PLAYER_LIGHT, new ConeLight(
@@ -144,16 +143,16 @@ public final class Player {
                     1000,
                     Color.WHITE,
                     radius,
-                    movementComponent.pos.x,
-                    movementComponent.pos.y,
-                    movementComponent.dir.getDegree(),
+                    transformComponent.pos.x,
+                    transformComponent.pos.y,
+                    transformComponent.dir.getDegree(),
                     60.0f
                 ));
             }
     }
 
     public Vector2 calculatePlayerLightOffset() {
-        Direction dir = movementComponent.dir;
+        Direction dir = transformComponent.dir;
         Vector2 vector2 = new Vector2();
         if(dir == Direction.E) {
             vector2.x = 48;

@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.csun.game.ashley.Mappers;
 import com.csun.game.ashley.components.AnimationComponent;
-import com.csun.game.ashley.components.MovementComponent;
+import com.csun.game.ashley.components.TransformComponent;
 import com.google.inject.Inject;
 
 public class AnimationSystem extends IteratingSystem {
@@ -16,7 +16,7 @@ public class AnimationSystem extends IteratingSystem {
 
     @Inject
     public AnimationSystem(SpriteBatch spriteBatch) {
-        super(Family.all(AnimationComponent.class, MovementComponent.class).get());
+        super(Family.all(AnimationComponent.class, TransformComponent.class).get());
         this.spriteBatch = spriteBatch;
     }
 
@@ -30,12 +30,12 @@ public class AnimationSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         AnimationComponent animation = Mappers.animations.get(entity);
-        MovementComponent movement = Mappers.movements.get(entity);
+        TransformComponent transform = Mappers.movements.get(entity);
         if(animation.textureRegionAnimation == null) return;
         TextureRegion textureRegion = animation.textureRegionAnimation.getKeyFrame(animation.stateTime, true);
         spriteBatch.draw(
             textureRegion,
-            movement.pos.x, movement.pos.y,
+            transform.pos.x, transform.pos.y,
             animation.width, animation.height);
         animation.stateTime += deltaTime;
     }
