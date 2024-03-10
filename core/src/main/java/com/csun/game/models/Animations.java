@@ -49,6 +49,17 @@ public class Animations {
         MOM_IDLE_WEST = new Anim("west", new Array<>(), mom, Range.singleton(0), 1);
         MOM_IDLE_EAST = new Anim("east", new Array<>(), mom, Range.singleton(0), 1);
 
+        TextureAtlas skeleton = assetManager.get("skeleton.atlas");
+
+        SKELETON_WALK_NORTH = new Anim("north", new Array<>(), skeleton, Range.open(1,7), 6);
+        SKELETON_WALK_SOUTH = new Anim("south", new Array<>(), skeleton, Range.open(1,7), 6);
+        SKELETON_WALK_WEST = new Anim("west", new Array<>(), skeleton, Range.open(1,7), 6);
+        SKELETON_WALK_EAST = new Anim("east", new Array<>(), skeleton, Range.open(1,7), 6);
+
+        SKELETON_IDLE_NORTH = new Anim("north", new Array<>(), skeleton,Range.singleton(0), 1);
+        SKELETON_IDLE_SOUTH = new Anim("south", new Array<>(), skeleton, Range.singleton(0), 1);
+        SKELETON_IDLE_WEST = new Anim("west", new Array<>(), skeleton, Range.singleton(0), 1);
+        SKELETON_IDLE_EAST = new Anim("east", new Array<>(), skeleton, Range.singleton(0), 1);
 
         IDLE_TRANSITION_ANIMATIONS.put(WITCH_WALK_NORTH, WITCH_IDLE_NORTH);
         IDLE_TRANSITION_ANIMATIONS.put(WITCH_WALK_SOUTH, WITCH_IDLE_SOUTH);
@@ -59,6 +70,16 @@ public class Animations {
         IDLE_TRANSITION_ANIMATIONS.put(DOCTOR_WALK_SOUTH, DOCTOR_IDLE_SOUTH);
         IDLE_TRANSITION_ANIMATIONS.put(DOCTOR_WALK_EAST, DOCTOR_IDLE_EAST);
         IDLE_TRANSITION_ANIMATIONS.put(DOCTOR_WALK_WEST, DOCTOR_IDLE_WEST);
+
+        IDLE_TRANSITION_ANIMATIONS.put(MOM_WALK_NORTH, MOM_IDLE_NORTH);
+        IDLE_TRANSITION_ANIMATIONS.put(MOM_WALK_SOUTH, MOM_IDLE_SOUTH);
+        IDLE_TRANSITION_ANIMATIONS.put(MOM_WALK_EAST, MOM_IDLE_EAST);
+        IDLE_TRANSITION_ANIMATIONS.put(MOM_WALK_WEST, MOM_IDLE_WEST);
+
+        IDLE_TRANSITION_ANIMATIONS.put(SKELETON_WALK_NORTH, SKELETON_IDLE_NORTH);
+        IDLE_TRANSITION_ANIMATIONS.put(SKELETON_WALK_SOUTH, SKELETON_IDLE_SOUTH);
+        IDLE_TRANSITION_ANIMATIONS.put(SKELETON_WALK_EAST, SKELETON_IDLE_EAST);
+        IDLE_TRANSITION_ANIMATIONS.put(SKELETON_WALK_WEST, SKELETON_IDLE_WEST);
     }
 
     public static Anim WITCH_WALK_NORTH;
@@ -87,6 +108,15 @@ public class Animations {
     public static Anim MOM_IDLE_SOUTH;
     public static Anim MOM_IDLE_WEST;
     public static Anim MOM_IDLE_EAST;
+
+    public static Anim SKELETON_WALK_NORTH;
+    public static Anim SKELETON_WALK_SOUTH;
+    public static Anim SKELETON_WALK_WEST;
+    public static Anim SKELETON_WALK_EAST;
+    public static Anim SKELETON_IDLE_NORTH;
+    public static Anim SKELETON_IDLE_SOUTH;
+    public static Anim SKELETON_IDLE_WEST;
+    public static Anim SKELETON_IDLE_EAST;
 
     public record Anim(String key, Array<TextureAtlas.AtlasRegion> atlasRegions, TextureAtlas atlas, Range<Integer> frameIndices, float length) {
         public Anim {

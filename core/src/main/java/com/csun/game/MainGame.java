@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -41,6 +42,10 @@ public class MainGame extends Game {
 
     @Override
     public void create() {
+        Gdx.graphics.setUndecorated(true);
+        Graphics.DisplayMode displayMode = Gdx.graphics.getDisplayMode();
+        Gdx.graphics.setWindowedMode(displayMode.width, displayMode.height);
+
         PooledEngine engine = injector.getInstance(PooledEngine.class);
         this.pooledEngine = engine;
 

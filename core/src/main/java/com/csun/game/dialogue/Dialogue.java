@@ -111,7 +111,6 @@ public class Dialogue {
                             currentPart = option.next() != null ? option.next() : dialogueOptions.getNext();
                             if (currentPart == null) {
                                 removeDialogue(player);
-                                Gdx.app.log("Dialogue", "Removing");
                                 return;
                             }
                             dialogueParts.addFirst(currentPart);

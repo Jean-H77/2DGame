@@ -122,7 +122,7 @@ public final class Player {
 
     public void postLoad() {
         attributes.set(Attributes.PLAYER_IS_LOGGED_IN, true);
-        animationComponent.set(Animations.WITCH_IDLE_NORTH, 48, 48);
+        animationComponent.set(Animations.SKELETON_IDLE_NORTH, 48, 48);
         moveToMap(attributes.get(Attributes.PLAYER_CURRENT_MAP));
     }
 
