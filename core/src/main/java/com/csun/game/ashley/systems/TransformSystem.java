@@ -15,7 +15,6 @@ import com.csun.game.map.GameMap;
 import com.csun.game.models.Animations;
 import com.csun.game.models.Direction;
 import com.csun.game.models.MovementState;
-import com.csun.game.npc.Npc;
 import com.csun.game.npc.NpcManager;
 import com.google.inject.Inject;
 
@@ -105,28 +104,28 @@ public class TransformSystem extends IteratingSystem {
                     switch (direction) {
                         case N, NE, NW -> {
                             if (npcComponent != null) {
-                                animation.nextAnim(npcComponent.npc.getWalkingIdleAnims().get("north")[0]);
+                                animation.nextAnim(npcComponent.npc.getAnimations().get("north")[0]);
                             } else {
                                 animation.nextAnim(Animations.WITCH_WALK_NORTH);
                             }
                         }
                         case S, SE, SW -> {
                             if (npcComponent != null) {
-                                animation.nextAnim(npcComponent.npc.getWalkingIdleAnims().get("south")[0]);
+                                animation.nextAnim(npcComponent.npc.getAnimations().get("south")[0]);
                             } else {
                                 animation.nextAnim(Animations.WITCH_WALK_SOUTH);
                             }
                         }
                         case E -> {
                             if (npcComponent != null) {
-                                animation.nextAnim(npcComponent.npc.getWalkingIdleAnims().get("east")[0]);
+                                animation.nextAnim(npcComponent.npc.getAnimations().get("east")[0]);
                             } else {
                                 animation.nextAnim(Animations.WITCH_WALK_EAST);
                             }
                         }
                         case W -> {
                             if (npcComponent != null) {
-                                animation.nextAnim(npcComponent.npc.getWalkingIdleAnims().get("west")[0]);
+                                animation.nextAnim(npcComponent.npc.getAnimations().get("west")[0]);
                             } else {
                                 animation.nextAnim(Animations.WITCH_WALK_WEST);
                             }
