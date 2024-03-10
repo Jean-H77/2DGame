@@ -44,7 +44,7 @@ public class MainGame extends Game {
     public void create() {
         Gdx.graphics.setUndecorated(true);
         Graphics.DisplayMode displayMode = Gdx.graphics.getDisplayMode();
-        Gdx.graphics.setWindowedMode(displayMode.width, displayMode.height);
+        Gdx.graphics.setWindowedMode(displayMode.width+1, displayMode.height+1);
 
         PooledEngine engine = injector.getInstance(PooledEngine.class);
         this.pooledEngine = engine;
