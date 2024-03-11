@@ -43,8 +43,6 @@ public class TestQuest extends Quest {
                                         npcSay("Ok we're here!", id, 3);
                                         cancel();
                                         stage.increment();
-                                    } else {
-                                        Gdx.app.log("Pos", pos.toString());
                                     }
                                 } else {
                                     npcSay("Follow me!", id, 2);
@@ -88,8 +86,11 @@ public class TestQuest extends Quest {
                             }
                         }, 1, 3);
                     });
+
+                    Option followOption = Option.create("Follow me!", (p) -> follow(id, player.getEntity()));
+
                     Option exitOption = Option.create("Exit");
-                    builder.addOptions(new DialogueOptions(walkToDoorOptions, singOption, exitOption));
+                    builder.addOptions(new DialogueOptions(walkToDoorOptions, singOption, followOption, exitOption));
                     player.startDialogue(builder.build());
                 }
                 case 3 -> {
@@ -146,7 +147,7 @@ public class TestQuest extends Quest {
         if (Objects.equals(mapName, "act1.tmx")) {
 
             addNpc("534252gfse", new Vector2(255, 501), Npc.MOM);
-            addNpc("gesg3", new Vector2(608, 500), Npc.DOCTOR);
+            addNpc("gesg3", new Vector2(608, 460), Npc.DOCTOR);
             addNpc("gesgsg", new Vector2(172, 625), Npc.WITCH);
 
             //we can also make tasks

@@ -43,7 +43,7 @@ public class NpcSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float v) {
         NpcComponent npcComponent = Mappers.npcs.get(entity);
-        TransformComponent transformComponent = Mappers.movements.get(entity);
+        TransformComponent transformComponent = Mappers.transforms.get(entity);
         AnimationComponent animationComponent = Mappers.animations.get(entity);
 
         if(npcComponent == null || transformComponent == null || animationComponent == null) {

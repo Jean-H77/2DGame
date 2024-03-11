@@ -39,14 +39,16 @@ public final class Player {
     private final AnimationComponent animationComponent;
     private final GameMap gameMap;
     private final Map<String, Quest> quests;
+    private final Entity entity;
 
-    public Player(Entity entity,GameMap gameMap, Map<String, Quest> quests) {
+    public Player(Entity entity, GameMap gameMap, Map<String, Quest> quests) {
         this.transformComponent = entity.getComponent(TransformComponent.class);
         this.textureComponent = entity.getComponent(TextureComponent.class);
         this.cameraComponent = entity.getComponent(CameraComponent.class);
         this.animationComponent = entity.getComponent(AnimationComponent.class);
         this.gameMap = gameMap;
         this.quests = quests;
+        this.entity = entity;
     }
 
     public float getTilePosX() {
@@ -215,5 +217,9 @@ public final class Player {
 
     public AnimationComponent getAnimationComponent() {
         return animationComponent;
+    }
+
+    public Entity getEntity() {
+        return entity;
     }
 }

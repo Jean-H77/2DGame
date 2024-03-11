@@ -3,9 +3,9 @@ package com.csun.game.npc;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Timer;
 import com.csun.game.ai.paths.PathFinder;
 import com.csun.game.ai.paths.PathResult;
 import com.csun.game.ashley.Mappers;
@@ -92,7 +92,7 @@ public class NpcManager {
             return;
         }
 
-        TransformComponent transformComponent = Mappers.movements.get(npc);
+        TransformComponent transformComponent = Mappers.transforms.get(npc);
         transformComponent.pos = pos;
 
         ClickableComponent clickableComponent = Mappers.clickables.get(npc);
@@ -109,17 +109,18 @@ public class NpcManager {
             return;
         }
 
-        TransformComponent transformComponent = Mappers.movements.get(npc);
+        TransformComponent transformComponent = Mappers.transforms.get(npc);
+        AnimationComponent animationComponent = Mappers.animations.get(npc);
 
         PathResult pathResult = PathFinder.findPath(
+                (int) animationComponent.width, (int) animationComponent.height,
             new Vector2(
                 transformComponent.pos.x / TILE_SIZE,
                 transformComponent.pos.y / TILE_SIZE
             ),
             new Vector2((int)(x/ TILE_SIZE), (int)(y/TILE_SIZE)),
             gameMap);
-
-        transformComponent.setPath(new ArrayDeque<>(pathResult.waypoints()));
+      //  transformComponent.setPath(new ArrayDeque<>(pathResult.waypoints()));
     }
 
     public void speak(String statement, String id, int seconds) {
@@ -135,6 +136,30 @@ public class NpcManager {
 
     public Vector2 getPosition(String id) {
         Entity npc = get(id);
-        return npc == null ? null : Mappers.movements.get(npc).pos;
+        return npc == null ? null : Mappers.transforms.get(npc).pos;
+    }
+
+    public void follow(String id, Entity followEntity) {
+        Entity npc = get(id);
+        if(npc == null || followEntity == null) {
+            return;
+        }
+
+        NpcComponent npcComponent = Mappers.npcs.get(npc);
+        npcComponent.following = followEntity;
+
+        TransformComponent followingTransformComponent = Mappers.transforms.get(followEntity);
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                if(npcComponent.following == null) {
+                    cancel();
+                    return;
+                }
+
+                walkTo(id, followingTransformComponent.pos.x, followingTransformComponent.pos.y);
+            }
+        }, 0, 0.3f);
     }
 }

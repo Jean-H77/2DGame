@@ -18,6 +18,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.csun.game.ai.paths.PathResult;
 import com.csun.game.misc.Assets;
 import org.javatuples.Quintet;
+import org.xguzm.pathfinding.grid.GridCell;
 
 import java.util.*;
 
@@ -26,7 +27,7 @@ import static com.csun.game.GameConstants.TILE_SIZE;
 public class GameMap {
     private final AssetManager assetManager = Assets.INSTANCE.getManager();
     private final HashMap<String , TiledMap> tiledMaps = new HashMap<>();
-    private final HashMap<TiledMap, Integer[][]> tiledMapGrid = new HashMap<>();
+    private final HashMap<TiledMap, boolean[][]> tiledMapGrid = new HashMap<>();
     private final HashMap<String, Color> lightColors = new HashMap<>();
     private final HashMap<TiledMap, List<Quintet<Integer, Color, Integer, Integer, Integer>>> lightPoints = new HashMap<>();
     private final World world = new World(new Vector2(0, 0), false);
@@ -50,46 +51,43 @@ public class GameMap {
         }
 
         getLayer(1).ifPresent(tileLayer -> {
-            Integer[][] grid = new Integer[(int) getCurrentMapHeight()][(int) getCurrentMapWidth()];
-            for(int i = 0; i < grid.length; i++) {
-                for(int k = 0; k < grid[i].length; k++) {
-                    if(tileLayer.getCell(i, k) != null && tileLayer.getCell(i, k).getTile().getProperties().containsKey("blocked")) {
-                        grid[i][k] = -1;
-                    } else {
-                        grid[i][k] = 1;
-                    }
-                }
-            }
+            boolean[][] grid = new boolean[(int) getCurrentMapWidth()][(int) getCurrentMapHeight()];
+            Gdx.app.log("Width: ",  getCurrentMapWidth() + " ");
+            Gdx.app.log("Height: ",  getCurrentMapHeight() + " ");
 
+            for (boolean[] booleans : grid) {
+                Arrays.fill(booleans, true);
+            }
+            for (int i = 0; i < grid.length; i++)
+                for (int k = 0; k < grid[i].length; k++) {
+                    if(tileLayer.getCell(i / TILE_SIZE, k / TILE_SIZE) == null) continue;
+                    grid[i][k] = !tileLayer.getCell(i / TILE_SIZE, k / TILE_SIZE).getTile().getProperties().containsKey("blocked");
+                }
             tiledMapGrid.put(tiledMap, grid);
         });
     }
 
-    public PathResult pathResult;
-    public Deque<Vector2> waypoints = new ArrayDeque<>();
-    ShapeRenderer shapeRenderer = new ShapeRenderer();
-    public void drawLine(Camera camera) {
-        if(pathResult == null) return;
-        List<Vector2> path = new ArrayList<>(pathResult.path());
-        List<Vector2> waypoints = new ArrayList<>(pathResult.waypoints());
 
-        if (path.isEmpty()) return;
+    public List<Vector2> pathResult;
+    private ShapeRenderer shapeRenderer = new ShapeRenderer();
+    public void drawLine(Camera camera) {
+        if (pathResult == null || pathResult.isEmpty()) return;
 
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         shapeRenderer.setColor(Color.RED);
-        for (int i = 0; i < path.size() - 1; i++) {
-            Vector2 point1 = path.get(i);
-            Vector2 point2 = path.get(i + 1);
-            shapeRenderer.rectLine(point1.x * TILE_SIZE, point1.y * TILE_SIZE, point2.x * TILE_SIZE, point2.y * TILE_SIZE, 10);
-        }
+        for (int i = 0; i < pathResult.size() - 1; i++) {
+            Vector2 cell1 = pathResult.get(i);
+            Vector2 cell2 = pathResult.get(i + 1);
 
-        shapeRenderer.setColor(Color.BLUE);
-        for (Vector2 waypoint : waypoints) {
-            shapeRenderer.circle(waypoint.x * TILE_SIZE, waypoint.y * TILE_SIZE, 10);
-        }
+            float x1 = cell1.x;
+            float y1 = cell1.y;
+            float x2 = cell2.x;
+            float y2 = cell2.y;
 
+            shapeRenderer.rectLine(x1, y1, x2, y2, 10);
+        }
         shapeRenderer.end();
     }
 
@@ -240,7 +238,7 @@ public class GameMap {
         this.mapBoundaries = mapBoundaries;
     }
 
-    public HashMap<TiledMap, Integer[][]> getTiledMapGrid() {
+    public HashMap<TiledMap, boolean[][]> getTiledMapGrid() {
         return tiledMapGrid;
     }
 }

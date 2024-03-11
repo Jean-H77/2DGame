@@ -7,25 +7,27 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.csun.game.ashley.Mappers;
-import com.csun.game.ashley.components.AnimationComponent;
-import com.csun.game.ashley.components.ClickableComponent;
-import com.csun.game.ashley.components.TransformComponent;
-import com.csun.game.ashley.components.NpcComponent;
+import com.csun.game.ashley.components.*;
 import com.csun.game.map.GameMap;
 import com.csun.game.models.Animations;
 import com.csun.game.models.Direction;
 import com.csun.game.models.MovementState;
 import com.csun.game.npc.NpcManager;
+import com.github.tommyettinger.gand.points.PointI2;
 import com.google.inject.Inject;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.csun.game.GameConstants.TILE_SIZE;
 
 
 public class TransformSystem extends IteratingSystem {
 
+    private static final int NPC_WALK = 0;
+    private static final int NPC_IDLE = 1;
+
     private final GameMap gameMap;
     private final NpcManager npcManager;
-    private boolean isBlocked;
 
     @Inject
     public TransformSystem(GameMap gameMap, NpcManager npcManager) {
@@ -35,29 +37,33 @@ public class TransformSystem extends IteratingSystem {
     }
 
     public static Direction getDirection(Vector2 newPos, Vector2 oldPos) {
+        double deadzone = 0;
         double dx = newPos.x - oldPos.x;
         double dy = newPos.y - oldPos.y;
-        double angle = Math.atan2(dy, dx);
-        if (angle >= -Math.PI / 8 && angle < Math.PI / 8) {
-            return Direction.E;
-        } else if (angle >= Math.PI / 8 && angle < 3 * Math.PI / 8) {
+        double magnitude = Math.sqrt(dx * dx + dy * dy);
+
+        if (magnitude < deadzone) {
+            return null;
+        }
+
+        if (dx > 0 && dy > 0) {
             return Direction.NE;
-        } else if (angle >= 3 * Math.PI / 8 && angle < 5 * Math.PI / 8) {
-            return Direction.N;
-        } else if (angle >= 5 * Math.PI / 8 && angle < 7 * Math.PI / 8) {
+        } else if (dx < 0 && dy > 0) {
             return Direction.NW;
-        } else if (angle >= 7 * Math.PI / 8 || angle < -7 * Math.PI / 8) {
-            return Direction.W;
-        } else if (angle >= -7 * Math.PI / 8 && angle < -5 * Math.PI / 8) {
+        } else if (dx < 0 && dy < 0) {
             return Direction.SW;
-        } else if (angle >= -5 * Math.PI / 8 && angle < -3 * Math.PI / 8) {
-            return Direction.S;
-        } else if (angle >= -3 * Math.PI / 8) {
+        } else if (dx > 0 && dy < 0) {
             return Direction.SE;
         }
+
+        if (Math.abs(dx) > Math.abs(dy)) {
+            return dx > 0 ? Direction.E : Direction.W;
+        } else if (Math.abs(dy) > Math.abs(dx)) {
+            return dy > 0 ? Direction.N : Direction.S;
+        }
+
         return null;
     }
-
 
     private static Vector2 calculateMovementStep(Direction dir, float velocity) {
         Vector2 vect = new Vector2();
@@ -89,69 +95,40 @@ public class TransformSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        TransformComponent movement = Mappers.movements.get(entity);
+        TransformComponent movement = Mappers.transforms.get(entity);
         AnimationComponent animation = Mappers.animations.get(entity);
         if (movement.state.equals(MovementState.IDLE)) return;
-        isBlocked = false;
         Direction direction = null;
-        if (movement.nextWaypoint != null) {
-            Vector2 temp = new Vector2((int) movement.pos.x, (int) movement.pos.y);
-            Vector2 waypointWorldPos = new Vector2((int) movement.nextWaypoint.x * TILE_SIZE, (int) movement.nextWaypoint.y * TILE_SIZE);
-            if (isCloseEnough(temp, waypointWorldPos, movement.threshold)) {
-                direction = getDirection(waypointWorldPos, temp);
-                if (animation != null && direction != null) {
-                    NpcComponent npcComponent = Mappers.npcs.get(entity);
-                    switch (direction) {
-                        case N, NE, NW -> {
-                            if (npcComponent != null) {
-                                animation.nextAnim(npcComponent.npc.getAnimations().get("north")[0]);
-                            } else {
-                                animation.nextAnim(Animations.WITCH_WALK_NORTH);
-                            }
-                        }
-                        case S, SE, SW -> {
-                            if (npcComponent != null) {
-                                animation.nextAnim(npcComponent.npc.getAnimations().get("south")[0]);
-                            } else {
-                                animation.nextAnim(Animations.WITCH_WALK_SOUTH);
-                            }
-                        }
-                        case E -> {
-                            if (npcComponent != null) {
-                                animation.nextAnim(npcComponent.npc.getAnimations().get("east")[0]);
-                            } else {
-                                animation.nextAnim(Animations.WITCH_WALK_EAST);
-                            }
-                        }
-                        case W -> {
-                            if (npcComponent != null) {
-                                animation.nextAnim(npcComponent.npc.getAnimations().get("west")[0]);
-                            } else {
-                                animation.nextAnim(Animations.WITCH_WALK_WEST);
-                            }
-                        }
-                    }
-                }
-            } else if (!movement.waypoints.isEmpty()) {
-                movement.nextWaypoint = movement.waypoints.pop();
-            } else {
-                movement.nextWaypoint = null;
-                movement.velocity = 0.0f;
-                movement.state = MovementState.IDLE;
-                if (animation != null && animation.currentAnimation != null) {
-                    if (Animations.IDLE_TRANSITION_ANIMATIONS.containsKey(animation.currentAnimation)) {
-                        animation.nextAnim(Animations.IDLE_TRANSITION_ANIMATIONS.get(animation.currentAnimation));
-                    }
-                }
-            }
-        } else {
-            if (!movement.movementQueue.isEmpty()) {
-                direction = movement.movementQueue.pop();
+
+        if (!movement.directionQueue.isEmpty()) {
+            direction = movement.directionQueue.pop();
+        } else if(!movement.path.isEmpty()) {
+            PointI2 next = movement.path.pop();
+            direction = getDirection(new Vector2(next.x, next.y), movement.pos);
+        }
+
+        if(direction == null) {
+            return;
+        }
+
+        NpcComponent npcComponent = Mappers.npcs.get(entity);
+        if(npcComponent != null && animation != null && movement.dir != direction) {
+            switch (direction) {
+                case N, NE, NW -> animation.nextAnim(npcComponent.npc.getAnimations().get("north")[NPC_WALK]);
+                case S, SE, SW -> animation.nextAnim(npcComponent.npc.getAnimations().get("south")[NPC_WALK]);
+                case E -> animation.nextAnim(npcComponent.npc.getAnimations().get("east")[NPC_WALK]);
+                case W -> animation.nextAnim(npcComponent.npc.getAnimations().get("west")[NPC_WALK]);
             }
         }
 
-        if (direction == null) {
-            return;
+        PlayerComponent playerComponent = Mappers.players.get(entity);
+        if(playerComponent != null && animation != null && movement.dir != direction) {
+            switch (direction) {
+                case N, NE, NW -> animation.nextAnim(Animations.SKELETON_WALK_NORTH);
+                case S, SE, SW -> animation.nextAnim(Animations.SKELETON_WALK_SOUTH);
+                case E -> animation.nextAnim(Animations.SKELETON_WALK_EAST);
+                case W -> animation.nextAnim(Animations.SKELETON_WALK_WEST);
+            }
         }
 
         movement.dir = direction;
@@ -160,15 +137,7 @@ public class TransformSystem extends IteratingSystem {
         dest.x += movement.pos.x;
         dest.y += movement.pos.y;
 
-        gameMap.getLayer(1).ifPresent(tiledMapTileLayer -> {
-            TiledMapTileLayer.Cell cell = tiledMapTileLayer.getCell((int) (dest.x / TILE_SIZE), (int) (dest.y / TILE_SIZE));
-            if (cell != null && cell.getTile().getProperties().containsKey("blocked")) {
-                Gdx.app.log("Collision", "Blocked [" + (int) (dest.x / TILE_SIZE) + ", " + (int) (dest.y / TILE_SIZE) + "]");
-                isBlocked = true;
-            }
-        });
-
-        if (isBlocked) return;
+   //     if (checkCollision(48,48, dest.x, dest.y, gameMap)) return;
 
         movement.pos = dest;
 
@@ -177,9 +146,51 @@ public class TransformSystem extends IteratingSystem {
             clickableComponent.bounds.x = movement.pos.x;
             clickableComponent.bounds.y = movement.pos.y;
         }
+
+        if(movement.directionQueue.isEmpty() && animation != null) {
+            if(npcComponent != null) {
+                switch (movement.dir) {
+                    case N, NE, NW -> animation.nextAnim(npcComponent.npc.getAnimations().get("north")[NPC_IDLE]);
+                    case S, SE, SW -> animation.nextAnim(npcComponent.npc.getAnimations().get("south")[NPC_IDLE]);
+                    case E -> animation.nextAnim(npcComponent.npc.getAnimations().get("east")[NPC_IDLE]);
+                    case W -> animation.nextAnim(npcComponent.npc.getAnimations().get("west")[NPC_IDLE]);
+                }
+            }
+
+            if(playerComponent != null) {
+                switch (direction) {
+                    case N, NE, NW -> animation.nextAnim(Animations.SKELETON_IDLE_NORTH);
+                    case S, SE, SW -> animation.nextAnim(Animations.SKELETON_IDLE_SOUTH);
+                    case E -> animation.nextAnim(Animations.SKELETON_IDLE_EAST);
+                    case W -> animation.nextAnim(Animations.SKELETON_IDLE_WEST);
+                }
+            }
+        }
+
     }
 
     private boolean isCloseEnough(Vector2 pos1, Vector2 pos2, float threshold) {
         return pos1.dst(pos2) > threshold;
+    }
+
+    public static boolean checkCollision(int sizeX, int sizeY, float destX, float destY, GameMap gameMap) {
+        AtomicBoolean blocked = new AtomicBoolean(false);
+        int[] offsetX = {0, sizeX - 1, 0, sizeY - 1};
+        int[] offsetY = {0, 0, sizeX - 1, sizeY - 1};
+
+        for (int i = 0; i < offsetX.length; i++) {
+            int x = (int) ((destX + offsetX[i]) / TILE_SIZE);
+            int y = (int) ((destY + offsetY[i]) / TILE_SIZE);
+
+            gameMap.getLayer(1).ifPresent(tiledMapTileLayer -> {
+                TiledMapTileLayer.Cell cell = tiledMapTileLayer.getCell(x, y);
+                if (cell != null && cell.getTile().getProperties().containsKey("blocked")) {
+                    Gdx.app.log("Collision", "Blocked [" + x + ", " + y + "]");
+                    blocked.set(true);
+                }
+            });
+        }
+
+        return blocked.get();
     }
 }

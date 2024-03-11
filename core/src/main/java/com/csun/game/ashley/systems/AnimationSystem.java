@@ -30,7 +30,7 @@ public class AnimationSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         AnimationComponent animation = Mappers.animations.get(entity);
-        TransformComponent transform = Mappers.movements.get(entity);
+        TransformComponent transform = Mappers.transforms.get(entity);
         if(animation.textureRegionAnimation == null) return;
         TextureRegion textureRegion = animation.textureRegionAnimation.getKeyFrame(animation.stateTime, true);
         spriteBatch.draw(

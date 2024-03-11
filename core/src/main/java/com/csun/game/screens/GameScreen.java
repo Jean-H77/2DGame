@@ -47,7 +47,7 @@ public class GameScreen implements Screen {
     ShapeRenderer shapeRenderer;
     SpriteBatch debugSpriteBatch;
     BitmapFont debugFont;
-    boolean debug = false;
+    boolean debug = true;
 
     @Inject
     public GameScreen(PooledEngine pooledEngine, @Named("ExtendedViewport") Viewport viewport, Player player, SpriteBatch spriteBatch, MainGame mainGame, AssetManager assetManager) {
@@ -111,7 +111,7 @@ public class GameScreen implements Screen {
 
             debugSpriteBatch.begin();
             debugFont.draw(debugSpriteBatch, "Position " + player.getMovementComponent().pos.toString(), 15, 15);
-            debugFont.draw(debugSpriteBatch, "Mouse " + mouse, 15, 30);
+            debugFont.draw(debugSpriteBatch, "Mouse " + mouse.x + ", " + mouse.y, 15, 30);
             debugSpriteBatch.end();
         }
 
