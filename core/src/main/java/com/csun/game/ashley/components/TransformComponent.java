@@ -1,7 +1,6 @@
 package com.csun.game.ashley.components;
 
 import com.badlogic.ashley.core.Component;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.csun.game.models.Direction;
 import com.csun.game.models.MovementState;
@@ -19,7 +18,6 @@ public class TransformComponent implements Component {
     public MovementState state = MovementState.IDLE;
     public float velocity = 0f;
     public boolean disabled;
-    public float threshold;
     public Path<PointI2> path = new Path<>();
 
     public TransformComponent(Vector2 vector2) {
@@ -30,7 +28,7 @@ public class TransformComponent implements Component {
     }
 
     public void move(Direction dir) {
-        directionQueue.isEmpty();
+        directionQueue.clear();
         path.clear();
         velocity = 1f;
         state = MovementState.MOVING;
@@ -41,7 +39,7 @@ public class TransformComponent implements Component {
         if (path.isEmpty()) {
             return;
         }
-        directionQueue.isEmpty();
+        directionQueue.clear();
         this.path = path;
         velocity = 1f;
         state = MovementState.MOVING;

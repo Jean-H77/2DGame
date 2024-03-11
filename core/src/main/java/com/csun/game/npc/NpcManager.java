@@ -9,10 +9,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.csun.game.ai.paths.PathFinder;
 import com.csun.game.ai.paths.PathResult;
 import com.csun.game.ashley.Mappers;
-import com.csun.game.ashley.components.AnimationComponent;
-import com.csun.game.ashley.components.ClickableComponent;
-import com.csun.game.ashley.components.TransformComponent;
-import com.csun.game.ashley.components.NpcComponent;
+import com.csun.game.ashley.components.*;
 import com.csun.game.map.GameMap;
 import com.google.inject.Inject;
 
@@ -38,6 +35,9 @@ public class NpcManager {
         }
 
         Entity entity = pooledEngine.createEntity();
+
+        SizeComponent sizeComponent = new SizeComponent(32, 32);
+        entity.add(sizeComponent);
 
         for(Component c : npc.getComponents()) {
 

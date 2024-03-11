@@ -14,5 +14,6 @@ public final class Mappers {
     public static final ComponentMapper<ClickableComponent> clickables = ComponentMapper.getFor(ClickableComponent.class);
     public static final ComponentMapper<NpcComponent> npcs = ComponentMapper.getFor(NpcComponent.class);
     public static final ComponentMapper<PlayerComponent> players = ComponentMapper.getFor(PlayerComponent.class);
+    public static final ComponentMapper<SizeComponent> sizes = ComponentMapper.getFor(SizeComponent.class);
 
 }
