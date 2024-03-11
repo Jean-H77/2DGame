@@ -26,7 +26,7 @@ public final class GameConstants {
 
     public static final int VIEWPORT_HEIGHT = 503;
 
-    public static final float PLAYER_START_X = 481.16f;
+    public static final float PLAYER_START_X = 450f;
 
     public static final float PLAYER_START_Y = 415.79f;
 }

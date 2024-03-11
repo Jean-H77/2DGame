@@ -5,11 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.csun.game.models.Animations;
 
-import java.util.HashMap;
-import java.util.Map;
 
-
-public class AnimationComponent implements Component, Cloneable {
+public class AnimationComponent implements Component {
 
     public float width;
     public float height;

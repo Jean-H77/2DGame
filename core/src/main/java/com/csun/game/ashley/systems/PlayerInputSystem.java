@@ -13,15 +13,25 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.csun.game.UI.UIManager;
+import com.csun.game.ai.paths.PathFinder;
+import com.csun.game.ai.paths.PathResult;
 import com.csun.game.ashley.Mappers;
 import com.csun.game.ashley.components.*;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.dialogue.TestDialogue;
+import com.csun.game.map.GameMap;
 import com.csun.game.models.Animations;
 import com.csun.game.models.Direction;
 import com.csun.game.models.LightType;
 import com.csun.game.player.Player;
+import com.github.tommyettinger.gand.Path;
+import com.github.tommyettinger.gand.points.PointI2;
 import com.google.inject.Inject;
+import org.xguzm.pathfinding.grid.GridCell;
+
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.csun.game.GameConstants.TILE_SIZE;
 
@@ -44,7 +54,7 @@ public class PlayerInputSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        TransformComponent mc = Mappers.movements.get(entity);
+        TransformComponent mc = Mappers.transforms.get(entity);
         AnimationComponent ac = Mappers.animations.get(entity);
         player.getAttributes().set(Attributes.WORLD_MOUSE_POSITION, getWorldPositionFromScreen(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0)));
 
@@ -126,7 +136,7 @@ public class PlayerInputSystem extends IteratingSystem {
                 if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
                     player.getAttributes().set(Attributes.LAST_NPC_CLICKED, identification);
 
-                    TransformComponent transformComponent = Mappers.movements.get(entity);
+                    TransformComponent transformComponent = Mappers.transforms.get(entity);
                     if (transformComponent != null && mc.pos.dst(transformComponent.pos) > TILE_SIZE * 2) {
 
                         // i'll clean this up later
@@ -168,20 +178,22 @@ public class PlayerInputSystem extends IteratingSystem {
                 mc.disabled = true;
                 player.moveToMap((String) cell.getTile().getProperties().get("nm_door"));
             }
-            // i'll clean this up later
-            /*if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+
+            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
                 Vector2 mouse = player.getAttributes().get(Attributes.WORLD_MOUSE_POSITION);
-                int tileX = (int) (mouse.x / TILE_SIZE);
-                int tileY = (int) (mouse.y / TILE_SIZE);
-                cell = tiledMapTileLayer.getCell(tileX, tileY);
-                if (cell != null && cell.getTile().getProperties().containsKey("blocked")) {
-                    Gdx.app.log("Collision", "Blocked [" + tileX + ", " + tileY + "]");
-                } else {
-                    PathResult pathResult = PathFinder.findPath(new Vector2(player.getTilePosX(), player.getTilePosY()), new Vector2(tileX, tileY), player.getGameMap());
-                    mc.setPath(new ArrayDeque<>(pathResult.waypoints()));
-                    player.getGameMap().waypoints = new ArrayDeque<>(pathResult.waypoints());
+                if (mouse.x < player.getGameMap().getCurrentMapWidth() && mouse.y < player.getGameMap().getCurrentMapHeight()) {
+                    if (player.getGameMap().getTiledMapGrid().get(player.getGameMap().getCurrentMap())[(int) mouse.x][(int) mouse.y]) {
+                        Path<PointI2> path = PathFinder.findPathAStar(mc.pos, mouse, player.getGameMap());
+                        List<Vector2> vects = new ArrayList<>();
+                        for (int i = 0; i < path.size; i++) {
+                            Vector2 vector2 = new Vector2(path.get(i).x, path.get(i).y);
+                            vects.add(vector2);
+                        }
+                        player.getGameMap().pathResult = vects;
+                        mc.setPath(path);
+                    }
                 }
-            }*/
+            }
         });
 
         if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP) && !(Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN))) {

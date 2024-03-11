@@ -24,7 +24,7 @@ public class CameraSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        TransformComponent transformComponent = Mappers.movements.get(entity);
+        TransformComponent transformComponent = Mappers.transforms.get(entity);
         CameraComponent cameraComponent = Mappers.cameras.get(entity);
         Rectangle boundary = gameMap.getBoundaries();
 

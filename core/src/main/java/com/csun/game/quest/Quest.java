@@ -1,5 +1,6 @@
 package com.csun.game.quest;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.csun.game.MainGame;
 import com.csun.game.action.ActionAdapter;
@@ -54,5 +55,9 @@ public class Quest extends ActionAdapter {
 
     protected Vector2 getNpcPosition(String identification) {
         return npcManager.getPosition(identification);
+    }
+
+    protected void follow(String id, Entity followEntity) {
+        npcManager.follow(id, followEntity);
     }
 }
