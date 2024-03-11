@@ -1,9 +1,13 @@
 package com.csun.game.screens;
 
+import static com.csun.game.GameConstants.VIEWPORT_HEIGHT;
+import static com.csun.game.GameConstants.VIEWPORT_WIDTH;
+
 import box2dLight.RayHandler;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
@@ -17,12 +21,19 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csun.game.MainGame;
 import com.csun.game.ashley.Mappers;
 import com.csun.game.ashley.components.ClickableComponent;
+import com.csun.game.ashley.systems.PlayerInputSystem;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.player.Player;
+import com.csun.game.screens.overlay.GameInputProcessor;
+import com.csun.game.screens.overlay.GameState;
+import com.csun.game.screens.overlay.PauseTable;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
@@ -48,6 +59,11 @@ public class GameScreen implements Screen {
     SpriteBatch debugSpriteBatch;
     BitmapFont debugFont;
     boolean debug = false;
+
+    private Table pauseTable;
+    private Stage overlayStage;
+
+    private GameState gameState = GameState.RUN;
 
     @Inject
     public GameScreen(PooledEngine pooledEngine, @Named("ExtendedViewport") Viewport viewport, Player player, SpriteBatch spriteBatch, MainGame mainGame, AssetManager assetManager) {
@@ -82,6 +98,14 @@ public class GameScreen implements Screen {
         Pixmap pm = new Pixmap(Gdx.files.internal("gaming-mouse.png"));
         Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, 0, 0));
         pm.dispose();
+
+        overlayStage = new Stage(new ExtendViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT,new OrthographicCamera()),
+            spriteBatch);
+
+        InputMultiplexer multipleInputProcessor = new InputMultiplexer();
+        multipleInputProcessor.addProcessor(new GameInputProcessor(this));
+        multipleInputProcessor.addProcessor(overlayStage);
+        Gdx.input.setInputProcessor(multipleInputProcessor);
     }
 
     @Override
@@ -136,25 +160,48 @@ public class GameScreen implements Screen {
         player.getAttributes().get(Attributes.ALL_OPENED_UI).forEach(baseUI -> baseUI.render(player, delta));
 
         player.getGameMap().drawLine(playerCamera);
+
+        overlayStage.getViewport().apply();
+        overlayStage.act(delta);
+        overlayStage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
         viewport.update(width,height);
+        overlayStage.getViewport().update(width,height,true);
+
         if(player.getAttributes().hasKey(Attributes.CURRENT_DIALOGUE)) {
             player.getAttributes().get(Attributes.CURRENT_DIALOGUE).resize(width, height);
         }
 
         player.getAttributes().get(Attributes.ALL_OPENED_UI).forEach(baseUI -> baseUI.resize(width,height));
     }
+    public void goToMainMenu(){
+        mainGame.switchScreen(MainGame.ScreenType.MENU_SCREEN);
+    }
+    public GameState getGameState() {
+        return gameState;
+    }
+
     @Override
     public void pause() {
         // Invoked when your application is paused.
+        gameState = GameState.PAUSE;
+        pauseTable = new PauseTable(this);
+        overlayStage.addActor(pauseTable);
+        pooledEngine.getSystem(PlayerInputSystem.class).setProcessing(false);
+
     }
 
     @Override
     public void resume() {
         // Invoked when your application is resumed after pause.
+        gameState = GameState.RUN;
+        pooledEngine.getSystem(PlayerInputSystem.class).setProcessing(true);
+        if(pauseTable != null){
+            overlayStage.clear();
+        }
     }
 
     @Override
