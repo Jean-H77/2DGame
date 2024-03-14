@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.csun.game.MainGame;
+import com.csun.game.player.Player;
 import com.google.inject.Inject;
 
 public class MenuScreen implements Screen {
@@ -23,11 +24,13 @@ public class MenuScreen implements Screen {
     private final MainGame mainGame;
     private final Stage stage;
     private BitmapFont gameTitleFont;
+    private final Player player;
 
     @Inject
-    public MenuScreen(MainGame mainGame, SpriteBatch spriteBatch) {
+    public MenuScreen(MainGame mainGame, SpriteBatch spriteBatch, Player player) {
         this.mainGame = mainGame;
         stage = new Stage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()), spriteBatch);
+        this.player = player;
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -67,6 +70,7 @@ public class MenuScreen implements Screen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                player.postLoad();
                 mainGame.switchScreen(MainGame.ScreenType.GAME_SCREEN);
             }
         });
@@ -82,6 +86,9 @@ public class MenuScreen implements Screen {
         });
         table.add(exitButton).padTop(10f);
         table.row();
+
+
+
     }
 
     @Override

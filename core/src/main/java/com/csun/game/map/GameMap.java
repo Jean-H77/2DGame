@@ -3,11 +3,11 @@ package com.csun.game.map;
 import box2dLight.ConeLight;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -15,30 +15,36 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.csun.game.ai.paths.PathResult;
 import com.csun.game.misc.Assets;
+import com.google.inject.Inject;
 import org.javatuples.Quintet;
-import org.xguzm.pathfinding.grid.GridCell;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 import static com.csun.game.GameConstants.TILE_SIZE;
 
 public class GameMap {
     private final AssetManager assetManager = Assets.INSTANCE.getManager();
-    private final HashMap<String , TiledMap> tiledMaps = new HashMap<>();
-    private final HashMap<TiledMap, boolean[][]> tiledMapGrid = new HashMap<>();
+    private final MapCache mapCache = new MapCache();
     private final HashMap<String, Color> lightColors = new HashMap<>();
     private final HashMap<TiledMap, List<Quintet<Integer, Color, Integer, Integer, Integer>>> lightPoints = new HashMap<>();
     private final World world = new World(new Vector2(0, 0), false);
     private final RayHandler rayHandler = new RayHandler(world);
+    private final PooledEngine engine;
 
     private OrthogonalTiledMapRenderer renderer;
     private TiledMap currentMap;
     private Rectangle mapBoundaries;
+    private Door[] doors;
+    boolean[][] grid;
+    private Entity[] npcs;
 
-    public HashMap<String, TiledMap> getTiledMaps() {
-        return tiledMaps;
+    @Inject
+    public GameMap(PooledEngine engine) {
+        this.engine = engine;
     }
 
     public void enterMap(String map, float ambientLight) {
@@ -46,64 +52,11 @@ public class GameMap {
         setCurrentMap(tiledMap);
         setAmbientLight(ambientLight);
         setMapLights(tiledMap);
-        if(tiledMapGrid.containsKey(tiledMap)) {
-            return;
-        }
-
-        getLayer(1).ifPresent(tileLayer -> {
-            boolean[][] grid = new boolean[(int) getCurrentMapWidth()][(int) getCurrentMapHeight()];
-            Gdx.app.log("Width: ",  getCurrentMapWidth() + " ");
-            Gdx.app.log("Height: ",  getCurrentMapHeight() + " ");
-
-            for (boolean[] booleans : grid) {
-                Arrays.fill(booleans, true);
-            }
-            for (int i = 0; i < grid.length; i++)
-                for (int k = 0; k < grid[i].length; k++) {
-                    if(tileLayer.getCell(i / TILE_SIZE, k / TILE_SIZE) == null) continue;
-                    grid[i][k] = !tileLayer.getCell(i / TILE_SIZE, k / TILE_SIZE).getTile().getProperties().containsKey("blocked");
-                }
-            tiledMapGrid.put(tiledMap, grid);
-        });
-    }
-
-
-    public List<Vector2> pathResult;
-    private ShapeRenderer shapeRenderer = new ShapeRenderer();
-    public void drawLine(Camera camera) {
-        if (pathResult == null || pathResult.isEmpty()) return;
-
-        shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-
-        shapeRenderer.setColor(Color.RED);
-        for (int i = 0; i < pathResult.size() - 1; i++) {
-            Vector2 cell1 = pathResult.get(i);
-            Vector2 cell2 = pathResult.get(i + 1);
-
-            float x1 = cell1.x;
-            float y1 = cell1.y;
-            float x2 = cell2.x;
-            float y2 = cell2.y;
-
-            shapeRenderer.rectLine(x1, y1, x2, y2, 10);
-        }
-        shapeRenderer.end();
     }
 
     private TiledMap getMap(String map) {
-        Gdx.app.log("Map", map);
         return assetManager.get(map);
-        /*TiledMap tiledMap;
-        if(tiledMaps.containsKey(map)) {
-            tiledMap = tiledMaps.get(map);
-        } else {
-            tiledMap = new TmxMapLoader().load(map);
-            tiledMaps.put(map, tiledMap);
-        }
-        return tiledMap;*/
     }
-
 
     private void setMapLights(TiledMap tiledMap) {
         if(lightPoints.containsKey(tiledMap)) {
@@ -169,7 +122,11 @@ public class GameMap {
 
     private void setCurrentMap(TiledMap currentMap) {
         this.currentMap = currentMap;
-        mapBoundaries = new Rectangle(0, 0, getCurrentMapWidth(), getCurrentMapHeight());
+        mapBoundaries = new Rectangle(0, 0, MapUtils.getMapWidth(currentMap), MapUtils.getMapHeight(currentMap));
+        MapEntry entry = mapCache.getMapEntry(currentMap);
+        doors = entry.doors();
+        grid = entry.grid();
+
         if(renderer == null) {
             renderer = new OrthogonalTiledMapRenderer(currentMap);
             return;
@@ -181,25 +138,30 @@ public class GameMap {
         return renderer;
     }
 
-    public float getCurrentMapWidth() {
-        return currentMap.getProperties().get("width", Integer.class) * currentMap.getProperties().get("tilewidth", Integer.class);
-    }
-
-    public float getCurrentMapHeight() {
-        return currentMap.getProperties().get("height", Integer.class) * currentMap.getProperties().get("tileheight", Integer.class);
-    }
-
     public void dispose() {
         currentMap.dispose();
         renderer.dispose();
         rayHandler.dispose();
     }
 
-    public Optional<TiledMapTileLayer> getLayer(int type) {
-        if(currentMap == null || currentMap.getLayers().size() <= type) {
-            return Optional.empty();
-        }
-        return Optional.ofNullable((TiledMapTileLayer) currentMap.getLayers().get(type));
+    public Door[] getDoors() {
+        return doors;
+    }
+
+    public void setDoors(Door[] doors) {
+        this.doors = doors;
+    }
+
+    public boolean[][] getGrid() {
+        return grid;
+    }
+
+    public void setGrid(boolean[][] grid) {
+        this.grid = grid;
+    }
+
+    public TiledMapTileLayer getCollisionLayer() {
+        return MapUtils.getTileLayer(currentMap, 1);
     }
 
     public void setRenderer(OrthogonalTiledMapRenderer renderer) {
@@ -238,7 +200,4 @@ public class GameMap {
         this.mapBoundaries = mapBoundaries;
     }
 
-    public HashMap<TiledMap, boolean[][]> getTiledMapGrid() {
-        return tiledMapGrid;
-    }
 }

@@ -9,7 +9,10 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.csun.game.UI.UIManager;
@@ -19,6 +22,7 @@ import com.csun.game.ashley.Mappers;
 import com.csun.game.ashley.components.*;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.dialogue.TestDialogue;
+import com.csun.game.map.Door;
 import com.csun.game.map.GameMap;
 import com.csun.game.models.Animations;
 import com.csun.game.models.Direction;
@@ -29,9 +33,7 @@ import com.github.tommyettinger.gand.points.PointI2;
 import com.google.inject.Inject;
 import org.xguzm.pathfinding.grid.GridCell;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static com.csun.game.GameConstants.TILE_SIZE;
 
@@ -163,6 +165,27 @@ public class PlayerInputSystem extends IteratingSystem {
         return false;
     }
 
+    public static List<Vector2> extractPath(List<Vector2> waypoints) {
+        List<Vector2> path = new ArrayList<>();
+        for (int i = 0; i < waypoints.size() - 1; i++) {
+            Vector2 start = waypoints.get(i);
+            Vector2 end = waypoints.get(i + 1);
+            Vector2 current = new Vector2(start);
+
+            while (!current.epsilonEquals(end, 1.0f)) {
+                float dx = Math.signum(end.x - current.x);
+                float dy = Math.signum(end.y - current.y);
+                float nextX = current.x + (dx != 0 ? dx : 0);
+                float nextY = current.y + (dy != 0 && dx == 0 ? dy : 0);
+
+                current.set(nextX, nextY);
+                path.add(new Vector2(current));
+            }
+        }
+        return path;
+    }
+
+
     private boolean handleMovementInput(TransformComponent mc, AnimationComponent ac) {
         if (mc.disabled) return false;
 
@@ -172,29 +195,14 @@ public class PlayerInputSystem extends IteratingSystem {
             return false;
         }
 
-        player.getGameMap().getLayer(1).ifPresent(tiledMapTileLayer -> {
-            TiledMapTileLayer.Cell cell = tiledMapTileLayer.getCell((int) player.getTilePosX(), (int) player.getTilePosY());
-            if (cell != null && cell.getTile().getProperties().containsKey("nm_door")) {
-                mc.disabled = true;
-                player.moveToMap((String) cell.getTile().getProperties().get("nm_door"));
-            }
+        CollisionComponent collisionComponent = player.getCollisionComponent();
+        collisionComponent.bounds.x = mc.pos.x;
+        collisionComponent.bounds.y = mc.pos.y;
 
-            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-                Vector2 mouse = player.getAttributes().get(Attributes.WORLD_MOUSE_POSITION);
-                if (mouse.x < player.getGameMap().getCurrentMapWidth() && mouse.y < player.getGameMap().getCurrentMapHeight()) {
-                    if (player.getGameMap().getTiledMapGrid().get(player.getGameMap().getCurrentMap())[(int) mouse.x][(int) mouse.y]) {
-                        Path<PointI2> path = PathFinder.findPathAStar(mc.pos, mouse, player.getGameMap());
-                        List<Vector2> vects = new ArrayList<>();
-                        for (int i = 0; i < path.size; i++) {
-                            Vector2 vector2 = new Vector2(path.get(i).x, path.get(i).y);
-                            vects.add(vector2);
-                        }
-                        player.getGameMap().pathResult = vects;
-                        mc.setPath(path);
-                    }
-                }
-            }
-        });
+        Arrays.stream(player.getGameMap().getDoors())
+            .filter(door -> door.rectangle().overlaps(collisionComponent.bounds))
+            .findFirst()
+            .ifPresent(door -> player.moveToMap(door.properties().get("nm_door").toString()));
 
         if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP) && !(Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN))) {
             if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {

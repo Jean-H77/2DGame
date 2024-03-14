@@ -37,7 +37,7 @@ public class TransformSystem extends IteratingSystem {
     }
 
     public static Direction getDirection(Vector2 newPos, Vector2 oldPos) {
-        double deadzone = 0;
+        double deadzone = 8;
         double dx = newPos.x - oldPos.x;
         double dy = newPos.y - oldPos.y;
         double magnitude = Math.sqrt(dx * dx + dy * dy);
@@ -102,9 +102,10 @@ public class TransformSystem extends IteratingSystem {
 
         if (!movement.directionQueue.isEmpty()) {
             direction = movement.directionQueue.pop();
-        } else if(!movement.path.isEmpty()) {
-            PointI2 next = movement.path.pop();
-            direction = getDirection(new Vector2(next.x, next.y), movement.pos);
+        }
+
+        if(!movement.path.isEmpty()) {
+            direction = getDirection(movement.path.pop(), movement.pos);
         }
 
         if(direction == null) {
@@ -123,7 +124,6 @@ public class TransformSystem extends IteratingSystem {
             }
         } else {
             if (playerComponent != null && animation != null && movement.dir != direction) {
-                Gdx.app.log("Anim", "Player anim");
                 switch (direction) {
                     case N, NE, NW -> animation.nextAnim(Animations.SKELETON_WALK_NORTH);
                     case S, SE, SW -> animation.nextAnim(Animations.SKELETON_WALK_SOUTH);
@@ -138,10 +138,9 @@ public class TransformSystem extends IteratingSystem {
         Vector2 dest = new Vector2(step.x, step.y).nor();
         dest.x += movement.pos.x;
         dest.y += movement.pos.y;
-
         SizeComponent sizeComponent = Mappers.sizes.get(entity);
         if(sizeComponent != null) {
-            if (checkCollision((int) sizeComponent.width, (int) sizeComponent.height, dest.x, dest.y, gameMap)) return;
+           if (checkCollision((int) sizeComponent.width, (int) sizeComponent.height, dest.x, dest.y, gameMap)) return;
         }
         movement.pos = dest;
 
@@ -151,7 +150,7 @@ public class TransformSystem extends IteratingSystem {
             clickableComponent.bounds.y = movement.pos.y;
         }
 
-        if(movement.path.isEmpty() && animation != null) {
+        /*if(movement.path.isEmpty() && animation != null) {
             if(npcComponent != null) {
                 switch (movement.dir) {
                     case N, NE, NW -> animation.nextAnim(npcComponent.npc.getAnimations().get("north")[NPC_IDLE]);
@@ -160,7 +159,7 @@ public class TransformSystem extends IteratingSystem {
                     case W -> animation.nextAnim(npcComponent.npc.getAnimations().get("west")[NPC_IDLE]);
                 }
             }
-        }
+        }*/
 
     }
 
@@ -173,13 +172,13 @@ public class TransformSystem extends IteratingSystem {
             int x = (int) ((destX + offsetX[i]) / TILE_SIZE);
             int y = (int) ((destY + offsetY[i]) / TILE_SIZE);
 
-            gameMap.getLayer(1).ifPresent(tiledMapTileLayer -> {
-                TiledMapTileLayer.Cell cell = tiledMapTileLayer.getCell(x, y);
-                if (cell != null && cell.getTile().getProperties().containsKey("blocked")) {
-                    Gdx.app.log("Collision", "Blocked [" + x + ", " + y + "]");
-                    blocked.set(true);
-                }
-            });
+            TiledMapTileLayer layer = gameMap.getCollisionLayer();
+
+            TiledMapTileLayer.Cell cell = layer.getCell(x, y);
+            if (cell != null && cell.getTile().getProperties().containsKey("blocked")) {
+                Gdx.app.log("Collision", "Blocked [" + x + ", " + y + "]");
+                blocked.set(true);
+            }
         }
 
         return blocked.get();

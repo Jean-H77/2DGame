@@ -50,16 +50,6 @@ public class MainGame extends Game {
         }
     }
 
-    public CompletableFuture<Void> loadPlayer() {
-        return CompletableFuture.runAsync(() -> {
-            Player player = injector.getInstance(Player.class);
-            player.setDefaults()
-                .load()
-                .thenRun(() -> Gdx.app.postRunnable(player::postLoad));
-        });
-    }
-
-
     public enum ScreenType {
         GAME_SCREEN,
         TITLE_SCREEN,

@@ -29,6 +29,9 @@ import com.google.inject.name.Named;
 
 import java.nio.ByteBuffer;
 
+import static com.csun.game.GameConstants.VIEWPORT_HEIGHT;
+import static com.csun.game.GameConstants.VIEWPORT_WIDTH;
+
 /** First screen of the application. Displayed after the application is created. */
 @Singleton
 public class GameScreen implements Screen {
@@ -82,6 +85,7 @@ public class GameScreen implements Screen {
         Pixmap pm = new Pixmap(Gdx.files.internal("gaming-mouse.png"));
         Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, 0, 0));
         pm.dispose();
+
     }
 
     @Override
@@ -90,7 +94,6 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         viewport.apply();
 
-        //pooledEngine.getEntitiesFor(Family.all(TextureComponent.class).get()).forEach(entity -> Mappers.textures.get(entity).shape.setProjectionMatrix(playerCamera.combined));
         spriteBatch.setProjectionMatrix(playerCamera.combined);
 
         renderer.setView(playerCamera);
@@ -134,8 +137,6 @@ public class GameScreen implements Screen {
         }
 
         player.getAttributes().get(Attributes.ALL_OPENED_UI).forEach(baseUI -> baseUI.render(player, delta));
-
-        player.getGameMap().drawLine(playerCamera);
     }
 
     @Override
