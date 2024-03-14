@@ -30,7 +30,7 @@
  <layer id="2" name="Tile Layer 2" width="15" height="13">
   <data encoding="csv">
 1074,1074,1074,1074,1074,1074,1074,1074,1074,1074,1074,1074,1074,1074,2147484720,
-1091,2930,2931,1091,1091,2930,2931,1091,1091,1091,1091,774,1091,1091,2147484720,
+1091,2930,2931,1091,1091,2930,2931,1091,1091,1091,1091,0,1091,1091,2147484720,
 2147484718,2946,2947,0,0,2946,2947,0,3181,3182,0,0,3288,3146,1070,
 2147484718,2962,2963,0,0,2962,2963,0,0,0,0,4499,0,0,1070,
 2147484718,0,0,0,0,0,0,0,0,0,0,4507,0,0,1070,
@@ -61,10 +61,26 @@
    </properties>
   </object>
  </objectgroup>
+ <objectgroup id="10" name="spawn">
+  <object id="2" x="244.116" y="369.258">
+   <properties>
+    <property name="direction" value=""/>
+    <property name="player_spawn" value=""/>
+   </properties>
+   <point/>
+  </object>
+  <object id="3" x="300.887" y="145.713">
+   <properties>
+    <property name=" mom_spawn" value=""/>
+    <property name="direction" value=""/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
  <layer id="6" name="Tile Layer 3" width="15" height="13">
   <data encoding="csv">
 1065,0,0,0,0,0,0,0,3133,3134,1760,1761,1762,0,1064,
-2147484718,0,0,0,0,0,0,0,3149,3150,1808,0,1810,3130,0,
+2147484718,0,0,0,0,0,0,0,3149,3150,1808,774,1810,3130,0,
 0,0,0,0,0,0,0,0,0,0,0,4501,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -129,20 +145,4 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="10" name="spawn">
-  <object id="2" x="244.116" y="369.258">
-   <properties>
-    <property name="direction" value=""/>
-    <property name="player_spawn" value=""/>
-   </properties>
-   <point/>
-  </object>
-  <object id="3" x="300.887" y="145.713">
-   <properties>
-    <property name=" mom_spawn" value=""/>
-    <property name="direction" value=""/>
-   </properties>
-   <point/>
-  </object>
- </objectgroup>
 </map>
