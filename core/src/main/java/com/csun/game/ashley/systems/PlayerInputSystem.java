@@ -9,29 +9,18 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.maps.objects.PolygonMapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.csun.game.UI.UIManager;
-import com.csun.game.ai.paths.PathFinder;
-import com.csun.game.ai.paths.PathResult;
 import com.csun.game.ashley.Mappers;
 import com.csun.game.ashley.components.*;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.dialogue.TestDialogue;
-import com.csun.game.map.Door;
-import com.csun.game.map.GameMap;
 import com.csun.game.models.Animations;
 import com.csun.game.models.Direction;
 import com.csun.game.models.LightType;
 import com.csun.game.player.Player;
-import com.github.tommyettinger.gand.Path;
-import com.github.tommyettinger.gand.points.PointI2;
 import com.google.inject.Inject;
-import org.xguzm.pathfinding.grid.GridCell;
 
 import java.util.*;
 
@@ -132,8 +121,8 @@ public class PlayerInputSystem extends IteratingSystem {
 
                 player.getAttributes().get(Attributes.ACTION_LISTENERS)
                     .forEach(actionListener -> actionListener
-                        .hoverOverNpc(player, npcComponent.npc.getName(), mouseAtWorld.x, mouseAtWorld.y));
-                player.getAttributes().set(Attributes.NPC_HOVER, npcComponent.npc.getName());
+                        .hoverOverNpc(player, npcComponent.npcType.getName(), mouseAtWorld.x, mouseAtWorld.y));
+                player.getAttributes().set(Attributes.NPC_HOVER, npcComponent.npcType.getName());
 
                 if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
                     player.getAttributes().set(Attributes.LAST_NPC_CLICKED, identification);
@@ -154,7 +143,7 @@ public class PlayerInputSystem extends IteratingSystem {
                     } else {
                         player.getAttributes().get(Attributes.ACTION_LISTENERS)
                             .forEach(actionListener -> actionListener
-                                .clickNpc(player, npcComponent.npc.getName(), identification, mouseAtWorld.x, mouseAtWorld.y));
+                                .clickNpc(player, npcComponent.npcType.getName(), identification, mouseAtWorld.x, mouseAtWorld.y));
                     }
                     return true;
                 }

@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.Entity;
 
 public record MapEntry(
     boolean[][] grid,
-    Entity entities,
+    Entity[] entities,
     Door[] doors
 ) {
 }

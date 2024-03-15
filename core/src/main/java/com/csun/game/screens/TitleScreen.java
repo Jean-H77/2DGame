@@ -1,7 +1,6 @@
 package com.csun.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
@@ -19,11 +18,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.csun.game.MainGame;
-import com.csun.game.loaders.PlayerLoader;
+import com.csun.game.npc.NpcJson;
+import com.csun.game.npc.NpcLoader;
+import com.csun.game.npc.NpcManager;
+import com.csun.game.player.PlayerLoader;
 import com.csun.game.misc.Assets;
 import com.csun.game.models.Animations;
 import com.csun.game.player.Player;
 import com.google.inject.Inject;
+
+import java.util.List;
 
 
 public class TitleScreen implements Screen {
@@ -77,6 +81,9 @@ public class TitleScreen implements Screen {
 
         assetManager.load("dialogue/dialogue_board.png", Texture.class);
 
+        assetManager.setLoader(NpcJson.NpcJsonList.class, new NpcLoader(new InternalFileHandleResolver()));
+        assetManager.load("npc_spawns.json", NpcJson.NpcJsonList.class, new NpcLoader.JsonParameter());
+
         PlayerLoader.PlayerParameter playerParam = new PlayerLoader.PlayerParameter(player);
         assetManager.setLoader(Player.class, new PlayerLoader(new InternalFileHandleResolver()));
         assetManager.load("ignore", Player.class, playerParam);
@@ -105,7 +112,7 @@ public class TitleScreen implements Screen {
         if(assetManager.update(17)) {
             if(time >= 5) {
                 Animations.init(assetManager);
-                player.postLoad();
+                mainGame.getInjector().getInstance(NpcManager.class).put(assetManager.get("npc_spawns.json"));
                 mainGame.fadeScreen("",mainGame.getInjector().getInstance(MenuScreen.class), mainGame.getInjector().getInstance(TitleScreen.class));
             }
         }

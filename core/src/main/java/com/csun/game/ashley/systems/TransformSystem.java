@@ -13,7 +13,6 @@ import com.csun.game.models.Animations;
 import com.csun.game.models.Direction;
 import com.csun.game.models.MovementState;
 import com.csun.game.npc.NpcManager;
-import com.github.tommyettinger.gand.points.PointI2;
 import com.google.inject.Inject;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -117,10 +116,10 @@ public class TransformSystem extends IteratingSystem {
 
         if(npcComponent != null && animation != null && movement.dir != direction) {
             switch (direction) {
-                case N, NE, NW -> animation.nextAnim(npcComponent.npc.getAnimations().get("north")[NPC_WALK]);
-                case S, SE, SW -> animation.nextAnim(npcComponent.npc.getAnimations().get("south")[NPC_WALK]);
-                case E -> animation.nextAnim(npcComponent.npc.getAnimations().get("east")[NPC_WALK]);
-                case W -> animation.nextAnim(npcComponent.npc.getAnimations().get("west")[NPC_WALK]);
+                case N, NE, NW -> animation.nextAnim(npcComponent.npcType.getAnimations().get("north")[NPC_WALK]);
+                case S, SE, SW -> animation.nextAnim(npcComponent.npcType.getAnimations().get("south")[NPC_WALK]);
+                case E -> animation.nextAnim(npcComponent.npcType.getAnimations().get("east")[NPC_WALK]);
+                case W -> animation.nextAnim(npcComponent.npcType.getAnimations().get("west")[NPC_WALK]);
             }
         } else {
             if (playerComponent != null && animation != null && movement.dir != direction) {

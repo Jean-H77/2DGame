@@ -3,7 +3,6 @@ package com.csun.game.player;
 import box2dLight.ConeLight;
 import box2dLight.PointLight;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -191,10 +190,6 @@ public final class Player {
 
     public CompletableFuture<Void> save() {
         return new PlayerSave(this).save();
-    }
-
-    public CompletableFuture<Void> load() {
-        return new PlayerLoad(this).loadPlayerAttributes();
     }
 
     public CameraComponent getCameraComponent() {

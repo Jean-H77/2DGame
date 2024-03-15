@@ -9,7 +9,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csun.game.MainGame;
 import com.csun.game.ashley.systems.*;
 import com.csun.game.map.GameMap;
+import com.csun.game.map.MapCache;
 import com.csun.game.models.Systems;
+import com.csun.game.npc.NpcLoader;
 import com.csun.game.npc.NpcManager;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -34,6 +36,8 @@ public class GameModule extends AbstractModule {
         bind(PooledEngine.class).in(Scopes.SINGLETON);
         bind(GameMap.class).in(Scopes.SINGLETON);
         bind(NpcManager.class).in(Scopes.SINGLETON);
+        bind(MapCache.class).in(Scopes.SINGLETON);
+
         bind(Viewport.class)
             .annotatedWith(Names.named("ExtendedViewport"))
             .toProvider(() -> new ExtendViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT))

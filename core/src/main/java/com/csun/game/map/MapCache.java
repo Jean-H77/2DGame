@@ -1,13 +1,16 @@
 package com.csun.game.map;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.csun.game.npc.Npc;
+import com.csun.game.npc.NpcManager;
+import com.google.inject.Inject;
 
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -15,7 +18,13 @@ import static com.csun.game.GameConstants.TILE_SIZE;
 
 public class MapCache {
 
+    private final NpcManager npcManager;
     private final HashMap<TiledMap , MapEntry> tiledMaps = new HashMap<>();
+
+    @Inject
+    public MapCache(NpcManager npcManager) {
+        this.npcManager = npcManager;
+    }
 
     private boolean[][] loadMapGrid(TiledMap tiledMap) {
         TiledMapTileLayer layer = MapUtils.getTileLayer(tiledMap, 1);
@@ -47,13 +56,26 @@ public class MapCache {
             .toArray(Door[]::new);
     }
 
-    private MapEntry putEntry(TiledMap tiledMap) {
-        Door[] doors = loadDoors(tiledMap);
-        boolean[][] grid = loadMapGrid(tiledMap);
-        return new MapEntry(grid, null, doors);
+    public Entity[] loadNPCs(String name) {
+        String mapName = name.split(".tmx")[0];
+        List<Entity> entities = new ArrayList<>();
+        for(Map.Entry<String, Npc> entry : npcManager.getNPCs().entrySet()) {
+            Npc val = entry.getValue();
+            if(val.getMap().equalsIgnoreCase(mapName)) {
+                entities.add(val.getEntity());
+            }
+        }
+        return entities.toArray(Entity[]::new);
     }
 
-    public MapEntry getMapEntry(TiledMap tiledMap) {
-        return tiledMaps.computeIfAbsent(tiledMap, x -> putEntry(tiledMap));
+    private MapEntry putEntry(String name, TiledMap tiledMap) {
+        Door[] doors = loadDoors(tiledMap);
+        boolean[][] grid = loadMapGrid(tiledMap);
+        Entity[] npcs = loadNPCs(name);
+        return new MapEntry(grid, npcs, doors);
+    }
+
+    public MapEntry getMapEntry(String name, TiledMap tiledMap) {
+        return tiledMaps.computeIfAbsent(tiledMap, x -> putEntry(name, tiledMap));
     }
 }

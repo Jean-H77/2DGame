@@ -9,7 +9,6 @@ import com.csun.game.dialogue.Option;
 import com.csun.game.dialogue.impl.DialogueOptions;
 import com.csun.game.dialogue.impl.DialogueStatement;
 import com.csun.game.misc.MutableInt;
-import com.csun.game.npc.Npc;
 import com.csun.game.npc.NpcManager;
 import com.csun.game.player.Player;
 import com.csun.game.quest.Quest;
@@ -112,7 +111,7 @@ public class TestQuest extends Quest {
                     player.startDialogue(builder.build());
                 }
             }
-        } else if(id.equalsIgnoreCase("534252gfse")) {
+        } else if(id.equalsIgnoreCase("npc12345")) {
             Dialogue.Builder builder = new Dialogue.Builder()
                 .addStatement(new DialogueStatement() {
                     @Override
@@ -143,24 +142,15 @@ public class TestQuest extends Quest {
 
     @Override
     public void enterMap(Player player, String mapName) {
-        int stage = player.getQuestStage(title).getValue();
-        if (Objects.equals(mapName, "act1.tmx")) {
-
-            addNpc("534252gfse", new Vector2(255, 501), Npc.MOM);
-            addNpc("gesg3", new Vector2(608, 460), Npc.DOCTOR);
-            addNpc("gesgsg", new Vector2(172, 625), Npc.WITCH);
-
-            //we can also make tasks
-            Timer.Task numberCountTask = new Timer.Task() {
-                int count;
-
-                @Override
-                public void run() {
-                    npcSay(String.valueOf(count++), "534252gfse", 1);
-                }
-            };
-            //0 start delay then keep repeating every 1.5 seconds until you call cancel()
-            Timer.schedule(numberCountTask, 0, 1.5f);
-        }
+        Timer.Task numberCountTask = new Timer.Task() {
+            int count;
+            @Override
+            public void run() {
+                count++;
+                npcSay(String.valueOf(count), "npc12345", 1);
+            }
+        };
+        Timer.schedule(numberCountTask, 0, 1.5f);
     }
+
 }

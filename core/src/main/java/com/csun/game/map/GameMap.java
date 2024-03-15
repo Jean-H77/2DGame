@@ -16,24 +16,23 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.csun.game.misc.Assets;
+import com.csun.game.npc.NpcManager;
 import com.google.inject.Inject;
 import org.javatuples.Quintet;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static com.csun.game.GameConstants.TILE_SIZE;
 
 public class GameMap {
     private final AssetManager assetManager = Assets.INSTANCE.getManager();
-    private final MapCache mapCache = new MapCache();
+    private final MapCache mapCache;
     private final HashMap<String, Color> lightColors = new HashMap<>();
     private final HashMap<TiledMap, List<Quintet<Integer, Color, Integer, Integer, Integer>>> lightPoints = new HashMap<>();
     private final World world = new World(new Vector2(0, 0), false);
     private final RayHandler rayHandler = new RayHandler(world);
     private final PooledEngine engine;
+    private final NpcManager npcManager;
 
     private OrthogonalTiledMapRenderer renderer;
     private TiledMap currentMap;
@@ -43,13 +42,15 @@ public class GameMap {
     private Entity[] npcs;
 
     @Inject
-    public GameMap(PooledEngine engine) {
+    public GameMap(MapCache mapCache, PooledEngine engine, NpcManager npcManager) {
+        this.mapCache = mapCache;
         this.engine = engine;
+        this.npcManager = npcManager;
     }
 
     public void enterMap(String map, float ambientLight) {
         TiledMap tiledMap = getMap(map);
-        setCurrentMap(tiledMap);
+        setCurrentMap(map, tiledMap);
         setAmbientLight(ambientLight);
         setMapLights(tiledMap);
     }
@@ -120,18 +121,30 @@ public class GameMap {
         return currentMap;
     }
 
-    private void setCurrentMap(TiledMap currentMap) {
+    private void setCurrentMap(String map, TiledMap currentMap) {
         this.currentMap = currentMap;
         mapBoundaries = new Rectangle(0, 0, MapUtils.getMapWidth(currentMap), MapUtils.getMapHeight(currentMap));
-        MapEntry entry = mapCache.getMapEntry(currentMap);
+        MapEntry entry = mapCache.getMapEntry(map, currentMap);
+        npcManager.clearVisible();
         doors = entry.doors();
         grid = entry.grid();
-
+        npcs = entry.entities();
+        npcManager.spawnAll(npcs);
         if(renderer == null) {
             renderer = new OrthogonalTiledMapRenderer(currentMap);
             return;
         }
         renderer.setMap(currentMap);
+    }
+
+    public void clearNpcs() {
+        Arrays
+            .stream(npcs)
+            .forEach(engine::removeEntity);
+    }
+
+    public void populateNpcs() {
+
     }
 
     public OrthogonalTiledMapRenderer getRenderer() {
