@@ -28,7 +28,7 @@ import java.util.List;
 public class PauseUI extends BaseUI {
 
     @Inject
-    private MainGame mainGame;
+    private final MainGame mainGame;
 
 
     private Table mainTable;
@@ -43,6 +43,7 @@ public class PauseUI extends BaseUI {
 
     private final AssetManager assetManager = Assets.INSTANCE.getManager();
 
+    @Inject
     public PauseUI(MainGame mainGame) {
         this.mainGame = mainGame;
     }
