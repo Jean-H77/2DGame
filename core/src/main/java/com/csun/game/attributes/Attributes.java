@@ -98,6 +98,7 @@ public final class Attributes {
     public static final AttributeKey<Light> PLAYER_LIGHT = new AttributeKey<>();
 
     public static final AttributeKey<Boolean> PLAYER_IS_LOGGED_IN = new AttributeKey<>();
+    public static final AttributeKey<Boolean> PLAYER_IS_PAUSED = new AttributeKey<>();
 
     public static final AttributeKey<String> NPC_HOVER = new AttributeKey<>();
 
