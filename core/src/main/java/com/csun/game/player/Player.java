@@ -84,6 +84,7 @@ public final class Player {
         attributes.set(Attributes.PLAYER_POSITION, transformComponent.pos);
         attributes.set(Attributes.PLAYER_CURRENT_MAP, "act1.tmx");
         attributes.set(Attributes.PLAYER_IS_LOGGED_IN, false);
+        attributes.set(Attributes.PLAYER_IS_PAUSED, false);
         attributes.set(Attributes.PLAYER_SETTINGS, new Settings());
         attributes.set(Attributes.ALL_OPENED_UI, new ArrayList<>());
         attributes.set(Attributes.QUEST_STAGES, new HashMap<>());
