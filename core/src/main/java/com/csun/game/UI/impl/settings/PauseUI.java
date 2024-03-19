@@ -35,6 +35,9 @@ public class PauseUI extends BaseUI {
     private Table windowTable;
     private Table buttonTable;
 
+
+    private PauseSettingsTable pauseSettingsTable;
+
     private Table iconTable;
     private ImageTextButton resumeButton;
     private ImageTextButton settingsButton;
@@ -43,8 +46,9 @@ public class PauseUI extends BaseUI {
 
     private final AssetManager assetManager = Assets.INSTANCE.getManager();
 
+
     @Inject
-    public PauseUI(MainGame mainGame) {
+    public PauseUI(MainGame mainGame, PauseSettingsTable pauseSettingsTable) {
         this.mainGame = mainGame;
     }
 
@@ -56,13 +60,14 @@ public class PauseUI extends BaseUI {
 
         Gdx.input.setInputProcessor(stage);
 
-        InitializeUIElements();
+        InitializeUIElements(player);
 
         mainTable.setFillParent(true);
         mainTable.add(windowTable).width(300f).height(300f);
 
         windowTable.stack(
             iconTable,
+            pauseSettingsTable,
             buttonTable
         ).width(300f).height(300f);
 
@@ -80,9 +85,11 @@ public class PauseUI extends BaseUI {
         addActionsToButtons(player);
     }
 
-    private void InitializeUIElements(){
+    private void InitializeUIElements(Player player){
         TextureAtlas uiTextureAtlas = assetManager.get("atlas/ui/ui.atlas");
         mainTable = new Table();
+        pauseSettingsTable = new PauseSettingsTable();
+        pauseSettingsTable.createInsideElements(this,player);
 
         windowTable = new Table();
         windowTable.background(new TextureRegionDrawable(uiTextureAtlas.findRegion("window")));
@@ -98,6 +105,9 @@ public class PauseUI extends BaseUI {
         exitButton = new ImageTextButton("Exit",buttonStyle);
 
         ripperIcon = new Image(uiTextureAtlas.findRegion("icon-ripper"));
+
+
+        pauseSettingsTable.setVisible(false);
     }
     private void addActionsToButtons(Player player){
         resumeButton.addListener(new ClickListener(){
@@ -115,7 +125,8 @@ public class PauseUI extends BaseUI {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                //TODO show settingsUI
+                buttonTable.setVisible(false);
+                pauseSettingsTable.setVisible(true);
             }
         });
         exitButton.addListener(new ClickListener(){
@@ -129,6 +140,11 @@ public class PauseUI extends BaseUI {
                 mainGame.switchScreen(MainGame.ScreenType.MENU_SCREEN);
             }
         });
+    }
+
+    public void showMainTable(){
+        buttonTable.setVisible(true);
+        pauseSettingsTable.setVisible(false);
     }
 
     @Override
