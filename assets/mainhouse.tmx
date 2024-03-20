@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="32" height="16" tilewidth="32" tileheight="32" infinite="0" nextlayerid="12" nextobjectid="9">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="32" height="16" tilewidth="32" tileheight="32" infinite="0" nextlayerid="12" nextobjectid="16">
  <tileset firstgid="1" source="houses.tsx"/>
  <tileset firstgid="1025" source="Room_Builder_free_32x32.tsx"/>
  <tileset firstgid="1416" source="witchtiles_2.tsx"/>
@@ -51,19 +51,24 @@
 </data>
  </layer>
  <objectgroup id="11" name="door">
-  <object id="6" x="480.246" y="455.721" width="34.0627" height="21.7623">
-   <properties>
-    <property name="nm_door" value="act1.tmx"/>
-   </properties>
-  </object>
   <object id="7" x="354.403" y="69.6771" width="59.6097" height="45.4169">
    <properties>
     <property name="nm_door" value="toddroom.tmx"/>
    </properties>
   </object>
-  <object id="8" x="607.035" y="94.2779" width="30.2779" height="29.3318">
+  <object id="9" x="608.397" y="94.6186" width="32.1703" height="32.1703">
    <properties>
     <property name="nm_door" value="dadroom.tmx"/>
+   </properties>
+  </object>
+  <object id="10" x="480.667" y="460.667" width="32" height="24">
+   <properties>
+    <property name="nm_door" value="act1.tmx"/>
+   </properties>
+  </object>
+  <object id="13" x="345.333" y="47.3333" width="74" height="27.3333">
+   <properties>
+    <property name="nm_door" value="toddroom.tmx"/>
    </properties>
   </object>
  </objectgroup>
@@ -79,6 +84,20 @@
    <properties>
     <property name=" mom_spawn" value=""/>
     <property name="direction" value=""/>
+   </properties>
+   <point/>
+  </object>
+  <object id="14" x="398" y="177.333">
+   <properties>
+    <property name="direction" value=""/>
+    <property name="player_spawn" value=""/>
+   </properties>
+   <point/>
+  </object>
+  <object id="15" x="622.667" y="174">
+   <properties>
+    <property name="direction" value=""/>
+    <property name="player_spawn" value=""/>
    </properties>
    <point/>
   </object>

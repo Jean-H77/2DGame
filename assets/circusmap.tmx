@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="8">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="10">
  <tileset firstgid="1" source="newgrass2.tsx"/>
  <tileset firstgid="129" source="tf_ff_tileB_forest.tsx"/>
  <tileset firstgid="385" source="tf_ff_tileB_stone.tsx"/>
@@ -143,12 +143,12 @@
 </data>
  </layer>
  <objectgroup id="8" name="door">
-  <object id="7" x="1064.67" y="1917.33">
+  <object id="8" x="896" y="1858.67" width="162" height="60">
    <properties>
     <property name="nm_door" value="act2.tmx"/>
    </properties>
-   <polygon points="0,0 -3.33333,-57.3333 -166.667,-58 -168.667,2"/>
   </object>
+  <object id="9" x="1058" y="1858.67"/>
  </objectgroup>
  <objectgroup id="7" name="spawn" opacity="0.97">
   <object id="1" x="976" y="1804.67">

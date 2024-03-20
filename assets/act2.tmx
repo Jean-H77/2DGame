@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="33" height="34" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="8">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="33" height="34" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="9">
  <editorsettings>
   <export target="p2-clienttmx v3.tmx" format="tmx"/>
  </editorsettings>
@@ -98,11 +98,10 @@
 </data>
  </layer>
  <objectgroup id="9" name="door">
-  <object id="7" x="350.667" y="1041.33">
+  <object id="8" x="342" y="1025" width="47" height="60">
    <properties>
     <property name="nm_door" value="act1.tmx"/>
    </properties>
-   <polygon points="0,0 34.6667,0 34.6667,42.6667 -4,46.6667"/>
   </object>
  </objectgroup>
  <objectgroup id="8" name="spawn">
