@@ -37,10 +37,10 @@ import static com.csun.game.GameConstants.VIEWPORT_WIDTH;
 @Singleton
 public class GameScreen implements Screen {
 
-    private final RayHandler rayHandler;
+    private RayHandler rayHandler;
     private final PooledEngine pooledEngine;
-    private final OrthographicCamera playerCamera;
-    private final OrthogonalTiledMapRenderer renderer;
+    private OrthographicCamera playerCamera;
+    private OrthogonalTiledMapRenderer renderer;
     private final Player player;
     private final Viewport viewport;
     private final SpriteBatch spriteBatch;
@@ -69,6 +69,10 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        this.renderer = player.getGameMap().getRenderer();
+        this.rayHandler = player.getGameMap().getRayHandler();
+        playerCamera = (OrthographicCamera) player.getCamera();
+
         viewport.setCamera(playerCamera);
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(playerCamera.combined);
@@ -100,6 +104,7 @@ public class GameScreen implements Screen {
 
         renderer.setView(playerCamera);
         renderer.render();
+
 
         pooledEngine.update(Gdx.graphics.getDeltaTime());
         Vector2 mouse = player.getAttributes().get(Attributes.WORLD_MOUSE_POSITION);

@@ -1,11 +1,9 @@
 package com.csun.game.UI.impl.settings;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
@@ -13,32 +11,29 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.csun.game.misc.AssetFont;
 import com.csun.game.attributes.Attributes;
+import com.csun.game.misc.Assets;
 import com.csun.game.player.Player;
-import com.google.inject.Inject;
 
 public class PauseSettingsTable extends Table {
 
-    private  PauseUI pauseUI;
-
-    private  Player player;
-
     private Image soundSwitcher;
+    private final AssetManager assetManager = Assets.INSTANCE.getManager();
 
 
     public void createInsideElements(PauseUI pauseUI,Player player) {
-        this.pauseUI = pauseUI;
-        this.player = player;
-        TextureAtlas uiTextureAtlas = new TextureAtlas(Gdx.files.internal("atlas/ui/ui.atlas"));
+        TextureAtlas uiTextureAtlas = assetManager.get("atlas/ui/ui.atlas");
 
         Table soundTable = new Table();
 
         ImageTextButton.ImageTextButtonStyle buttonStyle = new ImageTextButton.ImageTextButtonStyle(
             new TextureRegionDrawable(uiTextureAtlas.findRegion("button")),null,null,
-            createFont());
+            AssetFont.getInstance().getNightCore32());
 
         soundSwitcher = new Image(uiTextureAtlas.findRegion("profile-soun-on"));
-        Label soundLabel = new Label("Sound", new Label.LabelStyle(createFont(), null));
+        Label soundLabel = new Label("Sound", new Label.LabelStyle(
+            AssetFont.getInstance().getNightCore32(), null));
         ImageTextButton exitButton = new ImageTextButton("Return", buttonStyle);
 
 
@@ -83,16 +78,5 @@ public class PauseSettingsTable extends Table {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-    }
-
-    private BitmapFont createFont(){
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Nightcore Demo.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-        parameter.size = 32;
-        parameter.color = Color.RED;
-
-
-        return generator.generateFont(parameter);
     }
 }

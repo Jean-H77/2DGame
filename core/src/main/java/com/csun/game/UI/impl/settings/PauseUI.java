@@ -3,16 +3,15 @@ package com.csun.game.UI.impl.settings;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.csun.game.UI.UIManager;
+import com.csun.game.misc.AssetFont;
 import com.csun.game.MainGame;
 import com.csun.game.UI.BaseUI;
 import com.csun.game.annotations.UIComponent;
@@ -27,9 +26,10 @@ import java.util.List;
 @UIComponent(key = "pause")
 public class PauseUI extends BaseUI {
 
-    @Inject
     private final MainGame mainGame;
+    private final GameScreen gameScreen;
 
+    private UIManager uiManager;
 
     private Table mainTable;
     private Table windowTable;
@@ -48,15 +48,18 @@ public class PauseUI extends BaseUI {
 
 
     @Inject
-    public PauseUI(MainGame mainGame, PauseSettingsTable pauseSettingsTable) {
+    public PauseUI(MainGame mainGame, GameScreen gameScreen) {
         this.mainGame = mainGame;
+        this.gameScreen = gameScreen;
+
     }
 
     @Override
     public void setup(Player player) {
         Gdx.app.log("Pause up", "Set up pause");
+        this.uiManager = mainGame.getInjector().getInstance(UIManager.class);
 
-        mainGame.getInjector().getInstance(GameScreen.class).pause();
+        gameScreen.pause();
 
         Gdx.input.setInputProcessor(stage);
 
@@ -98,7 +101,7 @@ public class PauseUI extends BaseUI {
         iconTable = new Table();
         ImageTextButton.ImageTextButtonStyle buttonStyle = new ImageTextButton.ImageTextButtonStyle(
             new TextureRegionDrawable(uiTextureAtlas.findRegion("button")),null,null,
-            createFont(32));
+            AssetFont.getInstance().getNightCore32());
 
         resumeButton = new ImageTextButton("Resume",buttonStyle);
         settingsButton = new ImageTextButton("Settings",buttonStyle);
@@ -114,10 +117,7 @@ public class PauseUI extends BaseUI {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                List<BaseUI> openedUi = player.getAttributes().get(Attributes.ALL_OPENED_UI);
-                PauseUI.this.exit();
-                openedUi.remove(PauseUI.this);
-
+                uiManager.removeUI(player,"pause");
                 player.getAttributes().set(Attributes.PLAYER_IS_PAUSED,false);
             }
         });
@@ -133,10 +133,7 @@ public class PauseUI extends BaseUI {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                List<BaseUI> openedUi = player.getAttributes().get(Attributes.ALL_OPENED_UI);
-                PauseUI.this.exit();
-                openedUi.remove(PauseUI.this);
-
+                uiManager.removeUI(player,"pause");
                 mainGame.switchScreen(MainGame.ScreenType.MENU_SCREEN);
             }
         });
@@ -156,7 +153,7 @@ public class PauseUI extends BaseUI {
     public void exit() {
         super.exit();
         stage.clear();
-        mainGame.getInjector().getInstance(GameScreen.class).resume();
+        gameScreen.resume();
     }
 
     @Override
@@ -164,15 +161,4 @@ public class PauseUI extends BaseUI {
         return false;
     }
 
-
-    private BitmapFont createFont(int fontSize){
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Nightcore Demo.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-        parameter.size = fontSize;
-        parameter.color = Color.RED;
-
-
-        return generator.generateFont(parameter);
-    }
 }
