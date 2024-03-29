@@ -3,6 +3,7 @@ package com.csun.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.csun.game.MainGame;
+import com.csun.game.UI.ShaderToyShader;
 import com.google.inject.Inject;
 
 public class MenuScreen implements Screen {
@@ -23,12 +25,23 @@ public class MenuScreen implements Screen {
     private final MainGame mainGame;
     private final Stage stage;
     private BitmapFont gameTitleFont;
+    private final ShaderToyShader menuBackground;
 
     @Inject
     public MenuScreen(MainGame mainGame, SpriteBatch spriteBatch) {
         this.mainGame = mainGame;
         stage = new Stage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()), spriteBatch);
         Gdx.input.setInputProcessor(stage);
+
+        var iChannel0 = new Texture(Gdx.files.internal("shaders/menushader/shadertoy0.png"));
+        iChannel0.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        iChannel0.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+
+        var iChannel1 = new Texture(Gdx.files.internal("shaders/menushader/shadertoy1.png"));
+        iChannel1.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        iChannel1.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+
+        menuBackground = new ShaderToyShader(Gdx.files.internal("shaders/menushader/menuShader.frag"), iChannel0, iChannel1);
     }
 
     @Override
@@ -87,6 +100,7 @@ public class MenuScreen implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.BLACK);
+        menuBackground.render();
         stage.getViewport().apply();
         stage.act(delta);
         stage.draw();
