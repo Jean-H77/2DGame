@@ -1,0 +1,47 @@
+ui.png
+size: 1678, 916
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+button
+  rotate: false
+  xy: 255, 1
+  size: 254, 149
+  orig: 254, 149
+  offset: 0, 0
+  index: -1
+icon-ripper
+  rotate: false
+  xy: 1, 155
+  size: 776, 670
+  orig: 776, 670
+  offset: 0, 0
+  index: -1
+label-back
+  rotate: false
+  xy: 771, 1
+  size: 696, 145
+  orig: 696, 145
+  offset: 0, 0
+  index: -1
+profile-soun-on
+  rotate: false
+  xy: 511, 1
+  size: 258, 152
+  orig: 258, 152
+  offset: 0, 0
+  index: -1
+profile-sound-off
+  rotate: false
+  xy: 1, 1
+  size: 252, 152
+  orig: 252, 152
+  offset: 0, 0
+  index: -1
+window
+  rotate: false
+  xy: 779, 155
+  size: 898, 760
+  orig: 898, 760
+  offset: 0, 0
+  index: -1

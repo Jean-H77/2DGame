@@ -45,6 +45,7 @@ public class PlayerInputSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
+        //if(!player.getAttributes().get(Attributes.PLAYER_IS_PAUSED))
         TransformComponent mc = Mappers.transforms.get(entity);
         AnimationComponent ac = Mappers.animations.get(entity);
         player.getAttributes().set(Attributes.WORLD_MOUSE_POSITION, getWorldPositionFromScreen(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0)));
@@ -98,6 +99,15 @@ public class PlayerInputSystem extends IteratingSystem {
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.L)) {
             uiManager.removeUI(player, "settings");
             return true;
+        }else if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+            if(player.getAttributes().get(Attributes.PLAYER_IS_PAUSED)){
+                uiManager.removeUI(player,"pause");
+                player.getAttributes().set(Attributes.PLAYER_IS_PAUSED,false);
+            }else{
+                uiManager.openUI(player,"pause");
+                player.getAttributes().set(Attributes.PLAYER_IS_PAUSED,true);
+            }
+
         }
         return false;
     }

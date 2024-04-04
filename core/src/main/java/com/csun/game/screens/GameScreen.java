@@ -1,5 +1,6 @@
 package com.csun.game.screens;
 
+
 import box2dLight.RayHandler;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
@@ -36,10 +37,10 @@ import static com.csun.game.GameConstants.VIEWPORT_WIDTH;
 @Singleton
 public class GameScreen implements Screen {
 
-    private final RayHandler rayHandler;
+    private RayHandler rayHandler;
     private final PooledEngine pooledEngine;
-    private final OrthographicCamera playerCamera;
-    private final OrthogonalTiledMapRenderer renderer;
+    private OrthographicCamera playerCamera;
+    private OrthogonalTiledMapRenderer renderer;
     private final Player player;
     private final Viewport viewport;
     private final SpriteBatch spriteBatch;
@@ -51,6 +52,7 @@ public class GameScreen implements Screen {
     SpriteBatch debugSpriteBatch;
     BitmapFont debugFont;
     boolean debug = true;
+
 
     @Inject
     public GameScreen(PooledEngine pooledEngine, @Named("ExtendedViewport") Viewport viewport, Player player, SpriteBatch spriteBatch, MainGame mainGame, AssetManager assetManager) {
@@ -67,6 +69,10 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        this.renderer = player.getGameMap().getRenderer();
+        this.rayHandler = player.getGameMap().getRayHandler();
+        playerCamera = (OrthographicCamera) player.getCamera();
+
         viewport.setCamera(playerCamera);
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(playerCamera.combined);
@@ -98,6 +104,7 @@ public class GameScreen implements Screen {
 
         renderer.setView(playerCamera);
         renderer.render();
+
 
         pooledEngine.update(Gdx.graphics.getDeltaTime());
         Vector2 mouse = player.getAttributes().get(Attributes.WORLD_MOUSE_POSITION);
@@ -142,12 +149,14 @@ public class GameScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         viewport.update(width,height);
+
         if(player.getAttributes().hasKey(Attributes.CURRENT_DIALOGUE)) {
             player.getAttributes().get(Attributes.CURRENT_DIALOGUE).resize(width, height);
         }
 
         player.getAttributes().get(Attributes.ALL_OPENED_UI).forEach(baseUI -> baseUI.resize(width,height));
     }
+
     @Override
     public void pause() {
         // Invoked when your application is paused.
