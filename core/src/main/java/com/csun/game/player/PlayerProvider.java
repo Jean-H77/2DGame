@@ -3,6 +3,7 @@ package com.csun.game.player;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.csun.game.ashley.components.*;
 import com.csun.game.map.GameMap;
@@ -33,7 +34,9 @@ public class PlayerProvider implements Provider<Player> {
     public Player get() {
         Entity entity = pooledEngine.createEntity();
         entity.add(new PlayerComponent());
+        entity.add(new SizeComponent(32,32));
         entity.add(new AnimationComponent(Animations.WITCH_WALK_NORTH, 48, 48));
+        entity.add(new CollisionComponent(new Rectangle(PLAYER_START_X, PLAYER_START_Y, 32, 32)));
         entity.add(new TransformComponent(new Vector2(PLAYER_START_X,PLAYER_START_Y)));
         entity.add(new CameraComponent(new OrthographicCamera()));
         pooledEngine.addEntity(entity);

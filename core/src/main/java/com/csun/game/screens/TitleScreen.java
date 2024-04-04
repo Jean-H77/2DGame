@@ -1,9 +1,9 @@
 package com.csun.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -18,9 +18,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.csun.game.MainGame;
+import com.csun.game.npc.NpcJson;
+import com.csun.game.npc.NpcLoader;
+import com.csun.game.npc.NpcManager;
+import com.csun.game.player.PlayerLoader;
 import com.csun.game.misc.Assets;
 import com.csun.game.models.Animations;
+import com.csun.game.player.Player;
 import com.google.inject.Inject;
+
+import java.util.List;
 
 
 public class TitleScreen implements Screen {
@@ -33,10 +40,12 @@ public class TitleScreen implements Screen {
     float fadeTimer = 0f;
     float fadeDuration = 5f;
     private Label loadingLabel;
+    private final Player player;
 
     @Inject
-    public TitleScreen(MainGame mainGame) {
+    public TitleScreen(MainGame mainGame, Player player) {
         this.mainGame = mainGame;
+        this.player = player;
     }
 
     @Override
@@ -55,10 +64,12 @@ public class TitleScreen implements Screen {
         loadingFont = generator.generateFont(parameter);
         generator.dispose();
 
+
         AssetManager assetManager = Assets.INSTANCE.getManager();
         assetManager.setLoader(TiledMap.class, new TmxMapLoader());
         assetManager.load("act1.tmx", TiledMap.class);
-        assetManager.load("act2.tmx", TiledMap.class);
+        assetManager.load("witchhouse.tmx", TiledMap.class);
+        assetManager.load("mainhouse.tmx", TiledMap.class);
 
         assetManager.load("witch.atlas", TextureAtlas.class);
         assetManager.load("doctor.atlas", TextureAtlas.class);
@@ -70,6 +81,13 @@ public class TitleScreen implements Screen {
         assetManager.load("gdx-skins-master/comic/skin/comic-ui.atlas", TextureAtlas.class);
 
         assetManager.load("dialogue/dialogue_board.png", Texture.class);
+
+        assetManager.setLoader(NpcJson.NpcJsonList.class, new NpcLoader(new InternalFileHandleResolver()));
+        assetManager.load("npc_spawns.json", NpcJson.NpcJsonList.class, new NpcLoader.JsonParameter());
+
+        PlayerLoader.PlayerParameter playerParam = new PlayerLoader.PlayerParameter(player);
+        assetManager.setLoader(Player.class, new PlayerLoader(new InternalFileHandleResolver()));
+        assetManager.load("ignore", Player.class, playerParam);
 
         Table table = new Table();
         table.setFillParent(true);
@@ -92,10 +110,10 @@ public class TitleScreen implements Screen {
         ScreenUtils.clear(Color.BLACK);
 
         AssetManager assetManager = Assets.INSTANCE.getManager();
-        if(assetManager.update()) {
+        if(assetManager.update(17)) {
             if(time >= 5) {
                 Animations.init(assetManager);
-                mainGame.loadPlayer();
+                mainGame.getInjector().getInstance(NpcManager.class).put(assetManager.get("npc_spawns.json"));
                 mainGame.fadeScreen("",mainGame.getInjector().getInstance(MenuScreen.class), mainGame.getInjector().getInstance(TitleScreen.class));
             }
         }

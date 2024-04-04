@@ -2,63 +2,66 @@ package com.csun.game.npc;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
-import com.csun.game.ai.paths.PathFinder;
-import com.csun.game.ai.paths.PathResult;
 import com.csun.game.ashley.Mappers;
-import com.csun.game.ashley.components.AnimationComponent;
-import com.csun.game.ashley.components.ClickableComponent;
-import com.csun.game.ashley.components.TransformComponent;
-import com.csun.game.ashley.components.NpcComponent;
-import com.csun.game.map.GameMap;
+import com.csun.game.ashley.components.*;
 import com.google.inject.Inject;
 
-import java.util.*;
-
-import static com.csun.game.GameConstants.TILE_SIZE;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NpcManager {
 
-    private final Map<String, Entity> NPCS = new HashMap<>();
+    private final Map<String, Npc> NPCs = new HashMap<>();
     private final PooledEngine pooledEngine;
-    private final GameMap gameMap;
 
     @Inject
-    public NpcManager(PooledEngine pooledEngine, GameMap gameMap) {
+    public NpcManager(PooledEngine pooledEngine) {
         this.pooledEngine = pooledEngine;
-        this.gameMap = gameMap;
     }
 
-    public void add(String id, Vector2 position, Npc npc) {
+    public void put(NpcJson.NpcJsonList NpcJsonList) {
+        for(NpcJson npcJson : NpcJsonList.npcJsonList()) {
+            NpcType type = NpcType.valueOf(npcJson.getType());
+            create(npcJson.getId(), npcJson.getMap(), npcJson.getCoords(), type);
+        }
+    }
+
+
+    public void create(String id, String map, Vector2 position, NpcType npcType) {
         if(get(id) != null) {
             return;
         }
 
-        Entity entity = pooledEngine.createEntity();
+        Entity entity = new Entity();
+        SizeComponent sizeComponent = new SizeComponent(32, 32);
+        entity.add(sizeComponent);
 
-        for(Component c : npc.getComponents()) {
+        for(Component c : npcType.getComponents()) {
 
             if(c instanceof ClickableComponent) {
                 ClickableComponent component = new ClickableComponent();
                 component.id = id;
-                component.bounds =  new Rectangle(position.x, position.y, npc.getWidth(), npc.getHeight());
+                component.bounds =  new Rectangle(position.x, position.y, npcType.getWidth(), npcType.getHeight());
                 entity.add(component);
                 continue;
             } else if(c instanceof NpcComponent) {
                 NpcComponent component = new NpcComponent();
-                component.name = npc.getName();
+                component.name = npcType.getName();
                 component.id = id;
-                component.npc = npc;
+                component.npcType = npcType;
                 entity.add(component);
                 continue;
             } else if(c instanceof AnimationComponent) {
                 AnimationComponent component = new AnimationComponent();
-                component.set(npc.getStartAnimation(), npc.getWidth(), npc.getHeight());
-                component.width = npc.getWidth();
-                component.height = npc.getHeight();
+                component.set(npcType.getStartAnimation(), npcType.getWidth(), npcType.getHeight());
+                component.width = npcType.getWidth();
+                component.height = npcType.getHeight();
                 entity.add(component);
                 continue;
             } else if(c instanceof TransformComponent) {
@@ -71,23 +74,29 @@ public class NpcManager {
             entity.add(c);
         }
 
-        pooledEngine.addEntity(entity);
-        NPCS.put(id, entity);
+        NPCs.put(id, new Npc(entity, map, npcType));
     }
 
-    public Entity get(String id) {
-        return NPCS.get(id);
+    public Npc get(String id) {
+        return NPCs.get(id);
     }
 
-    public void remove(String id) {
-        Entity npc = get(id);
+    public void spawn(String id) {
+        Entity npc = get(id).getEntity();
+        if(npc != null) {
+            pooledEngine.addEntity(npc);
+        }
+    }
+
+    public void despawn(String id) {
+        Entity npc = get(id).getEntity();
         if(npc != null) {
             pooledEngine.removeEntity(npc);
         }
     }
 
     public void forceMove(String id, Vector2 pos) {
-        Entity npc = get(id);
+        Entity npc = get(id).getEntity();
         if(npc == null) {
             return;
         }
@@ -104,7 +113,7 @@ public class NpcManager {
     }
 
     public void walkTo(String id, float x, float y) {
-        Entity npc = get(id);
+        Entity npc = get(id).getEntity();
         if(npc == null) {
             return;
         }
@@ -112,35 +121,35 @@ public class NpcManager {
         TransformComponent transformComponent = Mappers.transforms.get(npc);
         AnimationComponent animationComponent = Mappers.animations.get(npc);
 
-        PathResult pathResult = PathFinder.findPath(
+        /*PathResult pathResult = PathFinder.findPath(
                 (int) animationComponent.width, (int) animationComponent.height,
             new Vector2(
                 transformComponent.pos.x / TILE_SIZE,
                 transformComponent.pos.y / TILE_SIZE
             ),
             new Vector2((int)(x/ TILE_SIZE), (int)(y/TILE_SIZE)),
-            gameMap);
+            gameMap);*/
       //  transformComponent.setPath(new ArrayDeque<>(pathResult.waypoints()));
     }
 
     public void speak(String statement, String id, int seconds) {
-        Entity npc = get(id);
+        Npc npc = get(id);
         if(npc == null) {
             return;
         }
 
-        NpcComponent npcComponent = Mappers.npcs.get(npc);
+        NpcComponent npcComponent = Mappers.npcs.get(npc.getEntity());
         npcComponent.say = statement;
         npcComponent.sayTimer = seconds;
     }
 
     public Vector2 getPosition(String id) {
-        Entity npc = get(id);
+        Entity npc = get(id).getEntity();
         return npc == null ? null : Mappers.transforms.get(npc).pos;
     }
 
     public void follow(String id, Entity followEntity) {
-        Entity npc = get(id);
+        Entity npc = get(id).getEntity();
         if(npc == null || followEntity == null) {
             return;
         }
@@ -161,5 +170,20 @@ public class NpcManager {
                 walkTo(id, followingTransformComponent.pos.x, followingTransformComponent.pos.y);
             }
         }, 0, 0.3f);
+    }
+
+    public Map<String, Npc> getNPCs() {
+        return NPCs;
+    }
+
+    public void clearVisible() {
+        ImmutableArray<Entity> entities = pooledEngine.getEntitiesFor(Family.all(NpcComponent.class).get());
+        entities.forEach(pooledEngine::removeEntity);
+    }
+
+    public void spawnAll(Entity[] entities) {
+        for (Entity entity : entities)
+            if(!pooledEngine.getEntities().contains(entity, true))
+                pooledEngine.addEntity(entity);
     }
 }

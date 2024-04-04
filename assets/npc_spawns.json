@@ -1,0 +1,29 @@
+[
+  {
+    "map": "act1",
+    "type": "MOM",
+    "coords": {
+      "x": 255,
+      "y": 501
+    },
+    "id": "npc12345"
+  },
+  {
+    "map": "act1",
+    "type": "DOCTOR",
+    "coords": {
+      "x": 608,
+      "y": 460
+    },
+    "id": "npc67890"
+  },
+  {
+    "map": "act1",
+    "type": "WITCH",
+    "coords": {
+      "x": 172,
+      "y": 625
+    },
+    "id": "npc111213"
+  }
+]

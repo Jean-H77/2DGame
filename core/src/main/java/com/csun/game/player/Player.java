@@ -8,10 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.csun.game.UI.impl.settings.Settings;
-import com.csun.game.ashley.components.AnimationComponent;
-import com.csun.game.ashley.components.CameraComponent;
-import com.csun.game.ashley.components.TransformComponent;
-import com.csun.game.ashley.components.TextureComponent;
+import com.csun.game.ashley.components.*;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.attributes.AttributesMap;
 import com.csun.game.dialogue.Dialogue;
@@ -37,6 +34,7 @@ public final class Player {
     private final TextureComponent textureComponent;
     private final CameraComponent cameraComponent;
     private final AnimationComponent animationComponent;
+    private final CollisionComponent collisionComponent;
     private final GameMap gameMap;
     private final Map<String, Quest> quests;
     private final Entity entity;
@@ -46,6 +44,7 @@ public final class Player {
         this.textureComponent = entity.getComponent(TextureComponent.class);
         this.cameraComponent = entity.getComponent(CameraComponent.class);
         this.animationComponent = entity.getComponent(AnimationComponent.class);
+        this.collisionComponent = entity.getComponent(CollisionComponent.class);
         this.gameMap = gameMap;
         this.quests = quests;
         this.entity = entity;
@@ -79,6 +78,14 @@ public final class Player {
         return transformComponent;
     }
 
+    public TransformComponent getTransformComponent() {
+        return transformComponent;
+    }
+
+    public CollisionComponent getCollisionComponent() {
+        return collisionComponent;
+    }
+
     private void defaultAttributes() {
         attributes.set(Attributes.PLAYER_NAME, "un_named");
         attributes.set(Attributes.PLAYER_POSITION, transformComponent.pos);
@@ -92,12 +99,6 @@ public final class Player {
     }
 
     public void moveToMap(String map) {
-        // here we can do something like
-        // if player has this map unlocked then continue else return
-        // if map get ambient light or darkness level < 1.0f
-        // then we can check if player has lantern
-        // if player has lantern then we can toggle the light
-        // then we'll call gameMap.enterMap(map, maps darkness level)
         attributes.set(Attributes.PLAYER_CURRENT_MAP, map);
         gameMap.enterMap(map, 1f);
         transformComponent.disabled = false;
@@ -116,13 +117,9 @@ public final class Player {
         transformComponent.pos = pos;
     }
 
-    public Player setDefaults() {
+    public void postLoad() {
         defaultAttributes();
         ((OrthographicCamera) getCamera()).setToOrtho(false, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-        return this;
-    }
-
-    public void postLoad() {
         attributes.set(Attributes.PLAYER_IS_LOGGED_IN, true);
         animationComponent.set(Animations.SKELETON_IDLE_NORTH, 48, 48);
         moveToMap(attributes.get(Attributes.PLAYER_CURRENT_MAP));
@@ -196,10 +193,6 @@ public final class Player {
         return new PlayerSave(this).save();
     }
 
-    public CompletableFuture<Void> load() {
-        return new PlayerLoad(this).loadPlayerAttributes();
-    }
-
     public CameraComponent getCameraComponent() {
         return cameraComponent;
     }
@@ -215,6 +208,8 @@ public final class Player {
     public GameMap getGameMap() {
         return gameMap;
     }
+
+
 
     public AnimationComponent getAnimationComponent() {
         return animationComponent;

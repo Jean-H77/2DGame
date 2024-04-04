@@ -13,7 +13,6 @@ import com.csun.game.models.Animations;
 import com.csun.game.models.Direction;
 import com.csun.game.models.MovementState;
 import com.csun.game.npc.NpcManager;
-import com.github.tommyettinger.gand.points.PointI2;
 import com.google.inject.Inject;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -37,7 +36,7 @@ public class TransformSystem extends IteratingSystem {
     }
 
     public static Direction getDirection(Vector2 newPos, Vector2 oldPos) {
-        double deadzone = 0;
+        double deadzone = 8;
         double dx = newPos.x - oldPos.x;
         double dy = newPos.y - oldPos.y;
         double magnitude = Math.sqrt(dx * dx + dy * dy);
@@ -102,9 +101,10 @@ public class TransformSystem extends IteratingSystem {
 
         if (!movement.directionQueue.isEmpty()) {
             direction = movement.directionQueue.pop();
-        } else if(!movement.path.isEmpty()) {
-            PointI2 next = movement.path.pop();
-            direction = getDirection(new Vector2(next.x, next.y), movement.pos);
+        }
+
+        if(!movement.path.isEmpty()) {
+            direction = getDirection(movement.path.pop(), movement.pos);
         }
 
         if(direction == null) {
@@ -112,22 +112,23 @@ public class TransformSystem extends IteratingSystem {
         }
 
         NpcComponent npcComponent = Mappers.npcs.get(entity);
+        PlayerComponent playerComponent = Mappers.players.get(entity);
+
         if(npcComponent != null && animation != null && movement.dir != direction) {
             switch (direction) {
-                case N, NE, NW -> animation.nextAnim(npcComponent.npc.getAnimations().get("north")[NPC_WALK]);
-                case S, SE, SW -> animation.nextAnim(npcComponent.npc.getAnimations().get("south")[NPC_WALK]);
-                case E -> animation.nextAnim(npcComponent.npc.getAnimations().get("east")[NPC_WALK]);
-                case W -> animation.nextAnim(npcComponent.npc.getAnimations().get("west")[NPC_WALK]);
+                case N, NE, NW -> animation.nextAnim(npcComponent.npcType.getAnimations().get("north")[NPC_WALK]);
+                case S, SE, SW -> animation.nextAnim(npcComponent.npcType.getAnimations().get("south")[NPC_WALK]);
+                case E -> animation.nextAnim(npcComponent.npcType.getAnimations().get("east")[NPC_WALK]);
+                case W -> animation.nextAnim(npcComponent.npcType.getAnimations().get("west")[NPC_WALK]);
             }
-        }
-
-        PlayerComponent playerComponent = Mappers.players.get(entity);
-        if(playerComponent != null && animation != null && movement.dir != direction) {
-            switch (direction) {
-                case N, NE, NW -> animation.nextAnim(Animations.SKELETON_WALK_NORTH);
-                case S, SE, SW -> animation.nextAnim(Animations.SKELETON_WALK_SOUTH);
-                case E -> animation.nextAnim(Animations.SKELETON_WALK_EAST);
-                case W -> animation.nextAnim(Animations.SKELETON_WALK_WEST);
+        } else {
+            if (playerComponent != null && animation != null && movement.dir != direction) {
+                switch (direction) {
+                    case N, NE, NW -> animation.nextAnim(Animations.SKELETON_WALK_NORTH);
+                    case S, SE, SW -> animation.nextAnim(Animations.SKELETON_WALK_SOUTH);
+                    case E -> animation.nextAnim(Animations.SKELETON_WALK_EAST);
+                    case W -> animation.nextAnim(Animations.SKELETON_WALK_WEST);
+                }
             }
         }
 
@@ -136,9 +137,10 @@ public class TransformSystem extends IteratingSystem {
         Vector2 dest = new Vector2(step.x, step.y).nor();
         dest.x += movement.pos.x;
         dest.y += movement.pos.y;
-
-   //     if (checkCollision(48,48, dest.x, dest.y, gameMap)) return;
-
+        SizeComponent sizeComponent = Mappers.sizes.get(entity);
+        if(sizeComponent != null) {
+           if (checkCollision((int) sizeComponent.width, (int) sizeComponent.height, dest.x, dest.y, gameMap)) return;
+        }
         movement.pos = dest;
 
         ClickableComponent clickableComponent = Mappers.clickables.get(entity);
@@ -147,7 +149,7 @@ public class TransformSystem extends IteratingSystem {
             clickableComponent.bounds.y = movement.pos.y;
         }
 
-        if(movement.directionQueue.isEmpty() && animation != null) {
+        /*if(movement.path.isEmpty() && animation != null) {
             if(npcComponent != null) {
                 switch (movement.dir) {
                     case N, NE, NW -> animation.nextAnim(npcComponent.npc.getAnimations().get("north")[NPC_IDLE]);
@@ -156,39 +158,26 @@ public class TransformSystem extends IteratingSystem {
                     case W -> animation.nextAnim(npcComponent.npc.getAnimations().get("west")[NPC_IDLE]);
                 }
             }
-
-            if(playerComponent != null) {
-                switch (direction) {
-                    case N, NE, NW -> animation.nextAnim(Animations.SKELETON_IDLE_NORTH);
-                    case S, SE, SW -> animation.nextAnim(Animations.SKELETON_IDLE_SOUTH);
-                    case E -> animation.nextAnim(Animations.SKELETON_IDLE_EAST);
-                    case W -> animation.nextAnim(Animations.SKELETON_IDLE_WEST);
-                }
-            }
-        }
+        }*/
 
     }
 
-    private boolean isCloseEnough(Vector2 pos1, Vector2 pos2, float threshold) {
-        return pos1.dst(pos2) > threshold;
-    }
-
-    public static boolean checkCollision(int sizeX, int sizeY, float destX, float destY, GameMap gameMap) {
+    public static boolean checkCollision(int width, int height, float destX, float destY, GameMap gameMap) {
         AtomicBoolean blocked = new AtomicBoolean(false);
-        int[] offsetX = {0, sizeX - 1, 0, sizeY - 1};
-        int[] offsetY = {0, 0, sizeX - 1, sizeY - 1};
+        int[] offsetX = {0, width - 1, 0, height - 1};
+        int[] offsetY = {0, 0, width - 1, height - 1};
 
         for (int i = 0; i < offsetX.length; i++) {
             int x = (int) ((destX + offsetX[i]) / TILE_SIZE);
             int y = (int) ((destY + offsetY[i]) / TILE_SIZE);
 
-            gameMap.getLayer(1).ifPresent(tiledMapTileLayer -> {
-                TiledMapTileLayer.Cell cell = tiledMapTileLayer.getCell(x, y);
-                if (cell != null && cell.getTile().getProperties().containsKey("blocked")) {
-                    Gdx.app.log("Collision", "Blocked [" + x + ", " + y + "]");
-                    blocked.set(true);
-                }
-            });
+            TiledMapTileLayer layer = gameMap.getCollisionLayer();
+
+            TiledMapTileLayer.Cell cell = layer.getCell(x, y);
+            if (cell != null && cell.getTile().getProperties().containsKey("blocked")) {
+                Gdx.app.log("Collision", "Blocked [" + x + ", " + y + "]");
+                blocked.set(true);
+            }
         }
 
         return blocked.get();

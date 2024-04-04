@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="31" height="35" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="1">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="31" height="35" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="4">
  <tileset firstgid="1" source="tf_ff_tileA5_b.tsx"/>
  <tileset firstgid="129" source="swampterrain_sheet.tsx"/>
  <tileset firstgid="521" source="tf_B_ashlands_2.tsx"/>
@@ -87,6 +87,23 @@
 536872480,536872480,536872480,536872480,536872480,536872480,536872480,536872480,536872480,536872480,536872480,536872480,536872480,536872480,536872480,536872480,536872480,536872480,536872480,536872480,536872480,536872480,536872480,536872480,536872480,536872480,536872480,536872480,536872480,536872480,536872480
 </data>
  </layer>
+ <objectgroup id="6" name="door">
+  <object id="1" x="453.696" y="89.4145">
+   <properties>
+    <property name="nm_door" value=""/>
+   </properties>
+   <polygon points="0,0 86.1029,-1.65582 91.0704,-51.3306 -3.31165,-49.6747"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="7" name="spawn">
+  <object id="2" x="496.747" y="144.057">
+   <properties>
+    <property name="direction" value=""/>
+    <property name="player_spawn" value=""/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
  <layer id="4" name="Tile Layer 3" width="31" height="35">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

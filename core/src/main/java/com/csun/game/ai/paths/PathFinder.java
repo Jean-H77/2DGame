@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.csun.game.map.GameMap;
+import com.csun.game.map.MapUtils;
 import com.github.tommyettinger.gand.Int2UndirectedGraph;
 import com.github.tommyettinger.gand.Path;
 import com.github.tommyettinger.gand.points.PointF2;
@@ -41,7 +42,7 @@ public class PathFinder {
             return new Path<>();
         }
 
-        boolean[][] validGrid = gameMap.getTiledMapGrid().get(gameMap.getCurrentMap());
+        boolean[][] validGrid = gameMap.getGrid();
 
         Int2UndirectedGraph graph = new Int2UndirectedGraph(validGrid, 1f);
         graph.connectAdjacent(null, false);
@@ -51,12 +52,11 @@ public class PathFinder {
 
         PathSmoother<PointI2> pathSmoother = new PathSmoother(new Ortho2DRaycastCollisionDetector<PointF2>((x, y) -> x >= 0 && x < validGrid.length && y >= 0 && y < validGrid[x].length && validGrid[x][y]));
 
-
         Path<PointI2> path = graph.algorithms().findShortestPath(startPoint, endPoint);
         pathSmoother.smoothPath(path);
 
         CACHE.put(gameMap.getCurrentMap(), new PathCache(pathSmoother, graph));
-        return path;
+        return null;
     }
 
 
@@ -64,8 +64,8 @@ public class PathFinder {
         List<Vector2> path = new ArrayList<>();
         List<Vector2> waypoints = new ArrayList<>();
 
-        int rows = (int) map.getCurrentMapHeight();
-        int cols = (int) map.getCurrentMapWidth();
+        int rows = (int) MapUtils.getMapHeight(map.getCurrentMap());
+        int cols = (int) MapUtils.getMapWidth(map.getCurrentMap());
         boolean[][] visited = new boolean[rows][cols];
         int[] dr = {0, 0, 1, -1};
         int[] dc = {1, -1, 0, 0};
