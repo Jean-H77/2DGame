@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.csun.game.UI.impl.settings.Settings;
 import com.csun.game.ashley.components.*;
@@ -48,6 +49,8 @@ public final class Player {
         this.gameMap = gameMap;
         this.quests = quests;
         this.entity = entity;
+
+        defaultAttributes();
     }
 
     public float getTilePosX() {
@@ -118,9 +121,9 @@ public final class Player {
     }
 
     public void postLoad() {
-        defaultAttributes();
         ((OrthographicCamera) getCamera()).setToOrtho(false, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
         attributes.set(Attributes.PLAYER_IS_LOGGED_IN, true);
+        collisionComponent.bounds = new Rectangle(transformComponent.pos.x, transformComponent.pos.y, 32, 32);
         animationComponent.set(Animations.SKELETON_IDLE_NORTH, 48, 48);
         moveToMap(attributes.get(Attributes.PLAYER_CURRENT_MAP));
     }
@@ -208,8 +211,6 @@ public final class Player {
     public GameMap getGameMap() {
         return gameMap;
     }
-
-
 
     public AnimationComponent getAnimationComponent() {
         return animationComponent;

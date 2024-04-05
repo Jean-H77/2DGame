@@ -14,10 +14,6 @@ public final class GameConstants {
 
     public static final Gson GSON_PRETTY_PRINT = new GsonBuilder().setPrettyPrinting().enableComplexMapKeySerialization().create();
 
-    public static final Path PLAYER_SAVE_DIR = Paths.get(System.getProperty("user.home"), "csun");
-
-    public static final String PLAYER_SAVE_FILE_NAME = "h_r_player_save.json";
-
     public static final String GAME_TITLE = "Hollow's Curse: Pursuit of the headless horseman";
 
     public static final int TILE_SIZE = 32;

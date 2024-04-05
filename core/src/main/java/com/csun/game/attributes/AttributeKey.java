@@ -1,5 +1,7 @@
 package com.csun.game.attributes;
 
+import com.badlogic.gdx.Gdx;
+
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 

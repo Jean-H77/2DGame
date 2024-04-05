@@ -1,5 +1,6 @@
 package com.csun.game.player;
 
+import com.badlogic.gdx.Gdx;
 import com.csun.game.attributes.AttributeKey;
 import com.csun.game.attributes.AttributePersistable;
 import com.google.gson.Gson;
@@ -38,12 +39,12 @@ public class PlayerSave {
 
                 AttributePersistable persistable = entry.getKey().getAttributePersist();
                 String key = persistable.getKey();
-
+                Gdx.app.log(key, persistable.getKey());
                 properties.add(key, gson.toJsonTree(persistable.write(player, gson)));
             }
 
             try {
-                Path path = PLAYER_SAVE_DIR.resolve(PLAYER_SAVE_FILE_NAME);
+                Path path = Path.of("assets").resolve("player.json");
                 Path parent = path.getParent();
                 if (parent == null) {
                     throw new UnsupportedOperationException("Path must have a parent " + path);

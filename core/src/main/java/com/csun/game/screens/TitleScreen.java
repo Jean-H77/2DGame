@@ -87,7 +87,7 @@ public class TitleScreen implements Screen {
 
         PlayerLoader.PlayerParameter playerParam = new PlayerLoader.PlayerParameter(player);
         assetManager.setLoader(Player.class, new PlayerLoader(new InternalFileHandleResolver()));
-        assetManager.load("ignore", Player.class, playerParam);
+        assetManager.load("player.json", Player.class, playerParam);
 
         Table table = new Table();
         table.setFillParent(true);

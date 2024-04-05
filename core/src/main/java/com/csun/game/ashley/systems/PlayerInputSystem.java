@@ -55,6 +55,7 @@ public class PlayerInputSystem extends IteratingSystem {
         TransformComponent mc = Mappers.transforms.get(entity);
         AnimationComponent ac = Mappers.animations.get(entity);
         player.getAttributes().set(Attributes.WORLD_MOUSE_POSITION, getWorldPositionFromScreen(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0)));
+        player.getAttributes().set(Attributes.PLAYER_POSITION, mc.pos);
 
         if (player.getAttributes().get(Attributes.CURRENT_DIALOGUE) != null) {
             return;
