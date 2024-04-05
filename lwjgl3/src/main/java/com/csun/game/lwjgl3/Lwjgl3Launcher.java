@@ -39,8 +39,8 @@ public class Lwjgl3Launcher {
         configuration.useVsync(true);
         configuration.setWindowIcon(Files.FileType.Internal, "jar_icon.png");
         //// Limits FPS to the refresh rate of the currently active monitor.
-        configuration.setForegroundFPS(60);
-        configuration.setIdleFPS(60);
+        configuration.setForegroundFPS(256);
+        configuration.setIdleFPS(256);
         //// If you remove the above line and set Vsync to false, you can get unlimited FPS, which can be
         //// useful for testing performance, but can also be very stressful to some hardware.
         //// You may also need to configure GPU drivers to fully disable Vsync; this can cause screen tearing.

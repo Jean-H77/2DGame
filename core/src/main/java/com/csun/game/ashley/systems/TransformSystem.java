@@ -12,6 +12,7 @@ import com.csun.game.map.GameMap;
 import com.csun.game.models.Animations;
 import com.csun.game.models.Direction;
 import com.csun.game.models.MovementState;
+import com.csun.game.models.WalkDirection;
 import com.csun.game.npc.NpcManager;
 import com.google.inject.Inject;
 
@@ -64,7 +65,7 @@ public class TransformSystem extends IteratingSystem {
         return null;
     }
 
-    private static Vector2 calculateMovementStep(Direction dir, float velocity) {
+    public static Vector2 calculateMovementStep(Direction dir, float velocity) {
         Vector2 vect = new Vector2();
 
         switch (dir) {
@@ -98,16 +99,15 @@ public class TransformSystem extends IteratingSystem {
         AnimationComponent animation = Mappers.animations.get(entity);
         if (movement.state.equals(MovementState.IDLE)) return;
         Direction direction = null;
+        Vector2 step = null;
 
-        if (!movement.directionQueue.isEmpty()) {
-            direction = movement.directionQueue.pop();
+        if (!movement.walkDirections.isEmpty() && movement.currentWalkDirection == null) {
+            movement.currentWalkDirection = movement.walkDirections.pop();
+            direction = movement.currentWalkDirection .direction();
+            step = movement.currentWalkDirection .point();
         }
 
-        if(!movement.path.isEmpty()) {
-            direction = getDirection(movement.path.pop(), movement.pos);
-        }
-
-        if(direction == null) {
+        if(direction == null || step == null) {
             return;
         }
 
@@ -133,15 +133,25 @@ public class TransformSystem extends IteratingSystem {
         }
 
         movement.dir = direction;
-        Vector2 step = calculateMovementStep(direction, movement.velocity);
+
         Vector2 dest = new Vector2(step.x, step.y).nor();
         dest.x += movement.pos.x;
         dest.y += movement.pos.y;
+
         SizeComponent sizeComponent = Mappers.sizes.get(entity);
+
         if(sizeComponent != null) {
            if (checkCollision((int) sizeComponent.width, (int) sizeComponent.height, dest.x, dest.y, gameMap)) return;
         }
+
         movement.pos = dest;
+
+        if(movement.currentWalkDirection != null) {
+            if(movement.currentWalkDirection.point().equals(movement.pos)) {
+                movement.currentWalkDirection = null;
+                movement.state = MovementState.IDLE;
+            }
+        }
 
         ClickableComponent clickableComponent = Mappers.clickables.get(entity);
         if (clickableComponent != null) {

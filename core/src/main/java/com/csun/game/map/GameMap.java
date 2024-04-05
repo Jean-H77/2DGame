@@ -165,7 +165,7 @@ public class GameMap {
         this.doors = doors;
     }
 
-    public boolean[][] getGrid() {
+    public boolean[][] getCollisionGrid() {
         return grid;
     }
 

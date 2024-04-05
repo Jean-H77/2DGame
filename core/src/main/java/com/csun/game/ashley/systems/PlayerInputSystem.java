@@ -12,6 +12,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.csun.game.UI.UIManager;
+import com.csun.game.ai.paths.PathFinder;
+import com.csun.game.ai.paths.PathResult;
 import com.csun.game.ashley.Mappers;
 import com.csun.game.ashley.components.*;
 import com.csun.game.attributes.Attributes;
@@ -19,8 +21,12 @@ import com.csun.game.dialogue.TestDialogue;
 import com.csun.game.models.Animations;
 import com.csun.game.models.Direction;
 import com.csun.game.models.LightType;
+import com.csun.game.models.WalkDirection;
 import com.csun.game.player.Player;
+import com.github.tommyettinger.gand.Path;
+import com.github.tommyettinger.gand.points.PointI2;
 import com.google.inject.Inject;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.*;
 
@@ -174,7 +180,7 @@ public class PlayerInputSystem extends IteratingSystem {
             while (!current.epsilonEquals(end, 1.0f)) {
                 float dx = Math.signum(end.x - current.x);
                 float dy = Math.signum(end.y - current.y);
-                float nextX = current.x + (dx != 0 ? dx : 0);
+                float nextX = current.x + (dx);
                 float nextY = current.y + (dy != 0 && dx == 0 ? dy : 0);
 
                 current.set(nextX, nextY);
@@ -193,6 +199,49 @@ public class PlayerInputSystem extends IteratingSystem {
             .anyMatch(baseUi -> !baseUi.isWalkable())) {
             return false;
         }
+
+        /*if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            Vector2 mouse = player.getAttributes().get(Attributes.WORLD_MOUSE_POSITION);
+
+            Path<PointI2> pathResult = PathFinder.findPathAStar(
+                new Vector2(player.getTilePosX(), player.getTilePosY()), new Vector2(mouse.x, mouse.y), player.getGameMap());
+
+
+            if(pathResult != null) {
+                PointI2 prev = pathResult.pop();
+                Direction dir = TransformSystem.getDirection(
+                        new Vector2(prev.x, prev.y), player.getMovementComponent().pos);
+
+                List<WalkDirection> walkDirections = new ArrayList<>();
+
+                if(dir != null) {
+                    walkDirections.add(new WalkDirection(dir, new Vector2(prev.x, prev.y)));
+                }
+
+                Gdx.app.log
+                    ("Direction", dir + " ("+prev.x+","+prev.y+") -> " +
+                        "("+player.getMovementComponent().pos.x+","+player.getMovementComponent().pos.y+")");
+
+                while(!pathResult.isEmpty()) {
+                    PointI2 p = pathResult.pop();
+                    Direction direction = TransformSystem.getDirection(
+                        new Vector2(p.x, p.y), new Vector2(prev.x, prev.y));
+
+                    Gdx.app.log
+                        ("Direction", direction + " ("+prev.x+","+prev.y+") -> " +
+                            "("+p.x+","+p.y+")");
+
+                    if(direction != null) {
+                        walkDirections.add(new WalkDirection(direction, new Vector2(p.x, p.y)));
+                    }
+
+                    prev = p;
+                }
+
+                mc.move(walkDirections);
+            }
+            return true;
+        }*/
 
         CollisionComponent collisionComponent = player.getCollisionComponent();
         collisionComponent.bounds.x = mc.pos.x;

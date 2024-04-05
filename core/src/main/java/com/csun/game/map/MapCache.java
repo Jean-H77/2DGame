@@ -28,7 +28,7 @@ public class MapCache {
 
     private boolean[][] loadMapGrid(TiledMap tiledMap) {
         TiledMapTileLayer layer = MapUtils.getTileLayer(tiledMap, 1);
-        boolean[][] grid = new boolean[(int) MapUtils.getMapWidth(tiledMap)][(int) MapUtils.getMapHeight(tiledMap)];
+        boolean[][] grid = new boolean[(int) MapUtils.getMapWidth(tiledMap)/TILE_SIZE][(int) MapUtils.getMapHeight(tiledMap)/TILE_SIZE];
 
         if(layer != null) {
             for (boolean[] booleans : grid) {
@@ -38,7 +38,7 @@ public class MapCache {
             for (int i = 0; i < grid.length; i++) {
                 for (int k = 0; k < grid[i].length; k++) {
                     if (layer.getCell(i / TILE_SIZE, k / TILE_SIZE) == null) continue;
-                    grid[i][k] = !layer.getCell(i / TILE_SIZE, k / TILE_SIZE).getTile().getProperties().containsKey("blocked");
+                    grid[i/TILE_SIZE][k/TILE_SIZE] = !layer.getCell(i / TILE_SIZE, k / TILE_SIZE).getTile().getProperties().containsKey("blocked");
                 }
             }
         }

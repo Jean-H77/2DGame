@@ -42,7 +42,7 @@ public class PathFinder {
             return new Path<>();
         }
 
-        boolean[][] validGrid = gameMap.getGrid();
+        boolean[][] validGrid = gameMap.getCollisionGrid();
 
         Int2UndirectedGraph graph = new Int2UndirectedGraph(validGrid, 1f);
         graph.connectAdjacent(null, false);
@@ -56,7 +56,7 @@ public class PathFinder {
         pathSmoother.smoothPath(path);
 
         CACHE.put(gameMap.getCurrentMap(), new PathCache(pathSmoother, graph));
-        return null;
+        return path;
     }
 
 

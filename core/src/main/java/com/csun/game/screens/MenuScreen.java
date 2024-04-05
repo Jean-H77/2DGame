@@ -25,9 +25,7 @@ public class MenuScreen implements Screen {
 
     private final MainGame mainGame;
     private final Stage stage;
-    private BitmapFont gameTitleFont;
     private final ShaderToyShader menuBackground;
-
     private final Player player;
 
     @Inject
@@ -54,7 +52,7 @@ public class MenuScreen implements Screen {
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 50;
         parameter.color = Color.WHITE;
-        gameTitleFont = generator.generateFont(parameter);
+        BitmapFont gameTitleFont = generator.generateFont(parameter);
         generator.dispose();
 
         Table table = new Table();
