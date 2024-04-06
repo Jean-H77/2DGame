@@ -1,15 +1,17 @@
 package com.csun.game.lwjgl3;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Graphics;
 import com.csun.game.MainGame;
-import com.csun.game.modules.GameModule;
-import com.csun.game.modules.PlayerModule;
-import com.csun.game.modules.ScreenModule;
+import com.csun.game.modules.*;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+
+import java.awt.*;
 
 import static com.csun.game.GameConstants.*;
 
@@ -24,7 +26,9 @@ public class Lwjgl3Launcher {
         Injector injector = Guice.createInjector(
             new GameModule(),
             new PlayerModule(),
-            new ScreenModule()
+            new ScreenModule(),
+            new UIModule(),
+            new QuestModule()
         );
         return new Lwjgl3Application(injector.getInstance(MainGame.class), getDefaultConfiguration());
     }
@@ -33,14 +37,13 @@ public class Lwjgl3Launcher {
         Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
         configuration.setTitle(GAME_TITLE);
         configuration.useVsync(true);
+        configuration.setWindowIcon(Files.FileType.Internal, "jar_icon.png");
         //// Limits FPS to the refresh rate of the currently active monitor.
-        configuration.setForegroundFPS(60);
-        configuration.setIdleFPS(60);
+        configuration.setForegroundFPS(256);
+        configuration.setIdleFPS(256);
         //// If you remove the above line and set Vsync to false, you can get unlimited FPS, which can be
         //// useful for testing performance, but can also be very stressful to some hardware.
         //// You may also need to configure GPU drivers to fully disable Vsync; this can cause screen tearing.
-        configuration.setWindowedMode(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-        configuration.setResizable(true);
        // configuration.setWindowIcon("libgdx128.png", "libgdx64.png", "libgdx32.png", "libgdx16.png");
         return configuration;
     }

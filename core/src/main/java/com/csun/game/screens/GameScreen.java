@@ -1,62 +1,98 @@
 package com.csun.game.screens;
 
+
 import box2dLight.RayHandler;
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.csun.game.MainGame;
 import com.csun.game.ashley.Mappers;
-import com.csun.game.ashley.components.*;
-import com.csun.game.map.GameMap;
+import com.csun.game.ashley.components.ClickableComponent;
+import com.csun.game.attributes.Attributes;
 import com.csun.game.player.Player;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
-import static com.csun.game.GameConstants.PLAYER_START_X;
-import static com.csun.game.GameConstants.PLAYER_START_Y;
+import java.nio.ByteBuffer;
+
+import static com.csun.game.GameConstants.VIEWPORT_HEIGHT;
+import static com.csun.game.GameConstants.VIEWPORT_WIDTH;
 
 /** First screen of the application. Displayed after the application is created. */
 @Singleton
 public class GameScreen implements Screen {
 
-    private final RayHandler rayHandler;
+    private RayHandler rayHandler;
     private final PooledEngine pooledEngine;
-    private final OrthographicCamera playerCamera;
-    private final OrthogonalTiledMapRenderer renderer;
+    private OrthographicCamera playerCamera;
+    private OrthogonalTiledMapRenderer renderer;
     private final Player player;
     private final Viewport viewport;
+    private final SpriteBatch spriteBatch;
+    private final MainGame mainGame;
+    private final AssetManager assetManager;
+
+    BitmapFont font;
+    ShapeRenderer shapeRenderer;
+    SpriteBatch debugSpriteBatch;
+    BitmapFont debugFont;
+    boolean debug = true;
+
 
     @Inject
-    public GameScreen(PooledEngine pooledEngine, @Named("ExtendedViewport") Viewport viewport, Player player) {
+    public GameScreen(PooledEngine pooledEngine, @Named("ExtendedViewport") Viewport viewport, Player player, SpriteBatch spriteBatch, MainGame mainGame, AssetManager assetManager) {
         this.pooledEngine = pooledEngine;
-        this.renderer = GameMap.INSTANCE.getRenderer();
-        this.rayHandler = GameMap.INSTANCE.getRayHandler();
+        this.spriteBatch = spriteBatch;
+        this.renderer = player.getGameMap().getRenderer();
+        this.rayHandler = player.getGameMap().getRayHandler();
         this.player = player;
         this.viewport = viewport;
         playerCamera = (OrthographicCamera) player.getCamera();
+        this.mainGame = mainGame;
+        this.assetManager = assetManager;
     }
 
     @Override
     public void show() {
-        viewport.setCamera(playerCamera);
-        Entity entity = pooledEngine.createEntity();
-        entity.add(new MovementComponent(new Vector2(400, 400)));
-        entity.add(new ClickableComponent(new Rectangle(400, 400, 16, 16), "Blob"));
-        entity.add(new TextureComponent());
-        pooledEngine.addEntity(entity);
-    }
+        this.renderer = player.getGameMap().getRenderer();
+        this.rayHandler = player.getGameMap().getRayHandler();
+        playerCamera = (OrthographicCamera) player.getCamera();
 
-    ShapeRenderer shapeRenderer = new ShapeRenderer();
+        viewport.setCamera(playerCamera);
+        shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setProjectionMatrix(playerCamera.combined);
+        debugSpriteBatch = new SpriteBatch();
+        font = new BitmapFont();
+
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("arial_narrow_7.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 20;
+        debugFont = generator.generateFont(parameter);
+        font = generator.generateFont(parameter);
+        font.setColor(Color.SKY);
+        debugFont.setColor(Color.WHITE);
+        generator.dispose();
+
+        Pixmap pm = new Pixmap(Gdx.files.internal("gaming-mouse.png"));
+        Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, 0, 0));
+        pm.dispose();
+
+    }
 
     @Override
     public void render(float delta) {
@@ -64,21 +100,61 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         viewport.apply();
 
-        pooledEngine.getEntitiesFor(Family.all(TextureComponent.class).get()).forEach(entity -> Mappers.textures.get(entity).shape.setProjectionMatrix(playerCamera.combined));
-        player.getTextureComponent().shape.setProjectionMatrix(playerCamera.combined);
+        spriteBatch.setProjectionMatrix(playerCamera.combined);
 
         renderer.setView(playerCamera);
         renderer.render();
 
+
         pooledEngine.update(Gdx.graphics.getDeltaTime());
+        Vector2 mouse = player.getAttributes().get(Attributes.WORLD_MOUSE_POSITION);
+
+        if(debug) {
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(Color.CYAN);
+            shapeRenderer.setProjectionMatrix(playerCamera.combined);
+            pooledEngine.getEntitiesFor(Family.all(ClickableComponent.class).get()).forEach(entity -> {
+                Rectangle rectangle = Mappers.clickables.get(entity).bounds;
+                shapeRenderer.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+            });
+            shapeRenderer.end();
+
+            debugSpriteBatch.begin();
+            debugFont.draw(debugSpriteBatch, "Position " + player.getMovementComponent().pos.toString(), 15, 15);
+            debugFont.draw(debugSpriteBatch, "Mouse " + mouse.x + ", " + mouse.y, 15, 30);
+            debugSpriteBatch.end();
+        }
 
         rayHandler.setCombinedMatrix(playerCamera.combined);
         rayHandler.updateAndRender();
+
+        if(player.getAttributes().hasKey(Attributes.NPC_HOVER)) {
+            String hover = player.getAttributes().get(Attributes.NPC_HOVER);
+
+            spriteBatch.begin();
+            spriteBatch.setProjectionMatrix(playerCamera.combined);
+            font.draw(spriteBatch, hover, mouse.x, mouse.y+12);
+            spriteBatch.end();
+
+            player.getAttributes().remove(Attributes.NPC_HOVER);
+        }
+
+        if(player.getAttributes().hasKey(Attributes.CURRENT_DIALOGUE)) {
+            player.getAttributes().get(Attributes.CURRENT_DIALOGUE).render(delta);
+        }
+
+        player.getAttributes().get(Attributes.ALL_OPENED_UI).forEach(baseUI -> baseUI.render(player, delta));
     }
 
     @Override
     public void resize(int width, int height) {
         viewport.update(width,height);
+
+        if(player.getAttributes().hasKey(Attributes.CURRENT_DIALOGUE)) {
+            player.getAttributes().get(Attributes.CURRENT_DIALOGUE).resize(width, height);
+        }
+
+        player.getAttributes().get(Attributes.ALL_OPENED_UI).forEach(baseUI -> baseUI.resize(width,height));
     }
 
     @Override
@@ -98,6 +174,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        GameMap.INSTANCE.dispose();
+        player.getGameMap().dispose();
     }
 }

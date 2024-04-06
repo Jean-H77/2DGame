@@ -2,138 +2,157 @@ package com.csun.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.csun.game.MainGame;
+import com.csun.game.npc.NpcJson;
+import com.csun.game.npc.NpcLoader;
+import com.csun.game.npc.NpcManager;
+import com.csun.game.player.PlayerLoader;
+import com.csun.game.misc.Assets;
+import com.csun.game.models.Animations;
+import com.csun.game.player.Player;
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 
-import static com.csun.game.GameConstants.VIEWPORT_HEIGHT;
-import static com.csun.game.GameConstants.VIEWPORT_WIDTH;
+import java.util.List;
+
 
 public class TitleScreen implements Screen {
-    private static final Image[][] menuImages = {
-        { createImage("startgame_hover.png"), createImage("startgame.png") },
-        { createImage("load_hover.png"), createImage("load.png") },
-        { createImage("quit_hover.png"), createImage("quit.png") },
-    };
-
-    @FunctionalInterface
-    private interface GraveClickEvent { void execute(); }
 
     private final MainGame mainGame;
-    private final Screen gameScreen;
+    private float time;
+    private BitmapFont titleFont;
+    private BitmapFont loadingFont;
     private final Stage stage = new Stage();
-    private final Viewport viewport = new ExtendViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-    private final Image[] menuImageActors = new Image[3];
+    float fadeTimer = 0f;
+    float fadeDuration = 5f;
+    private Label loadingLabel;
+    private final Player player;
 
     @Inject
-    public TitleScreen(MainGame mainGame, @Named("GameScreen") Screen gameScreen) {
+    public TitleScreen(MainGame mainGame, Player player) {
         this.mainGame = mainGame;
-        this.gameScreen = gameScreen;
+        this.player = player;
     }
 
     @Override
     public void show() {
-        stage.setViewport(viewport);
-        Image image = createImage("background.jpg"); image.setTouchable(Touchable.disabled);
-        stage.getActors().addAll(
-            image,
-            createGrave(1206, 0, "grave_1.png", this::startGame),
-            createGrave(1434, 1, "grave_2.png", this::loadGame),
-            createGrave(1603, 2, "grave_3.png", () -> Gdx.app.exit()),
-            createMenuOption(0, 1289, 30), createMenuOption(1, 1512,155), createMenuOption(2, 1658,35)
-        );
-        Gdx.input.setInputProcessor(stage);
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fiendish.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 35;
+        parameter.color = Color.WHITE;
+        titleFont = generator.generateFont(parameter);
+        generator.dispose();
+
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("BloodLust.ttf"));
+        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 20;
+        parameter.color = Color.WHITE;
+        loadingFont = generator.generateFont(parameter);
+        generator.dispose();
+
+
+        AssetManager assetManager = Assets.INSTANCE.getManager();
+        assetManager.setLoader(TiledMap.class, new TmxMapLoader());
+        assetManager.load("act1.tmx", TiledMap.class);
+        assetManager.load("witchhouse.tmx", TiledMap.class);
+        assetManager.load("mainhouse.tmx", TiledMap.class);
+
+        assetManager.load("witch.atlas", TextureAtlas.class);
+        assetManager.load("doctor.atlas", TextureAtlas.class);
+        assetManager.load("mom.atlas", TextureAtlas.class);
+        assetManager.load("skeleton.atlas", TextureAtlas.class);
+        assetManager.load("atlas/ui/ui.atlas", TextureAtlas.class);
+
+        assetManager.load("gdx-skins-master/cloud-form/skin/cloud-form-ui.atlas", TextureAtlas.class);
+        assetManager.load("gdx-skins-master/comic/skin/comic-ui.atlas", TextureAtlas.class);
+
+        assetManager.load("dialogue/dialogue_board.png", Texture.class);
+
+        assetManager.setLoader(NpcJson.NpcJsonList.class, new NpcLoader(new InternalFileHandleResolver()));
+        assetManager.load("npc_spawns.json", NpcJson.NpcJsonList.class, new NpcLoader.JsonParameter());
+
+        PlayerLoader.PlayerParameter playerParam = new PlayerLoader.PlayerParameter(player);
+        assetManager.setLoader(Player.class, new PlayerLoader(new InternalFileHandleResolver()));
+        assetManager.load("player.json", Player.class, playerParam);
+
+        Table table = new Table();
+        table.setFillParent(true);
+
+        stage.addActor(table);
+
+        Label.LabelStyle titleStyle = new Label.LabelStyle(titleFont, Color.ORANGE);
+        Label titleLabel = new Label("RoguePixel Games", titleStyle);
+        table.add(titleLabel).expand().center();
+        table.row();
+
+        Label.LabelStyle loadingStyle = new Label.LabelStyle(loadingFont, Color.WHITE);
+        loadingLabel = new Label("Loading...", loadingStyle);
+        table.add(loadingLabel).expand().center();
+        table.row();
     }
 
     @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.getViewport().apply();
-        stage.act(delta);
+    public void render(float v) {
+        ScreenUtils.clear(Color.BLACK);
+
+        AssetManager assetManager = Assets.INSTANCE.getManager();
+        if(assetManager.update(17)) {
+            if(time >= 5) {
+                Animations.init(assetManager);
+                mainGame.getInjector().getInstance(NpcManager.class).put(assetManager.get("npc_spawns.json"));
+                mainGame.fadeScreen("",mainGame.getInjector().getInstance(MenuScreen.class), mainGame.getInjector().getInstance(TitleScreen.class));
+            }
+        }
+
+        time += v;
+        fadeTimer += Gdx.graphics.getDeltaTime();
+        if (fadeTimer > fadeDuration) {
+            fadeTimer -= fadeDuration;
+        }
+        float fadeAlpha = Interpolation.sine.apply(Math.abs(MathUtils.sin(fadeTimer / fadeDuration * MathUtils.PI)));
+        Color currentColor = loadingLabel.getColor();
+        loadingLabel.setColor(currentColor.r, currentColor.g, currentColor.b, fadeAlpha);
+
+        stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
     }
 
-    private ImageButton createGrave(int xPos, int index, String imagePath, GraveClickEvent event) {
-        ImageButton grave = new ImageButton(createImage(imagePath).getDrawable());
-        grave.setPosition(xPos, 0);
-        grave.addListener(getClickEventListener(index, event));
-        return grave;
-    }
-
-    private Image createMenuOption(int index, int x, int y) {
-         Image image = new Image(menuImages[index][1].getDrawable());
-         image.setPosition(x, y);
-         image.setTouchable(Touchable.disabled);
-         return menuImageActors[index] = image;
-    }
-
-    private static Image createImage(String path) {
-        return new Image(new TextureRegionDrawable(new TextureRegion(new Texture("titlescreen/" + path))));
-    }
-
-    private ClickListener getClickEventListener(int index, GraveClickEvent clickEvent) {
-            return new ClickListener() {
-                @Override
-                public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                    super.enter(event, x, y, pointer, fromActor);
-                    menuImageActors[index].setDrawable(menuImages[index][0].getDrawable());
-                    menuImageActors[index].pack();
-                }
-                @Override
-                public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                    super.exit(event, x, y, pointer, toActor);
-                    menuImageActors[index].setDrawable(menuImages[index][1].getDrawable());
-                    menuImageActors[index].pack();
-                }
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    super.clicked(event, x, y);
-                    clickEvent.execute();
-                }
-            };
-    }
-
-    private void startGame() {
-        mainGame.setScreen(gameScreen);
-    }
-
-    private void loadGame() {
-
-    }
-
     @Override
-    public void resize(int width, int height) {
-        viewport.update(width, height, true);
+    public void resize(int i, int i1) {
+
     }
 
     @Override
     public void pause() {
+
     }
 
     @Override
     public void resume() {
+
     }
 
     @Override
     public void hide() {
+
     }
 
     @Override
     public void dispose() {
-        stage.dispose();
+
     }
 }

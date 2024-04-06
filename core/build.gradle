@@ -17,5 +17,10 @@ dependencies {
   implementation("com.google.guava:guava:32.1.2-jre")
   implementation("com.google.inject.extensions:guice-assistedinject:7.0.0")
   implementation 'org.javatuples:javatuples:1.2'
+  implementation("com.github.xaguzman:pathfinding:0.2.1")
+  implementation("com.github.xaguzman:pathfinding-gdx-bridge:0.2.6")
+  implementation "com.github.tommyettinger:gand:0.1.1"
+  implementation group: 'com.github.tommyettinger', name: 'textratypist', version: '0.10.0'
+  implementation group: 'io.github.classgraph', name: 'classgraph', version: '4.8.165'
 }
 

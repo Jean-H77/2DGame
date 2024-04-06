@@ -9,7 +9,12 @@ public final class Mappers {
 
     public static final ComponentMapper<AnimationComponent> animations = ComponentMapper.getFor(AnimationComponent.class);
     public static final ComponentMapper<TextureComponent> textures = ComponentMapper.getFor(TextureComponent.class);
-    public static final ComponentMapper<MovementComponent> movements = ComponentMapper.getFor(MovementComponent.class);
+    public static final ComponentMapper<TransformComponent> transforms = ComponentMapper.getFor(TransformComponent.class);
     public static final ComponentMapper<CameraComponent> cameras = ComponentMapper.getFor(CameraComponent.class);
     public static final ComponentMapper<ClickableComponent> clickables = ComponentMapper.getFor(ClickableComponent.class);
+    public static final ComponentMapper<NpcComponent> npcs = ComponentMapper.getFor(NpcComponent.class);
+    public static final ComponentMapper<PlayerComponent> players = ComponentMapper.getFor(PlayerComponent.class);
+    public static final ComponentMapper<SizeComponent> sizes = ComponentMapper.getFor(SizeComponent.class);
+    public static final ComponentMapper<CollisionComponent> collisions = ComponentMapper.getFor(CollisionComponent.class);
+
 }
