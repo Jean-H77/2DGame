@@ -19,7 +19,7 @@
   },
   {
     "map": "act1",
-    "type": "WITCH",
+    "type": "CAILIN",
     "coords": {
       "x": 172,
       "y": 625
@@ -27,7 +27,7 @@
     "id": "npc111213"
   },{
   "map": "tarotroom",
-  "type": "WITCH2",
+  "type": "WITCH",
   "coords": {
     "x": 172,
     "y": 625
