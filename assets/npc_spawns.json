@@ -19,11 +19,136 @@
   },
   {
     "map": "act1",
-    "type": "WITCH",
+    "type": "CAILIN",
     "coords": {
       "x": 172,
       "y": 625
     },
     "id": "npc111213"
+  },{
+  "map": "tarotroom",
+  "type": "WITCH",
+  "coords": {
+    "x": 172,
+    "y": 625
+  },
+  "id": "npc111214"
+},
+  {
+    "map": "act1",
+    "type": "CALI",
+    "coords": {
+      "x": 172,
+      "y": 625
+    },
+    "id": "npc05013"
+  },
+  {
+    "map": "act1",
+    "type": "DEVON",
+    "coords": {
+      "x": 172,
+      "y": 625
+    },
+    "id": "npc05131"
+  },
+  {
+    "map": "basement",
+    "type": "WOODLOCK",
+    "coords": {
+      "x": 172,
+      "y": 625
+    },
+    "id": "npc08049"
+  },
+  {
+    "map": "wellstart",
+    "type": "Skeleton1",
+    "coords": {
+      "x": 172,
+      "y": 625
+    },
+    "id": "npc66601"
+  },
+  {
+    "map": "wellstart",
+    "type": "Skeleton2",
+    "coords": {
+      "x": 172,
+      "y": 625
+    },
+    "id": "npc66602"
+  },
+  {
+    "map": "wellstart",
+    "type": "Skeleton3",
+    "coords": {
+      "x": 172,
+      "y": 625
+    },
+    "id": "npc66603"
+  },
+  {
+    "map": "act2",
+    "type": "FORESTSPIRIT",
+    "coords": {
+      "x": 172,
+      "y": 625
+    },
+    "id": "npc11111"
+  },
+  {
+    "map": "circusmap",
+    "type": "HEADLESSGHOST",
+    "coords": {
+      "x": 172,
+      "y": 625
+    },
+    "id": "npc77701"
+  },
+  {
+    "map": "circusmap",
+    "type": "GHOSTMAN",
+    "coords": {
+      "x": 172,
+      "y": 625
+    },
+    "id": "npc77702"
+  },
+  {
+    "map": "circusmap",
+    "type": "GHOSTWOMAN",
+    "coords": {
+      "x": 172,
+      "y": 625
+    },
+    "id": "npc77703"
+  },
+  {
+    "map": "circusmap",
+    "type": "MUSICIAN",
+    "coords": {
+      "x": 172,
+      "y": 625
+    },
+    "id": "npc77704"
+  },
+  {
+    "map": "circusmap",
+    "type": "RINGMASTER",
+    "coords": {
+      "x": 172,
+      "y": 625
+    },
+    "id": "npc77705"
+  },
+  {
+    "map": "circusmap",
+    "type": "HORSEMAN",
+    "coords": {
+      "x": 172,
+      "y": 625
+    },
+    "id": "npc66666"
   }
 ]
