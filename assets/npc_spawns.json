@@ -25,15 +25,16 @@
       "y": 625
     },
     "id": "npc111213"
-  },{
-  "map": "tarotroom",
-  "type": "WITCH",
-  "coords": {
-    "x": 172,
-    "y": 625
   },
-  "id": "npc111214"
-},
+  {
+    "map": "tarotcard",
+    "type": "WITCH",
+    "coords": {
+      "x": 172,
+      "y": 625
+    },
+    "id": "npc111214"
+  },
   {
     "map": "act1",
     "type": "CALI",
@@ -63,7 +64,7 @@
   },
   {
     "map": "wellstart",
-    "type": "Skeleton1",
+    "type": "SKELETON1",
     "coords": {
       "x": 172,
       "y": 625
@@ -72,7 +73,7 @@
   },
   {
     "map": "wellstart",
-    "type": "Skeleton2",
+    "type": "SKELETON2",
     "coords": {
       "x": 172,
       "y": 625
@@ -81,7 +82,7 @@
   },
   {
     "map": "wellstart",
-    "type": "Skeleton3",
+    "type": "SKELETON3",
     "coords": {
       "x": 172,
       "y": 625
