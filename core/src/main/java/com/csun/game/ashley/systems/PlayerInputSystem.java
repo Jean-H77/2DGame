@@ -137,8 +137,10 @@ public class PlayerInputSystem extends IteratingSystem {
                 if(npcComponent != null) {
 
                 player.getAttributes().get(Attributes.ACTION_LISTENERS)
-                    .forEach(actionListener -> actionListener
+                    .forEach(
+                        actionListener -> actionListener
                         .hoverOverNpc(player, npcComponent.npcType.getName(), mouseAtWorld.x, mouseAtWorld.y));
+
                 player.getAttributes().set(Attributes.NPC_HOVER, npcComponent.npcType.getName());
 
                 if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
