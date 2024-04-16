@@ -80,6 +80,7 @@ public class TitleScreen implements Screen {
         assetManager.load("mom.atlas", TextureAtlas.class);
         assetManager.load("skeleton.atlas", TextureAtlas.class);
         assetManager.load("atlas/ui/ui.atlas", TextureAtlas.class);
+        assetManager.load("stranger.atlas", TextureAtlas.class);
 
         assetManager.load("gdx-skins-master/cloud-form/skin/cloud-form-ui.atlas", TextureAtlas.class);
         assetManager.load("gdx-skins-master/comic/skin/comic-ui.atlas", TextureAtlas.class);
