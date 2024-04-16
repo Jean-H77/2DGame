@@ -12,6 +12,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.csun.game.models.Animations.*;
+<<<<<<< Updated upstream
+=======
+import static com.csun.game.models.Animations.STRANGER_IDLE_SOUTH;
+import static com.csun.game.models.Animations.SPIRIT_IDLE_SOUTH;
+>>>>>>> Stashed changes
 
 public enum NpcType {
     MOM("Mom",
@@ -52,7 +57,152 @@ public enum NpcType {
         setAnim("north", SKELETON_WALK_NORTH, SKELETON_IDLE_NORTH),
         setAnim("south", SKELETON_WALK_SOUTH, SKELETON_IDLE_SOUTH),
         setAnim("east", SKELETON_WALK_EAST, SKELETON_IDLE_EAST),
+<<<<<<< Updated upstream
         setAnim("west", SKELETON_WALK_WEST, SKELETON_IDLE_WEST));
+=======
+        setAnim("west", SKELETON_WALK_WEST, SKELETON_IDLE_WEST)),
+
+    CALI("CALI",
+        48,
+        48,
+        SKELETON_IDLE_NORTH,
+        defaultComponents(),
+        setAnim("north", SKELETON_WALK_NORTH, SKELETON_IDLE_NORTH),
+        setAnim("south", SKELETON_WALK_SOUTH, SKELETON_IDLE_SOUTH),
+        setAnim("east", SKELETON_WALK_EAST, SKELETON_IDLE_EAST),
+        setAnim("west", SKELETON_WALK_WEST, SKELETON_IDLE_WEST)),
+
+    DEVON("Devon",
+        48,
+        48,
+        SKELETON_IDLE_NORTH,
+        defaultComponents(),
+        setAnim("north", SKELETON_WALK_NORTH, SKELETON_IDLE_NORTH),
+        setAnim("south", SKELETON_WALK_SOUTH, SKELETON_IDLE_SOUTH),
+        setAnim("east", SKELETON_WALK_EAST, SKELETON_IDLE_EAST),
+        setAnim("west", SKELETON_WALK_WEST, SKELETON_IDLE_WEST)),
+
+    GHOSTMAN("Mohammad",
+        48,
+        48,
+        SKELETON_IDLE_NORTH,
+        defaultComponents(),
+        setAnim("north", SKELETON_WALK_NORTH, SKELETON_IDLE_NORTH),
+        setAnim("south", SKELETON_WALK_SOUTH, SKELETON_IDLE_SOUTH),
+        setAnim("east", SKELETON_WALK_EAST, SKELETON_IDLE_EAST),
+        setAnim("west", SKELETON_WALK_WEST, SKELETON_IDLE_WEST)),
+
+    HEADLESSGHOST("Victoria",
+        48,
+        48,
+        SKELETON_IDLE_NORTH,
+        defaultComponents(),
+        setAnim("north", SKELETON_WALK_NORTH, SKELETON_IDLE_NORTH),
+        setAnim("south", SKELETON_WALK_SOUTH, SKELETON_IDLE_SOUTH),
+        setAnim("east", SKELETON_WALK_EAST, SKELETON_IDLE_EAST),
+        setAnim("west", SKELETON_WALK_WEST, SKELETON_IDLE_WEST)),
+
+    GHOSTWOMAN("Amber",
+        48,
+        48,
+        SKELETON_IDLE_NORTH,
+        defaultComponents(),
+        setAnim("north", SKELETON_WALK_NORTH, SKELETON_IDLE_NORTH),
+        setAnim("south", SKELETON_WALK_SOUTH, SKELETON_IDLE_SOUTH),
+        setAnim("east", SKELETON_WALK_EAST, SKELETON_IDLE_EAST),
+        setAnim("west", SKELETON_WALK_WEST, SKELETON_IDLE_WEST)),
+
+    SKELETON1("Amy",
+        48,
+        48,
+        SKELETON_IDLE_NORTH,
+        defaultComponents(),
+        setAnim("north", SKELETON_WALK_NORTH, SKELETON_IDLE_NORTH),
+        setAnim("south", SKELETON_WALK_SOUTH, SKELETON_IDLE_SOUTH),
+        setAnim("east", SKELETON_WALK_EAST, SKELETON_IDLE_EAST),
+        setAnim("west", SKELETON_WALK_WEST, SKELETON_IDLE_WEST)),
+
+    SKELETON2("Calvin",
+                 48,
+                 48,
+             SKELETON_IDLE_NORTH,
+              defaultComponents(),
+        setAnim("north", SKELETON_WALK_NORTH, SKELETON_IDLE_NORTH),
+        setAnim("south", SKELETON_WALK_SOUTH, SKELETON_IDLE_SOUTH),
+        setAnim("east", SKELETON_WALK_EAST, SKELETON_IDLE_EAST),
+        setAnim("west", SKELETON_WALK_WEST, SKELETON_IDLE_WEST)),
+
+    SKELETON3("Stephanie",
+        48,
+        48,
+        SKELETON_IDLE_NORTH,
+        defaultComponents(),
+        setAnim("north", SKELETON_WALK_NORTH, SKELETON_IDLE_NORTH),
+        setAnim("south", SKELETON_WALK_SOUTH, SKELETON_IDLE_SOUTH),
+        setAnim("east", SKELETON_WALK_EAST, SKELETON_IDLE_EAST),
+        setAnim("west", SKELETON_WALK_WEST, SKELETON_IDLE_WEST)),
+
+    RINGMASTER("RingMaster",
+        48,
+        48,
+        SKELETON_IDLE_NORTH,
+        defaultComponents(),
+        setAnim("north", SKELETON_WALK_NORTH, SKELETON_IDLE_NORTH),
+        setAnim("south", SKELETON_WALK_SOUTH, SKELETON_IDLE_SOUTH),
+        setAnim("east", SKELETON_WALK_EAST, SKELETON_IDLE_EAST),
+        setAnim("west", SKELETON_WALK_WEST, SKELETON_IDLE_WEST)),
+
+    HORSEMAN("Horseman",
+        48,
+        48,
+        SKELETON_IDLE_NORTH,
+        defaultComponents(),
+        setAnim("north", SKELETON_WALK_NORTH, SKELETON_IDLE_NORTH),
+        setAnim("south", SKELETON_WALK_SOUTH, SKELETON_IDLE_SOUTH),
+        setAnim("east", SKELETON_WALK_EAST, SKELETON_IDLE_EAST),
+        setAnim("west", SKELETON_WALK_WEST, SKELETON_IDLE_WEST)),
+
+    MUSICIAN("Willow",
+        48,
+        48,
+        SKELETON_IDLE_NORTH,
+        defaultComponents(),
+        setAnim("north", SKELETON_WALK_NORTH, SKELETON_IDLE_NORTH),
+        setAnim("south", SKELETON_WALK_SOUTH, SKELETON_IDLE_SOUTH),
+        setAnim("east", SKELETON_WALK_EAST, SKELETON_IDLE_EAST),
+        setAnim("west", SKELETON_WALK_WEST, SKELETON_IDLE_WEST)),
+
+    FORESTSPIRIT("Premdergast",
+        48,
+        48,
+        SKELETON_IDLE_NORTH,
+        defaultComponents(),
+        setAnim("north", SKELETON_WALK_NORTH, SKELETON_IDLE_NORTH),
+        setAnim("south", SKELETON_WALK_SOUTH, SKELETON_IDLE_SOUTH),
+        setAnim("east", SKELETON_WALK_EAST, SKELETON_IDLE_EAST),
+        setAnim("west", SKELETON_WALK_WEST, SKELETON_IDLE_WEST)),
+
+    STRANGER("Stranger",
+        48,
+        48,
+        STRANGER_IDLE_NORTH,
+        defaultComponents(),
+        setAnim("north", STRANGER_WALK_NORTH, STRANGER_IDLE_NORTH),
+        setAnim("south", STRANGER_WALK_SOUTH, STRANGER_IDLE_SOUTH),
+        setAnim("east", STRANGER_WALK_EAST, STRANGER_IDLE_EAST),
+        setAnim("west", STRANGER_WALK_WEST, STRANGER_IDLE_WEST)),
+
+    SPIRIT("Spirit",
+        48,
+        48,
+        SPIRIT_IDLE_NORTH,
+        defaultComponents(),
+        setAnim("north", SPIRIT_WALK_NORTH, SPIRIT_IDLE_NORTH),
+        setAnim("south", SPIRIT_WALK_SOUTH, SPIRIT_IDLE_SOUTH),
+        setAnim("east", SPIRIT_WALK_EAST, SPIRIT_IDLE_EAST),
+        setAnim("west", SPIRIT_WALK_WEST, SPIRIT_IDLE_WEST));
+
+>>>>>>> Stashed changes
 
 
     private final String name;

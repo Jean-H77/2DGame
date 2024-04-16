@@ -61,6 +61,33 @@ public class Animations {
         SKELETON_IDLE_WEST = new Anim("west", new Array<>(), skeleton, Range.singleton(0), 1);
         SKELETON_IDLE_EAST = new Anim("east", new Array<>(), skeleton, Range.singleton(0), 1);
 
+<<<<<<< Updated upstream
+=======
+        TextureAtlas stranger = assetManager.get("stranger.atlas");
+
+        STRANGER_WALK_NORTH = new Anim("north", new Array<>(), stranger, Range.open(1,7), 6);
+        STRANGER_WALK_SOUTH = new Anim("south", new Array<>(), stranger, Range.open(1,7), 6);
+        STRANGER_WALK_WEST = new Anim("west", new Array<>(), stranger, Range.open(1,7), 6);
+        STRANGER_WALK_EAST = new Anim("east", new Array<>(), stranger, Range.open(1,7), 6);
+
+        STRANGER_IDLE_NORTH = new Anim("north", new Array<>(), stranger,Range.singleton(0), 1);
+        STRANGER_IDLE_SOUTH = new Anim("south", new Array<>(), stranger, Range.singleton(0), 1);
+        STRANGER_IDLE_WEST = new Anim("west", new Array<>(), stranger, Range.singleton(0), 1);
+        STRANGER_IDLE_EAST = new Anim("east", new Array<>(), stranger, Range.singleton(0), 1);
+
+        TextureAtlas spirit = assetManager.get("spirit.atlas");
+
+        SPIRIT_WALK_NORTH = new Anim("north", new Array<>(), spirit, Range.open(1,7), 6);
+        SPIRIT_WALK_SOUTH = new Anim("south", new Array<>(), spirit, Range.open(1,7), 6);
+        SPIRIT_WALK_WEST = new Anim("west", new Array<>(), spirit, Range.open(1,7), 6);
+        SPIRIT_WALK_EAST = new Anim("east", new Array<>(), spirit, Range.open(1,7), 6);
+
+        SPIRIT_IDLE_NORTH = new Anim("north", new Array<>(), spirit,Range.singleton(0), 1);
+        SPIRIT_IDLE_SOUTH = new Anim("south", new Array<>(), spirit, Range.singleton(0), 1);
+        SPIRIT_IDLE_WEST = new Anim("west", new Array<>(), spirit, Range.singleton(0), 1);
+        SPIRIT_IDLE_EAST = new Anim("east", new Array<>(), spirit, Range.singleton(0), 1);
+
+>>>>>>> Stashed changes
         IDLE_TRANSITION_ANIMATIONS.put(WITCH_WALK_NORTH, WITCH_IDLE_NORTH);
         IDLE_TRANSITION_ANIMATIONS.put(WITCH_WALK_SOUTH, WITCH_IDLE_SOUTH);
         IDLE_TRANSITION_ANIMATIONS.put(WITCH_WALK_EAST, WITCH_IDLE_EAST);
@@ -80,6 +107,19 @@ public class Animations {
         IDLE_TRANSITION_ANIMATIONS.put(SKELETON_WALK_SOUTH, SKELETON_IDLE_SOUTH);
         IDLE_TRANSITION_ANIMATIONS.put(SKELETON_WALK_EAST, SKELETON_IDLE_EAST);
         IDLE_TRANSITION_ANIMATIONS.put(SKELETON_WALK_WEST, SKELETON_IDLE_WEST);
+<<<<<<< Updated upstream
+=======
+
+        IDLE_TRANSITION_ANIMATIONS.put(STRANGER_WALK_NORTH, STRANGER_IDLE_NORTH);
+        IDLE_TRANSITION_ANIMATIONS.put(STRANGER_WALK_SOUTH, STRANGER_IDLE_SOUTH);
+        IDLE_TRANSITION_ANIMATIONS.put(STRANGER_WALK_EAST, STRANGER_IDLE_EAST);
+        IDLE_TRANSITION_ANIMATIONS.put(STRANGER_WALK_WEST, STRANGER_IDLE_WEST);
+
+        IDLE_TRANSITION_ANIMATIONS.put(SPIRIT_WALK_NORTH, SPIRIT_IDLE_NORTH);
+        IDLE_TRANSITION_ANIMATIONS.put(SPIRIT_WALK_SOUTH, SPIRIT_IDLE_SOUTH);
+        IDLE_TRANSITION_ANIMATIONS.put(SPIRIT_WALK_EAST, SPIRIT_IDLE_EAST);
+        IDLE_TRANSITION_ANIMATIONS.put(SPIRIT_WALK_WEST, SPIRIT_IDLE_WEST);
+>>>>>>> Stashed changes
     }
 
     public static Anim WITCH_WALK_NORTH;
@@ -118,6 +158,27 @@ public class Animations {
     public static Anim SKELETON_IDLE_WEST;
     public static Anim SKELETON_IDLE_EAST;
 
+<<<<<<< Updated upstream
+=======
+    public static Anim STRANGER_WALK_NORTH;
+    public static Anim STRANGER_WALK_SOUTH;
+    public static Anim STRANGER_WALK_WEST;
+    public static Anim STRANGER_WALK_EAST;
+    public static Anim STRANGER_IDLE_NORTH;
+    public static Anim STRANGER_IDLE_SOUTH;
+    public static Anim STRANGER_IDLE_WEST;
+    public static Anim STRANGER_IDLE_EAST;
+
+    public static Anim SPIRIT_WALK_NORTH;
+    public static Anim SPIRIT_WALK_SOUTH;
+    public static Anim SPIRIT_WALK_WEST;
+    public static Anim SPIRIT_WALK_EAST;
+    public static Anim SPIRIT_IDLE_NORTH;
+    public static Anim SPIRIT_IDLE_SOUTH;
+    public static Anim SPIRIT_IDLE_WEST;
+    public static Anim SPIRIT_IDLE_EAST;
+
+>>>>>>> Stashed changes
     public record Anim(String key, Array<TextureAtlas.AtlasRegion> atlasRegions, TextureAtlas atlas, Range<Integer> frameIndices, float length) {
         public Anim {
             atlasRegions.addAll(getFrames(key, atlas, frameIndices));
