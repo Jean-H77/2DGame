@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -140,6 +141,12 @@ public class Dialogue {
             }
 
         } else if(currentPart instanceof DialogueStatement statement) {
+            String talker = statement.getTalkerName();
+            Gdx.app.log("Talker", "I am talking: " + talker);
+
+            TypingLabel talkerLabel = new TypingLabel(talker, font);
+            table.add(talkerLabel);
+
             TypingLabel typingLabel = new TypingLabel("[BLACK]" + statement.getText(player) + "[%]", font);
             typingLabel.setAlignment(Align.center);
             typingLabel.setWrap(true);

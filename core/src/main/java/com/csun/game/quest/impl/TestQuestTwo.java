@@ -1,6 +1,5 @@
 package com.csun.game.quest.impl;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
 import com.csun.game.MainGame;
@@ -10,7 +9,6 @@ import com.csun.game.dialogue.impl.DialogueOptions;
 import com.csun.game.dialogue.impl.DialogueStatement;
 import com.csun.game.misc.MutableInt;
 import com.csun.game.npc.NpcManager;
-import com.csun.game.npc.NpcType;
 import com.csun.game.player.Player;
 import com.csun.game.quest.Quest;
 import jakarta.inject.Inject;
@@ -60,7 +58,7 @@ public class TestQuestTwo extends Quest {
                     }
                 } else {
                     Dialogue dialogue = new Dialogue.Builder().addStatement(
-                            new DialogueStatement() {
+                            new DialogueStatement(name) {
                                 @Override
                                 public String getText(Player player) {
                                     return "I'm the doctor!";
