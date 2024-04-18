@@ -2,33 +2,23 @@ package com.csun.game.dialogue;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.csun.game.action.ActionListener;
 import com.csun.game.dialogue.impl.DialogueOptions;
 import com.csun.game.dialogue.impl.DialogueStatement;
 import com.csun.game.attributes.Attributes;
 import com.csun.game.misc.Assets;
 import com.csun.game.player.Player;
-import com.csun.game.quest.impl.TestQuest;
 import com.github.tommyettinger.textra.Font;
-import com.github.tommyettinger.textra.KnownFonts;
 import com.github.tommyettinger.textra.TypingLabel;
 
 import java.util.ArrayDeque;
@@ -144,8 +134,8 @@ public class Dialogue {
             String talker = statement.getTalkerName();
             Gdx.app.log("Talker", "I am talking: " + talker);
 
-            TypingLabel talkerLabel = new TypingLabel(talker, font);
-            table.add(talkerLabel);
+          //  TypingLabel talkerLabel = new TypingLabel(talker, font);
+          //  table.add(talkerLabel);
 
             TypingLabel typingLabel = new TypingLabel("[BLACK]" + statement.getText(player) + "[%]", font);
             typingLabel.setAlignment(Align.center);
