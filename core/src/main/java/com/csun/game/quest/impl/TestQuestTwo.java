@@ -62,16 +62,19 @@ public class TestQuestTwo extends Quest {
                             .addOptions(new DialogueOptions(
                                 Option.create("okay", (p) -> {
                                     fadeScreen();
+                                    //make doctor move
                                     stage.set(4);
                                 }),
                                 Option.create("...", (p) -> {
                                     fadeScreen();
+                                    //make doctor move
                                     stage.set(4);
                                 })))
                             .build();
                         player.startDialogue(dialogue);
                     }
-                } if (stage.getValue() == 2) {
+                }
+                if (stage.getValue() == 2) {
                     Dialogue dialogue = new Dialogue.Builder()
                         .addStatement(new DialogueStatement(name) {
                             @Override
@@ -98,25 +101,28 @@ public class TestQuestTwo extends Quest {
                         .addOptions(new DialogueOptions(
                             Option.create("Please hurry!", (p) -> {
                                 fadeScreen();
+                                //make doctor move
                                 stage.set(3);
                             }),
                             Option.create("Thank you...", (p) -> {
                                 fadeScreen();
+                                //make doctor move
                                 stage.set(3);
                             })))
                         .build();
                     player.startDialogue(dialogue);
-                } if (stage.getValue() == 1) {
-                Dialogue dialogue = new Dialogue.Builder()
-                    .addStatement(new DialogueStatement(name) {
-                        @Override
-                        public String getText(Player player) {
-                            return "Hello! I am Doctor John";
-                        }
-                    })
-                    .build();
-                player.startDialogue(dialogue);
-            }
+                }
+                if (stage.getValue() == 1) {
+                    Dialogue dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                return "Hello! I am Doctor John";
+                            }
+                        })
+                        .build();
+                    player.startDialogue(dialogue);
+                }
                 break;
 
             case "mom1":
@@ -132,17 +138,57 @@ public class TestQuestTwo extends Quest {
                             .build();
                         player.startDialogue(dialogue);
                     }
-                        if (stage.getValue() == 5) {
-                            Dialogue dialogue = new Dialogue.Builder()
-                                .addStatement(new DialogueStatement(name) {
-                                    @Override
-                                    public String getText(Player player) {
-                                        return "Find the witch and ask for her help!";
-                                    }
-                                })
-                                .build();
-                            player.startDialogue(dialogue);
-                        }
+                    if (stage.getValue() == 8) {
+                        Dialogue dialogue = new Dialogue.Builder()
+                            .addStatement(new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return "Go find the cure! I believe in you!";
+                                }
+                            })
+                            .build();
+                        player.startDialogue(dialogue);
+                    }
+                    if (stage.getValue() == 7) {
+                        Dialogue dialogue = new Dialogue.Builder()
+                            .addStatement(new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return "What did she say?";
+                                }
+                            })
+                            .addOptions(new DialogueOptions(
+                                Option.create("She told me I must go alone into the woods to break the curse to cure father...",
+                                    new DialogueStatement(name) {
+                                        @Override
+                                        public String getText(Player player) {
+                                            stage.increment();
+                                            return " Son you can do this! You are a strong and smart boy just like your father...I love you, you must do this! Please come back soon.";
+                                        }
+                                    }),
+                                Option.create("I am going into the woods to find a cure! I must go alone but I will be back, I promise.",
+                                    new DialogueStatement(name) {
+                                        @Override
+                                        public String getText(Player player) {
+                                            stage.increment();
+                                            return "I love you son...please be careful. I will watch over your father while you are gone.";
+                                        }
+                                    })
+                            ))
+                            .build();
+                        player.startDialogue(dialogue);
+                    }
+                    if (stage.getValue() == 5 || stage.getValue() == 6) {
+                        Dialogue dialogue = new Dialogue.Builder()
+                            .addStatement(new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return "Find the witch and ask for her help!";
+                                }
+                            })
+                            .build();
+                        player.startDialogue(dialogue);
+                    }
                     if (stage.getValue() == 4) {
                         Dialogue dialogue = new Dialogue.Builder()
                             .addStatement(new DialogueStatement(name) {
@@ -197,6 +243,7 @@ public class TestQuestTwo extends Quest {
                                 new DialogueStatement(name) {
                                     @Override
                                     public String getText(Player player) {
+
                                         return " He is mumbling something about a horseman. I am scared he has lost a lot of blood. Go to the building on the corner with the open door. Please hurry!";
                                     }
                                 })
@@ -213,6 +260,288 @@ public class TestQuestTwo extends Quest {
 
                 }
                 break;
+            case "cailin1":
+                if (stage.getValue() > 1) {
+                    if (stage.getValue() >= 4) {
+                        Dialogue dialogue = new Dialogue.Builder()
+                            .addStatement(new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return "Go blow up the door and find the spirit of the woods, he will guide you further!";
+                                }
+                            })
+                            .build();
+                        player.startDialogue(dialogue);
+                    }
+                    if (stage.getValue() == 5) {
+                        Dialogue dialogue = new Dialogue.Builder()
+                            .addStatement(new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return "I know what brings you...but are you willing to face the difficult path ahead?";
+                                }
+                            })
+                            .addOptions(new DialogueOptions(
+                                Option.create("Yes! I must help my father.",
+                                    new DialogueStatement(name) {
+                                        @Override
+                                        public String getText(Player player) {
+                                            return " You will face many trials... your path will be long. dark and dangerous. But you alone must do it. To save your father you must break the curse of the headless horseman...";
+                                        }
+                                    }),
+                                Option.create(" I am scared...",
+                                    new DialogueStatement(name) {
+                                        @Override
+                                        public String getText(Player player) {
+                                            return "  You will face many trials... your path will be long. dark and dangerous. But you alone must do it. To save your father you must break the curse of the headless horseman...";
+                                        }
+                                    })
+                            ))
+                            .addOptions(new DialogueOptions(
+                                Option.create("Who is the headless horseman?", new DialogueStatement(name) {
+                                    @Override
+                                    public String getText(Player player) {
+                                        return " The horseman is a spirit that is being used by evil forces you will have to find and unveil the truth to dispel the darkness, You are a pure child with a righteous heart, The power of your love is the only thing that can save your father.";
+                                    }
+                                }),
+                                Option.create("How can I do it... I am just a boy...", new DialogueStatement(name) {
+                                    @Override
+                                    public String getText(Player player) {
+                                        return " The horseman is a spirit that is being used by evil forces you will have to find and unveil the truth to dispel the darkness, You are a pure child with a righteous heart, The power of your love is the only thing that can save your father.";
+                                    }
+                                })
+                            ))
+                            .addOptions(new DialogueOptions(
+                                Option.create("I will do it! I will save my father!", new DialogueStatement(name) {
+                                    @Override
+                                    public String getText(Player player) {
+                                        return "The path to the horseman lies beyond the woods, however they have locked the door and would never let a child out of the towns walls. Bring the three ingredients and I will create a key for you which shall open the door to the woods. ";
+                                    }
+                                }),
+                                Option.create(" I mean I guess... if i must...", new DialogueStatement(name) {
+                                    @Override
+                                    public String getText(Player player) {
+                                        return " The path to the horseman lies beyond the woods, however they have locked the door and would never let a child out of the towns walls. Bring the three ingredients and I will create a key for you which shall open the door to the woods. The first ingredient is a simple key... this may be found anywhere.. I may even have one in my storage room. The second ingredient is a piece of bone from a righteous warrior. The final ingredient is a tear drop from a thief. Go on and find these pieces and bring them back to me...";
+                                    }
+                                })))
+                            .addOptions(new DialogueOptions(
+                                Option.create("Okay, I will find the stuff.", (p) -> {
+                                    stage.set(6);
+                                }),
+                                Option.create("I will be right back!", (p) -> {
+                                    stage.set(6);
+                                })))
+                            .build();
+                        player.startDialogue(dialogue);
+                    }
+                }
+                if (stage.getValue() == 6) {
+                    Dialogue dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                return "Did you find the stuff?";
+                            }
+                        })
+                        .addOptions(new DialogueOptions(
+                            Option.create("Yes!",
+                                new DialogueStatement(name) {
+                                    @Override
+                                    public String getText(Player player) {
+                                        //check if stuff is found
+                                        stage.increment();
+                                        return " Well...it seems my magic is a little rusty. I can't make a key but here is a bomb to blow up the door!";
+                                    }
+
+                                }),
+                            Option.create("No, can you remind me what I am looking for?",
+                                new DialogueStatement(name) {
+                                    @Override
+                                    public String getText(Player player) {
+                                        return "The first ingredient is a simple key... this may be found anywhere.. I may even have one in my storage room. The second ingredient is a piece of bone from a righteous warrior. The final ingredient is a tear drop from a thief. Go on and find these pieces and bring them back to me...";
+                                    }
+
+                                })
+                        ))
+                        .build();
+                    player.startDialogue(dialogue);
+                }
+                if (stage.getValue() == 1 || stage.getValue() == 2 || stage.getValue() == 3 || stage.getValue() == 4) {
+                    Dialogue dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                return "I am the Moon Maiden Cailin. May the gods guide your path.";
+                            }
+                        })
+                        .build();
+                    player.startDialogue(dialogue);
+                }
+                break;
+
+            case "npc05131":
+                if (stage.getValue() == 1 || stage.getValue() == 2 || stage.getValue() == 3) {
+                    Dialogue dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                return "Howdy! I am Devon.";
+                            }
+                        })
+                        .build();
+                    player.startDialogue(dialogue);
+                }
+                if (stage.getValue() == 4 || stage.getValue() == 5 || stage.getValue() == 6 || stage.getValue() == 7) {
+                    Dialogue dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                return "Hi I am Devon. How ya doing child?";
+                            }
+                        })
+                        .addOptions(new DialogueOptions(
+                            Option.create(" I am sad my father has been hurt...",
+                                new DialogueStatement(name) {
+                                    @Override
+                                    public String getText(Player player) {
+                                        return "Well.. while I was out on the road with my wife we had no cares in the world. We were bad people, stealin and fightin any chance we got but god gots a weird way of tellin ya your meant for something more and she became pregnant. ";
+                                    }
+                                }),
+                            Option.create("meh, could be better.",
+                                new DialogueStatement(name) {
+                                    @Override
+                                    public String getText(Player player) {
+                                        return "Well.. while I was out on the road with my wife we had no cares in the world. We were bad people, stealin and fightin any chance we got but god gots a weird way of tellin ya your meant for something more and she became pregnant.";
+                                    }
+                                })
+                        ))
+                        .addOptions(new DialogueOptions(
+                            Option.create("okay...?", new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return " I knew I needed to change my life around and we had heard stories of your small town. I told your mayor I got by as a thief but I will change my ways for my baby.. heck I would do anything for my family... He told me they would throw me down the well if I even thought about stealing from his people...but he gave me a chance and I have been thankful ever since.";
+                                }
+                            }),
+                            Option.create("How'd you get here?", new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return " I knew I needed to change my life around and we had heard stories of your small town. I told your mayor I got by as a thief but I will change my ways for my baby.. heck I would do anything for my family... He told me they would throw me down the well if I even thought about stealing from his people...but he gave me a chance and I have been thankful ever since.";
+                                }
+                            })
+                        ))
+                        .addOptions(new DialogueOptions(
+                            Option.create("okay...?", new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return "What I am trying to say is... life will find a way to get better especially in the worst times... just have hope.";
+                                }
+                            }),
+                            Option.create("How does this have to do with me", new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return "What I am trying to say is... life will find a way to get better especially in the worst times... just have hope.";
+                                }
+                            })))
+                        .addOptions(new DialogueOptions(
+                            Option.create("Thanks!", new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return "Your welcome!";
+                                }
+                            }),
+                            Option.create("Bye", new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return "Bye!.";
+                                }
+                            })))
+                        .build();
+                    player.startDialogue(dialogue);
+                }
+                break;
+            case "npc05013":
+                if (stage.getValue() == 1 || stage.getValue() == 2 || stage.getValue() == 3) {
+                    Dialogue dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                return "Hello child. I am Cali.";
+                            }
+                        })
+                        .build();
+                    player.startDialogue(dialogue);
+                }
+                if (stage.getValue() == 4 || stage.getValue() == 5 || stage.getValue() == 6 || stage.getValue() == 7) {
+                    Dialogue dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                return "Hello child. I am Cali. I am so glad they let us into your town. My husband came from a life of crime but he has changed since our baby came into our life.";
+                            }
+                        })
+                        .addOptions(new DialogueOptions(
+                            Option.create(" Do you like it here?",
+                                new DialogueStatement(name) {
+                                    @Override
+                                    public String getText(Player player) {
+                                        return " I love it here...I feel so safe. The doctor was telling me about your towns old mayor and how he saved the town from the horseman and built the walls before he died. I visit his grave everyday, he loves pink roses so I often bring him one...";
+                                    }
+                                }),
+                            Option.create("Wow you are from outside the village? You must have seen the whole world.",
+                                new DialogueStatement(name) {
+                                    @Override
+                                    public String getText(Player player) {
+                                        return " I say a lot of stuff out on the road...good and bad...but I must say I love it here...I feel so safe. The doctor was telling me about your towns old mayor and how he saved the town from the horseman and built the walls before he died. I visit his grave everyday, he loves pink roses so I often bring him one...";
+                                    }
+                                })
+                        ))
+                        .addOptions(new DialogueOptions(
+                            Option.create("I am glad you are here!", new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return "Amen!";
+                                }
+                            }),
+                            Option.create("Bye!", new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return "Goodbye!";
+                                }
+                            })
+                        ))
+                        .build();
+                    player.startDialogue(dialogue);
+                }
+                break;
+            case "npc08049":
+                    Dialogue dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                return "I am bored";
+                            }
+                        })
+                        .addOptions(new DialogueOptions(
+                            Option.create("Why are you in here?",
+                                new DialogueStatement(name) {
+                                    @Override
+                                    public String getText(Player player) {
+                                        return "I tried to break up with her. So she killed me and put me in here.";
+                                    }
+                                }),
+                            Option.create("What are you doing?",
+                                new DialogueStatement(name) {
+                                    @Override
+                                    public String getText(Player player) {
+                                        return "Just playing around having fun...dumb kid I am locked in here duh";
+                                    }
+                                })
+                        ))
+                        .build();
+                    player.startDialogue(dialogue);
+
+                break;
+
         }
     }
 

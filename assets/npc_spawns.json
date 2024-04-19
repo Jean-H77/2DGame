@@ -18,14 +18,33 @@
     "id": "doctor1"
   },
   {
+    "map": "mainhouse",
+    "type": "DOCTOR",
+    "coords": {
+      "x": 608,
+      "y": 460
+    },
+    "id": "doctor1"
+  },
+  {
     "map": "witchhouse",
     "type": "CAILIN",
     "coords": {
-      "x": 172,
+      "x": 608,
       "y": 231
     },
     "id": "npc111213"
   },
+  {
+    "map": "act1",
+    "type": "CAILIN",
+    "coords": {
+      "x": 555,
+      "y": 460
+    },
+    "id": "cailin1"
+  },
+
   {
     "map": "tarotcard",
     "type": "WITCH",
@@ -39,8 +58,8 @@
     "map": "act1",
     "type": "CALI",
     "coords": {
-      "x": 172,
-      "y": 625
+      "x": 1035,
+      "y": 460
     },
     "id": "npc05013"
   },
@@ -48,8 +67,8 @@
     "map": "act1",
     "type": "DEVON",
     "coords": {
-      "x": 172,
-      "y": 625
+      "x": 1135,
+      "y": 860
     },
     "id": "npc05131"
   },
@@ -57,8 +76,8 @@
     "map": "basement",
     "type": "WOODLOCK",
     "coords": {
-      "x": 172,
-      "y": 625
+      "x": 455,
+      "y": 460
     },
     "id": "npc08049"
   },
