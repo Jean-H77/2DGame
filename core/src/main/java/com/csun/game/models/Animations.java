@@ -37,6 +37,18 @@ public class Animations {
         DOCTOR_IDLE_WEST = new Anim("west", new Array<>(), doctor, Range.singleton(0), 1);
         DOCTOR_IDLE_EAST = new Anim("east", new Array<>(), doctor, Range.singleton(0), 1);
 
+        TextureAtlas zombie = assetManager.get("zombie.atlas");
+
+        ZOMBIE_WALK_NORTH = new Anim("north", new Array<>(), zombie, Range.open(1,7), 6);
+        ZOMBIE_WALK_SOUTH = new Anim("south", new Array<>(), zombie, Range.open(1,7), 6);
+        ZOMBIE_WALK_WEST = new Anim("west", new Array<>(), zombie, Range.open(1,7), 6);
+        ZOMBIE_WALK_EAST = new Anim("east", new Array<>(), zombie, Range.open(1,7), 6);
+
+        ZOMBIE_IDLE_NORTH = new Anim("north", new Array<>(), zombie,Range.singleton(0), 1);
+        ZOMBIE_IDLE_SOUTH = new Anim("south", new Array<>(), zombie, Range.singleton(0), 1);
+        ZOMBIE_IDLE_WEST = new Anim("west", new Array<>(), zombie, Range.singleton(0), 1);
+        ZOMBIE_IDLE_EAST = new Anim("east", new Array<>(), zombie, Range.singleton(0), 1);
+
         TextureAtlas mom = assetManager.get("mom.atlas");
 
         MOM_WALK_NORTH = new Anim("north", new Array<>(), mom, Range.open(1,7), 6);
@@ -48,6 +60,54 @@ public class Animations {
         MOM_IDLE_SOUTH = new Anim("south", new Array<>(), mom, Range.singleton(0), 1);
         MOM_IDLE_WEST = new Anim("west", new Array<>(), mom, Range.singleton(0), 1);
         MOM_IDLE_EAST = new Anim("east", new Array<>(), mom, Range.singleton(0), 1);
+
+        TextureAtlas cali = assetManager.get("cali.atlas");
+
+        CALI_WALK_NORTH = new Anim("north", new Array<>(), cali, Range.open(1,7), 6);
+        CALI_WALK_SOUTH = new Anim("south", new Array<>(), cali, Range.open(1,7), 6);
+        CALI_WALK_WEST = new Anim("west", new Array<>(), cali, Range.open(1,7), 6);
+        CALI_WALK_EAST = new Anim("east", new Array<>(), cali, Range.open(1,7), 6);
+
+        CALI_IDLE_NORTH = new Anim("north", new Array<>(), cali,Range.singleton(0), 1);
+        CALI_IDLE_SOUTH = new Anim("south", new Array<>(), cali, Range.singleton(0), 1);
+        CALI_IDLE_WEST = new Anim("west", new Array<>(), cali, Range.singleton(0), 1);
+        CALI_IDLE_EAST = new Anim("east", new Array<>(), cali, Range.singleton(0), 1);
+
+        TextureAtlas ghostwoman = assetManager.get("ghostgirl.atlas");
+
+        GHOSTGIRL_WALK_NORTH = new Anim("north", new Array<>(), ghostwoman, Range.open(1,7), 6);
+        GHOSTGIRL_WALK_SOUTH = new Anim("south", new Array<>(), ghostwoman, Range.open(1,7), 6);
+        GHOSTGIRL_WALK_WEST = new Anim("west", new Array<>(), ghostwoman, Range.open(1,7), 6);
+        GHOSTGIRL_WALK_EAST = new Anim("east", new Array<>(), ghostwoman, Range.open(1,7), 6);
+
+        GHOSTGIRL_IDLE_NORTH = new Anim("north", new Array<>(), ghostwoman,Range.singleton(0), 1);
+        GHOSTGIRL_IDLE_SOUTH = new Anim("south", new Array<>(), ghostwoman, Range.singleton(0), 1);
+        GHOSTGIRL_IDLE_WEST = new Anim("west", new Array<>(), ghostwoman, Range.singleton(0), 1);
+        GHOSTGIRL_IDLE_EAST = new Anim("east", new Array<>(), ghostwoman, Range.singleton(0), 1);
+
+        TextureAtlas ghostman = assetManager.get("ghostman.atlas");
+
+        GHOSTMAN_WALK_NORTH = new Anim("north", new Array<>(), ghostman, Range.open(1,7), 6);
+        GHOSTMAN_WALK_SOUTH = new Anim("south", new Array<>(), ghostman, Range.open(1,7), 6);
+        GHOSTMAN_WALK_WEST = new Anim("west", new Array<>(), ghostman, Range.open(1,7), 6);
+        GHOSTMAN_WALK_EAST = new Anim("east", new Array<>(), ghostman, Range.open(1,7), 6);
+
+        GHOSTMAN_IDLE_NORTH = new Anim("north", new Array<>(), ghostwoman,Range.singleton(0), 1);
+        GHOSTMAN_IDLE_SOUTH = new Anim("south", new Array<>(), ghostwoman, Range.singleton(0), 1);
+        GHOSTMAN_IDLE_WEST = new Anim("west", new Array<>(), ghostwoman, Range.singleton(0), 1);
+        GHOSTMAN_IDLE_EAST = new Anim("east", new Array<>(), ghostwoman, Range.singleton(0), 1);
+
+        TextureAtlas devon = assetManager.get("devon.atlas");
+
+        DEVON_WALK_NORTH = new Anim("north", new Array<>(), ghostman, Range.open(1,7), 6);
+        DEVON_WALK_SOUTH = new Anim("south", new Array<>(), ghostman, Range.open(1,7), 6);
+        DEVON_WALK_WEST = new Anim("west", new Array<>(), ghostman, Range.open(1,7), 6);
+        DEVON_WALK_EAST = new Anim("east", new Array<>(), ghostman, Range.open(1,7), 6);
+
+        DEVON_IDLE_NORTH = new Anim("north", new Array<>(), ghostwoman,Range.singleton(0), 1);
+        DEVON_IDLE_SOUTH = new Anim("south", new Array<>(), ghostwoman, Range.singleton(0), 1);
+        DEVON_IDLE_WEST = new Anim("west", new Array<>(), ghostwoman, Range.singleton(0), 1);
+        DEVON_IDLE_EAST = new Anim("east", new Array<>(), ghostwoman, Range.singleton(0), 1);
 
         TextureAtlas skeleton = assetManager.get("skeleton.atlas");
 
@@ -61,10 +121,41 @@ public class Animations {
         SKELETON_IDLE_WEST = new Anim("west", new Array<>(), skeleton, Range.singleton(0), 1);
         SKELETON_IDLE_EAST = new Anim("east", new Array<>(), skeleton, Range.singleton(0), 1);
 
-        IDLE_TRANSITION_ANIMATIONS.put(WITCH_WALK_NORTH, WITCH_IDLE_NORTH);
-        IDLE_TRANSITION_ANIMATIONS.put(WITCH_WALK_SOUTH, WITCH_IDLE_SOUTH);
-        IDLE_TRANSITION_ANIMATIONS.put(WITCH_WALK_EAST, WITCH_IDLE_EAST);
-        IDLE_TRANSITION_ANIMATIONS.put(WITCH_WALK_WEST, WITCH_IDLE_WEST);
+        TextureAtlas ringmaster = assetManager.get("ringmaster.atlas");
+
+        RINGMASTER_WALK_NORTH = new Anim("north", new Array<>(), ringmaster, Range.open(1,7), 6);
+        RINGMASTER_WALK_SOUTH = new Anim("south", new Array<>(), ringmaster, Range.open(1,7), 6);
+        RINGMASTER_WALK_WEST = new Anim("west", new Array<>(), ringmaster, Range.open(1,7), 6);
+        RINGMASTER_WALK_EAST = new Anim("east", new Array<>(), ringmaster, Range.open(1,7), 6);
+
+        RINGMASTER_IDLE_NORTH = new Anim("north", new Array<>(), ringmaster,Range.singleton(0), 1);
+        RINGMASTER_IDLE_SOUTH = new Anim("south", new Array<>(), ringmaster, Range.singleton(0), 1);
+        RINGMASTER_IDLE_WEST = new Anim("west", new Array<>(), ringmaster, Range.singleton(0), 1);
+        RINGMASTER_IDLE_EAST = new Anim("east", new Array<>(), ringmaster, Range.singleton(0), 1);
+
+        TextureAtlas headlessghost = assetManager.get("headlessghost.atlas");
+
+        HEADLESSGHOST_WALK_NORTH = new Anim("north", new Array<>(), headlessghost, Range.open(1,7), 6);
+        HEADLESSGHOST_WALK_SOUTH = new Anim("south", new Array<>(), headlessghost, Range.open(1,7), 6);
+        HEADLESSGHOST_WALK_WEST = new Anim("west", new Array<>(), headlessghost, Range.open(1,7), 6);
+        HEADLESSGHOST_WALK_EAST = new Anim("east", new Array<>(), headlessghost, Range.open(1,7), 6);
+
+        HEADLESSGHOST_IDLE_NORTH = new Anim("north", new Array<>(), ringmaster,Range.singleton(0), 1);
+        HEADLESSGHOST_IDLE_SOUTH = new Anim("south", new Array<>(), ringmaster, Range.singleton(0), 1);
+        HEADLESSGHOST_IDLE_WEST = new Anim("west", new Array<>(), ringmaster, Range.singleton(0), 1);
+        HEADLESSGHOST_IDLE_EAST = new Anim("east", new Array<>(), ringmaster, Range.singleton(0), 1);
+
+
+
+        IDLE_TRANSITION_ANIMATIONS.put(RINGMASTER_WALK_NORTH, RINGMASTER_IDLE_NORTH);
+        IDLE_TRANSITION_ANIMATIONS.put(RINGMASTER_WALK_SOUTH, RINGMASTER_IDLE_SOUTH);
+        IDLE_TRANSITION_ANIMATIONS.put(RINGMASTER_WALK_EAST, RINGMASTER_IDLE_EAST);
+        IDLE_TRANSITION_ANIMATIONS.put(RINGMASTER_WALK_WEST, RINGMASTER_IDLE_WEST);
+
+        IDLE_TRANSITION_ANIMATIONS.put(CALI_WALK_NORTH, CALI_IDLE_NORTH);
+        IDLE_TRANSITION_ANIMATIONS.put(CALI_WALK_SOUTH, CALI_IDLE_SOUTH);
+        IDLE_TRANSITION_ANIMATIONS.put(CALI_WALK_EAST, CALI_IDLE_EAST);
+        IDLE_TRANSITION_ANIMATIONS.put(CALI_WALK_WEST, CALI_IDLE_WEST);
 
         IDLE_TRANSITION_ANIMATIONS.put(DOCTOR_WALK_NORTH, DOCTOR_IDLE_NORTH);
         IDLE_TRANSITION_ANIMATIONS.put(DOCTOR_WALK_SOUTH, DOCTOR_IDLE_SOUTH);
@@ -80,7 +171,60 @@ public class Animations {
         IDLE_TRANSITION_ANIMATIONS.put(SKELETON_WALK_SOUTH, SKELETON_IDLE_SOUTH);
         IDLE_TRANSITION_ANIMATIONS.put(SKELETON_WALK_EAST, SKELETON_IDLE_EAST);
         IDLE_TRANSITION_ANIMATIONS.put(SKELETON_WALK_WEST, SKELETON_IDLE_WEST);
+
+
+        IDLE_TRANSITION_ANIMATIONS.put(ZOMBIE_WALK_NORTH, SKELETON_IDLE_NORTH);
+        IDLE_TRANSITION_ANIMATIONS.put(ZOMBIE_WALK_SOUTH, SKELETON_IDLE_SOUTH);
+        IDLE_TRANSITION_ANIMATIONS.put(ZOMBIE_WALK_EAST, SKELETON_IDLE_EAST);
+        IDLE_TRANSITION_ANIMATIONS.put(ZOMBIE_WALK_WEST, SKELETON_IDLE_WEST);
+
+
+        IDLE_TRANSITION_ANIMATIONS.put(GHOSTGIRL_WALK_NORTH, GHOSTGIRL_IDLE_NORTH);
+        IDLE_TRANSITION_ANIMATIONS.put(GHOSTGIRL_WALK_SOUTH, GHOSTGIRL_IDLE_SOUTH);
+        IDLE_TRANSITION_ANIMATIONS.put(GHOSTGIRL_WALK_EAST, GHOSTGIRL_IDLE_EAST);
+        IDLE_TRANSITION_ANIMATIONS.put(GHOSTGIRL_WALK_WEST, GHOSTGIRL_IDLE_WEST);
+
+        IDLE_TRANSITION_ANIMATIONS.put(GHOSTMAN_WALK_NORTH, GHOSTMAN_IDLE_NORTH);
+        IDLE_TRANSITION_ANIMATIONS.put(GHOSTMAN_WALK_SOUTH, GHOSTMAN_IDLE_SOUTH);
+        IDLE_TRANSITION_ANIMATIONS.put(GHOSTMAN_WALK_EAST, GHOSTMAN_IDLE_EAST);
+        IDLE_TRANSITION_ANIMATIONS.put(GHOSTMAN_WALK_WEST, GHOSTMAN_IDLE_WEST);
+
+        IDLE_TRANSITION_ANIMATIONS.put(DEVON_WALK_NORTH, DEVON_IDLE_NORTH);
+        IDLE_TRANSITION_ANIMATIONS.put(DEVON_WALK_SOUTH, DEVON_IDLE_SOUTH);
+        IDLE_TRANSITION_ANIMATIONS.put(DEVON_WALK_EAST, DEVON_IDLE_EAST);
+        IDLE_TRANSITION_ANIMATIONS.put(DEVON_WALK_WEST, DEVON_IDLE_WEST);
+
+        IDLE_TRANSITION_ANIMATIONS.put(HEADLESSGHOST_WALK_NORTH, HEADLESSGHOST_IDLE_NORTH);
+        IDLE_TRANSITION_ANIMATIONS.put(HEADLESSGHOST_WALK_SOUTH, HEADLESSGHOST_IDLE_SOUTH);
+        IDLE_TRANSITION_ANIMATIONS.put(HEADLESSGHOST_WALK_EAST, HEADLESSGHOST_IDLE_EAST);
+        IDLE_TRANSITION_ANIMATIONS.put(HEADLESSGHOST_WALK_WEST, HEADLESSGHOST_IDLE_WEST);
     }
+    public static Anim GHOSTGIRL_WALK_NORTH;
+    public static Anim GHOSTGIRL_WALK_SOUTH;
+    public static Anim GHOSTGIRL_WALK_WEST;
+    public static Anim GHOSTGIRL_WALK_EAST;
+    public static Anim GHOSTGIRL_IDLE_NORTH;
+    public static Anim GHOSTGIRL_IDLE_SOUTH;
+    public static Anim GHOSTGIRL_IDLE_WEST;
+    public static Anim GHOSTGIRL_IDLE_EAST;
+
+    public static Anim GHOSTMAN_WALK_NORTH;
+    public static Anim GHOSTMAN_WALK_SOUTH;
+    public static Anim GHOSTMAN_WALK_WEST;
+    public static Anim GHOSTMAN_WALK_EAST;
+    public static Anim GHOSTMAN_IDLE_NORTH;
+    public static Anim GHOSTMAN_IDLE_SOUTH;
+    public static Anim GHOSTMAN_IDLE_WEST;
+    public static Anim GHOSTMAN_IDLE_EAST;
+
+    public static Anim DEVON_WALK_NORTH;
+    public static Anim DEVON_WALK_SOUTH;
+    public static Anim DEVON_WALK_WEST;
+    public static Anim DEVON_WALK_EAST;
+    public static Anim DEVON_IDLE_NORTH;
+    public static Anim DEVON_IDLE_SOUTH;
+    public static Anim DEVON_IDLE_WEST;
+    public static Anim DEVON_IDLE_EAST;
 
     public static Anim WITCH_WALK_NORTH;
     public static Anim WITCH_WALK_SOUTH;
@@ -117,6 +261,42 @@ public class Animations {
     public static Anim SKELETON_IDLE_SOUTH;
     public static Anim SKELETON_IDLE_WEST;
     public static Anim SKELETON_IDLE_EAST;
+
+    public static Anim CALI_WALK_NORTH;
+    public static Anim CALI_WALK_SOUTH;
+    public static Anim CALI_WALK_WEST;
+    public static Anim CALI_WALK_EAST;
+    public static Anim CALI_IDLE_NORTH;
+    public static Anim CALI_IDLE_SOUTH;
+    public static Anim CALI_IDLE_WEST;
+    public static Anim CALI_IDLE_EAST;
+
+    public static Anim ZOMBIE_WALK_NORTH;
+    public static Anim ZOMBIE_WALK_SOUTH;
+    public static Anim ZOMBIE_WALK_WEST;
+    public static Anim ZOMBIE_WALK_EAST;
+    public static Anim ZOMBIE_IDLE_NORTH;
+    public static Anim ZOMBIE_IDLE_SOUTH;
+    public static Anim ZOMBIE_IDLE_WEST;
+    public static Anim ZOMBIE_IDLE_EAST;
+
+    public static Anim RINGMASTER_WALK_NORTH;
+    public static Anim RINGMASTER_WALK_SOUTH;
+    public static Anim RINGMASTER_WALK_WEST;
+    public static Anim RINGMASTER_WALK_EAST;
+    public static Anim RINGMASTER_IDLE_NORTH;
+    public static Anim RINGMASTER_IDLE_SOUTH;
+    public static Anim RINGMASTER_IDLE_WEST;
+    public static Anim RINGMASTER_IDLE_EAST;
+
+    public static Anim HEADLESSGHOST_WALK_NORTH;
+    public static Anim HEADLESSGHOST_WALK_SOUTH;
+    public static Anim HEADLESSGHOST_WALK_WEST;
+    public static Anim HEADLESSGHOST_WALK_EAST;
+    public static Anim HEADLESSGHOST_IDLE_NORTH;
+    public static Anim HEADLESSGHOST_IDLE_SOUTH;
+    public static Anim HEADLESSGHOST_IDLE_WEST;
+    public static Anim HEADLESSGHOST_IDLE_EAST;
 
     public record Anim(String key, Array<TextureAtlas.AtlasRegion> atlasRegions, TextureAtlas atlas, Range<Integer> frameIndices, float length) {
         public Anim {

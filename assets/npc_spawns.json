@@ -36,7 +36,7 @@
     "id": "npc111213"
   },
   {
-    "map": "act1",
+    "map": "witchhouse",
     "type": "CAILIN",
     "coords": {
       "x": 555,
@@ -73,7 +73,25 @@
     "id": "npc05131"
   },
   {
-    "map": "basement",
+    "map": "wellstart",
+    "type": "ZOMBIE",
+    "coords": {
+      "x": 555,
+      "y": 460
+    },
+    "id": "npcZZZZZ1"
+  },
+  {
+    "map": "wellstart",
+    "type": "ZOMBIE",
+    "coords": {
+      "x": 555,
+      "y": 460
+    },
+    "id": "npcZZZZZ2"
+  },
+  {
+    "map": "act1",
     "type": "WOODLOCK",
     "coords": {
       "x": 455,
@@ -85,8 +103,8 @@
     "map": "wellstart",
     "type": "SKELETON1",
     "coords": {
-      "x": 172,
-      "y": 625
+      "x": 455,
+      "y": 460
     },
     "id": "npc66601"
   },
@@ -94,8 +112,8 @@
     "map": "wellstart",
     "type": "SKELETON2",
     "coords": {
-      "x": 172,
-      "y": 625
+      "x": 555,
+      "y": 460
     },
     "id": "npc66602"
   },
@@ -103,8 +121,8 @@
     "map": "wellstart",
     "type": "SKELETON3",
     "coords": {
-      "x": 172,
-      "y": 625
+      "x": 355,
+      "y": 460
     },
     "id": "npc66603"
   },
@@ -146,7 +164,7 @@
   },
   {
     "map": "circusmap",
-    "type": "MUSICIAN",
+    "type": "GHOSTWOMAN",
     "coords": {
       "x": 172,
       "y": 625

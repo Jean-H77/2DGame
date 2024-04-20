@@ -350,7 +350,7 @@ public class TestQuestTwo extends Quest {
                                     public String getText(Player player) {
                                         //check if stuff is found
                                         stage.increment();
-                                        return " Well...it seems my magic is a little rusty. I can't make a key but here is a bomb to blow up the door!";
+                                        return " Well...it seems my magic is a little rusty. I can't make a key but here is a bomb to blow up the door! And don't forget to say goodbye to your mom.";
                                     }
 
                                 }),
@@ -540,6 +540,142 @@ public class TestQuestTwo extends Quest {
                         .build();
                     player.startDialogue(dialogue);
 
+                break;
+
+            case "npcZZZZZ1":
+                dialogue = new Dialogue.Builder() // Reusing the existing 'dialogue' variable
+                    .addStatement(new DialogueStatement(name) {
+                        @Override
+                        public String getText(Player player) {
+                            return "I need to get out!";
+                        }
+                    })
+                    .addOptions(new DialogueOptions(
+                        Option.create("How did you get here?",
+                            new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return "I stole from the mayor and he threw me down here.";
+                                }
+                            }),
+                        Option.create("Okay? so leave.",
+                            new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return "...my head hurts...what were we talking about?";
+                                }
+                            })
+                    ))
+                    .build();
+                player.startDialogue(dialogue);
+                break;
+            case "npc66601":
+                dialogue = new Dialogue.Builder() // Reusing the existing 'dialogue' variable
+                    .addStatement(new DialogueStatement(name) {
+                        @Override
+                        public String getText(Player player) {
+                            return "You got thrown done here too?";
+                        }
+                    })
+                    .addOptions(new DialogueOptions(
+                        Option.create("Ummmmm sure...",
+                            new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return "Yeah I stole a chicken and flew down in here, it is pretty cool.";
+                                }
+                            }),
+                        Option.create("No. I am looking for a tear.",
+                            new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return "The only water I have seen is that well water. Maybe ask Annette if she has seen any.";
+                                }
+                            })
+                    ))
+                    .build();
+                player.startDialogue(dialogue);
+                break;
+            case "npcZZZZZ2":
+                dialogue = new Dialogue.Builder() // Reusing the existing 'dialogue' variable
+                    .addStatement(new DialogueStatement(name) {
+                        @Override
+                        public String getText(Player player) {
+                            return "There is a puzzle down here...but I can't figure it out";
+                        }
+                    })
+                    .addOptions(new DialogueOptions(
+                        Option.create("Have you see a tear drop?",
+                            new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return "Leave me alone...I need to think...";
+                                }
+                            }),
+                        Option.create("Okay? Where is it?",
+                            new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return "I am not telling! You can't have my treaure!";
+                                }
+                            })
+                    ))
+                    .build();
+                player.startDialogue(dialogue);
+                break;
+            case "npc66602":
+                dialogue = new Dialogue.Builder() // Reusing the existing 'dialogue' variable
+                    .addStatement(new DialogueStatement(name) {
+                        @Override
+                        public String getText(Player player) {
+                            return "Enjoying the weather today?";
+                        }
+                    })
+                    .addOptions(new DialogueOptions(
+                        Option.create("Yeah it is very dry for a well. Have you seen any tears?",
+                            new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return "I haven't seen any water but I once heard a poem that helped me find my way. One skull two skull, red skull blue skull or was that poem about fish...";
+                                }
+                            }),
+                        Option.create("No. I am looking for a tear.",
+                            new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return "I haven't seen any water but I once heard a poem that helped me find my way. One skull two skull, red skull blue skull or was that poem about fish...";
+                                }
+                            })
+                    ))
+                    .build();
+                player.startDialogue(dialogue);
+                break;
+            case "npc66603":
+                dialogue = new Dialogue.Builder() // Reusing the existing 'dialogue' variable
+                    .addStatement(new DialogueStatement(name) {
+                        @Override
+                        public String getText(Player player) {
+                            return "I get to hang out with my friends forever!";
+                        }
+                    })
+                    .addOptions(new DialogueOptions(
+                        Option.create("Thats cool...have you seen any tears?",
+                            new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return "No, but there are some lights in the next room. I tried to light them but they won't stay lit and those other guys won't share their fire.";
+                                }
+                            }),
+                        Option.create("I am looking for a tear.",
+                            new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return "Well I would cry if I did not have friends.";
+                                }
+                            })
+                    ))
+                    .build();
+                player.startDialogue(dialogue);
                 break;
 
         }
