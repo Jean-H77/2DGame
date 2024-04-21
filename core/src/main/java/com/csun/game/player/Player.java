@@ -92,7 +92,7 @@ public final class Player {
     private void defaultAttributes() {
         attributes.set(Attributes.PLAYER_NAME, "un_named");
         attributes.set(Attributes.PLAYER_POSITION, transformComponent.pos);
-        attributes.set(Attributes.PLAYER_CURRENT_MAP, "act1.tmx");
+        attributes.set(Attributes.PLAYER_CURRENT_MAP, "basement.tmx");
         attributes.set(Attributes.PLAYER_IS_LOGGED_IN, false);
         attributes.set(Attributes.PLAYER_IS_PAUSED, false);
         attributes.set(Attributes.PLAYER_SETTINGS, new Settings());
@@ -109,6 +109,13 @@ public final class Player {
         attributes.get(Attributes.ACTION_LISTENERS)
             .forEach(actionListener -> actionListener
                 .enterMap(this, map));
+    }
+    public void moveToSpawnPoint(Vector2 spawnPoint) {
+        transformComponent.pos.set(spawnPoint); // Set player's position to the spawn point
+
+        // Notify action listeners that the player has entered the spawn point
+        attributes.get(Attributes.ACTION_LISTENERS)
+            .forEach(actionListener -> actionListener.enterSpawnPoint(this, spawnPoint));
     }
 
     public void moveTo(Vector2 pos, String map) {

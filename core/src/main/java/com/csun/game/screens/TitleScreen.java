@@ -86,6 +86,10 @@ public class TitleScreen implements Screen {
         assetManager.load("ghostman.atlas", TextureAtlas.class);
         assetManager.load("ringmaster.atlas", TextureAtlas.class);
         assetManager.load("headlessghost.atlas", TextureAtlas.class);
+        assetManager.load("horseman.atlas", TextureAtlas.class);
+        assetManager.load("redchest.atlas", TextureAtlas.class);
+
+
 
 
 

@@ -46,11 +46,11 @@
   },
 
   {
-    "map": "tarotcard",
+    "map": "circusmap",
     "type": "WITCH",
     "coords": {
-      "x": 172,
-      "y": 625
+      "x": 370,
+      "y": 500
     },
     "id": "npc111214"
   },
@@ -91,11 +91,11 @@
     "id": "npcZZZZZ2"
   },
   {
-    "map": "act1",
+    "map": "basement",
     "type": "WOODLOCK",
     "coords": {
-      "x": 455,
-      "y": 460
+      "x": 370,
+      "y": 420
     },
     "id": "npc08049"
   },
@@ -139,8 +139,8 @@
     "map": "circusmap",
     "type": "HEADLESSGHOST",
     "coords": {
-      "x": 172,
-      "y": 625
+      "x": 370,
+      "y": 500
     },
     "id": "npc77701"
   },
@@ -148,8 +148,8 @@
     "map": "circusmap",
     "type": "GHOSTMAN",
     "coords": {
-      "x": 172,
-      "y": 625
+      "x": 400,
+      "y": 500
     },
     "id": "npc77702"
   },
@@ -157,17 +157,8 @@
     "map": "circusmap",
     "type": "GHOSTWOMAN",
     "coords": {
-      "x": 172,
-      "y": 625
-    },
-    "id": "npc77703"
-  },
-  {
-    "map": "circusmap",
-    "type": "GHOSTWOMAN",
-    "coords": {
-      "x": 172,
-      "y": 625
+      "x": 500,
+      "y": 500
     },
     "id": "npc77704"
   },
@@ -175,8 +166,8 @@
     "map": "circusmap",
     "type": "RINGMASTER",
     "coords": {
-      "x": 172,
-      "y": 625
+      "x": 300,
+      "y": 500
     },
     "id": "npc77705"
   },
@@ -184,9 +175,17 @@
     "map": "circusmap",
     "type": "HORSEMAN",
     "coords": {
-      "x": 172,
-      "y": 625
+      "x": 600,
+      "y": 500
     },
     "id": "npc66666"
-  }
+  },  {
+  "map": "circusmap",
+  "type": "REDCHEST",
+  "coords": {
+    "x": 600,
+    "y": 400
+  },
+  "id": "redchest"
+}
 ]

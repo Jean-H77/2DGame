@@ -165,14 +165,14 @@ public enum NpcType {
         setAnim("west", HEADLESSGHOST_WALK_WEST, HEADLESSGHOST_IDLE_WEST)),
 
     HORSEMAN("Horseman",
-        48,
-        48,
-        SKELETON_IDLE_SOUTH,
+        96,
+        96,
+        HORSEMAN_IDLE_NORTH,
         defaultComponents(),
-        setAnim("north", SKELETON_WALK_NORTH, SKELETON_IDLE_NORTH),
-        setAnim("south", SKELETON_WALK_SOUTH, SKELETON_IDLE_SOUTH),
-        setAnim("east", SKELETON_WALK_EAST, SKELETON_IDLE_EAST),
-        setAnim("west", SKELETON_WALK_WEST, SKELETON_IDLE_WEST)),
+        setAnim("north", HORSEMAN_WALK_NORTH, HORSEMAN_IDLE_NORTH),
+        setAnim("south", HORSEMAN_WALK_SOUTH, HORSEMAN_IDLE_SOUTH),
+        setAnim("east", HORSEMAN_WALK_EAST, HORSEMAN_IDLE_EAST),
+        setAnim("west", HORSEMAN_WALK_WEST, HORSEMAN_IDLE_WEST)),
 
     MUSICIAN("Willow",
         48,
@@ -192,7 +192,18 @@ public enum NpcType {
         setAnim("north", SKELETON_WALK_NORTH, SKELETON_IDLE_NORTH),
         setAnim("south", SKELETON_WALK_SOUTH, SKELETON_IDLE_SOUTH),
         setAnim("east", SKELETON_WALK_EAST, SKELETON_IDLE_EAST),
-        setAnim("west", SKELETON_WALK_WEST, SKELETON_IDLE_WEST));
+        setAnim("west", SKELETON_WALK_WEST, SKELETON_IDLE_WEST)),
+
+    REDCHEST("chest",
+                 48,
+                 48,
+                 REDCHEST_IDLE_NORTH,
+                 defaultComponents(),
+    setAnim("north", REDCHEST_WALK_NORTH, REDCHEST_IDLE_NORTH),
+    setAnim("south", REDCHEST_WALK_SOUTH, REDCHEST_IDLE_SOUTH),
+    setAnim("east", REDCHEST_WALK_EAST, REDCHEST_IDLE_EAST),
+    setAnim("west", REDCHEST_WALK_WEST, REDCHEST_IDLE_WEST));
+
 
 
 

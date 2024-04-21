@@ -92,22 +92,22 @@ public class Animations {
         GHOSTMAN_WALK_WEST = new Anim("west", new Array<>(), ghostman, Range.open(1,7), 6);
         GHOSTMAN_WALK_EAST = new Anim("east", new Array<>(), ghostman, Range.open(1,7), 6);
 
-        GHOSTMAN_IDLE_NORTH = new Anim("north", new Array<>(), ghostwoman,Range.singleton(0), 1);
-        GHOSTMAN_IDLE_SOUTH = new Anim("south", new Array<>(), ghostwoman, Range.singleton(0), 1);
-        GHOSTMAN_IDLE_WEST = new Anim("west", new Array<>(), ghostwoman, Range.singleton(0), 1);
-        GHOSTMAN_IDLE_EAST = new Anim("east", new Array<>(), ghostwoman, Range.singleton(0), 1);
+        GHOSTMAN_IDLE_NORTH = new Anim("north", new Array<>(), ghostman,Range.singleton(0), 1);
+        GHOSTMAN_IDLE_SOUTH = new Anim("south", new Array<>(), ghostman, Range.singleton(0), 1);
+        GHOSTMAN_IDLE_WEST = new Anim("west", new Array<>(), ghostman, Range.singleton(0), 1);
+        GHOSTMAN_IDLE_EAST = new Anim("east", new Array<>(), ghostman, Range.singleton(0), 1);
 
         TextureAtlas devon = assetManager.get("devon.atlas");
 
-        DEVON_WALK_NORTH = new Anim("north", new Array<>(), ghostman, Range.open(1,7), 6);
-        DEVON_WALK_SOUTH = new Anim("south", new Array<>(), ghostman, Range.open(1,7), 6);
-        DEVON_WALK_WEST = new Anim("west", new Array<>(), ghostman, Range.open(1,7), 6);
-        DEVON_WALK_EAST = new Anim("east", new Array<>(), ghostman, Range.open(1,7), 6);
+        DEVON_WALK_NORTH = new Anim("north", new Array<>(), devon, Range.open(1,7), 6);
+        DEVON_WALK_SOUTH = new Anim("south", new Array<>(),devon, Range.open(1,7), 6);
+        DEVON_WALK_WEST = new Anim("west", new Array<>(), devon, Range.open(1,7), 6);
+        DEVON_WALK_EAST = new Anim("east", new Array<>(), devon, Range.open(1,7), 6);
 
-        DEVON_IDLE_NORTH = new Anim("north", new Array<>(), ghostwoman,Range.singleton(0), 1);
-        DEVON_IDLE_SOUTH = new Anim("south", new Array<>(), ghostwoman, Range.singleton(0), 1);
-        DEVON_IDLE_WEST = new Anim("west", new Array<>(), ghostwoman, Range.singleton(0), 1);
-        DEVON_IDLE_EAST = new Anim("east", new Array<>(), ghostwoman, Range.singleton(0), 1);
+        DEVON_IDLE_NORTH = new Anim("north", new Array<>(), devon,Range.singleton(0), 1);
+        DEVON_IDLE_SOUTH = new Anim("south", new Array<>(), devon, Range.singleton(0), 1);
+        DEVON_IDLE_WEST = new Anim("west", new Array<>(), devon, Range.singleton(0), 1);
+        DEVON_IDLE_EAST = new Anim("east", new Array<>(), devon, Range.singleton(0), 1);
 
         TextureAtlas skeleton = assetManager.get("skeleton.atlas");
 
@@ -140,17 +140,50 @@ public class Animations {
         HEADLESSGHOST_WALK_WEST = new Anim("west", new Array<>(), headlessghost, Range.open(1,7), 6);
         HEADLESSGHOST_WALK_EAST = new Anim("east", new Array<>(), headlessghost, Range.open(1,7), 6);
 
-        HEADLESSGHOST_IDLE_NORTH = new Anim("north", new Array<>(), ringmaster,Range.singleton(0), 1);
-        HEADLESSGHOST_IDLE_SOUTH = new Anim("south", new Array<>(), ringmaster, Range.singleton(0), 1);
-        HEADLESSGHOST_IDLE_WEST = new Anim("west", new Array<>(), ringmaster, Range.singleton(0), 1);
-        HEADLESSGHOST_IDLE_EAST = new Anim("east", new Array<>(), ringmaster, Range.singleton(0), 1);
+        HEADLESSGHOST_IDLE_NORTH = new Anim("north", new Array<>(), headlessghost,Range.singleton(0), 1);
+        HEADLESSGHOST_IDLE_SOUTH = new Anim("south", new Array<>(), headlessghost, Range.singleton(0), 1);
+        HEADLESSGHOST_IDLE_WEST = new Anim("west", new Array<>(), headlessghost, Range.singleton(0), 1);
+        HEADLESSGHOST_IDLE_EAST = new Anim("east", new Array<>(), headlessghost, Range.singleton(0), 1);
+
+        TextureAtlas horseman = assetManager.get("horseman.atlas");
+
+        HORSEMAN_WALK_NORTH = new Anim("north", new Array<>(), horseman, Range.open(1,7), 6);
+        HORSEMAN_WALK_SOUTH = new Anim("south", new Array<>(), horseman, Range.open(1,7), 6);
+        HORSEMAN_WALK_WEST = new Anim("west", new Array<>(), horseman, Range.open(1,7), 6);
+        HORSEMAN_WALK_EAST = new Anim("east", new Array<>(), horseman, Range.open(1,7), 6);
+
+        HORSEMAN_IDLE_NORTH = new Anim("north", new Array<>(), horseman,Range.singleton(0), 1);
+        HORSEMAN_IDLE_SOUTH = new Anim("south", new Array<>(), horseman, Range.singleton(0), 1);
+        HORSEMAN_IDLE_WEST = new Anim("west", new Array<>(), horseman, Range.singleton(0), 1);
+        HORSEMAN_IDLE_EAST = new Anim("east", new Array<>(), horseman, Range.singleton(0), 1);
+
+        TextureAtlas redchest = assetManager.get("redchest.atlas");
+
+        REDCHEST_WALK_NORTH = new Anim("north", new Array<>(), redchest, Range.open(1,7), 6);
+        REDCHEST_WALK_SOUTH = new Anim("south", new Array<>(),  redchest, Range.open(1,7), 6);
+        REDCHEST_WALK_WEST = new Anim("west", new Array<>(), redchest, Range.open(1,7), 6);
+        REDCHEST_WALK_EAST = new Anim("east", new Array<>(),  redchest, Range.open(1,7), 6);
+
+        REDCHEST_IDLE_NORTH = new Anim("north", new Array<>(),  redchest,Range.singleton(0), 1);
+        REDCHEST_IDLE_SOUTH = new Anim("south", new Array<>(),  redchest, Range.singleton(0), 1);
+        REDCHEST_IDLE_WEST = new Anim("west", new Array<>(),  redchest, Range.singleton(0), 1);
+        REDCHEST_IDLE_EAST = new Anim("east", new Array<>(),  redchest, Range.singleton(0), 1);
+
+        IDLE_TRANSITION_ANIMATIONS.put(REDCHEST_WALK_NORTH, REDCHEST_IDLE_NORTH);
+        IDLE_TRANSITION_ANIMATIONS.put(REDCHEST_WALK_SOUTH, REDCHEST_IDLE_SOUTH);
+        IDLE_TRANSITION_ANIMATIONS.put(REDCHEST_WALK_EAST, REDCHEST_IDLE_EAST);
+        IDLE_TRANSITION_ANIMATIONS.put(REDCHEST_WALK_WEST, REDCHEST_IDLE_WEST);
+
+        IDLE_TRANSITION_ANIMATIONS.put(REDCHEST_WALK_NORTH, REDCHEST_IDLE_NORTH);
+        IDLE_TRANSITION_ANIMATIONS.put(REDCHEST_WALK_SOUTH, REDCHEST_IDLE_SOUTH);
+        IDLE_TRANSITION_ANIMATIONS.put(REDCHEST_WALK_EAST, REDCHEST_IDLE_EAST);
+        IDLE_TRANSITION_ANIMATIONS.put(REDCHEST_WALK_WEST, REDCHEST_IDLE_WEST);
 
 
-
-        IDLE_TRANSITION_ANIMATIONS.put(RINGMASTER_WALK_NORTH, RINGMASTER_IDLE_NORTH);
-        IDLE_TRANSITION_ANIMATIONS.put(RINGMASTER_WALK_SOUTH, RINGMASTER_IDLE_SOUTH);
-        IDLE_TRANSITION_ANIMATIONS.put(RINGMASTER_WALK_EAST, RINGMASTER_IDLE_EAST);
-        IDLE_TRANSITION_ANIMATIONS.put(RINGMASTER_WALK_WEST, RINGMASTER_IDLE_WEST);
+        IDLE_TRANSITION_ANIMATIONS.put(HORSEMAN_WALK_NORTH, HORSEMAN_IDLE_NORTH);
+        IDLE_TRANSITION_ANIMATIONS.put(HORSEMAN_WALK_SOUTH, HORSEMAN_IDLE_SOUTH);
+        IDLE_TRANSITION_ANIMATIONS.put(HORSEMAN_WALK_EAST, HORSEMAN_IDLE_EAST);
+        IDLE_TRANSITION_ANIMATIONS.put(HORSEMAN_WALK_WEST, HORSEMAN_IDLE_WEST);
 
         IDLE_TRANSITION_ANIMATIONS.put(CALI_WALK_NORTH, CALI_IDLE_NORTH);
         IDLE_TRANSITION_ANIMATIONS.put(CALI_WALK_SOUTH, CALI_IDLE_SOUTH);
@@ -199,6 +232,15 @@ public class Animations {
         IDLE_TRANSITION_ANIMATIONS.put(HEADLESSGHOST_WALK_EAST, HEADLESSGHOST_IDLE_EAST);
         IDLE_TRANSITION_ANIMATIONS.put(HEADLESSGHOST_WALK_WEST, HEADLESSGHOST_IDLE_WEST);
     }
+    public static Anim REDCHEST_WALK_NORTH;
+    public static Anim REDCHEST_WALK_SOUTH;
+    public static Anim REDCHEST_WALK_WEST;
+    public static Anim REDCHEST_WALK_EAST;
+    public static Anim REDCHEST_IDLE_NORTH;
+    public static Anim REDCHEST_IDLE_SOUTH;
+    public static Anim REDCHEST_IDLE_WEST;
+    public static Anim REDCHEST_IDLE_EAST;
+
     public static Anim GHOSTGIRL_WALK_NORTH;
     public static Anim GHOSTGIRL_WALK_SOUTH;
     public static Anim GHOSTGIRL_WALK_WEST;
@@ -207,6 +249,15 @@ public class Animations {
     public static Anim GHOSTGIRL_IDLE_SOUTH;
     public static Anim GHOSTGIRL_IDLE_WEST;
     public static Anim GHOSTGIRL_IDLE_EAST;
+
+    public static Anim HORSEMAN_WALK_NORTH;
+    public static Anim HORSEMAN_WALK_SOUTH;
+    public static Anim HORSEMAN_WALK_WEST;
+    public static Anim HORSEMAN_WALK_EAST;
+    public static Anim HORSEMAN_IDLE_NORTH;
+    public static Anim HORSEMAN_IDLE_SOUTH;
+    public static Anim HORSEMAN_IDLE_WEST;
+    public static Anim HORSEMAN_IDLE_EAST;
 
     public static Anim GHOSTMAN_WALK_NORTH;
     public static Anim GHOSTMAN_WALK_SOUTH;
