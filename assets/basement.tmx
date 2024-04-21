@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="32" height="19" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="4">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="32" height="19" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="6">
  <tileset firstgid="1" source="tf_A2_ashlands_2.tsx"/>
  <tileset firstgid="193" source="atlas_32x.tsx"/>
  <tileset firstgid="961" source="tf_A5_ashlands_2.tsx"/>
@@ -59,17 +59,17 @@
 </data>
  </layer>
  <objectgroup id="6" name="door">
-  <object id="3" x="96" y="101">
+  <object id="4" x="98.6667" y="97.3333" width="36.6667" height="65.3333">
    <properties>
+    <property name="door" value="basementupstairs"/>
     <property name="nm_door" value="witchhouse.tmx"/>
    </properties>
-   <polygon points="0,0 27,0 27,59 2,59"/>
   </object>
  </objectgroup>
- <objectgroup id="5" name="spawn">
-  <object id="2" x="143" y="142">
+ <objectgroup id="5" name="player_spawn">
+  <object id="5" x="175.333" y="145.333">
    <properties>
-    <property name="player_spawn" value=""/>
+    <property name="door" value=""/>
    </properties>
    <point/>
   </object>
