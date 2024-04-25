@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.csun.game.models.Animations.*;
-import static com.csun.game.models.Animations.STRANGER_IDLE_SOUTH;
 
 public enum NpcType {
     MOM("Mom",
@@ -192,7 +191,17 @@ public enum NpcType {
         setAnim("north", STRANGER_WALK_NORTH, STRANGER_IDLE_NORTH),
         setAnim("south", STRANGER_WALK_SOUTH, STRANGER_IDLE_SOUTH),
         setAnim("east", STRANGER_WALK_EAST, STRANGER_IDLE_EAST),
-        setAnim("west", STRANGER_WALK_WEST, STRANGER_IDLE_WEST));
+        setAnim("west", STRANGER_WALK_WEST, STRANGER_IDLE_WEST)),
+
+    SPIRIT("Spirit",
+        48,
+        48,
+        SPIRIT_IDLE_NORTH,
+        defaultComponents(),
+        setAnim("north", SPIRIT_WALK_NORTH, SPIRIT_IDLE_NORTH),
+        setAnim("south", SPIRIT_WALK_SOUTH, SPIRIT_IDLE_SOUTH),
+        setAnim("east", SPIRIT_WALK_EAST, SPIRIT_IDLE_EAST),
+        setAnim("west", SPIRIT_WALK_WEST, SPIRIT_IDLE_WEST));
 
 
 
