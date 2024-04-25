@@ -1,6 +1,5 @@
 package com.csun.game.quest.impl;
 
-import com.badlogic.gdx.utils.Timer;
 import com.csun.game.MainGame;
 import com.csun.game.misc.MutableInt;
 import com.csun.game.npc.NpcManager;
@@ -8,10 +7,10 @@ import com.csun.game.player.Player;
 import com.csun.game.quest.Quest;
 import com.google.inject.Inject;
 
-public class TestQuest extends Quest {
+public class DoorQuest extends Quest {
 
     @Inject
-    public TestQuest(String title, MainGame mainGame, NpcManager npcManager) {
+    public DoorQuest(String title, MainGame mainGame, NpcManager npcManager) {
         super(title, mainGame, npcManager);
     }
 

@@ -1,7 +1,7 @@
 package com.csun.game.modules;
 
 import com.csun.game.quest.Quest;
-import com.csun.game.quest.impl.TestQuest;
+import com.csun.game.quest.impl.DoorQuest;
 import com.csun.game.quest.impl.TestQuestTwo;
 import com.csun.game.quest.impl.CircusQuest;
 import com.google.inject.AbstractModule;
@@ -12,7 +12,7 @@ public class QuestModule extends AbstractModule {
     @Override
     protected void configure() {
         MapBinder<String, Quest> questMapBinder = MapBinder.newMapBinder(binder(), String.class, Quest.class);
-        questMapBinder.addBinding("TestQuest").to(TestQuest.class);
+        questMapBinder.addBinding("TestQuest").to(DoorQuest.class);
         questMapBinder.addBinding("TestQuestTwo").to(TestQuestTwo.class);
         questMapBinder.addBinding("CircusQuest").to(CircusQuest.class);
 
