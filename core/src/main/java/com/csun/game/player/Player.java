@@ -92,7 +92,7 @@ public final class Player {
     private void defaultAttributes() {
         attributes.set(Attributes.PLAYER_NAME, "un_named");
         attributes.set(Attributes.PLAYER_POSITION, transformComponent.pos);
-        attributes.set(Attributes.PLAYER_CURRENT_MAP, "act1.tmx");
+        attributes.set(Attributes.PLAYER_CURRENT_MAP, "act2.tmx");
         attributes.set(Attributes.PLAYER_IS_LOGGED_IN, false);
         attributes.set(Attributes.PLAYER_IS_PAUSED, false);
         attributes.set(Attributes.PLAYER_SETTINGS, new Settings());

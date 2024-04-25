@@ -91,12 +91,21 @@
   },
   {
     "map": "act2",
-    "type": "FORESTSPIRIT",
+    "type": "SPIRIT",
     "coords": {
-      "x": 172,
-      "y": 625
+      "x": 179,
+      "y": 288
     },
     "id": "npc11111"
+  },
+  {
+    "map": "act2",
+    "type": "STRANGER",
+    "coords": {
+      "x": 280,
+      "y": 838
+    },
+    "id": "posty"
   },
   {
     "map": "circusmap",
