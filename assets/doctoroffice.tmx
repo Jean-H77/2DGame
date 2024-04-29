@@ -51,29 +51,6 @@
 1037,1037,1037,1037,1037,1037,1037,1037,1037,3221226536,1073742912,1073742912,1073742912,1073742912,1073742912,0,0,0,1073742912,1073742912,1073742912,1073742912,1073742912,1070,1037,1037,1037,1037,1037,1037,1037,1037
 </data>
  </layer>
- <objectgroup id="7" name="door">
-  <object id="8" x="481.333" y="480.667" width="94.6667" height="30.6667">
-   <properties>
-    <property name="nm_door" value="act1.tmx"/>
-   </properties>
-  </object>
- </objectgroup>
- <objectgroup id="6" name="spawn">
-  <object id="1" x="527" y="466">
-   <properties>
-    <property name="direction" value=""/>
-    <property name="player_spawn" value=""/>
-   </properties>
-   <point/>
-  </object>
-  <object id="5" x="622.95" y="333.057">
-   <properties>
-    <property name="direction" value=""/>
-    <property name="doctor_spawn" value=""/>
-   </properties>
-   <point/>
-  </object>
- </objectgroup>
  <layer id="3" name="Tile Layer 3" width="32" height="16">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,2100,2135,1652,1653,1654,2138,2042,0,1652,1653,1654,2147485783,0,0,0,0,0,0,0,0,0,0,
@@ -134,4 +111,11 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="7" name="door">
+  <object id="8" x="481.333" y="480.667" width="94.6667" height="30.6667">
+   <properties>
+    <property name="nm_door" value="act1.tmx"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

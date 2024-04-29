@@ -71,7 +71,12 @@ public class TitleScreen implements Screen {
         assetManager.load("witchhouse.tmx", TiledMap.class);
         assetManager.load("mainhouse.tmx", TiledMap.class);
         assetManager.load("circusmap.tmx", TiledMap.class);
+        assetManager.load("doctoroffice.tmx", TiledMap.class);
+        assetManager.load("dadroom.tmx", TiledMap.class);
+        assetManager.load("toddroom.tmx", TiledMap.class);
         assetManager.load("wellstart.tmx", TiledMap.class);
+        assetManager.load("wellpuzzle.tmx", TiledMap.class);
+        assetManager.load("bonedoor.tmx", TiledMap.class);
         assetManager.load("basement.tmx", TiledMap.class);
         assetManager.load("clocktower.tmx", TiledMap.class);
 

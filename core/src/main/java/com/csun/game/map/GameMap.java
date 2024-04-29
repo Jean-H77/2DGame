@@ -50,10 +50,8 @@ public class GameMap {
     }
     public void updatePreviousMap(String currentMapName) {
         if (previousMap != null) {
-            // Log the previous and current map names for debugging
             Gdx.app.log("PreviousMap", "Previous Map: " + previousMap + ", Current Map: " + currentMapName);
         } else {
-            // Log a message indicating that there was no previous map
             Gdx.app.log("PreviousMap", "No previous map (first map of the game): Current Map: " + currentMapName);
         }
         this.previousMap = currentMapName;

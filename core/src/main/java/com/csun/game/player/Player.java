@@ -3,6 +3,7 @@ package com.csun.game.player;
 import box2dLight.ConeLight;
 import box2dLight.PointLight;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -43,6 +44,7 @@ public final class Player {
     private final GameMap gameMap;
     private final Map<String, Quest> quests;
     private final Entity entity;
+    private String previousMap;
 
     public Player(Entity entity, GameMap gameMap, Map<String, Quest> quests) {
         this.transformComponent = entity.getComponent(TransformComponent.class);
@@ -84,26 +86,86 @@ public final class Player {
         attributes.set(Attributes.QUEST_STAGES, new HashMap<>());
         attributes.set(Attributes.ACTION_LISTENERS, List.copyOf(quests.values()));
     }
-
+    public void updatePreviousMap(String currentMap) {
+        this.previousMap = currentMap;
+    }
     public void moveToMap(String map) {
         attributes.set(Attributes.PLAYER_CURRENT_MAP, map);
         gameMap.enterMap(map, 1f);
         transformComponent.disabled = false;
 
-        // ok so just do it here
+        // Switch statement to handle different maps
         switch (map) {
-            case "circus" -> transformComponent.pos.set(68,231);
-            case "act1" -> transformComponent.pos.set(1,0);
-            case "basement" -> transformComponent.pos.set(0,0);
-            case "tarotcard" -> transformComponent.pos.set(1,0);
-            case "witchhouse" -> transformComponent.pos.set(608, 231);
+            case "circus.tmx":
+                transformComponent.pos.set(68,231);
+                break;
+            case "bonedoor.tmx":
+                transformComponent.pos.set(506,130);
+                break;
+            case "wellstart.tmx":
+                if ("act1.tmx".equals(previousMap)) {
+                    transformComponent.pos.set(442,740);
+                } if ("wellpuzzle.tmx".equals(previousMap)) {
+                transformComponent.pos.set(869, 514);
+            } break;
+            case "wellpuzzle.tmx":
+                transformComponent.pos.set(474,969);
+                break;
+            case "doctoroffice.tmx":
+                transformComponent.pos.set(504,36);
+                break;
+            case "basement.tmx":
+                transformComponent.pos.set(146, 448);
+                break;
+                case "toddroom.tmx":
+                transformComponent.pos.set(391, 105);
+                break;
+            case "dadroom.tmx":
+                transformComponent.pos.set(478, 200);
+                break;
+                case "mainhouse.tmx":
+                if ("act1.tmx".equals(previousMap)) {
+                    transformComponent.pos.set(473, 60);
+                } if ("dadroom.tmx".equals(previousMap)) {
+                transformComponent.pos.set(600, 340);
+            }if ("toddroom.tmx".equals(previousMap)) {
+                transformComponent.pos.set(360, 311);
+            }
 
+                break;
+            case "witchhouse.tmx":
+                if ("act1.tmx".equals(previousMap)) {
+                    transformComponent.pos.set(503, 49);
+                } else {
+                    transformComponent.pos.set(700, 550);
+                }
+                break;
+            case "act1.tmx":
+                if ("witchhouse.tmx".equals(previousMap)) {
+                    transformComponent.pos.set(156, 677);
+                } if ("doctoroffice.tmx".equals(previousMap)) {
+                    transformComponent.pos.set(1429, 487);
+                } if ("mainhouse.tmx".equals(previousMap)) {
+                transformComponent.pos.set(1721, 680);
+            }if ("wellstart.tmx".equals(previousMap)) {
+                transformComponent.pos.set(394, 787);}
+                if ("bonedoor.tmx".equals(previousMap)) {
+                    transformComponent.pos.set(1627, 250);}
+                break;
+            default:
+                // Handle default case if map does not match any of the above cases
+                // You may choose to log an error or handle it differently based on your requirements
+                break;
         }
 
+        // Iterate over action listeners and notify them of the map change
         attributes.get(Attributes.ACTION_LISTENERS)
-            .forEach(actionListener -> actionListener
-                .enterMap(this, map));
+            .forEach(actionListener -> actionListener.enterMap(this, map));
+
+        // Update the previous map
+        updatePreviousMap(map);
     }
+
 
     public void moveTo(Vector2 pos, String map) {
         moveToMap(map);

@@ -43,7 +43,7 @@
   },
   "id": "redchestkey"
 },
-  /*{
+  {
     "map": "act1",
     "type": "REDCHEST",
     "coords": {
@@ -51,7 +51,7 @@
       "y": 500
     },
     "id": "redchestbone"
-  },*/
+  },
 
   {
     "map": "circusmap",
