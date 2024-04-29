@@ -197,11 +197,11 @@ public enum NpcType {
     REDCHEST("chest",
                  48,
                  48,
-                 REDCHEST_IDLE_NORTH,
+                 REDCHEST_IDLE_NORTH,//north only ? they start at north and when they open they should go east, ok, can you show me it ingame ?
                  defaultComponents(),
-    setAnim("north", REDCHEST_WALK_NORTH, REDCHEST_IDLE_NORTH),
-    setAnim("south", REDCHEST_WALK_SOUTH, REDCHEST_IDLE_SOUTH),
-    setAnim("east", REDCHEST_WALK_EAST, REDCHEST_IDLE_EAST),
+    setAnim("north", REDCHEST_WALK_NORTH, REDCHEST_IDLE_NORTH), //chests don't walk :( shhhhh closed chest
+    setAnim("south", REDCHEST_WALK_SOUTH, REDCHEST_IDLE_SOUTH), //ok which animations opens and which closes ? idk what u meannnn
+    setAnim("east", REDCHEST_WALK_EAST, REDCHEST_IDLE_EAST),  //open chest
     setAnim("west", REDCHEST_WALK_WEST, REDCHEST_IDLE_WEST));
 
 

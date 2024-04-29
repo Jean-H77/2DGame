@@ -92,6 +92,7 @@ public class NpcManager {
     public void despawn(String id) {
         Entity npc = get(id).getEntity();
         if(npc != null) {
+            NPCs.remove(id);
             pooledEngine.removeEntity(npc);
         }
     }

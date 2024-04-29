@@ -3,6 +3,7 @@ package com.csun.game.ashley.systems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.csun.game.ashley.Mappers;
@@ -31,6 +32,7 @@ public class AnimationSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
         AnimationComponent animation = Mappers.animations.get(entity);
         TransformComponent transform = Mappers.transforms.get(entity);
+        if(animation == null || transform == null) return;
         if(animation.textureRegionAnimation == null) return;
         TextureRegion textureRegion = animation.textureRegionAnimation.getKeyFrame(animation.stateTime, true);
         spriteBatch.draw(

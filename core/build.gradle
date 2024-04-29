@@ -22,5 +22,9 @@ dependencies {
   implementation "com.github.tommyettinger:gand:0.1.1"
   implementation group: 'com.github.tommyettinger', name: 'textratypist', version: '0.10.0'
   implementation group: 'io.github.classgraph', name: 'classgraph', version: '4.8.165'
+  // https://mvnrepository.com/artifact/org.projectlombok/lombok
+  compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.32'
+
+  annotationProcessor 'org.projectlombok:lombok:1.18.32'
 }
 

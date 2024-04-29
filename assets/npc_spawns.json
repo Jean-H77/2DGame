@@ -27,23 +27,31 @@
     "id": "doctor1"
   },
   {
-    "map": "witchhouse",
+    "map": "act1",
     "type": "CAILIN",
     "coords": {
-      "x": 608,
-      "y": 231
+      "x":340,
+      "y": 500
     },
     "id": "npc111213"
+  },  {
+  "map": "act1",
+  "type": "REDCHEST",
+  "coords": {
+    "x": 240,
+    "y": 500
   },
-  {
-    "map": "witchhouse",
-    "type": "CAILIN",
+  "id": "redchestkey"
+},
+  /*{
+    "map": "act1",
+    "type": "REDCHEST",
     "coords": {
-      "x": 555,
-      "y": 460
+      "x": 270,
+      "y": 500
     },
-    "id": "cailin1"
-  },
+    "id": "redchestbone"
+  },*/
 
   {
     "map": "circusmap",
@@ -179,13 +187,5 @@
       "y": 500
     },
     "id": "npc66666"
-  },  {
-  "map": "circusmap",
-  "type": "REDCHEST",
-  "coords": {
-    "x": 600,
-    "y": 400
-  },
-  "id": "redchest"
-}
+  }
 ]

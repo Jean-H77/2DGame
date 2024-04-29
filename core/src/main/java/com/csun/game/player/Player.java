@@ -19,6 +19,8 @@ import com.csun.game.models.Animations;
 import com.csun.game.models.Direction;
 import com.csun.game.models.LightType;
 import com.csun.game.quest.Quest;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +30,8 @@ import java.util.concurrent.CompletableFuture;
 
 import static com.csun.game.GameConstants.*;
 
+@Getter
+@Setter
 public final class Player {
 
     private final AttributesMap attributes = new AttributesMap();
@@ -65,34 +69,14 @@ public final class Player {
         return cameraComponent.camera();
     }
 
-    public TextureComponent getTextureComponent() {
-        return textureComponent;
-    }
-
     public String getName() {
         return attributes.get(Attributes.PLAYER_NAME);
-    }
-
-    public AttributesMap getAttributes() {
-        return attributes;
-    }
-
-    public TransformComponent getMovementComponent() {
-        return transformComponent;
-    }
-
-    public TransformComponent getTransformComponent() {
-        return transformComponent;
-    }
-
-    public CollisionComponent getCollisionComponent() {
-        return collisionComponent;
     }
 
     private void defaultAttributes() {
         attributes.set(Attributes.PLAYER_NAME, "un_named");
         attributes.set(Attributes.PLAYER_POSITION, transformComponent.pos);
-        attributes.set(Attributes.PLAYER_CURRENT_MAP, "basement.tmx");
+        attributes.set(Attributes.PLAYER_CURRENT_MAP, "act1.tmx");
         attributes.set(Attributes.PLAYER_IS_LOGGED_IN, false);
         attributes.set(Attributes.PLAYER_IS_PAUSED, false);
         attributes.set(Attributes.PLAYER_SETTINGS, new Settings());
@@ -106,16 +90,19 @@ public final class Player {
         gameMap.enterMap(map, 1f);
         transformComponent.disabled = false;
 
+        // ok so just do it here
+        switch (map) {
+            case "circus" -> transformComponent.pos.set(68,231);
+            case "act1" -> transformComponent.pos.set(1,0);
+            case "basement" -> transformComponent.pos.set(0,0);
+            case "tarotcard" -> transformComponent.pos.set(1,0);
+            case "witchhouse" -> transformComponent.pos.set(608, 231);
+
+        }
+
         attributes.get(Attributes.ACTION_LISTENERS)
             .forEach(actionListener -> actionListener
                 .enterMap(this, map));
-    }
-    public void moveToSpawnPoint(Vector2 spawnPoint) {
-        transformComponent.pos.set(spawnPoint); // Set player's position to the spawn point
-
-        // Notify action listeners that the player has entered the spawn point
-        attributes.get(Attributes.ACTION_LISTENERS)
-            .forEach(actionListener -> actionListener.enterSpawnPoint(this, spawnPoint));
     }
 
     public void moveTo(Vector2 pos, String map) {
@@ -148,17 +135,17 @@ public final class Player {
                 transformComponent.pos.y
             ));
         } else if(lightType == LightType.CONE_LIGHT) {
-                attributes.set(Attributes.PLAYER_LIGHT, new ConeLight(
-                    gameMap.getRayHandler(),
-                    1000,
-                    Color.WHITE,
-                    radius,
-                    transformComponent.pos.x,
-                    transformComponent.pos.y,
-                    transformComponent.dir.getDegree(),
-                    60.0f
-                ));
-            }
+            attributes.set(Attributes.PLAYER_LIGHT, new ConeLight(
+                gameMap.getRayHandler(),
+                1000,
+                Color.WHITE,
+                radius,
+                transformComponent.pos.x,
+                transformComponent.pos.y,
+                transformComponent.dir.getDegree(),
+                60.0f
+            ));
+        }
     }
 
     public Vector2 calculatePlayerLightOffset() {
@@ -171,7 +158,7 @@ public final class Player {
         } else if(dir == Direction.N) {
             vector2.y = 48;
         } else if(dir == Direction.S){
-             vector2.y = -48;
+            vector2.y = -48;
         } else if(dir == Direction.NE) {
             vector2.y = 48;
             vector2.x = 48;
@@ -203,27 +190,11 @@ public final class Player {
         return new PlayerSave(this).save();
     }
 
-    public CameraComponent getCameraComponent() {
-        return cameraComponent;
-    }
-
     public void startDialogue(Dialogue dialogue) {
         if(attributes.hasKey(Attributes.CURRENT_DIALOGUE)) {
             attributes.get(Attributes.CURRENT_DIALOGUE).removeDialogue(this);
         }
         attributes.set(Attributes.CURRENT_DIALOGUE, dialogue);
         dialogue.setup(this);
-    }
-
-    public GameMap getGameMap() {
-        return gameMap;
-    }
-
-    public AnimationComponent getAnimationComponent() {
-        return animationComponent;
-    }
-
-    public Entity getEntity() {
-        return entity;
     }
 }

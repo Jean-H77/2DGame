@@ -159,7 +159,7 @@ public class Animations {
 
         TextureAtlas redchest = assetManager.get("redchest.atlas");
 
-        REDCHEST_WALK_NORTH = new Anim("north", new Array<>(), redchest, Range.open(1,7), 6);
+        REDCHEST_WALK_NORTH = new Anim("north", new Array<>(), redchest, Range.open(1,7), 6); //which one of these are you using
         REDCHEST_WALK_SOUTH = new Anim("south", new Array<>(),  redchest, Range.open(1,7), 6);
         REDCHEST_WALK_WEST = new Anim("west", new Array<>(), redchest, Range.open(1,7), 6);
         REDCHEST_WALK_EAST = new Anim("east", new Array<>(),  redchest, Range.open(1,7), 6);
@@ -240,7 +240,6 @@ public class Animations {
     public static Anim REDCHEST_IDLE_SOUTH;
     public static Anim REDCHEST_IDLE_WEST;
     public static Anim REDCHEST_IDLE_EAST;
-
     public static Anim GHOSTGIRL_WALK_NORTH;
     public static Anim GHOSTGIRL_WALK_SOUTH;
     public static Anim GHOSTGIRL_WALK_WEST;
@@ -362,6 +361,9 @@ public class Animations {
             selectedRegions.add(atlasRegions.get(i));
         }
         return selectedRegions;
+    }
+    public static void setAnimationForDirection(Anim animation, Anim idleAnimation) {
+        IDLE_TRANSITION_ANIMATIONS.put(animation, idleAnimation);
     }
 
     public static final Map<Anim, Anim> IDLE_TRANSITION_ANIMATIONS = new HashMap<>();

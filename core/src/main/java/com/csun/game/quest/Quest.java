@@ -1,9 +1,14 @@
 package com.csun.game.quest;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.csun.game.MainGame;
 import com.csun.game.action.ActionAdapter;
+import com.csun.game.ashley.Mappers;
+import com.csun.game.ashley.components.AnimationComponent;
+import com.csun.game.models.Animations;
+import com.csun.game.npc.Npc;
 import com.csun.game.npc.NpcType;
 import com.csun.game.npc.NpcManager;
 import com.google.inject.Inject;
@@ -64,4 +69,12 @@ public class Quest extends ActionAdapter {
     protected void follow(String id, Entity followEntity) {
         npcManager.follow(id, followEntity);
     }
+
+    protected void setAnimation(String id, Animations.Anim animation) {
+        Npc npc = npcManager.get(id);
+        if(npc == null) return;
+        AnimationComponent ac = Mappers.animations.get(npc.getEntity());
+        NpcType type = npc.getNpcType();
+        ac.set(animation, type.getWidth(), type.getHeight()); //which one is the open one
+    }//i checked i promise east works lol
 }

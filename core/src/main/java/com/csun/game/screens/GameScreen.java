@@ -120,7 +120,7 @@ public class GameScreen implements Screen {
             shapeRenderer.end();
 
             debugSpriteBatch.begin();
-            debugFont.draw(debugSpriteBatch, "Position " + player.getMovementComponent().pos.toString(), 15, 15);
+            debugFont.draw(debugSpriteBatch, "Position " + player.getTransformComponent().pos.toString(), 15, 15);
             debugFont.draw(debugSpriteBatch, "Mouse " + mouse.x + ", " + mouse.y, 15, 30);
             debugSpriteBatch.end();
         }

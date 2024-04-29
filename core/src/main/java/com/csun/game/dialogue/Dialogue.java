@@ -196,6 +196,7 @@ public class Dialogue {
     }
 
     public void removeDialogue(Player player) {
+        //uh it's here tho, that little pepper thing means it's lombok making the getter
         player.getAttributes().remove(Attributes.CURRENT_DIALOGUE);
         stage.dispose();
         Gdx.input.setInputProcessor(null);
