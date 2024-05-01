@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.csun.game.models.Animations.*;
+import static com.csun.game.models.Animations.STRANGER_IDLE_SOUTH;
 
 public enum NpcType {
     MOM("Mom",
@@ -203,6 +204,17 @@ public enum NpcType {
     setAnim("south", REDCHEST_WALK_SOUTH, REDCHEST_IDLE_SOUTH), //ok which animations opens and which closes ? idk what u meannnn
     setAnim("east", REDCHEST_WALK_EAST, REDCHEST_IDLE_EAST),  //open chest
     setAnim("west", REDCHEST_WALK_WEST, REDCHEST_IDLE_WEST));
+
+
+    STRANGER("Stranger",
+        48,
+        48,
+        STRANGER_IDLE_NORTH,
+        defaultComponents(),
+        setAnim("north", STRANGER_WALK_NORTH, STRANGER_IDLE_NORTH),
+        setAnim("south", STRANGER_WALK_SOUTH, STRANGER_IDLE_SOUTH),
+        setAnim("east", STRANGER_WALK_EAST, STRANGER_IDLE_EAST),
+        setAnim("west", STRANGER_WALK_WEST, STRANGER_IDLE_WEST));
 
 
 
