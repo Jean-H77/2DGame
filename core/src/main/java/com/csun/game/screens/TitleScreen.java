@@ -71,14 +71,37 @@ public class TitleScreen implements Screen {
         assetManager.load("witchhouse.tmx", TiledMap.class);
         assetManager.load("mainhouse.tmx", TiledMap.class);
         assetManager.load("circusmap.tmx", TiledMap.class);
+        assetManager.load("doctoroffice.tmx", TiledMap.class);
+        assetManager.load("dadroom.tmx", TiledMap.class);
+        assetManager.load("toddroom.tmx", TiledMap.class);
         assetManager.load("wellstart.tmx", TiledMap.class);
+        assetManager.load("wellpuzzle.tmx", TiledMap.class);
+        assetManager.load("bonedoor.tmx", TiledMap.class);
         assetManager.load("basement.tmx", TiledMap.class);
-        assetManager.load("tarotcard.tmx", TiledMap.class);
+        assetManager.load("clocktower.tmx", TiledMap.class);
 
         assetManager.load("witch.atlas", TextureAtlas.class);
         assetManager.load("doctor.atlas", TextureAtlas.class);
         assetManager.load("mom.atlas", TextureAtlas.class);
         assetManager.load("skeleton.atlas", TextureAtlas.class);
+        assetManager.load("zombie.atlas", TextureAtlas.class);
+        assetManager.load("cali.atlas", TextureAtlas.class);
+        assetManager.load("devon.atlas", TextureAtlas.class);
+        assetManager.load("ghostgirl.atlas", TextureAtlas.class);
+        assetManager.load("ghostman.atlas", TextureAtlas.class);
+        assetManager.load("ringmaster.atlas", TextureAtlas.class);
+        assetManager.load("headlessghost.atlas", TextureAtlas.class);
+        assetManager.load("horseman.atlas", TextureAtlas.class);
+        assetManager.load("redchest.atlas", TextureAtlas.class);
+
+
+
+
+
+
+
+
+
         assetManager.load("atlas/ui/ui.atlas", TextureAtlas.class);
         assetManager.load("stranger.atlas", TextureAtlas.class);
 

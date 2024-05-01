@@ -40,6 +40,7 @@ public class GameMap {
     private Door[] doors;
     boolean[][] grid;
     private Entity[] npcs;
+    private String previousMap; // Variable to store the previous map's name
 
     @Inject
     public GameMap(MapCache mapCache, PooledEngine engine, NpcManager npcManager) {
@@ -47,12 +48,22 @@ public class GameMap {
         this.engine = engine;
         this.npcManager = npcManager;
     }
-
+    public void updatePreviousMap(String currentMapName) {
+        if (previousMap != null) {
+            Gdx.app.log("PreviousMap", "Previous Map: " + previousMap + ", Current Map: " + currentMapName);
+        } else {
+            Gdx.app.log("PreviousMap", "No previous map (first map of the game): Current Map: " + currentMapName);
+        }
+        this.previousMap = currentMapName;
+    }
     public void enterMap(String map, float ambientLight) {
         TiledMap tiledMap = getMap(map);
         setCurrentMap(map, tiledMap);
         setAmbientLight(ambientLight);
         setMapLights(tiledMap);
+
+        updatePreviousMap(map);
+
     }
 
     private TiledMap getMap(String map) {

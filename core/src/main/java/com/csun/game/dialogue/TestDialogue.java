@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.csun.game.dialogue.impl.DialogueOptions;
 import com.csun.game.dialogue.impl.DialogueStatement;
 import com.csun.game.attributes.Attributes;
-import com.csun.game.map.GameMap;
 import com.csun.game.models.LightType;
 import com.csun.game.player.Player;
 
@@ -20,34 +19,34 @@ public class TestDialogue {
                     if (!player.getAttributes().hasKey(Attributes.PLAYER_LIGHT)) {
                         player.enableLight(LightType.CONE_LIGHT, 200);
                     }
-                }, new DialogueStatement() {
+                }, new DialogueStatement("nobody") {
                     @Override
                     public String getText(Player player) {
                         return "I clicked toggle light";
                     }
                 }),
                 Option.create("Dim area", (player) -> player.getGameMap().setAmbientLight(0.3f),
-                    new DialogueStatement() {
+                    new DialogueStatement("nobody") {
                         @Override
                         public String getText(Player player) {
                             return "I clicked dim area";
                         }
                     }),
                 Option.create("Lighten area", (player) -> player.getGameMap().setAmbientLight(1.0f),
-                    new DialogueStatement() {
+                    new DialogueStatement("nobody") {
                         @Override
                         public String getText(Player player) {
                             return "I clicked lighten area";
                         }
                     })
             ))
-            .addStatement(new DialogueStatement() {
+            .addStatement(new DialogueStatement("nobody") {
                 @Override
                 public String getText(Player player) {
                     return "This is the next dialogue";
                 }
             })
-            .addStatement(new DialogueStatement() {
+            .addStatement(new DialogueStatement("nobody") {
                 @Override
                 public String getText(Player player) {
                     return "This is the next next dialogue coming after the previous dialogue, The next dialogue is going to be an option dialogue";
@@ -60,14 +59,14 @@ public class TestDialogue {
                         Option.create("Exit dialogue", (player) -> player.getAttributes().get(Attributes.CURRENT_DIALOGUE).removeDialogue(player))
                     )),
                 Option.create("This option dialogue will just exit your dialogue", (player) -> player.getAttributes().get(Attributes.CURRENT_DIALOGUE).removeDialogue(player)),
-                Option.create("This option will keep the dialogue going", new DialogueStatement() {
+                Option.create("This option will keep the dialogue going", new DialogueStatement("nobody") {
                     @Override
                     public String getText(Player player) {
                         return "You choose to keep the dialogue going!";
                     }
                 })
             ))
-            .addStatement(new DialogueStatement() {
+            .addStatement(new DialogueStatement("nobody") {
                 @Override
                 public String getText(Player player) {
                     return "Since you choose to keep the dialogue going, this is the dialogue going, here's a random dice roll using a 100 sided dice: " + new Random().nextInt(1, 100);
@@ -81,13 +80,13 @@ public class TestDialogue {
         private final SecureRandom random = new SecureRandom();
 
         private Dialogue dialogue = new Dialogue.Builder()
-            .addStatement(new DialogueStatement() {
+            .addStatement(new DialogueStatement("nobody") {
                 @Override
                 public String getText(Player player) {
                     return "Welcome to the dice game!";
                 }
             })
-            .addStatement(new DialogueStatement() {
+            .addStatement(new DialogueStatement("nobody") {
                 @Override
                 public String getText(Player player) {
                     return "Here's how to play: When the dice rolls over 50 then you win money but if it rolls under 50 then you lose money, rolling exactly 50 will result in a tie.";
@@ -118,7 +117,7 @@ public class TestDialogue {
         }
 
         public DialogueStatement hasWonStatement(int roll) {
-            return new DialogueStatement() {
+            return new DialogueStatement("nobody") {
                 @Override
                 public String getText(Player player1) {
                     boolean hasWon = roll > 50;

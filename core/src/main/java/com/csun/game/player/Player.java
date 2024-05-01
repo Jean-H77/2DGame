@@ -3,6 +3,7 @@ package com.csun.game.player;
 import box2dLight.ConeLight;
 import box2dLight.PointLight;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -19,6 +20,8 @@ import com.csun.game.models.Animations;
 import com.csun.game.models.Direction;
 import com.csun.game.models.LightType;
 import com.csun.game.quest.Quest;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +31,8 @@ import java.util.concurrent.CompletableFuture;
 
 import static com.csun.game.GameConstants.*;
 
+@Getter
+@Setter
 public final class Player {
 
     private final AttributesMap attributes = new AttributesMap();
@@ -39,6 +44,7 @@ public final class Player {
     private final GameMap gameMap;
     private final Map<String, Quest> quests;
     private final Entity entity;
+    private String previousMap;
 
     public Player(Entity entity, GameMap gameMap, Map<String, Quest> quests) {
         this.transformComponent = entity.getComponent(TransformComponent.class);
@@ -65,28 +71,8 @@ public final class Player {
         return cameraComponent.camera();
     }
 
-    public TextureComponent getTextureComponent() {
-        return textureComponent;
-    }
-
     public String getName() {
         return attributes.get(Attributes.PLAYER_NAME);
-    }
-
-    public AttributesMap getAttributes() {
-        return attributes;
-    }
-
-    public TransformComponent getMovementComponent() {
-        return transformComponent;
-    }
-
-    public TransformComponent getTransformComponent() {
-        return transformComponent;
-    }
-
-    public CollisionComponent getCollisionComponent() {
-        return collisionComponent;
     }
 
     private void defaultAttributes() {
@@ -100,16 +86,86 @@ public final class Player {
         attributes.set(Attributes.QUEST_STAGES, new HashMap<>());
         attributes.set(Attributes.ACTION_LISTENERS, List.copyOf(quests.values()));
     }
-
+    public void updatePreviousMap(String currentMap) {
+        this.previousMap = currentMap;
+    }
     public void moveToMap(String map) {
         attributes.set(Attributes.PLAYER_CURRENT_MAP, map);
         gameMap.enterMap(map, 1f);
         transformComponent.disabled = false;
 
+        // Switch statement to handle different maps
+        switch (map) {
+            case "circus.tmx":
+                transformComponent.pos.set(68,231);
+                break;
+            case "bonedoor.tmx":
+                transformComponent.pos.set(506,130);
+                break;
+            case "wellstart.tmx":
+                if ("act1.tmx".equals(previousMap)) {
+                    transformComponent.pos.set(442,740);
+                } if ("wellpuzzle.tmx".equals(previousMap)) {
+                transformComponent.pos.set(869, 514);
+            } break;
+            case "wellpuzzle.tmx":
+                transformComponent.pos.set(474,969);
+                break;
+            case "doctoroffice.tmx":
+                transformComponent.pos.set(504,36);
+                break;
+            case "basement.tmx":
+                transformComponent.pos.set(146, 448);
+                break;
+                case "toddroom.tmx":
+                transformComponent.pos.set(391, 105);
+                break;
+            case "dadroom.tmx":
+                transformComponent.pos.set(478, 200);
+                break;
+                case "mainhouse.tmx":
+                if ("act1.tmx".equals(previousMap)) {
+                    transformComponent.pos.set(473, 60);
+                } if ("dadroom.tmx".equals(previousMap)) {
+                transformComponent.pos.set(600, 340);
+            }if ("toddroom.tmx".equals(previousMap)) {
+                transformComponent.pos.set(360, 311);
+            }
+
+                break;
+            case "witchhouse.tmx":
+                if ("act1.tmx".equals(previousMap)) {
+                    transformComponent.pos.set(503, 49);
+                } else {
+                    transformComponent.pos.set(700, 550);
+                }
+                break;
+            case "act1.tmx":
+                if ("witchhouse.tmx".equals(previousMap)) {
+                    transformComponent.pos.set(156, 677);
+                } if ("doctoroffice.tmx".equals(previousMap)) {
+                    transformComponent.pos.set(1429, 487);
+                } if ("mainhouse.tmx".equals(previousMap)) {
+                transformComponent.pos.set(1721, 680);
+            }if ("wellstart.tmx".equals(previousMap)) {
+                transformComponent.pos.set(394, 787);}
+                if ("bonedoor.tmx".equals(previousMap)) {
+                    transformComponent.pos.set(1627, 250);}
+                break;
+            default:
+                // Handle default case if map does not match any of the above cases
+                // You may choose to log an error or handle it differently based on your requirements
+                break;
+        }
+
+        // Iterate over action listeners and notify them of the map change
         attributes.get(Attributes.ACTION_LISTENERS)
-            .forEach(actionListener -> actionListener
-                .enterMap(this, map));
+            .forEach(actionListener -> actionListener.enterMap(this, map));
+
+        // Update the previous map
+        updatePreviousMap(map);
     }
+
 
     public void moveTo(Vector2 pos, String map) {
         moveToMap(map);
@@ -141,17 +197,17 @@ public final class Player {
                 transformComponent.pos.y
             ));
         } else if(lightType == LightType.CONE_LIGHT) {
-                attributes.set(Attributes.PLAYER_LIGHT, new ConeLight(
-                    gameMap.getRayHandler(),
-                    1000,
-                    Color.WHITE,
-                    radius,
-                    transformComponent.pos.x,
-                    transformComponent.pos.y,
-                    transformComponent.dir.getDegree(),
-                    60.0f
-                ));
-            }
+            attributes.set(Attributes.PLAYER_LIGHT, new ConeLight(
+                gameMap.getRayHandler(),
+                1000,
+                Color.WHITE,
+                radius,
+                transformComponent.pos.x,
+                transformComponent.pos.y,
+                transformComponent.dir.getDegree(),
+                60.0f
+            ));
+        }
     }
 
     public Vector2 calculatePlayerLightOffset() {
@@ -164,7 +220,7 @@ public final class Player {
         } else if(dir == Direction.N) {
             vector2.y = 48;
         } else if(dir == Direction.S){
-             vector2.y = -48;
+            vector2.y = -48;
         } else if(dir == Direction.NE) {
             vector2.y = 48;
             vector2.x = 48;
@@ -196,27 +252,11 @@ public final class Player {
         return new PlayerSave(this).save();
     }
 
-    public CameraComponent getCameraComponent() {
-        return cameraComponent;
-    }
-
     public void startDialogue(Dialogue dialogue) {
         if(attributes.hasKey(Attributes.CURRENT_DIALOGUE)) {
             attributes.get(Attributes.CURRENT_DIALOGUE).removeDialogue(this);
         }
         attributes.set(Attributes.CURRENT_DIALOGUE, dialogue);
         dialogue.setup(this);
-    }
-
-    public GameMap getGameMap() {
-        return gameMap;
-    }
-
-    public AnimationComponent getAnimationComponent() {
-        return animationComponent;
-    }
-
-    public Entity getEntity() {
-        return entity;
     }
 }

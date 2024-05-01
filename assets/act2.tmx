@@ -99,43 +99,6 @@
 49,49,49,49,49,49,49,49,49,1033,0,2124,0,49,49,49,49,49,0,49,49,49,49,49,49,49,49,49,49,49,49,49,49
 </data>
  </layer>
- <objectgroup id="9" name="door">
-  <object id="8" x="342" y="1025" width="47" height="60">
-   <properties>
-    <property name="nm_door" value="act1.tmx"/>
-   </properties>
-  </object>
- </objectgroup>
- <objectgroup id="8" name="spawn">
-  <object id="3" x="369" y="946">
-   <properties>
-    <property name="direction" value=""/>
-    <property name="player_spawn" value=""/>
-   </properties>
-   <point/>
-  </object>
-  <object id="4" x="978" y="396">
-   <properties>
-    <property name="direction" value=""/>
-    <property name="player_spawn" value=""/>
-   </properties>
-   <point/>
-  </object>
-  <object id="5" x="977" y="815">
-   <properties>
-    <property name="direction" value=""/>
-    <property name="player_spawn" value=""/>
-   </properties>
-   <point/>
-  </object>
-  <object id="6" x="207" y="206">
-   <properties>
-    <property name="direction" value=""/>
-    <property name="player_spawn" value=""/>
-   </properties>
-   <point/>
-  </object>
- </objectgroup>
  <layer id="1" name="LAYER 2 - Object 1" width="33" height="34">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -288,4 +251,41 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="8" name="spawn">
+  <object id="3" x="369" y="946">
+   <properties>
+    <property name="direction" value=""/>
+    <property name="player_spawn" value=""/>
+   </properties>
+   <point/>
+  </object>
+  <object id="4" x="978" y="396">
+   <properties>
+    <property name="direction" value=""/>
+    <property name="player_spawn" value=""/>
+   </properties>
+   <point/>
+  </object>
+  <object id="5" x="977" y="815">
+   <properties>
+    <property name="direction" value=""/>
+    <property name="player_spawn" value=""/>
+   </properties>
+   <point/>
+  </object>
+  <object id="6" x="207" y="206">
+   <properties>
+    <property name="direction" value=""/>
+    <property name="player_spawn" value=""/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="9" name="door">
+  <object id="8" x="342" y="1025" width="47" height="60">
+   <properties>
+    <property name="nm_door" value="act1.tmx"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

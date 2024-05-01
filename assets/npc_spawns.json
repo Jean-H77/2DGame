@@ -6,7 +6,7 @@
       "x": 255,
       "y": 501
     },
-    "id": "1"
+    "id": "mom1"
   },
   {
     "map": "act1",
@@ -18,20 +18,47 @@
     "id": "doctor1"
   },
   {
+    "map": "mainhouse",
+    "type": "DOCTOR",
+    "coords": {
+      "x": 608,
+      "y": 460
+    },
+    "id": "doctor1"
+  },
+  {
     "map": "act1",
     "type": "CAILIN",
     "coords": {
-      "x": 172,
-      "y": 625
+      "x":340,
+      "y": 500
     },
     "id": "npc111213"
+  },  {
+  "map": "act1",
+  "type": "REDCHEST",
+  "coords": {
+    "x": 240,
+    "y": 500
   },
+  "id": "redchestkey"
+},
   {
-    "map": "tarotcard",
+    "map": "act1",
+    "type": "REDCHEST",
+    "coords": {
+      "x": 270,
+      "y": 500
+    },
+    "id": "redchestbone"
+  },
+
+  {
+    "map": "circusmap",
     "type": "WITCH",
     "coords": {
-      "x": 172,
-      "y": 625
+      "x": 370,
+      "y": 500
     },
     "id": "npc111214"
   },
@@ -39,8 +66,8 @@
     "map": "act1",
     "type": "CALI",
     "coords": {
-      "x": 172,
-      "y": 625
+      "x": 1035,
+      "y": 460
     },
     "id": "npc05013"
   },
@@ -48,17 +75,35 @@
     "map": "act1",
     "type": "DEVON",
     "coords": {
-      "x": 172,
-      "y": 625
+      "x": 1135,
+      "y": 860
     },
     "id": "npc05131"
+  },
+  {
+    "map": "wellstart",
+    "type": "ZOMBIE",
+    "coords": {
+      "x": 555,
+      "y": 460
+    },
+    "id": "npcZZZZZ1"
+  },
+  {
+    "map": "wellstart",
+    "type": "ZOMBIE",
+    "coords": {
+      "x": 555,
+      "y": 460
+    },
+    "id": "npcZZZZZ2"
   },
   {
     "map": "basement",
     "type": "WOODLOCK",
     "coords": {
-      "x": 172,
-      "y": 625
+      "x": 370,
+      "y": 420
     },
     "id": "npc08049"
   },
@@ -66,8 +111,8 @@
     "map": "wellstart",
     "type": "SKELETON1",
     "coords": {
-      "x": 172,
-      "y": 625
+      "x": 455,
+      "y": 460
     },
     "id": "npc66601"
   },
@@ -75,8 +120,8 @@
     "map": "wellstart",
     "type": "SKELETON2",
     "coords": {
-      "x": 172,
-      "y": 625
+      "x": 555,
+      "y": 460
     },
     "id": "npc66602"
   },
@@ -84,8 +129,8 @@
     "map": "wellstart",
     "type": "SKELETON3",
     "coords": {
-      "x": 172,
-      "y": 625
+      "x": 355,
+      "y": 460
     },
     "id": "npc66603"
   },
@@ -102,8 +147,8 @@
     "map": "circusmap",
     "type": "HEADLESSGHOST",
     "coords": {
-      "x": 172,
-      "y": 625
+      "x": 370,
+      "y": 500
     },
     "id": "npc77701"
   },
@@ -111,8 +156,8 @@
     "map": "circusmap",
     "type": "GHOSTMAN",
     "coords": {
-      "x": 172,
-      "y": 625
+      "x": 400,
+      "y": 500
     },
     "id": "npc77702"
   },
@@ -120,17 +165,8 @@
     "map": "circusmap",
     "type": "GHOSTWOMAN",
     "coords": {
-      "x": 172,
-      "y": 625
-    },
-    "id": "npc77703"
-  },
-  {
-    "map": "circusmap",
-    "type": "MUSICIAN",
-    "coords": {
-      "x": 172,
-      "y": 625
+      "x": 500,
+      "y": 500
     },
     "id": "npc77704"
   },
@@ -138,8 +174,8 @@
     "map": "circusmap",
     "type": "RINGMASTER",
     "coords": {
-      "x": 172,
-      "y": 625
+      "x": 300,
+      "y": 500
     },
     "id": "npc77705"
   },
@@ -147,8 +183,8 @@
     "map": "circusmap",
     "type": "HORSEMAN",
     "coords": {
-      "x": 172,
-      "y": 625
+      "x": 600,
+      "y": 500
     },
     "id": "npc66666"
   }

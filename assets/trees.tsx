@@ -20,6 +20,11 @@
   <properties>
    <property name="blocked" value=""/>
   </properties>
+  <animation>
+   <frame tileid="89" duration="500"/>
+   <frame tileid="142" duration="500"/>
+   <frame tileid="91" duration="500"/>
+  </animation>
  </tile>
  <tile id="4">
   <properties>
@@ -450,6 +455,11 @@
   <properties>
    <property name="blocked" value=""/>
   </properties>
+  <animation>
+   <frame tileid="89" duration="500"/>
+   <frame tileid="90" duration="500"/>
+   <frame tileid="91" duration="500"/>
+  </animation>
  </tile>
  <tile id="90">
   <properties>
@@ -580,6 +590,11 @@
   <properties>
    <property name="blocked" value=""/>
   </properties>
+  <animation>
+   <frame tileid="115" duration="500"/>
+   <frame tileid="116" duration="500"/>
+   <frame tileid="117" duration="500"/>
+  </animation>
  </tile>
  <tile id="116">
   <properties>

@@ -46,7 +46,7 @@ public final class Attributes {
         public void read(Player player, JsonElement jsonElement, Gson gson) {
             Vector2 vector2 = gson.fromJson(jsonElement, Vector2.class);
             player.getAttributes().set(PLAYER_POSITION, vector2);
-            player.getMovementComponent().pos = vector2;
+            player.getTransformComponent().pos = vector2;
         }
     });
 

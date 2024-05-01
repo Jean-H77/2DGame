@@ -1,6 +1,5 @@
 package com.csun.game.quest.impl;
 
-import com.badlogic.gdx.utils.Timer;
 import com.csun.game.MainGame;
 import com.csun.game.misc.MutableInt;
 import com.csun.game.npc.NpcManager;
