@@ -223,23 +223,6 @@ public class Animations {
         IDLE_TRANSITION_ANIMATIONS.put(CALI_WALK_SOUTH, CALI_IDLE_SOUTH);
         IDLE_TRANSITION_ANIMATIONS.put(CALI_WALK_EAST, CALI_IDLE_EAST);
         IDLE_TRANSITION_ANIMATIONS.put(CALI_WALK_WEST, CALI_IDLE_WEST);
-      
-        TextureAtlas stranger = assetManager.get("stranger.atlas");
-
-        STRANGER_WALK_NORTH = new Anim("north", new Array<>(), stranger, Range.open(1,7), 6);
-        STRANGER_WALK_SOUTH = new Anim("south", new Array<>(), stranger, Range.open(1,7), 6);
-        STRANGER_WALK_WEST = new Anim("west", new Array<>(), stranger, Range.open(1,7), 6);
-        STRANGER_WALK_EAST = new Anim("east", new Array<>(), stranger, Range.open(1,7), 6);
-
-        STRANGER_IDLE_NORTH = new Anim("north", new Array<>(), stranger,Range.singleton(0), 1);
-        STRANGER_IDLE_SOUTH = new Anim("south", new Array<>(), stranger, Range.singleton(0), 1);
-        STRANGER_IDLE_WEST = new Anim("west", new Array<>(), stranger, Range.singleton(0), 1);
-        STRANGER_IDLE_EAST = new Anim("east", new Array<>(), stranger, Range.singleton(0), 1);
-
-        IDLE_TRANSITION_ANIMATIONS.put(WITCH_WALK_NORTH, WITCH_IDLE_NORTH);
-        IDLE_TRANSITION_ANIMATIONS.put(WITCH_WALK_SOUTH, WITCH_IDLE_SOUTH);
-        IDLE_TRANSITION_ANIMATIONS.put(WITCH_WALK_EAST, WITCH_IDLE_EAST);
-        IDLE_TRANSITION_ANIMATIONS.put(WITCH_WALK_WEST, WITCH_IDLE_WEST);
 
         IDLE_TRANSITION_ANIMATIONS.put(DOCTOR_WALK_NORTH, DOCTOR_IDLE_NORTH);
         IDLE_TRANSITION_ANIMATIONS.put(DOCTOR_WALK_SOUTH, DOCTOR_IDLE_SOUTH);
@@ -282,12 +265,6 @@ public class Animations {
         IDLE_TRANSITION_ANIMATIONS.put(HEADLESSGHOST_WALK_SOUTH, HEADLESSGHOST_IDLE_SOUTH);
         IDLE_TRANSITION_ANIMATIONS.put(HEADLESSGHOST_WALK_EAST, HEADLESSGHOST_IDLE_EAST);
         IDLE_TRANSITION_ANIMATIONS.put(HEADLESSGHOST_WALK_WEST, HEADLESSGHOST_IDLE_WEST);
-
-        IDLE_TRANSITION_ANIMATIONS.put(STRANGER_WALK_NORTH, STRANGER_IDLE_NORTH);
-        IDLE_TRANSITION_ANIMATIONS.put(STRANGER_WALK_SOUTH, STRANGER_IDLE_SOUTH);
-        IDLE_TRANSITION_ANIMATIONS.put(STRANGER_WALK_EAST, STRANGER_IDLE_EAST);
-        IDLE_TRANSITION_ANIMATIONS.put(STRANGER_WALK_WEST, STRANGER_IDLE_WEST);
-
     }
     public static Anim REDCHEST_WALK_NORTH;
     public static Anim REDCHEST_WALK_SOUTH;
@@ -423,16 +400,6 @@ public class Animations {
     public static Anim HEADLESSGHOST_IDLE_SOUTH;
     public static Anim HEADLESSGHOST_IDLE_WEST;
     public static Anim HEADLESSGHOST_IDLE_EAST;
-
-    public static Anim STRANGER_WALK_NORTH;
-    public static Anim STRANGER_WALK_SOUTH;
-    public static Anim STRANGER_WALK_WEST;
-    public static Anim STRANGER_WALK_EAST;
-    public static Anim STRANGER_IDLE_NORTH;
-    public static Anim STRANGER_IDLE_SOUTH;
-    public static Anim STRANGER_IDLE_WEST;
-    public static Anim STRANGER_IDLE_EAST;
-
 
     public record Anim(String key, Array<TextureAtlas.AtlasRegion> atlasRegions, TextureAtlas atlas, Range<Integer> frameIndices, float length) {
         public Anim {
