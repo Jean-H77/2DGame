@@ -1,11 +1,16 @@
 package com.csun.game.quest.impl;
 
+import box2dLight.RayHandler;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Timer;
 import com.csun.game.MainGame;
 import com.csun.game.action.ActionAdapter;
 import com.csun.game.dialogue.Dialogue;
 import com.csun.game.dialogue.Option;
 import com.csun.game.dialogue.impl.DialogueOptions;
 import com.csun.game.dialogue.impl.DialogueStatement;
+import com.csun.game.map.GameMap;
 import com.csun.game.misc.MutableInt;
 import com.csun.game.models.Animations;
 import com.csun.game.npc.NpcManager;
@@ -14,6 +19,11 @@ import com.csun.game.quest.Quest;
 import jakarta.inject.Inject;
 
 public class DoorQuest extends Quest {
+
+    private Object gameMap;
+    private OrthogonalTiledMapRenderer renderer;
+    private World world;
+    private RayHandler rayHandler;
 
     @Inject
     public DoorQuest(String title, MainGame mainGame, NpcManager npcManager) {
@@ -778,7 +788,7 @@ public class DoorQuest extends Quest {
                             Option.create("Yes! I got the key!.", (p) -> {
                                 stage.set(7);
                             }),
-                            Option.create("I must bring it back to the with.", (p) -> {
+                            Option.create("I must bring it back to the witch.", (p) -> {
                                 stage.set(7);
                             })))
                         .build();
@@ -789,15 +799,230 @@ public class DoorQuest extends Quest {
                         .addStatement(new DialogueStatement(name) {
                             @Override
                             public String getText(Player player) {
-                                Animations.setAnimationForDirection(Animations.REDCHEST_WALK_EAST, Animations.REDCHEST_IDLE_EAST);
+                                setAnimation(id, Animations.REDCHEST_IDLE_EAST);
                                 return "EMPTY";
                             }
                         })
                         .build();
                     player.startDialogue(dialogue);}
                 break;
+            case "torch4":
+                if (stage.getValue() == 4) {
+                    dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                setAnimation(id, Animations.TORCH_IDLE_SOUTH);
+                                stage.increment();
+                                return "LIT";
+                            }
+                        })
+                        .build();
+                    player.startDialogue(dialogue);
+                } else {
+                    dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                setAnimation(id, Animations.TORCH_IDLE_SOUTH);
+                                Timer.Task delayTask = new Timer.Task() {
+                                    float countdown = 5;
 
-        }
+                                    @Override
+                                    public void run() {
+                                        setAnimation(id, Animations.TORCH_IDLE_NORTH);
+                                    }
+                                };
+                                Timer.Task task = Timer.instance().scheduleTask(delayTask, 5);
+                                return "LIT";
+                            }
+                        })
+                        .build();
+                    player.startDialogue(dialogue);
+                }
+                break;
+            case "door":
+                if (stage.getValue() == 1) {
+                    dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                stage.increment();
+                                return "LOCKED";
+                            }
+                        })
+                        .build();
+                    player.startDialogue(dialogue);
+                } else {
+                    dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                setAnimation(id, Animations.DOOR_IDLE_SOUTH);
+                                return "YOU UNLOCKED THE DOOR!";
+                            }
+                        })
+                        .addOptions(new DialogueOptions(
+                            Option.create("I must go on!.", (p) -> {
+                            stage.set(7);
+                            player.moveToMap("act2.tmx");
+                            }),
+                            Option.create("I should stay here...", (p) -> {
+                            })))
+                        .build();
+                    player.startDialogue(dialogue);
+                }
+                break;
+            case "torch3":
+                if (stage.getValue() == 3) {
+                    dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                setAnimation(id, Animations.TORCH_IDLE_SOUTH);
+                                stage.increment();
+                                return "LIT";
+                            }
+                        })
+                        .build();
+                    player.startDialogue(dialogue);
+                } else {
+                    dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                setAnimation(id, Animations.TORCH_IDLE_SOUTH);
+                                Timer.Task delayTask = new Timer.Task() {
+                                    float countdown = 5;
+
+                                    @Override
+                                    public void run() {
+                                        setAnimation(id, Animations.TORCH_IDLE_NORTH);
+                                    }
+                                };
+                                Timer.Task task = Timer.instance().scheduleTask(delayTask, 5);
+                                return "LIT";
+                            }
+                        })
+                        .build();
+                    player.startDialogue(dialogue);
+                }
+                break;
+            case "torch2":
+                if (stage.getValue() == 2) {
+                    dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                setAnimation(id, Animations.TORCH_IDLE_SOUTH);
+                                stage.increment();
+                                return "LIT";
+                            }
+                        })
+                        .build();
+                    player.startDialogue(dialogue);
+                } else {
+                    dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                setAnimation(id, Animations.TORCH_IDLE_SOUTH);
+                                Timer.Task delayTask = new Timer.Task() {
+                                    float countdown = 5;
+
+                                    @Override
+                                    public void run() {
+                                        setAnimation(id, Animations.TORCH_IDLE_NORTH);
+                                    }
+                                };
+                                Timer.Task task = Timer.instance().scheduleTask(delayTask, 5);
+                                return "LIT";
+                            }
+                        })
+                        .build();
+                    player.startDialogue(dialogue);
+                }
+                break;
+                case "redchesttear":
+                if (stage.getValue() >= 1 && stage.getValue() <= 5) {
+                    dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                return "LOCKED";
+                            }
+                        })
+                        .build();
+                    player.startDialogue(dialogue);
+                }
+                if (stage.getValue() == 6) {
+                    dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                //you can just change the animation of it like
+                                setAnimation(id, Animations.REDCHEST_IDLE_EAST);
+                                return "YOU GAIN A TEAR";
+                            }
+                        })
+                        .addOptions(new DialogueOptions(
+                            Option.create("Yes! I got the tear!.", (p) -> {
+                                stage.set(7);
+                            }),
+                            Option.create("I must bring it back to the witch.", (p) -> {
+                                stage.set(7);
+                            })))
+                        .build();
+                    player.startDialogue(dialogue);
+                }
+                if (stage.getValue() >= 7) {
+                    dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                setAnimation(id, Animations.REDCHEST_IDLE_EAST);
+                                return "EMPTY";
+                            }
+                        })
+                        .build();
+                    player.startDialogue(dialogue);}
+                break;
+            case "torch1":
+                if (stage.getValue() == 1) {
+                    dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                setAnimation(id, Animations.TORCH_IDLE_SOUTH);
+                                stage.increment();
+                                return "LIT";
+                            }
+                        })
+                        .build();
+                    player.startDialogue(dialogue);
+                } else {
+                    dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                setAnimation(id, Animations.TORCH_IDLE_SOUTH);
+                                Timer.Task delayTask = new Timer.Task() {
+                                    float countdown = 5;
+
+                                    @Override
+                                    public void run() {
+                                        setAnimation(id, Animations.TORCH_IDLE_NORTH);
+                                    }
+                                };
+                                Timer.Task task = Timer.instance().scheduleTask(delayTask, 5);
+                                return "LIT";
+                            }
+                        })
+                        .build();
+                    player.startDialogue(dialogue);
+                }
+                break;
+                }
     }
 
     @Override

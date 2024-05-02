@@ -158,11 +158,9 @@ public final class Player {
                 break;
         }
 
-        // Iterate over action listeners and notify them of the map change
         attributes.get(Attributes.ACTION_LISTENERS)
             .forEach(actionListener -> actionListener.enterMap(this, map));
 
-        // Update the previous map
         updatePreviousMap(map);
     }
 

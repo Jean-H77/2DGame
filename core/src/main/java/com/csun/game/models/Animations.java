@@ -169,6 +169,40 @@ public class Animations {
         REDCHEST_IDLE_WEST = new Anim("west", new Array<>(),  redchest, Range.singleton(0), 1);
         REDCHEST_IDLE_EAST = new Anim("east", new Array<>(),  redchest, Range.singleton(0), 1);
 
+        TextureAtlas door = assetManager.get("door.atlas");
+
+        DOOR_WALK_NORTH = new Anim("north", new Array<>(), door, Range.open(1,7), 6);
+        DOOR_WALK_SOUTH = new Anim("south", new Array<>(),  door, Range.open(1,7), 6);
+        DOOR_WALK_WEST = new Anim("west", new Array<>(), door, Range.open(1,7), 6);
+        DOOR_WALK_EAST = new Anim("east", new Array<>(),  door, Range.open(1,7), 6);
+
+        DOOR_IDLE_NORTH = new Anim("north", new Array<>(),  door,Range.singleton(0), 1);
+        DOOR_IDLE_SOUTH = new Anim("south", new Array<>(),  door, Range.singleton(0), 1);
+        DOOR_IDLE_WEST = new Anim("west", new Array<>(),  door, Range.singleton(0), 1);
+        DOOR_IDLE_EAST = new Anim("east", new Array<>(),  door, Range.singleton(0), 1);
+
+        TextureAtlas torch = assetManager.get("torch.atlas");
+
+        TORCH_WALK_NORTH = new Anim("north", new Array<>(), torch, Range.open(1,7), 6);
+        TORCH_WALK_SOUTH = new Anim("south", new Array<>(),  torch, Range.open(1,7), 6);
+        TORCH_WALK_WEST = new Anim("west", new Array<>(), torch, Range.open(1,7), 6);
+        TORCH_WALK_EAST = new Anim("east", new Array<>(),  torch, Range.open(1,7), 6);
+
+        TORCH_IDLE_NORTH = new Anim("north", new Array<>(),  torch,Range.singleton(0), 1);
+        TORCH_IDLE_SOUTH = new Anim("south", new Array<>(),  torch, Range.singleton(0), 1);
+        TORCH_IDLE_WEST = new Anim("west", new Array<>(),  torch, Range.singleton(0), 1);
+        TORCH_IDLE_EAST = new Anim("east", new Array<>(),  torch, Range.singleton(0), 1);
+
+        IDLE_TRANSITION_ANIMATIONS.put(TORCH_WALK_NORTH, TORCH_IDLE_NORTH);
+        IDLE_TRANSITION_ANIMATIONS.put(TORCH_WALK_SOUTH, TORCH_IDLE_SOUTH);
+        IDLE_TRANSITION_ANIMATIONS.put(TORCH_WALK_EAST, TORCH_IDLE_EAST);
+        IDLE_TRANSITION_ANIMATIONS.put(TORCH_WALK_WEST, TORCH_IDLE_WEST);
+
+        IDLE_TRANSITION_ANIMATIONS.put(DOOR_WALK_NORTH, DOOR_IDLE_NORTH);
+        IDLE_TRANSITION_ANIMATIONS.put(DOOR_WALK_SOUTH, DOOR_IDLE_SOUTH);
+        IDLE_TRANSITION_ANIMATIONS.put(DOOR_WALK_EAST, DOOR_IDLE_EAST);
+        IDLE_TRANSITION_ANIMATIONS.put(DOOR_WALK_WEST, DOOR_IDLE_WEST);
+
         IDLE_TRANSITION_ANIMATIONS.put(REDCHEST_WALK_NORTH, REDCHEST_IDLE_NORTH);
         IDLE_TRANSITION_ANIMATIONS.put(REDCHEST_WALK_SOUTH, REDCHEST_IDLE_SOUTH);
         IDLE_TRANSITION_ANIMATIONS.put(REDCHEST_WALK_EAST, REDCHEST_IDLE_EAST);
@@ -240,6 +274,25 @@ public class Animations {
     public static Anim REDCHEST_IDLE_SOUTH;
     public static Anim REDCHEST_IDLE_WEST;
     public static Anim REDCHEST_IDLE_EAST;
+
+    public static Anim DOOR_WALK_NORTH;
+    public static Anim DOOR_WALK_SOUTH;
+    public static Anim DOOR_WALK_WEST;
+    public static Anim DOOR_WALK_EAST;
+    public static Anim DOOR_IDLE_NORTH;
+    public static Anim DOOR_IDLE_SOUTH;
+    public static Anim DOOR_IDLE_WEST;
+    public static Anim DOOR_IDLE_EAST;
+
+    public static Anim TORCH_WALK_NORTH;
+    public static Anim TORCH_WALK_SOUTH;
+    public static Anim TORCH_WALK_WEST;
+    public static Anim TORCH_WALK_EAST;
+    public static Anim TORCH_IDLE_NORTH;
+    public static Anim TORCH_IDLE_SOUTH;
+    public static Anim TORCH_IDLE_WEST;
+    public static Anim TORCH_IDLE_EAST;
+
     public static Anim GHOSTGIRL_WALK_NORTH;
     public static Anim GHOSTGIRL_WALK_SOUTH;
     public static Anim GHOSTGIRL_WALK_WEST;
