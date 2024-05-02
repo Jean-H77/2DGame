@@ -71,6 +71,7 @@ public class TitleScreen implements Screen {
         assetManager.load("witchhouse.tmx", TiledMap.class);
         assetManager.load("mainhouse.tmx", TiledMap.class);
         assetManager.load("circusmap.tmx", TiledMap.class);
+        assetManager.load("act2.tmx", TiledMap.class);
         assetManager.load("doctoroffice.tmx", TiledMap.class);
         assetManager.load("dadroom.tmx", TiledMap.class);
         assetManager.load("toddroom.tmx", TiledMap.class);
@@ -80,6 +81,7 @@ public class TitleScreen implements Screen {
         assetManager.load("basement.tmx", TiledMap.class);
         assetManager.load("clocktower.tmx", TiledMap.class);
 
+        assetManager.load("torch.atlas", TextureAtlas.class);
         assetManager.load("witch.atlas", TextureAtlas.class);
         assetManager.load("doctor.atlas", TextureAtlas.class);
         assetManager.load("mom.atlas", TextureAtlas.class);
@@ -93,6 +95,8 @@ public class TitleScreen implements Screen {
         assetManager.load("headlessghost.atlas", TextureAtlas.class);
         assetManager.load("horseman.atlas", TextureAtlas.class);
         assetManager.load("redchest.atlas", TextureAtlas.class);
+        assetManager.load("door.atlas", TextureAtlas.class);
+
 
 
 
@@ -103,7 +107,6 @@ public class TitleScreen implements Screen {
 
 
         assetManager.load("atlas/ui/ui.atlas", TextureAtlas.class);
-        assetManager.load("stranger.atlas", TextureAtlas.class);
 
         assetManager.load("gdx-skins-master/cloud-form/skin/cloud-form-ui.atlas", TextureAtlas.class);
         assetManager.load("gdx-skins-master/comic/skin/comic-ui.atlas", TextureAtlas.class);

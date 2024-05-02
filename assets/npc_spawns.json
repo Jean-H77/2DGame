@@ -1,7 +1,7 @@
 [
   {
     "map": "act1",
-    "type": "STRANGER",
+    "type": "MOM",
     "coords": {
       "x": 255,
       "y": 501
@@ -42,6 +42,14 @@
     "y": 500
   },
   "id": "redchestkey"
+},{
+  "map": "wellpuzzle",
+  "type": "REDCHEST",
+  "coords": {
+    "x": 454,
+    "y": 454
+  },
+  "id": "redchesttear"
 },
   {
     "map": "act1",
@@ -82,10 +90,10 @@
   },
   {
     "map": "wellstart",
-    "type": "ZOMBIE",
+    "type": "ZOMBIE2",
     "coords": {
-      "x": 555,
-      "y": 460
+      "x": 699,
+      "y": 832
     },
     "id": "npcZZZZZ1"
   },
@@ -93,8 +101,8 @@
     "map": "wellstart",
     "type": "ZOMBIE",
     "coords": {
-      "x": 555,
-      "y": 460
+      "x": 830,
+      "y": 408
     },
     "id": "npcZZZZZ2"
   },
@@ -111,8 +119,8 @@
     "map": "wellstart",
     "type": "SKELETON1",
     "coords": {
-      "x": 455,
-      "y": 460
+      "x": 724,
+      "y": 262
     },
     "id": "npc66601"
   },
@@ -120,8 +128,8 @@
     "map": "wellstart",
     "type": "SKELETON2",
     "coords": {
-      "x": 555,
-      "y": 460
+      "x": 770,
+      "y": 231
     },
     "id": "npc66602"
   },
@@ -129,8 +137,8 @@
     "map": "wellstart",
     "type": "SKELETON3",
     "coords": {
-      "x": 355,
-      "y": 460
+      "x": 685,
+      "y": 228
     },
     "id": "npc66603"
   },
@@ -187,5 +195,47 @@
       "y": 500
     },
     "id": "npc66666"
-  }
+  },
+  {
+    "map": "wellpuzzle",
+    "type": "TORCH",
+    "coords": {
+      "x": 311,
+      "y": 640
+    },
+    "id": "torch1"
+  },
+  {
+    "map": "wellpuzzle",
+    "type": "TORCH",
+    "coords": {
+      "x": 599,
+      "y": 320
+    },
+    "id": "torch2"
+  },  {
+  "map": "wellpuzzle",
+  "type": "TORCH",
+  "coords": {
+    "x": 311,
+    "y": 320
+  },
+  "id": "torch3"
+},  {
+  "map": "wellpuzzle",
+  "type": "TORCH",
+  "coords": {
+    "x": 598,
+    "y": 640
+  },
+  "id": "torch4"
+}, {
+  "map": "act1",
+  "type": "DOOR",
+  "coords": {
+    "x": 910,
+    "y": 920
+  },
+  "id": "door"
+}
 ]

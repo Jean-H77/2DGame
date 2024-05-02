@@ -48,6 +48,8 @@ public class GameMap {
         this.engine = engine;
         this.npcManager = npcManager;
     }
+
+
     public void updatePreviousMap(String currentMapName) {
         if (previousMap != null) {
             Gdx.app.log("PreviousMap", "Previous Map: " + previousMap + ", Current Map: " + currentMapName);

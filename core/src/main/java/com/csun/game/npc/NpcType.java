@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.csun.game.models.Animations.*;
-import static com.csun.game.models.Animations.STRANGER_IDLE_SOUTH;
+import static com.csun.game.models.Animations.TORCH_WALK_SOUTH;
 
 public enum NpcType {
     MOM("Mom",
@@ -25,7 +25,36 @@ public enum NpcType {
         setAnim("east", MOM_WALK_EAST, MOM_IDLE_EAST),
         setAnim("west", MOM_WALK_WEST, MOM_IDLE_WEST)),
 
+    TORCH("torch",
+        48,
+        48,
+        TORCH_IDLE_NORTH,
+        defaultComponents(),
+        setAnim("north", TORCH_WALK_NORTH, TORCH_IDLE_NORTH),
+        setAnim("south", TORCH_WALK_SOUTH, TORCH_IDLE_SOUTH), //lit
+        setAnim("east", TORCH_WALK_EAST, TORCH_IDLE_EAST),
+        setAnim("west", TORCH_WALK_WEST, TORCH_IDLE_WEST)),
+    DOOR("door",
+        128,
+        128,
+        DOOR_IDLE_NORTH,
+        defaultComponents(),
+        setAnim("north", DOOR_WALK_NORTH, DOOR_IDLE_NORTH),
+        setAnim("south", DOOR_WALK_SOUTH, DOOR_IDLE_SOUTH),
+        setAnim("east", DOOR_WALK_EAST, DOOR_IDLE_EAST),
+        setAnim("west", DOOR_WALK_WEST, DOOR_IDLE_WEST)),
+
     ZOMBIE("Austin",
+        48,
+        48,
+        ZOMBIE_IDLE_WEST,
+        defaultComponents(),
+        setAnim("north", ZOMBIE_WALK_NORTH, ZOMBIE_IDLE_NORTH),
+        setAnim("south", ZOMBIE_WALK_SOUTH, ZOMBIE_IDLE_SOUTH),
+        setAnim("east", ZOMBIE_WALK_EAST, ZOMBIE_IDLE_EAST),
+        setAnim("west", ZOMBIE_WALK_WEST, ZOMBIE_IDLE_WEST)),
+
+    ZOMBIE2("Dom",
         48,
         48,
         ZOMBIE_IDLE_SOUTH,
@@ -128,7 +157,7 @@ public enum NpcType {
     SKELETON2("Annette",
                  48,
                  48,
-             SKELETON_IDLE_SOUTH,
+             SKELETON_IDLE_WEST,
               defaultComponents(),
         setAnim("north", SKELETON_WALK_NORTH, SKELETON_IDLE_NORTH),
         setAnim("south", SKELETON_WALK_SOUTH, SKELETON_IDLE_SOUTH),
@@ -138,7 +167,7 @@ public enum NpcType {
     SKELETON3("Arteen",
         48,
         48,
-        SKELETON_IDLE_SOUTH,
+        SKELETON_IDLE_EAST,
         defaultComponents(),
         setAnim("north", SKELETON_WALK_NORTH, SKELETON_IDLE_NORTH),
         setAnim("south", SKELETON_WALK_SOUTH, SKELETON_IDLE_SOUTH),
@@ -204,17 +233,6 @@ public enum NpcType {
     setAnim("south", REDCHEST_WALK_SOUTH, REDCHEST_IDLE_SOUTH), //ok which animations opens and which closes ? idk what u meannnn
     setAnim("east", REDCHEST_WALK_EAST, REDCHEST_IDLE_EAST),  //open chest
     setAnim("west", REDCHEST_WALK_WEST, REDCHEST_IDLE_WEST));
-
-
-    STRANGER("Stranger",
-        48,
-        48,
-        STRANGER_IDLE_NORTH,
-        defaultComponents(),
-        setAnim("north", STRANGER_WALK_NORTH, STRANGER_IDLE_NORTH),
-        setAnim("south", STRANGER_WALK_SOUTH, STRANGER_IDLE_SOUTH),
-        setAnim("east", STRANGER_WALK_EAST, STRANGER_IDLE_EAST),
-        setAnim("west", STRANGER_WALK_WEST, STRANGER_IDLE_WEST));
 
 
 
