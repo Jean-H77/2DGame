@@ -1,0 +1,10 @@
+{
+  "current_map_name": "act1.tmx",
+  "player_name": "un_named",
+  "quest_stages": "{\n  \"\": {\n    \"value\": 20\n  }\n}",
+  "player_position": {
+    "x": 960.96295,
+    "y": 890.80994
+  },
+  "player_settings": 0
+}

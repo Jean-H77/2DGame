@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.csun.game.models.Animations.*;
-import static com.csun.game.models.Animations.TORCH_WALK_SOUTH;
 
 public enum NpcType {
     MOM("Mom",
@@ -24,6 +23,33 @@ public enum NpcType {
         setAnim("south", MOM_WALK_SOUTH, MOM_IDLE_SOUTH),
         setAnim("east", MOM_WALK_EAST, MOM_IDLE_EAST),
         setAnim("west", MOM_WALK_WEST, MOM_IDLE_WEST)),
+    TABLET("Tablet",
+        64,
+        64,
+        TABLET_IDLE_SOUTH,
+        defaultComponents(),
+        setAnim("north", TABLET_WALK_NORTH, TABLET_IDLE_NORTH),
+        setAnim("south", TABLET_WALK_SOUTH, TABLET_IDLE_SOUTH),
+        setAnim("east", TABLET_WALK_EAST, TABLET_IDLE_EAST),
+        setAnim("west", TABLET_WALK_WEST, TABLET_IDLE_WEST)),
+    TABLET2("Tablet",
+        64,
+        64,
+        TABLET_IDLE_SOUTH,
+        defaultComponents(),
+        setAnim("north", TABLET_WALK_NORTH, TABLET_IDLE_NORTH),
+        setAnim("south", TABLET_WALK_SOUTH, TABLET_IDLE_SOUTH),
+        setAnim("east", TABLET_WALK_EAST, TABLET_IDLE_EAST),
+        setAnim("west", TABLET_WALK_WEST, TABLET_IDLE_WEST)),
+    STAND("Stand",
+        64,
+        64,
+        STAND_IDLE_NORTH,
+        defaultComponents(),
+        setAnim("north", STAND_WALK_NORTH, STAND_IDLE_NORTH),
+        setAnim("south", STAND_WALK_SOUTH, STAND_IDLE_SOUTH),
+        setAnim("east", STAND_WALK_EAST, STAND_IDLE_EAST),
+        setAnim("west", STAND_WALK_WEST, STAND_IDLE_WEST)),
 
     TORCH("torch",
         48,
@@ -213,6 +239,16 @@ public enum NpcType {
         setAnim("south", SKELETON_WALK_SOUTH, SKELETON_IDLE_SOUTH),
         setAnim("east", SKELETON_WALK_EAST, SKELETON_IDLE_EAST),
         setAnim("west", SKELETON_WALK_WEST, SKELETON_IDLE_WEST)),
+
+    TODD("Todd",
+        48,
+        48,
+        TODD_IDLE_SOUTH,
+        defaultComponents(),
+        setAnim("north", TODD_WALK_NORTH, TODD_IDLE_NORTH),
+        setAnim("south", TODD_WALK_SOUTH, TODD_IDLE_SOUTH),
+        setAnim("east", TODD_WALK_EAST, TODD_IDLE_EAST),
+        setAnim("west", TODD_WALK_WEST, TODD_IDLE_WEST)),
 
     FORESTSPIRIT("Premdergast",
         48,

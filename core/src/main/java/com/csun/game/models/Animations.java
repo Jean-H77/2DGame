@@ -25,6 +25,30 @@ public class Animations {
         WITCH_IDLE_WEST = new Anim("west", new Array<>(), witch, Range.singleton(0), 1);
         WITCH_IDLE_EAST = new Anim("east", new Array<>(), witch, Range.singleton(0), 1);
 
+        TextureAtlas todd = assetManager.get("todd.atlas");
+
+        TODD_WALK_NORTH = new Anim("north", new Array<>(), todd, Range.open(1,7), 6);
+        TODD_WALK_SOUTH = new Anim("south", new Array<>(), todd, Range.open(1,7), 6);
+        TODD_WALK_WEST = new Anim("west", new Array<>(), todd, Range.open(1,7), 6);
+        TODD_WALK_EAST = new Anim("east", new Array<>(), todd, Range.open(1,7), 6);
+
+        TODD_IDLE_NORTH = new Anim("north", new Array<>(), todd,Range.singleton(0), 1);
+        TODD_IDLE_SOUTH = new Anim("south", new Array<>(), todd, Range.singleton(0), 1);
+        TODD_IDLE_WEST = new Anim("west", new Array<>(), todd, Range.singleton(0), 1);
+        TODD_IDLE_EAST = new Anim("east", new Array<>(), todd, Range.singleton(0), 1);
+
+        TextureAtlas stand = assetManager.get("stand.atlas");
+
+        STAND_WALK_NORTH = new Anim("north", new Array<>(), stand, Range.open(1,7), 6);
+        STAND_WALK_SOUTH = new Anim("south", new Array<>(), stand, Range.open(1,7), 6);
+        STAND_WALK_WEST = new Anim("west", new Array<>(), stand, Range.open(1,7), 6);
+        STAND_WALK_EAST = new Anim("east", new Array<>(), stand, Range.open(1,7), 6);
+
+        STAND_IDLE_NORTH = new Anim("north", new Array<>(), stand,Range.singleton(0), 1);
+        STAND_IDLE_SOUTH = new Anim("south", new Array<>(), stand, Range.singleton(0), 1);
+        STAND_IDLE_WEST = new Anim("west", new Array<>(), stand, Range.singleton(0), 1);
+        STAND_IDLE_EAST = new Anim("east", new Array<>(),stand, Range.singleton(0), 1);
+
         TextureAtlas doctor = assetManager.get("doctor.atlas");
 
         DOCTOR_WALK_NORTH = new Anim("north", new Array<>(), doctor, Range.open(1,7), 6);
@@ -193,10 +217,28 @@ public class Animations {
         TORCH_IDLE_WEST = new Anim("west", new Array<>(),  torch, Range.singleton(0), 1);
         TORCH_IDLE_EAST = new Anim("east", new Array<>(),  torch, Range.singleton(0), 1);
 
+        TextureAtlas tablet = assetManager.get("tablet.atlas");
+
+        TABLET_WALK_NORTH = new Anim("north", new Array<>(), tablet, Range.open(1,7), 6);
+        TABLET_WALK_SOUTH = new Anim("south", new Array<>(),  tablet, Range.open(1,7), 6);
+        TABLET_WALK_WEST = new Anim("west", new Array<>(), tablet, Range.open(1,7), 6);
+        TABLET_WALK_EAST = new Anim("east", new Array<>(),  tablet, Range.open(1,7), 6);
+
+        TABLET_IDLE_NORTH = new Anim("north", new Array<>(),  tablet,Range.singleton(0), 1);
+        TABLET_IDLE_SOUTH = new Anim("south", new Array<>(),  tablet, Range.singleton(0), 1);
+        TABLET_IDLE_WEST = new Anim("west", new Array<>(),  tablet, Range.singleton(0), 1);
+        TABLET_IDLE_EAST = new Anim("east", new Array<>(),  tablet, Range.singleton(0), 1);
+
         IDLE_TRANSITION_ANIMATIONS.put(TORCH_WALK_NORTH, TORCH_IDLE_NORTH);
         IDLE_TRANSITION_ANIMATIONS.put(TORCH_WALK_SOUTH, TORCH_IDLE_SOUTH);
         IDLE_TRANSITION_ANIMATIONS.put(TORCH_WALK_EAST, TORCH_IDLE_EAST);
         IDLE_TRANSITION_ANIMATIONS.put(TORCH_WALK_WEST, TORCH_IDLE_WEST);
+
+        IDLE_TRANSITION_ANIMATIONS.put(TODD_WALK_NORTH, TODD_IDLE_NORTH);
+        IDLE_TRANSITION_ANIMATIONS.put(TODD_WALK_SOUTH, TODD_IDLE_SOUTH);
+        IDLE_TRANSITION_ANIMATIONS.put(TODD_WALK_EAST, TODD_IDLE_EAST);
+        IDLE_TRANSITION_ANIMATIONS.put(TODD_WALK_WEST, TODD_IDLE_WEST);
+
 
         IDLE_TRANSITION_ANIMATIONS.put(DOOR_WALK_NORTH, DOOR_IDLE_NORTH);
         IDLE_TRANSITION_ANIMATIONS.put(DOOR_WALK_SOUTH, DOOR_IDLE_SOUTH);
@@ -265,6 +307,16 @@ public class Animations {
         IDLE_TRANSITION_ANIMATIONS.put(HEADLESSGHOST_WALK_SOUTH, HEADLESSGHOST_IDLE_SOUTH);
         IDLE_TRANSITION_ANIMATIONS.put(HEADLESSGHOST_WALK_EAST, HEADLESSGHOST_IDLE_EAST);
         IDLE_TRANSITION_ANIMATIONS.put(HEADLESSGHOST_WALK_WEST, HEADLESSGHOST_IDLE_WEST);
+
+        IDLE_TRANSITION_ANIMATIONS.put(TABLET_WALK_NORTH, TABLET_IDLE_NORTH);
+        IDLE_TRANSITION_ANIMATIONS.put(TABLET_WALK_SOUTH, TABLET_IDLE_SOUTH);
+        IDLE_TRANSITION_ANIMATIONS.put(TABLET_WALK_EAST, TABLET_IDLE_EAST);
+        IDLE_TRANSITION_ANIMATIONS.put(TABLET_WALK_WEST, TABLET_IDLE_WEST);
+
+        IDLE_TRANSITION_ANIMATIONS.put(STAND_WALK_NORTH, STAND_IDLE_NORTH);
+        IDLE_TRANSITION_ANIMATIONS.put(STAND_WALK_SOUTH, STAND_IDLE_SOUTH);
+        IDLE_TRANSITION_ANIMATIONS.put(STAND_WALK_EAST, STAND_IDLE_EAST);
+        IDLE_TRANSITION_ANIMATIONS.put(STAND_WALK_WEST, STAND_IDLE_WEST);
     }
     public static Anim REDCHEST_WALK_NORTH;
     public static Anim REDCHEST_WALK_SOUTH;
@@ -274,6 +326,25 @@ public class Animations {
     public static Anim REDCHEST_IDLE_SOUTH;
     public static Anim REDCHEST_IDLE_WEST;
     public static Anim REDCHEST_IDLE_EAST;
+
+    public static Anim TODD_WALK_NORTH;
+    public static Anim TODD_WALK_SOUTH;
+    public static Anim TODD_WALK_WEST;
+    public static Anim TODD_WALK_EAST;
+    public static Anim TODD_IDLE_NORTH;
+    public static Anim TODD_IDLE_SOUTH;
+    public static Anim TODD_IDLE_WEST;
+    public static Anim TODD_IDLE_EAST;
+
+    public static Anim STAND_WALK_NORTH;
+    public static Anim STAND_WALK_SOUTH;
+    public static Anim STAND_WALK_WEST;
+    public static Anim STAND_WALK_EAST;
+    public static Anim STAND_IDLE_NORTH;
+    public static Anim STAND_IDLE_SOUTH;
+    public static Anim STAND_IDLE_WEST;
+    public static Anim STAND_IDLE_EAST;
+
 
     public static Anim DOOR_WALK_NORTH;
     public static Anim DOOR_WALK_SOUTH;
@@ -400,6 +471,15 @@ public class Animations {
     public static Anim HEADLESSGHOST_IDLE_SOUTH;
     public static Anim HEADLESSGHOST_IDLE_WEST;
     public static Anim HEADLESSGHOST_IDLE_EAST;
+
+    public static Anim TABLET_WALK_NORTH;
+    public static Anim TABLET_WALK_SOUTH;
+    public static Anim TABLET_WALK_WEST;
+    public static Anim TABLET_WALK_EAST;
+    public static Anim TABLET_IDLE_NORTH;
+    public static Anim TABLET_IDLE_SOUTH;
+    public static Anim TABLET_IDLE_WEST;
+    public static Anim TABLET_IDLE_EAST;
 
     public record Anim(String key, Array<TextureAtlas.AtlasRegion> atlasRegions, TextureAtlas atlas, Range<Integer> frameIndices, float length) {
         public Anim {

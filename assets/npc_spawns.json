@@ -1,19 +1,19 @@
 [
   {
-    "map": "act1",
+    "map": "mainhouse",
     "type": "MOM",
     "coords": {
-      "x": 255,
-      "y": 501
+      "x": 599,
+      "y": 341
     },
     "id": "mom1"
   },
   {
-    "map": "act1",
+    "map": "doctoroffice",
     "type": "DOCTOR",
     "coords": {
-      "x": 608,
-      "y": 460
+      "x": 506,
+      "y": 166
     },
     "id": "doctor1"
   },
@@ -27,19 +27,19 @@
     "id": "doctor1"
   },
   {
-    "map": "act1",
+    "map": "witchhouse",
     "type": "CAILIN",
     "coords": {
-      "x":340,
-      "y": 500
+      "x": 538,
+      "y": 216
     },
     "id": "npc111213"
   },  {
-  "map": "act1",
+  "map": "basement",
   "type": "REDCHEST",
   "coords": {
-    "x": 240,
-    "y": 500
+    "x": 761,
+    "y": 432
   },
   "id": "redchestkey"
 },{
@@ -51,16 +51,6 @@
   },
   "id": "redchesttear"
 },
-  {
-    "map": "act1",
-    "type": "REDCHEST",
-    "coords": {
-      "x": 270,
-      "y": 500
-    },
-    "id": "redchestbone"
-  },
-
   {
     "map": "circusmap",
     "type": "WITCH",
@@ -83,8 +73,8 @@
     "map": "act1",
     "type": "DEVON",
     "coords": {
-      "x": 1135,
-      "y": 860
+      "x": 1020,
+      "y": 800
     },
     "id": "npc05131"
   },
@@ -168,7 +158,31 @@
       "y": 500
     },
     "id": "npc77702"
+  }, {
+  "map": "bonedoor",
+  "type": "STAND",
+  "coords": {
+    "x": 495,
+    "y": 736
   },
+  "id": "stand"
+},{
+  "map": "bonedoor",
+  "type": "TABLET",
+  "coords": {
+    "x": 400,
+    "y": 706
+  },
+  "id": "tablet1"
+},{
+  "map": "bonedoor",
+  "type": "TABLET",
+  "coords": {
+    "x": 592,
+    "y": 706
+  },
+  "id": "tablet2"
+},
   {
     "map": "circusmap",
     "type": "GHOSTWOMAN",
