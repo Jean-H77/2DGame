@@ -140,14 +140,23 @@ public final class Player {
                     transformComponent.pos.set(700, 550);
                 }
                 break;
+            case "act2.tmx":
+                if ("act1.tmx".equals(previousMap)) {
+                    transformComponent.pos.set(349, 175);
+                } else {
+                    transformComponent.pos.set(700, 550);
+                }
+                break;
             case "act1.tmx":
                 if ("witchhouse.tmx".equals(previousMap)) {
                     transformComponent.pos.set(156, 677);
                 } if ("doctoroffice.tmx".equals(previousMap)) {
                     transformComponent.pos.set(1429, 487);
                 } if ("mainhouse.tmx".equals(previousMap)) {
-                transformComponent.pos.set(1721, 680);
-            }if ("wellstart.tmx".equals(previousMap)) {
+                transformComponent.pos.set(1721, 680);}
+                if ("act2.tmx".equals(previousMap)) {
+                    transformComponent.pos.set(949, 864);}
+                if ("wellstart.tmx".equals(previousMap)) {
                 transformComponent.pos.set(394, 787);}
                 if ("bonedoor.tmx".equals(previousMap)) {
                     transformComponent.pos.set(1627, 250);}
@@ -178,7 +187,7 @@ public final class Player {
         ((OrthographicCamera) getCamera()).setToOrtho(false, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
         attributes.set(Attributes.PLAYER_IS_LOGGED_IN, true);
         collisionComponent.bounds = new Rectangle(transformComponent.pos.x, transformComponent.pos.y, 32, 32);
-        animationComponent.set(Animations.SKELETON_IDLE_NORTH, 48, 48);
+        animationComponent.set(Animations.TODD_IDLE_NORTH, 48, 48);
         moveToMap(attributes.get(Attributes.PLAYER_CURRENT_MAP));
     }
 

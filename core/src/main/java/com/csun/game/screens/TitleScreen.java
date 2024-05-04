@@ -81,6 +81,9 @@ public class TitleScreen implements Screen {
         assetManager.load("basement.tmx", TiledMap.class);
         assetManager.load("clocktower.tmx", TiledMap.class);
 
+        assetManager.load("todd.atlas", TextureAtlas.class);
+        assetManager.load("stand.atlas", TextureAtlas.class);
+        assetManager.load("tablet.atlas", TextureAtlas.class);
         assetManager.load("torch.atlas", TextureAtlas.class);
         assetManager.load("witch.atlas", TextureAtlas.class);
         assetManager.load("doctor.atlas", TextureAtlas.class);

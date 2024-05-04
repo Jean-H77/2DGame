@@ -124,10 +124,10 @@ public class TransformSystem extends IteratingSystem {
         } else {
             if (playerComponent != null && animation != null && movement.dir != direction) {
                 switch (direction) {
-                    case N, NE, NW -> animation.nextAnim(Animations.SKELETON_WALK_NORTH);
-                    case S, SE, SW -> animation.nextAnim(Animations.SKELETON_WALK_SOUTH);
-                    case E -> animation.nextAnim(Animations.SKELETON_WALK_EAST);
-                    case W -> animation.nextAnim(Animations.SKELETON_WALK_WEST);
+                    case N, NE, NW -> animation.nextAnim(Animations.TODD_WALK_NORTH);
+                    case S, SE, SW -> animation.nextAnim(Animations.TODD_WALK_SOUTH);
+                    case E -> animation.nextAnim(Animations.TODD_WALK_EAST);
+                    case W -> animation.nextAnim(Animations.TODD_WALK_WEST);
                 }
             }
         }

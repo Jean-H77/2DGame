@@ -20,11 +20,6 @@ import jakarta.inject.Inject;
 
 public class DoorQuest extends Quest {
 
-    private Object gameMap;
-    private OrthogonalTiledMapRenderer renderer;
-    private World world;
-    private RayHandler rayHandler;
-
     @Inject
     public DoorQuest(String title, MainGame mainGame, NpcManager npcManager) {
         super(title, mainGame, npcManager);
@@ -150,7 +145,7 @@ public class DoorQuest extends Quest {
                             .build();
                         player.startDialogue(dialogue);
                     }
-                    if (stage.getValue() == 11) {
+                    if (stage.getValue() >= 20) {
                         Dialogue dialogue = new Dialogue.Builder()
                             .addStatement(new DialogueStatement(name) {
                                 @Override
@@ -161,7 +156,7 @@ public class DoorQuest extends Quest {
                             .build();
                         player.startDialogue(dialogue);
                     }
-                    if (stage.getValue() == 10) {
+                    if (stage.getValue() == 19) {
                         Dialogue dialogue = new Dialogue.Builder()
                             .addStatement(new DialogueStatement(name) {
                                 @Override
@@ -190,7 +185,7 @@ public class DoorQuest extends Quest {
                             .build();
                         player.startDialogue(dialogue);
                     }
-                    if (stage.getValue() == 5 || stage.getValue() == 6) {
+                    if (stage.getValue() >= 5 && stage.getValue() <= 18) {
                         Dialogue dialogue = new Dialogue.Builder()
                             .addStatement(new DialogueStatement(name) {
                                 @Override
@@ -274,12 +269,12 @@ public class DoorQuest extends Quest {
                 break;
             case "npc111213":
                 if (stage.getValue() > 1) {
-                    if (stage.getValue() >= 15) {
+                    if (stage.getValue() >= 20) {
                         Dialogue dialogue = new Dialogue.Builder()
                             .addStatement(new DialogueStatement(name) {
                                 @Override
                                 public String getText(Player player) {
-                                    return "Go blow up the door and find the spirit of the woods, he will guide you further!";
+                                    return "Go unlock the door and find the spirit of the woods, he will guide you further!";
                                 }
                             })
                             .build();
@@ -365,35 +360,86 @@ public class DoorQuest extends Quest {
                             @Override
                             public String getText(Player player) {
                                 stage.increment();
-                                return "You found the key! The second ingredient is a piece of bone from a righteous warrior. Go find it!";
+                                return "You found the key! The second ingredient is a tear from a thief. Go find it!";
                             }
                         }
                         )
                         .build();
                     player.startDialogue(dialogue);
                 }
-                if (stage.getValue() == 8) {
+                if (stage.getValue() >= 8 && stage.getValue() <= 12) {
                     Dialogue dialogue = new Dialogue.Builder()
                         .addStatement(new DialogueStatement(name) {
                                           @Override
                                           public String getText(Player player) {
-                                              return "You found the key! The second ingredient is a piece of bone from a righteous warrior. Go find it!";
+                                              return "You found the key! The second ingredient is a tear from a thief. Go find it!";
                                           }
                                       }
                         )
                         .build();
                     player.startDialogue(dialogue);
                 }
-                if (stage.getValue() == 10) {
+                if (stage.getValue() >= 14 && stage.getValue() <= 16) {
+                    Dialogue dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                                          @Override
+                                          public String getText(Player player) {
+                                              return "You found the tear! The third ingredient is the skull of a righteous warrior. Go find it!";
+                                          }
+                                      }
+                        )
+                        .build();
+                    player.startDialogue(dialogue);
+                }
+                if (stage.getValue() == 13) {
                     Dialogue dialogue = new Dialogue.Builder()
                         .addStatement(new DialogueStatement(name) {
                                           @Override
                                           public String getText(Player player) {
                                               stage.increment();
-                                              return "You found the bone! The final ingredient is a tear drop from a thief. Go find it!";
+                                              return "You found the tear! The third ingredient is the skull of a righteous warrior. Go find it!";
                                           }
                                       }
                         )
+                        .build();
+                    player.startDialogue(dialogue);
+                }
+                if (stage.getValue() == 19) {
+                    Dialogue dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                                          @Override
+                                          public String getText(Player player) {
+                                              return "You found all the pieces! Here is the key go open the door...but you may want to say goodbye to your mom first.";
+                                          }
+                                      }
+                        )
+                        .build();
+                    player.startDialogue(dialogue);
+                }
+                if (stage.getValue() == 18) {
+                    Dialogue dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                return "You found all the pieces! Here is the key go open the door...but you may want to say goodbye to your mom first.";
+                            }
+                        })
+                        .addOptions(new DialogueOptions(
+                            Option.create("I will say goodbye.", new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    stage.increment();
+                                    return "YOU GAIN A SKELETON KEY";
+                                }
+                            }),
+                            Option.create("I will miss her.", new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    stage.increment();
+                                    return "YOU GAIN A SKELETON KEY";
+                                }
+                            })
+                        ))
                         .build();
                     player.startDialogue(dialogue);
                 }
@@ -422,7 +468,7 @@ public class DoorQuest extends Quest {
                         .build();
                     player.startDialogue(dialogue);
                 }
-                if (stage.getValue() == 4 || stage.getValue() == 5 || stage.getValue() == 6 || stage.getValue() == 7) {
+                else {
                     Dialogue dialogue = new Dialogue.Builder()
                         .addStatement(new DialogueStatement(name) {
                             @Override
@@ -556,7 +602,7 @@ public class DoorQuest extends Quest {
                         .build();
                     player.startDialogue(dialogue);
                 }
-                if (stage.getValue() == 4 || stage.getValue() == 5 || stage.getValue() == 6 || stage.getValue() == 7) {
+                else{
                     Dialogue dialogue = new Dialogue.Builder()
                         .addStatement(new DialogueStatement(name) {
                             @Override
@@ -807,7 +853,7 @@ public class DoorQuest extends Quest {
                     player.startDialogue(dialogue);}
                 break;
             case "torch4":
-                if (stage.getValue() == 4) {
+                if (stage.getValue() == 11) {
                     dialogue = new Dialogue.Builder()
                         .addStatement(new DialogueStatement(name) {
                             @Override
@@ -842,18 +888,17 @@ public class DoorQuest extends Quest {
                 }
                 break;
             case "door":
-                if (stage.getValue() == 1) {
+                if (stage.getValue() >= 1 && stage.getValue() <= 19) {
                     dialogue = new Dialogue.Builder()
                         .addStatement(new DialogueStatement(name) {
                             @Override
                             public String getText(Player player) {
-                                stage.increment();
                                 return "LOCKED";
                             }
                         })
                         .build();
                     player.startDialogue(dialogue);
-                } else {
+                } if (stage.getValue() == 20) {
                     dialogue = new Dialogue.Builder()
                         .addStatement(new DialogueStatement(name) {
                             @Override
@@ -864,17 +909,34 @@ public class DoorQuest extends Quest {
                         })
                         .addOptions(new DialogueOptions(
                             Option.create("I must go on!.", (p) -> {
-                            stage.set(7);
+                            stage.set(20);
                             player.moveToMap("act2.tmx");
                             }),
                             Option.create("I should stay here...", (p) -> {
                             })))
                         .build();
                     player.startDialogue(dialogue);
-                }
+                } if (stage.getValue() >= 20) {
+                dialogue = new Dialogue.Builder()
+                    .addStatement(new DialogueStatement(name) {
+                        @Override
+                        public String getText(Player player) {
+                            setAnimation(id, Animations.DOOR_IDLE_SOUTH);
+                            return "YOU UNLOCKED THE DOOR!";
+                        }
+                    })
+                    .addOptions(new DialogueOptions(
+                        Option.create("I must go on!.", (p) -> {
+                            player.moveToMap("act2.tmx");
+                        }),
+                        Option.create("I should stay here...", (p) -> {
+                        })))
+                    .build();
+                player.startDialogue(dialogue);
+            }
                 break;
             case "torch3":
-                if (stage.getValue() == 3) {
+                if (stage.getValue() == 10) {
                     dialogue = new Dialogue.Builder()
                         .addStatement(new DialogueStatement(name) {
                             @Override
@@ -909,7 +971,7 @@ public class DoorQuest extends Quest {
                 }
                 break;
             case "torch2":
-                if (stage.getValue() == 2) {
+                if (stage.getValue() == 9) {
                     dialogue = new Dialogue.Builder()
                         .addStatement(new DialogueStatement(name) {
                             @Override
@@ -944,7 +1006,7 @@ public class DoorQuest extends Quest {
                 }
                 break;
                 case "redchesttear":
-                if (stage.getValue() >= 1 && stage.getValue() <= 5) {
+                if (stage.getValue() >= 1 && stage.getValue() <= 11) {
                     dialogue = new Dialogue.Builder()
                         .addStatement(new DialogueStatement(name) {
                             @Override
@@ -955,7 +1017,7 @@ public class DoorQuest extends Quest {
                         .build();
                     player.startDialogue(dialogue);
                 }
-                if (stage.getValue() == 6) {
+                if (stage.getValue() == 12) {
                     dialogue = new Dialogue.Builder()
                         .addStatement(new DialogueStatement(name) {
                             @Override
@@ -967,15 +1029,15 @@ public class DoorQuest extends Quest {
                         })
                         .addOptions(new DialogueOptions(
                             Option.create("Yes! I got the tear!.", (p) -> {
-                                stage.set(7);
+                                stage.set(13);
                             }),
                             Option.create("I must bring it back to the witch.", (p) -> {
-                                stage.set(7);
+                                stage.set(13);
                             })))
                         .build();
                     player.startDialogue(dialogue);
                 }
-                if (stage.getValue() >= 7) {
+                if (stage.getValue() >= 13) {
                     dialogue = new Dialogue.Builder()
                         .addStatement(new DialogueStatement(name) {
                             @Override
@@ -987,8 +1049,178 @@ public class DoorQuest extends Quest {
                         .build();
                     player.startDialogue(dialogue);}
                 break;
+            case "tablet1":
+                if (stage.getValue() >= 16) {
+                dialogue = new Dialogue.Builder()
+                    .addStatement(new DialogueStatement(name) {
+                        @Override
+                        public String getText(Player player) {
+                            return "THIS TABLET HAS NO MORE QUESTIONS";
+                        }
+                    })
+                    .build();
+                player.startDialogue(dialogue);}
+                if (stage.getValue() == 15) {
+                    dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                return "A true hero will know the names of his people...who is not a member of this town.\n" +
+                                    "A) Woodlock\n" +
+                                    "B) Cail\n" +
+                                    "C) John\n" +
+                                    "D) Derek";
+                            }
+                        })
+                        .addOptions(new DialogueOptions(
+                            Option.create("A) Woodlock", new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return "WRONG.";
+                                }
+                            }),
+                            Option.create("B) Cail", new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return "WRONG.";
+                                }
+                            }),
+                            Option.create("C) John", new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return "WRONG.";
+                                }
+                            }),
+                            Option.create("D) Derek", new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    stage.increment();
+                                    return "CORRECT. Seek the next tablet.";
+                                }
+                            })
+                        ))
+                        .build();
+                    player.startDialogue(dialogue);}
+                    break;
+            case "tablet2":
+                if (stage.getValue() >= 17) {
+                    dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                return "THIS TABLET HAS NO MORE QUESTIONS";
+                            }
+                        })
+                        .build();
+                    player.startDialogue(dialogue);}
+                if (stage.getValue() == 15) {
+                    dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                return "SEEK OTHER TABLET";
+                            }
+                        })
+                        .build();
+                    player.startDialogue(dialogue);}
+                if (stage.getValue() == 16) {
+                    dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                return "A hero will go through difficult situations but always make the right choice. You stumble upon a group of travelers stranded by a broken wagon wheel. " +
+                                    "One of them calls out for help. What do you do?\n" +
+                                    "A) Offer to help fix the wheel.\n" +
+                                    "B) Ignore them and continue on your journey.\n" +
+                                    "C) Offer them a ride to the nearest town.\n" +
+                                    "D) Steal their belongings and leave them behind.";
+                            }
+                        })
+                        .addOptions(new DialogueOptions(
+                            Option.create("A) Offer to help fix the wheel.", new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    stage.increment();
+                                    return "CORRECT Seek the skull.";
+                                }
+                            }),
+                            Option.create("B) Ignore them and continue on your journey.", new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return "WRONG";
+                                }
+                            }),
+                            Option.create("C) Offer to walk with them to the nearest town.", new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    stage.increment();
+                                    return "CORRECT Seek the skull.";
+                                }
+                            }),
+                            Option.create("D) Steal their belongings and leave them behind.", new DialogueStatement(name) {
+                                @Override
+                                public String getText(Player player) {
+                                    return "WRONG";
+                                }
+                            })
+                        ))
+                        .build();
+                    player.startDialogue(dialogue);
+                }
+                    break;
+
+            case "stand":
+                if (stage.getValue() >= 1 && stage.getValue() <= 13) {
+                    dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                return "You are not ready...proceed through your destiny...";
+                            }
+                        })
+                        .build();
+                    player.startDialogue(dialogue);
+                }
+                if (stage.getValue() == 14 || stage.getValue() == 15 || stage.getValue() == 16) {
+                    dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                return "If you believe to be the choosen warrior to save our town answer my questions correctly and you will be granted my skull. Seek the tablets!";
+                            }
+                        })
+                        .build();
+                    player.startDialogue(dialogue);
+                }if (stage.getValue() >= 18) {
+                dialogue = new Dialogue.Builder()
+                    .addStatement(new DialogueStatement(name) {
+                        @Override
+                        public String getText(Player player) {
+                            return "EMPTY";
+                        }
+                    })
+                    .build();
+                player.startDialogue(dialogue);}
+                if (stage.getValue() == 17) {
+                    dialogue = new Dialogue.Builder()
+                        .addStatement(new DialogueStatement(name) {
+                            @Override
+                            public String getText(Player player) {
+                                setAnimation(id, Animations.STAND_IDLE_NORTH);
+                                stage.increment();
+                                return "YOU GAIN A SKULL";
+                            }
+                        })
+                        .addOptions(new DialogueOptions(
+                            Option.create("Yes! I got the skull!.", (p) -> {
+                            }),
+                            Option.create("I must bring it back to the witch.", (p) -> {
+                            })))
+                        .build();
+                    player.startDialogue(dialogue);}
+                break;
             case "torch1":
-                if (stage.getValue() == 1) {
+                if (stage.getValue() == 8) {
                     dialogue = new Dialogue.Builder()
                         .addStatement(new DialogueStatement(name) {
                             @Override

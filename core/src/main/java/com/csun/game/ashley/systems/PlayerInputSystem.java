@@ -263,7 +263,7 @@ public class PlayerInputSystem extends IteratingSystem {
             } else {
                 mc.move(Direction.N);
             }
-            ac.nextAnim(Animations.SKELETON_WALK_NORTH);
+            ac.nextAnim(Animations.TODD_WALK_NORTH);
             return true;
         }
 
@@ -275,18 +275,18 @@ public class PlayerInputSystem extends IteratingSystem {
             } else {
                 mc.move(Direction.S);
             }
-            ac.nextAnim(Animations.SKELETON_WALK_SOUTH);
+            ac.nextAnim(Animations.TODD_WALK_SOUTH);
             return true;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT) && !(Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT))) {
             mc.move(Direction.W);
-            ac.nextAnim(Animations.SKELETON_WALK_WEST);
+            ac.nextAnim(Animations.TODD_WALK_WEST);
             return true;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT) && !(Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT))) {
             mc.move(Direction.E);
-            ac.nextAnim(Animations.SKELETON_WALK_EAST);
+            ac.nextAnim(Animations.TODD_WALK_EAST);
             return true;
         }
         return false;
