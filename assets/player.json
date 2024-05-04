@@ -1,10 +1,10 @@
 {
-  "current_map_name": "act1.tmx",
+  "current_map_name": "witchhouse.tmx",
   "player_name": "un_named",
-  "quest_stages": "{\n  \"\": {\n    \"value\": 20\n  }\n}",
+  "quest_stages": "{\n  \"\": {\n    \"value\": 8\n  }\n}",
   "player_position": {
-    "x": 960.96295,
-    "y": 890.80994
+    "x": 493.81488,
+    "y": 216.3414
   },
   "player_settings": 0
 }

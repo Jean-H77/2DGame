@@ -68,9 +68,10 @@ public class Dialogue {
 
         Table root = new Table();
         Image image = new Image(texture);
+        image.setSize(600, 170); // Adjust size here according to your desired dimensions
         root.setBackground(image.getDrawable());
-        root.setSize(ROOT_WIDTH, ROOT_HEIGHT);
-        float xPosition = (stage.getWidth() / 2) - (ROOT_WIDTH / 2);
+        root.setSize(600, 170); // Adjust size here according to your desired dimensions
+        float xPosition = (stage.getWidth() / 2) - (600 / 2);
         float yPosition = 10;
         root.setPosition(xPosition, yPosition);
 
