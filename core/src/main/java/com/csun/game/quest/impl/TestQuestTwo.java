@@ -60,7 +60,7 @@ public class TestQuestTwo extends Quest {
                     }
                 } else {
                     Dialogue dialogue = new Dialogue.Builder().addStatement(
-                            new DialogueStatement() {
+                            new DialogueStatement("nobody") {
                                 @Override
                                 public String getText(Player player) {
                                     return "I'm the doctor!";
